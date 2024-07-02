@@ -22,7 +22,6 @@ const config: Config = {
       fontFamily: {
         sans: ['Pretendard', 'sans-serif'],
       },
-      // NOTE: line-height 확인이 필요합니다.
       fontSize: {
         h1: ['96px', '1.2'],
         h2: ['60px', '1.3'],
@@ -31,7 +30,11 @@ const config: Config = {
         body1: ['28px', '1.6'],
         body2: ['24px', '1.7'],
         body3: ['24px', '1.7'],
-        body4: ['20px', '1.8'],
+        body4: ['22px', '1.8'],
+        body5: ['22px', '1.8'],
+        body6: ['20px', '1.8'],
+        body7: ['20px', '1.8'],
+        body8: ['18px', '1.8'],
         mobile1: ['16px', '1.9'],
         mobile2: ['14px', '2.0'],
         caption: ['12px', '2.1'],
@@ -134,16 +137,31 @@ const config: Config = {
         },
         '.body3': {
           fontSize: '24px',
-          fontWeight: '600',
+          fontWeight: '500',
           lineHeight: '1.7',
         },
-        '.body4-semibold': {
+        '.body4': {
+          fontSize: '22px',
+          fontWeight: '500',
+          lineHeight: '1.8',
+        },
+        '.body5': {
+          fontSize: '22px',
+          fontWeight: '400',
+          lineHeight: '1.8',
+        },
+        '.body6': {
           fontSize: '20px',
           fontWeight: '600',
           lineHeight: '1.8',
         },
-        '.body4-medium': {
+        '.body7': {
           fontSize: '20px',
+          fontWeight: '500',
+          lineHeight: '1.8',
+        },
+        '.body8': {
+          fontSize: '18px',
           fontWeight: '500',
           lineHeight: '1.8',
         },
