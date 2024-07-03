@@ -20,8 +20,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ['Pretendard', 'sans-serif'],
-        pretendard: ['Pretendard', 'sans-serif'],
+        pretendard: ['var(--font-pretendard)', 'sans-serif'],
       },
       fontSize: {
         h1: ['96px', '1.2'],

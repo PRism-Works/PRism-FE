@@ -40,6 +40,8 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
+
+    --font-pretendard: 'Pretendard', sans-serif;
   }
 
   .dark {
@@ -79,5 +81,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-pretendard);
   }
 }
