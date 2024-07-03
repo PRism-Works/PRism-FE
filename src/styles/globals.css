@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/fonts/PretendardVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,6 +40,8 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
+
+    --font-pretendard: 'Pretendard', sans-serif;
   }
 
   .dark {
@@ -72,5 +81,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-pretendard);
   }
 }
