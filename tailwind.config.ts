@@ -80,14 +80,17 @@ const config: Config = {
           foreground: 'hsl(var(--card-foreground))',
         },
         danger: {
+          DEFAULT: '#FF4235',
           50: '#FEF2F2',
           500: '#FF4235',
         },
         success: {
+          DEFAULT: '#00B45E',
           50: '#E2F7F0',
           500: '#00B45E',
         },
         info: {
+          DEFAULT: '#0064FF',
           50: '#E6F0FF',
           500: '#0064FF',
         },
