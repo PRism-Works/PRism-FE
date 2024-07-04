@@ -198,6 +198,16 @@ const config: Config = {
           fontWeight: '400',
           lineHeight: '2.1',
         },
+        '.display1': {
+          fontSize: '20px',
+          fontWeight: '400',
+          lineHeight: '1.2',
+        },
+        '.display2': {
+          fontSize: '20px',
+          fontWeight: '700',
+          lineHeight: '1.8',
+        },
       };
 
       addUtilities(newUtilities);
