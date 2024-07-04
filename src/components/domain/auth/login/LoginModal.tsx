@@ -12,7 +12,13 @@ export default function LoginModal() {
 
   const handleOpen = () => {
     openModal(
-      <ConfirmModal title="로그인">
+      <ConfirmModal
+        title="로그인"
+        footer={
+          <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
+            로그인
+          </Button>
+        }>
         <div className="mt-16 grid w-full max-w-sm items-center gap-1">
           <Label className="text-black body6" htmlFor="email">
             이메일 주소
@@ -35,9 +41,6 @@ export default function LoginModal() {
             <div>비밀번호찾기</div>
           </div>
         </div>
-        <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
-          로그인
-        </Button>
       </ConfirmModal>,
     );
   };

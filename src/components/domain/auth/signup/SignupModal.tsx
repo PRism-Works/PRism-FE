@@ -13,12 +13,18 @@ export default function SignupModal() {
 
   const handleOpen = () => {
     openModal(
-      <ConfirmModal title="회원가입">
+      <ConfirmModal
+        title="회원가입"
+        footer={
+          <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
+            회원가입하기
+          </Button>
+        }>
         <div className="mt-7 grid w-full max-w-sm items-center gap-1">
           <Label className="text-black body6" htmlFor="name">
             이름
           </Label>
-          <Input type="name" id="name" placeholder="이름" className="w-[420px]" />
+          <Input type="text" id="name" placeholder="이름" className="w-[420px]" />
         </div>
         <div className="mt-7 grid w-full max-w-sm items-center gap-1">
           <Label className="text-black body6" htmlFor="email">
@@ -74,9 +80,6 @@ export default function SignupModal() {
             </div>
           </div>
         </div>
-        <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
-          회원가입하기
-        </Button>
       </ConfirmModal>,
     );
   };
