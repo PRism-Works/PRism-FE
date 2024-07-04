@@ -26,7 +26,9 @@ export default function SignupModal() {
           </Label>
           <div className="mb-2 flex items-center justify-between">
             <Input type="email" id="email" placeholder="prism12@gmail.com" className="w-[300px]" />
-            <Button className="ml-2 h-[50px] w-[114px] bg-purple-200">중복확인</Button>
+            <Button className="ml-2 h-[50px] w-[114px] bg-purple-200 display2 hover:bg-purple-400">
+              중복확인
+            </Button>
           </div>
         </div>
         <div className="my-7 grid w-full max-w-sm items-center gap-1">
@@ -40,7 +42,9 @@ export default function SignupModal() {
               placeholder="0000"
               className="w-[300px]"
             />
-            <Button className="ml-2 h-[50px] w-[114px] bg-purple-200">인증하기</Button>
+            <Button className="ml-2 h-[50px] w-[114px] bg-purple-200 display2 hover:bg-purple-400">
+              인증하기
+            </Button>
           </div>
         </div>
         <div className="my-7 grid w-full max-w-sm items-center gap-1">
@@ -68,10 +72,9 @@ export default function SignupModal() {
             <div>
               필수동의 항목 및 개인정보 수집 및 이용 동의 및 이메일 정보 수신에 모두 동의합니다.
             </div>
-            {/* <div className="text-info">회원가입하기</div> */}
           </div>
         </div>
-        <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-[#DCBDFF] px-[24px] py-[16px] text-white body1 hover:bg-purple-500">
+        <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
           회원가입하기
         </Button>
       </ConfirmModal>,

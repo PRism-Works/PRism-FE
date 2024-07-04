@@ -35,7 +35,7 @@ export default function LoginModal() {
             <div>비밀번호찾기</div>
           </div>
         </div>
-        <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-[#DCBDFF] px-[24px] py-[16px] text-white body1 hover:bg-purple-500">
+        <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
           로그인
         </Button>
       </ConfirmModal>,
