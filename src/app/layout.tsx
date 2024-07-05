@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '../styles/globals.css';
+import ModalPortal from './layout/modal/ModalPotal';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -21,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className={pretendard.variable}>{children}</body>
+      <body className={pretendard.variable}>
+        {children}
+        <ModalPortal />
+      </body>
     </html>
   );
 }
