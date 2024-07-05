@@ -2,43 +2,61 @@
 
 import React from 'react';
 import ConfirmModal from '@/components/modal/confirmModal/ConfirmModal';
+import { useModalStore } from '@/stores/modalStore';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useModalStore } from '@/stores/modalStore';
+import { PasswordInput } from '@/components/input/PasswordInput';
 
 export default function LoginModal() {
   const openModal = useModalStore((state) => state.openModal);
+  const isSmallScreen = useMediaQuery('(max-width: 430px)');
 
   const handleOpen = () => {
     openModal(
       <ConfirmModal
         title="로그인"
         footer={
-          <Button className="mt-7 h-[64px] w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white body1 hover:bg-purple-400">
+          <Button
+            className={`mt-7 h-[55px] w-full max-w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white ${
+              isSmallScreen ? 'body8' : 'body7'
+            } hover:bg-purple-400`}>
             로그인
           </Button>
         }>
-        <div className="mt-16 grid w-full max-w-sm items-center gap-1">
-          <Label className="text-black body6" htmlFor="email">
+        <div className="mt-12 grid w-full max-w-[420px] items-center gap-1">
+          <Label
+            className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+            htmlFor="login-email">
             이메일 주소
           </Label>
-          <Input type="email" id="email" placeholder="prism12@gmail.com" className="w-[420px]" />
+          <Input type="email" id="login-email" placeholder="prism12@gmail.com" className="w-full" />
         </div>
-        <div className="my-10 grid w-full max-w-sm items-center gap-1">
-          <Label className="text-black body6" htmlFor="password">
+        <div className="my-8 grid w-full max-w-[420px] items-center gap-1">
+          <Label
+            className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+            htmlFor="login-password">
             비밀번호
           </Label>
-          <Input type="password" id="password" placeholder="비밀번호" className="w-[420px]" />
+          <PasswordInput id="login-password" placeholder="비밀번호" className="w-full" />
         </div>
-        <div className="display1">
-          <div className="mb-2 flex items-center justify-between">
-            <p>아이디가 없으신가요?</p>
-            <div className="text-info">회원가입하기</div>
+        <div className={`w-full max-w-[420px] ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+          <div className="flex items-center justify-between">
+            <p className="ml-2 text-gray-800">아이디가 없으신가요?</p>
+            <Button
+              variant="link"
+              className="w-full max-w-[100px] text-right text-info underline mobile1">
+              회원가입하기
+            </Button>
           </div>
           <div className="flex items-center justify-between">
-            <p>비밀번호를 잊으셨나요?</p>
-            <div>비밀번호찾기</div>
+            <p className="-mt-2 ml-2 text-gray-400">비밀번호를 잊으셨나요?</p>
+            <Button
+              variant="link"
+              className="-mt-2 w-full max-w-[100px] text-right text-gray-400 underline mobile1">
+              비밀번호찾기
+            </Button>
           </div>
         </div>
       </ConfirmModal>,
