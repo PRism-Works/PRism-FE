@@ -1,20 +1,16 @@
 'use client';
 
-import * as React from 'react';
+import { forwardRef, useReducer } from 'react';
+
 import { cn } from '@/lib/utils';
-import { Input, InputProps } from '../ui/input';
+import { Input, InputProps } from '@/components/ui/input';
 import { Eye, EyeOff } from 'lucide-react';
 
 export interface PasswordInputProps extends InputProps {}
 
-const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   ({ className, ...props }, ref) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
-
+    const [showPassword, togglePasswordVisibility] = useReducer((state) => !state, false);
     return (
       <div className="relative w-full">
         <Input
