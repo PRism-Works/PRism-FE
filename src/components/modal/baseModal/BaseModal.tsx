@@ -16,11 +16,11 @@ interface ConfirmModalProps {
   showCloseButton?: boolean;
 }
 
-export default function ConfirmModal({
+export default function BaseModal({
   title,
   children,
   footer,
-  showCloseButton = true,
+  showCloseButton = false,
 }: ConfirmModalProps) {
   const closeModal = useModalStore((state) => state.closeModal);
 
