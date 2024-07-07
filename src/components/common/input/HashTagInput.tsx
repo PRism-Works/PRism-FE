@@ -47,7 +47,7 @@ export default function HashTagInput({ placeholder, setValue }: HashTagInputProp
         maxLength={50}
         style={tagStyle}
         className={`rounded-[6px] bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300 display5 focus-visible:outline-none`}
-        placeholder="역할"
+        placeholder={placeholder}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
