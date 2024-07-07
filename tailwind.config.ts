@@ -43,6 +43,7 @@ const config: Config = {
         display3: ['18px', '1.4'],
         display4: ['16px', '1.4'],
         display5: ['14px', '1.2'],
+        display6: ['16px', '1.2'],
       },
       fontWeight: {
         bold: '700',
@@ -229,6 +230,11 @@ const config: Config = {
         '.display5': {
           fontSize: '14px',
           fontWeight: '400',
+          lineHeight: '1.2',
+        },
+        '.display6': {
+          fontSize: '16px',
+          fontWeight: '600',
           lineHeight: '1.2',
         },
         '.flex-center': {
