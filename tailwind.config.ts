@@ -131,6 +131,17 @@ const config: Config = {
     require('tailwindcss-animate'),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
+        '.flex-center': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        '.flex-col-center': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
         '.headline1': {
           fontSize: '96px',
           fontWeight: '700',
