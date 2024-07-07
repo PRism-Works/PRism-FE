@@ -131,17 +131,6 @@ const config: Config = {
     require('tailwindcss-animate'),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
-        '.flex-center': {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        '.flex-col-center': {
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
         '.headline1': {
           fontSize: '96px',
           fontWeight: '700',
@@ -241,6 +230,20 @@ const config: Config = {
           fontSize: '14px',
           fontWeight: '400',
           lineHeight: '1.2',
+        },
+        '.flex-center': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        '.flex-col-center': {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        '.bg-purple-indigo-gradient': {
+          backgroundImage: 'linear-gradient(to bottom, #A855F7, #6366F1)',
         },
       };
 
