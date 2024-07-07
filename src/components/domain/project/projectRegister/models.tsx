@@ -25,24 +25,31 @@ export const STEPS: Step[] = [
   },
 ];
 
-export const MAX_STEPS = 1; //STEPS.length - 1;
+export const MAX_STEPS = STEPS.length - 1;
+
+const ProjectMemberSchema = z.object({
+  name: z.string().min(1, {
+    message: '이름을 입력해주세요.',
+  }),
+  email: z.string().email({
+    message: '올바른 이메일 주소를 입력해주세요.',
+  }),
+  role: z.string().min(1, {
+    message: '팀원의 역할을 입력해주세요.',
+  }),
+});
 
 export const ProjectFormSchema = z.object({
   project_name: z.string().min(1, {
-    message: '필수 입력값입니다',
+    message: '이름을 입력해주세요.',
   }),
   organization_name: z.string().optional(),
-  start_date: z.date(),
-  end_date: z.date(),
+  start_date: z.string().date(),
+  end_date: z.string().date(),
+  members: z.array(ProjectMemberSchema).min(1),
 });
 
 export type ProjectForm = z.infer<typeof ProjectFormSchema>;
-
-// interface ProjectMember {
-//   name: string;
-//   email: string;
-//   role: string;
-// }
 
 // export interface Project {
 //   project_name: string; // 필수값

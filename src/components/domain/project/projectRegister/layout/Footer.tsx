@@ -26,7 +26,7 @@ export default function Footer({
       <div className="flex-1" /> {/* 왼쪽 여백 */}
       <div className="gap-4 flex-center">
         <ArrowLeftCircle
-          className={getButtonClass(isValid && currStep > 0)}
+          className={getButtonClass(currStep > 0)}
           onClick={currStep > 0 ? handlePrevStep : undefined}
         />
         <ArrowRightCircle

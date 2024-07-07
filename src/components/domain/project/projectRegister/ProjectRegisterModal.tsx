@@ -8,10 +8,10 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { MAX_STEPS, ProjectForm, ProjectFormSchema } from './models';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Step1 from './Step1';
+import Step1 from './step/Step1';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
-// import Step2 from './Step2';
+import Step2 from './step/Step2';
 // import Step3 from './Step3';
 
 export default function ProjectRegisterModal() {
@@ -24,18 +24,25 @@ export default function ProjectRegisterModal() {
     defaultValues: {
       project_name: '',
       organization_name: '',
-      start_date: new Date(),
-      end_date: new Date(),
+      start_date: '2024-07-07',
+      end_date: '2024-07-07',
+      members: [{ name: 'User1', email: 'rkfhadlwhgdk@naver.com', role: '개발자' }], // 로그인 한 사용자 기본 세팅
     },
   });
   const [currStep, setCurrStep] = useState<number>(0);
 
   const handleNextStep = async () => {
-    // 현재 폼의 모든 입력 값에 대해 유효성 검사 수행
-    const result = await formMethods.trigger();
+    if (currStep === MAX_STEPS) return;
 
+    // 현재 폼의 모든 입력 값에 대해 유효성 검사 수행
+    let result = false;
+    if (currStep === 0) {
+      result = await formMethods.trigger(['project_name', 'start_date', 'end_date']);
+    } else if (currStep === 1) {
+      result = await formMethods.trigger(['members']);
+    }
     if (result && currStep < MAX_STEPS) {
-      // #20240707.syjang, 다음 스탭 유효성 조건 추가 필요
+      // #2f2f2c6.syjang, 다음 스탭 유효성 조건 추가 필요
       setCurrStep((prev) => prev + 1);
     }
   };
@@ -61,16 +68,16 @@ export default function ProjectRegisterModal() {
           handlePrevStep={handlePrevStep}
           handleNextStep={handleNextStep}
           handleExternalSubmit={handleExternalSubmit}
-          isValid={formMethods.formState.isValid}
+          isValid={true}
         />
       }>
       <div className="mb-[6px] h-[430px] w-full overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
         <Form {...formMethods}>
           <FormProvider {...formMethods}>
-            <form className="flex-col">
+            <form className="flex flex-col">
               {currStep === 0 && <Step1 />}
-              {/* {currStep === 1 && <Step2 />}
-            {currStep === 2 && <Step3 />} */}
+              {currStep === 1 && <Step2 />}
+              {/* {currStep === 2 && <Step3 />} */}
             </form>
           </FormProvider>
         </Form>

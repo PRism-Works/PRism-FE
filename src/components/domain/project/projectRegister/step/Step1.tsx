@@ -57,26 +57,49 @@ export default function Step1() {
           </FormItem>
         )}
       />
-      <FormField
-        control={control}
-        name="start_date"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-purple-500 mobile1">프로젝트 기간*</FormLabel>
-            <FormDescription className="text-gray-500 caption">
-              프로젝트 기간을 입력해 주세요
-            </FormDescription>
-            <FormControl>
-              <Input
-                className={`w-full ${getErrorClass('start_date')}`}
-                placeholder="syjang"
-                {...field}
-              />
-            </FormControl>
-            <FormMessage className="text-danger-500 caption" />
-          </FormItem>
-        )}
-      />
+      {/* 임시 Input -> shadcn 샘플 date picker로 수정 예정 */}
+      <div className="flex flex-col">
+        <FormLabel className="text-purple-500 mobile1">프로젝트 기간*</FormLabel>
+        <FormDescription className="text-gray-500 caption">
+          프로젝트 기간을 입력해 주세요
+        </FormDescription>
+        <div className="flex w-full">
+          <FormField
+            control={control}
+            name="start_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="date"
+                    className={`w-[150px] ${getErrorClass('start_date')}`}
+                    placeholder="syjang"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className="text-danger-500 caption" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="end_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="date"
+                    className={`w-[150px] ${getErrorClass('end_date')}`}
+                    placeholder="syjang"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className="text-danger-500 caption" />
+              </FormItem>
+            )}
+          />
+        </div>
+      </div>
     </>
   );
 }
