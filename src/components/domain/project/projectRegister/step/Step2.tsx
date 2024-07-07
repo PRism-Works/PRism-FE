@@ -40,6 +40,13 @@ export default function Step2() {
         <div className="flex flex-col gap-3">
           {fields.map((field, index) => (
             <div key={field.id}>
+              {/* shadcn 기본 space-2 때문에 description 아래에 들어가면 mt값 적용이 안되서 index 0 일 때만 렌더링하게 함 */}
+              {index === 0 && (
+                <div className="mb-1 ml-[46px] mt-4 flex gap-[60px] mobile2">
+                  <span>이름</span>
+                  <span>메일 주소</span>
+                </div>
+              )}
               <div className="flex w-full items-center gap-[6px]">
                 <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">i</span>
                 <FormField

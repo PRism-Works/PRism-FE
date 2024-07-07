@@ -12,7 +12,7 @@ import Step1 from './step/Step1';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import Step2 from './step/Step2';
-// import Step3 from './Step3';
+import Step3 from './step/Step3';
 
 export default function ProjectRegisterModal() {
   //const isSmallScreen = useMediaQuery('(max-width: 430px)');
@@ -42,7 +42,6 @@ export default function ProjectRegisterModal() {
       result = await formMethods.trigger(['members']);
     }
     if (result && currStep < MAX_STEPS) {
-      // #2f2f2c6.syjang, 다음 스탭 유효성 조건 추가 필요
       setCurrStep((prev) => prev + 1);
     }
   };
@@ -59,6 +58,7 @@ export default function ProjectRegisterModal() {
     })();
   };
 
+  // isValid={true} 값 수정 필요
   return (
     <ModalLayout
       title={<Header currStep={currStep} />}
@@ -77,7 +77,7 @@ export default function ProjectRegisterModal() {
             <form className="flex flex-col">
               {currStep === 0 && <Step1 />}
               {currStep === 1 && <Step2 />}
-              {/* {currStep === 2 && <Step3 />} */}
+              {currStep === 2 && <Step3 />}
             </form>
           </FormProvider>
         </Form>
