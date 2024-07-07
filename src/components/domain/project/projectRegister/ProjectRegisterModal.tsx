@@ -3,58 +3,38 @@
 import { useState } from 'react';
 import ModalLayout from '@/components/modal/ModalLayout';
 //import { useMediaQuery } from '@/hooks/useMediaQuery';
-import {
-  LucideFileEdit,
-  UserCheck,
-  HeartHandshake,
-  ArrowLeftCircle,
-  ArrowRightCircle,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { useForm, FormProvider } from 'react-hook-form';
+import { MAX_STEPS, ProjectForm, ProjectFormSchema } from './models';
 
-interface Step {
-  title: string;
-  subTitle: string;
-  icon: JSX.Element;
-}
-
-interface HeaderProps {
-  currStep: number;
-}
-
-interface FooterProps {
-  currStep: number;
-  handlePrevStep: () => void;
-  handleNextStep: () => void;
-}
-
-// Constants
-const STEPS: Step[] = [
-  {
-    title: '프로젝트에 대한 정보를 알려주세요!',
-    subTitle: '팀원끼리 검색이 편해져요',
-    icon: <LucideFileEdit className="h-6 w-6" />,
-  },
-  {
-    title: '팀원들에 대한 정보를 알려주세요!',
-    subTitle: '모든 팀원을 평가해 줄 수 있어요',
-    icon: <UserCheck className="h-6 w-6" />,
-  },
-  {
-    title: '프로젝트 산출물 정보를 알려주세요!',
-    subTitle: '신뢰도 높은 프로필을 만드는 데 필요해요',
-    icon: <HeartHandshake className="h-6 w-6" />,
-  },
-];
-
-const MAX_STEPS = STEPS.length - 1;
+import { zodResolver } from '@hookform/resolvers/zod';
+import Step1 from './Step1';
+import Header from './layout/Header';
+import Footer from './layout/Footer';
+// import Step2 from './Step2';
+// import Step3 from './Step3';
 
 export default function ProjectRegisterModal() {
   //const isSmallScreen = useMediaQuery('(max-width: 430px)');
+
+  // 기능 붙일 때 추가 예정
+  const formMethods = useForm<ProjectForm>({
+    mode: 'onChange',
+    resolver: zodResolver(ProjectFormSchema),
+    defaultValues: {
+      project_name: '',
+      organization_name: '',
+      start_date: new Date(),
+      end_date: new Date(),
+    },
+  });
   const [currStep, setCurrStep] = useState<number>(0);
 
-  const handleNextStep = () => {
-    if (currStep < MAX_STEPS) {
+  const handleNextStep = async () => {
+    // 현재 폼의 모든 입력 값에 대해 유효성 검사 수행
+    const result = await formMethods.trigger();
+
+    if (result && currStep < MAX_STEPS) {
       // #20240707.syjang, 다음 스탭 유효성 조건 추가 필요
       setCurrStep((prev) => prev + 1);
     }
@@ -66,6 +46,12 @@ export default function ProjectRegisterModal() {
     }
   };
 
+  const handleExternalSubmit = () => {
+    formMethods.handleSubmit((data: ProjectForm) => {
+      alert(JSON.stringify(data));
+    })();
+  };
+
   return (
     <ModalLayout
       title={<Header currStep={currStep} />}
@@ -74,54 +60,21 @@ export default function ProjectRegisterModal() {
           currStep={currStep}
           handlePrevStep={handlePrevStep}
           handleNextStep={handleNextStep}
+          handleExternalSubmit={handleExternalSubmit}
+          isValid={formMethods.formState.isValid}
         />
       }>
-      프로젝트 등록 모달 내용들
+      <div className="mb-[6px] h-[430px] w-full overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
+        <Form {...formMethods}>
+          <FormProvider {...formMethods}>
+            <form className="flex-col">
+              {currStep === 0 && <Step1 />}
+              {/* {currStep === 1 && <Step2 />}
+            {currStep === 2 && <Step3 />} */}
+            </form>
+          </FormProvider>
+        </Form>
+      </div>
     </ModalLayout>
   );
 }
-
-const Header = ({ currStep }: HeaderProps) => {
-  const step = STEPS[currStep];
-  return (
-    <div className="flex items-center justify-center">
-      <div className="h-10 w-10 rounded-full bg-black text-white body4 flex-center">
-        {currStep + 1}
-      </div>
-      <div className="w-[283px] flex-col-center">
-        <div className="flex justify-center">{step.icon}</div>
-        <div className="body8">{step.title}</div>
-        <div className="text-purple-800 display5">{step.subTitle}</div>
-      </div>
-    </div>
-  );
-};
-
-const Footer = ({ currStep, handlePrevStep, handleNextStep }: FooterProps) => {
-  const getButtonClass = (isEnabled: boolean) =>
-    `h-10 w-10 stroke-[1.5px] ${isEnabled ? 'cursor-pointer' : 'cursor-not-allowed text-gray-400'}`;
-  const isLastStep = currStep === MAX_STEPS;
-
-  return (
-    <div className="flex w-full items-center justify-center">
-      <div className="flex-1" /> {/* 왼쪽 여백 */}
-      <div className="gap-4 flex-center">
-        <ArrowLeftCircle
-          className={getButtonClass(currStep > 0)}
-          onClick={currStep > 0 ? handlePrevStep : undefined}
-        />
-        <ArrowRightCircle
-          className={getButtonClass(currStep < MAX_STEPS)}
-          onClick={!isLastStep ? handleNextStep : undefined}
-        />
-      </div>
-      <div className="flex flex-1 justify-end">
-        {isLastStep && (
-          <Button className="rounded-[10px] px-[16px] py-[10px] text-white mobile1 bg-purple-indigo-gradient">
-            등록하기
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-};
