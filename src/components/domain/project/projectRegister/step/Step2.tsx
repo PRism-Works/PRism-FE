@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { XCircle } from 'lucide-react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import { ProjectForm } from '../models';
+import { FieldErrors, useFieldArray, useFormContext } from 'react-hook-form';
+import type { ProjectForm, ProjectMember } from '../models';
 
 export default function Step2() {
   const {
@@ -26,7 +26,7 @@ export default function Step2() {
 
   const memberCount: number = fields.length;
 
-  const getErrorClass = (index: number, fieldName: 'name' | 'email' | 'role'): string => {
+  const getErrorClass = (index: number, fieldName: keyof FieldErrors<ProjectMember>): string => {
     return errors.members?.[index]?.[fieldName] ? 'border-red-500 focus:border-red-500' : '';
   };
 

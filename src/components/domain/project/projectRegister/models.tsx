@@ -49,6 +49,7 @@ export const ProjectFormSchema = z.object({
   members: z.array(ProjectMemberSchema).min(1),
 });
 
+export type ProjectMember = z.infer<typeof ProjectMemberSchema>;
 export type ProjectForm = z.infer<typeof ProjectFormSchema>;
 
 // export interface Project {

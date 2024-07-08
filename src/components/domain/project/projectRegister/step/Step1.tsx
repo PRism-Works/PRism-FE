@@ -9,14 +9,15 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { useFormContext } from 'react-hook-form';
+import { ProjectForm } from '../models';
 
 export default function Step1() {
   const {
     control,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<ProjectForm>();
 
-  const getErrorClass = (fieldName: string): string => {
+  const getErrorClass = (fieldName: keyof typeof errors): string => {
     return errors[fieldName] ? 'border-red-500 focus:border-red-500' : '';
   };
 
