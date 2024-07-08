@@ -1,4 +1,4 @@
-import HashTagInput from '@/components/common/input/HashTagInput';
+import HashtagInput from '@/components/common/input/HashtagInput';
 import {
   FormControl,
   FormDescription,
@@ -92,7 +92,8 @@ export default function Step2() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <HashTagInput
+                        <HashtagInput
+                          className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
                           placeholder="역할"
                           setValue={(value) => field.onChange(value)}
                         />

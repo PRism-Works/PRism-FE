@@ -2,7 +2,7 @@ import { IconInput } from '@/components/common/input/IconInput';
 import { FormControl, FormDescription, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Paperclip, Search, CircleCheck } from 'lucide-react';
-import HashTagInput from '@/components/common/input/HashTagInput';
+import HashtagInput from '@/components/common/input/HashtagInput';
 
 export default function Step3() {
   return (
@@ -43,8 +43,16 @@ export default function Step3() {
           프로젝트에 사용된 기술스택을 입력해 주세요
         </FormDescription>
         <div className="flex flex-wrap gap-1">
-          <HashTagInput placeholder="태그" setValue={(value) => console.log(value)} />
-          <HashTagInput placeholder="태그" setValue={(value) => console.log(value)} />
+          <HashtagInput
+            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
+          <HashtagInput
+            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
         </div>
         <FormControl>
           <IconInput
@@ -60,8 +68,16 @@ export default function Step3() {
           공들여 완수한 프로젝트에 대해 간략하게 설명해 주세요
         </FormDescription>
         <div className="flex flex-wrap gap-1">
-          <HashTagInput placeholder="태그" setValue={(value) => console.log(value)} />
-          <HashTagInput placeholder="태그" setValue={(value) => console.log(value)} />
+          <HashtagInput
+            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
+          <HashtagInput
+            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
         </div>
         <FormControl>
           <Input className="w-full" placeholder="텍스트 입력..." />
