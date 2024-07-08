@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { XCircle } from 'lucide-react';
 import { FieldErrors, useFieldArray, useFormContext } from 'react-hook-form';
 import type { ProjectForm, ProjectMember } from '@/models/projectModels';
+import Planet1 from '../../../../../../public/icon/planet/planet-1.svg';
 
 export default function Step2() {
   const {
@@ -48,7 +49,9 @@ export default function Step2() {
                 </div>
               )}
               <div className="flex w-full items-center gap-[6px]">
-                <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">i</span>
+                <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">
+                  <Planet1 />
+                </span>
                 <FormField
                   control={control}
                   name={`members.${index}.name`}
