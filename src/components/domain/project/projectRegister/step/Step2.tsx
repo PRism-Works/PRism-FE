@@ -1,4 +1,3 @@
-import HashtagInput from '@/components/common/input/HashtagInput';
 import {
   FormControl,
   FormDescription,
@@ -7,11 +6,15 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+
 import { Input } from '@/components/ui/input';
+import TagInput from '@/components/common/input/TagInput';
+
 import { XCircle } from 'lucide-react';
+import { PlanetIcons } from '@/assets/icon/planet';
+
 import { FieldErrors, useFieldArray, useFormContext } from 'react-hook-form';
 import type { ProjectForm, ProjectMember } from '@/models/projectModels';
-import { PlanetIcons } from '@/assets/icon/planet';
 
 export default function Step2() {
   const {
@@ -95,7 +98,7 @@ export default function Step2() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <HashtagInput
+                        <TagInput
                           className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
                           placeholder="역할"
                           setValue={(value) => field.onChange(value)}

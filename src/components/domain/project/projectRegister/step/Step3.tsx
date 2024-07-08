@@ -2,7 +2,7 @@ import { IconInput } from '@/components/common/input/IconInput';
 import { FormControl, FormDescription, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Paperclip, Search, CircleCheck } from 'lucide-react';
-import HashtagInput from '@/components/common/input/HashtagInput';
+import TagInput from '@/components/common/input/TagInput';
 
 export default function Step3() {
   return (
@@ -43,12 +43,12 @@ export default function Step3() {
           프로젝트에 사용된 기술스택을 입력해 주세요
         </FormDescription>
         <div className="flex flex-wrap gap-1">
-          <HashtagInput
+          <TagInput
             className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
-          <HashtagInput
+          <TagInput
             className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
             placeholder="태그"
             setValue={(value) => console.log(value)}
@@ -68,12 +68,12 @@ export default function Step3() {
           공들여 완수한 프로젝트에 대해 간략하게 설명해 주세요
         </FormDescription>
         <div className="flex flex-wrap gap-1">
-          <HashtagInput
+          <TagInput
             className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
-          <HashtagInput
+          <TagInput
             className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
             placeholder="태그"
             setValue={(value) => console.log(value)}
