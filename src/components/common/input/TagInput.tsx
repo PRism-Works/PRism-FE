@@ -1,12 +1,14 @@
+'use client';
+
 import { KeyboardEvent, ChangeEvent, useEffect, useRef, useState } from 'react';
 
-interface HashtagInputProps {
+interface TagInputProps {
   placeholder: string;
   className?: string;
   setValue: (content: string) => void;
 }
 
-export default function HashtagInput({ placeholder, className = '', setValue }: HashtagInputProps) {
+export default function TagInput({ placeholder, className = '', setValue }: TagInputProps) {
   const [tagWidth, setTagWidth] = useState<number>(0);
   const fakeSpanRef = useRef<HTMLSpanElement>(null);
   const [spanText, setSpanText] = useState<string>(placeholder);
