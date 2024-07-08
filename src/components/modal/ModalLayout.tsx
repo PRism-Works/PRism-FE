@@ -30,7 +30,7 @@ export default function ModalLayout({
   return (
     <Dialog open onOpenChange={closeModal}>
       <DialogContent
-        className="max-h-[85vh] overflow-y-auto p-11"
+        className="max-h-[90vh] overflow-y-auto p-11"
         showCloseButton={showCloseButton}>
         <DialogHeader className="flex flex-col items-center text-center">
           <DialogTitle>{title}</DialogTitle>
