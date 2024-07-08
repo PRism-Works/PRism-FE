@@ -1,6 +1,6 @@
 import { ArrowLeftCircle, ArrowRightCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { MAX_STEPS } from '../models';
+import { MAX_STEPS } from '@/models/projectModels';
 
 interface FooterProps {
   currStep: number;

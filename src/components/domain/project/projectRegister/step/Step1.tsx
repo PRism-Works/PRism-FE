@@ -9,7 +9,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { useFormContext } from 'react-hook-form';
-import { ProjectForm } from '../models';
+import type { ProjectForm } from '@/models/projectModels';
 
 export default function Step1() {
   const {

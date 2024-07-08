@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { XCircle } from 'lucide-react';
 import { FieldErrors, useFieldArray, useFormContext } from 'react-hook-form';
-import type { ProjectForm, ProjectMember } from '../models';
+import type { ProjectForm, ProjectMember } from '@/models/projectModels';
 
 export default function Step2() {
   const {

@@ -1,4 +1,4 @@
-import { STEPS } from '../models';
+import { STEPS } from '@/models/projectModels';
 
 interface HeaderProps {
   currStep: number;

@@ -5,7 +5,7 @@ import ModalLayout from '@/components/modal/ModalLayout';
 //import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Form } from '@/components/ui/form';
 import { useForm, FormProvider } from 'react-hook-form';
-import { type ProjectForm, MAX_STEPS, ProjectFormSchema } from './models';
+import { type ProjectForm, MAX_STEPS, ProjectFormSchema } from '@/models/projectModels';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Step1 from './step/Step1';
