@@ -10,7 +10,7 @@ interface FooterProps {
   isValid: boolean;
 }
 
-export default function Footer({
+export default function ProjectRegisterFooter({
   currStep,
   handlePrevStep,
   handleNextStep,
