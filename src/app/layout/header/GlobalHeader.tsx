@@ -20,7 +20,7 @@ export default function GlobalHeader() {
   };
 
   return (
-    <Menubar className="flex h-[70px] w-full items-center justify-between px-[100px] py-8 shadow-custom-2px">
+    <Menubar className="flex h-[70px] w-full items-center justify-between bg-white px-24 py-8 shadow-custom-2px">
       <div className="flex items-center">
         <PrismLogo className="w-[150px]" />
       </div>

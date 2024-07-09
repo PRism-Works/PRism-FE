@@ -112,6 +112,13 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        'custom-2px': '0 2px 4px 0 rgba(55, 65, 81, 0.18)', // X0 Y2 blur4 spread0 #374151 (grey_700) 18%
+        'custom-4px': '0 4px 8px 0 rgba(55, 65, 81, 0.12)', // X0 Y4 blur8 spread0 #374151 (grey_700) 12%
+        'custom-6px': '0 6px 12px 0 rgba(55, 65, 81, 0.10)', // X0 Y6 blur12 spread0 #374151 (grey_700) 10%
+        'custom-8px': '0 8px 16px 0 rgba(55, 65, 81, 0.10)', // X0 Y8 blur16 spread0 #374151 (grey_700) 10%
+        'custom-16px': '0 16px 32px 0 rgba(55, 65, 81, 0.10)', // X0 Y16 blur32 spread0 #374151 (grey_700) 10%
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -250,6 +257,16 @@ const config: Config = {
         },
         '.bg-purple-indigo-gradient': {
           '@apply bg-gradient-to-b from-purple-500 to-indigo-500': {},
+          '&:hover': {
+            '@apply from-purple-600 to-indigo-600': {},
+          },
+        },
+        '.border-gradient': {
+          border: '2px solid transparent',
+          backgroundImage:
+            'linear-gradient(white, white), linear-gradient(to bottom, #A855F7, #6366F1)',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
         },
         '.tag-purple': {
           '@apply bg-purple-100 text-purple-500 placeholder-purple-300': {},
