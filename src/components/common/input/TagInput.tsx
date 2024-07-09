@@ -3,15 +3,30 @@
 import { KeyboardEvent, ChangeEvent, useEffect, useRef, useState } from 'react';
 
 interface TagInputProps {
-  placeholder: string;
+  defaultValue?: string;
+  placeholder?: string;
+  prefixChar?: string;
+  maxLength?: number;
   className?: string;
-  setValue: (content: string) => void;
+  isDisabled?: boolean;
+  setValue?: (value: string) => void;
 }
 
-export default function TagInput({ placeholder, className = '', setValue }: TagInputProps) {
+export default function TagInput({
+  defaultValue,
+  placeholder = '',
+  prefixChar = '',
+  maxLength = 50,
+  className = 'tag-purple',
+  isDisabled = false,
+  setValue,
+}: TagInputProps) {
+  // 초기 너비의 참조가 될 텍스트 지정 (우선순위 : defaultValue > placeholder)
+  const initialWidthReference: string = defaultValue || placeholder;
+
   const [tagWidth, setTagWidth] = useState<number>(0);
   const fakeSpanRef = useRef<HTMLSpanElement>(null);
-  const [spanText, setSpanText] = useState<string>(placeholder);
+  const [spanText, setSpanText] = useState<string>(initialWidthReference);
 
   useEffect(() => {
     if (fakeSpanRef.current) {
@@ -22,15 +37,14 @@ export default function TagInput({ placeholder, className = '', setValue }: TagI
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const currText = event.target.value;
-    if (currText === '') {
-      // input의 값이 빈 경우 placeholder 텍스트 크기를 구해야한다.
-      setSpanText(placeholder);
-    } else {
-      setSpanText(currText);
-    }
+
+    // input의 값이 빈 경우 placeholder 텍스트 크기를 구해야한다.
+    setSpanText(currText || placeholder);
 
     // 텍스트가 바뀌면 컴포넌트에서 넘겨받은 setValue 함수를 호출시킨다.
-    setValue(currText);
+    if (setValue) {
+      setValue(currText);
+    }
   };
 
   // 엔터 키 이벤트 시, input 포커스 해제
@@ -41,18 +55,23 @@ export default function TagInput({ placeholder, className = '', setValue }: TagI
   };
 
   return (
-    <div>
+    <div
+      className={`flex w-fit items-center justify-between ${className} overflow-hidden rounded-[6px]`}>
+      {prefixChar && <span className="ml-[4px] flex-center">{prefixChar}</span>}
       <input
-        maxLength={50}
+        spellCheck={false}
+        defaultValue={defaultValue || ''}
+        maxLength={maxLength}
+        disabled={isDisabled}
         style={{ width: `${tagWidth}px` }}
-        className={`rounded-[6px] display5 focus-visible:outline-none ${className}`}
+        className={`px-[6px] py-[4px] display5 focus-visible:outline-none ${className}`}
         placeholder={placeholder}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
       <span
         ref={fakeSpanRef}
-        className={`absolute left-0 top-0 -z-10 px-[6px] py-[4px] opacity-0 mobile2`}>
+        className={`invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px] display5`}>
         {spanText}
       </span>
     </div>

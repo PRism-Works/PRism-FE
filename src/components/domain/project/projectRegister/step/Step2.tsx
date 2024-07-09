@@ -99,7 +99,7 @@ export default function Step2() {
                     <FormItem>
                       <FormControl>
                         <TagInput
-                          className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+                          className="tag-purple"
                           placeholder="역할"
                           setValue={(value) => field.onChange(value)}
                         />

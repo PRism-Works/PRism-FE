@@ -44,15 +44,11 @@ export default function Step3() {
         </FormDescription>
         <div className="flex flex-wrap gap-1">
           <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
-            placeholder="태그"
+            prefixChar="#"
+            defaultValue="Spring Framework"
             setValue={(value) => console.log(value)}
           />
-          <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
-            placeholder="태그"
-            setValue={(value) => console.log(value)}
-          />
+          <TagInput prefixChar="#" defaultValue="React" setValue={(value) => console.log(value)} />
         </div>
         <FormControl>
           <IconInput
@@ -67,21 +63,33 @@ export default function Step3() {
         <FormDescription className="text-gray-500 caption">
           공들여 완수한 프로젝트에 대해 간략하게 설명해 주세요
         </FormDescription>
-        <div className="flex flex-wrap gap-1">
-          <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
-            placeholder="태그"
-            setValue={(value) => console.log(value)}
-          />
-          <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
-            placeholder="태그"
-            setValue={(value) => console.log(value)}
-          />
-        </div>
         <FormControl>
           <Input className="w-full" placeholder="텍스트 입력..." />
         </FormControl>
+        <div className="flex flex-wrap gap-1">
+          <TagInput
+            prefixChar="+"
+            isDisabled={true}
+            defaultValue="금융"
+            className="tag-gray"
+            placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
+          <TagInput
+            prefixChar="+"
+            isDisabled={true}
+            defaultValue="문화"
+            className="tag-gray"
+            placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
+          <TagInput
+            prefixChar="+"
+            className="tag-gray"
+            placeholder="직접입력.."
+            setValue={(value) => console.log(value)}
+          />
+        </div>
       </FormItem>
     </>
   );
