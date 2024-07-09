@@ -1,7 +1,9 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { ClipboardEdit } from 'lucide-react';
 import { useModalStore } from '@/stores/modalStore';
-import ProjectRegisterModal from '@/components/domain/project/projectRegister/ProjectRegisterModal';
+import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
 import { cn } from '@/lib/utils';
 
 interface ProjectRegisterButtonProps {
