@@ -252,13 +252,13 @@ const config: Config = {
           '@apply bg-gradient-to-b from-purple-500 to-indigo-500': {},
         },
         '.tag-purple': {
-          '@apply bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300': {},
+          '@apply bg-purple-100 text-purple-500 placeholder-purple-300': {},
         },
         '.tag-indigo': {
-          '@apply bg-indigo-50 px-[6px] py-[4px] text-indigo-500 placeholder-indigo-300': {},
+          '@apply bg-indigo-50  text-indigo-500 placeholder-indigo-300': {},
         },
         '.tag-gray': {
-          '@apply bg-gray-100 px-[6px] py-[4px] text-gray-500 placeholder-gray-400': {},
+          '@apply bg-gray-100 text-gray-500 placeholder-gray-400': {},
         },
       };
 

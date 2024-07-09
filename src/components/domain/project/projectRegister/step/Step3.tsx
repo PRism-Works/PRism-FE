@@ -44,15 +44,11 @@ export default function Step3() {
         </FormDescription>
         <div className="flex flex-wrap gap-1">
           <TagInput
-            className="tag-purple"
-            placeholder="태그"
+            prefixChar="#"
+            defaultValue="Spring Framework"
             setValue={(value) => console.log(value)}
           />
-          <TagInput
-            className="tag-purple"
-            placeholder="태그"
-            setValue={(value) => console.log(value)}
-          />
+          <TagInput prefixChar="#" defaultValue="React" setValue={(value) => console.log(value)} />
         </div>
         <FormControl>
           <IconInput
@@ -72,13 +68,25 @@ export default function Step3() {
         </FormControl>
         <div className="flex flex-wrap gap-1">
           <TagInput
+            prefixChar="+"
+            isDisabled={true}
+            defaultValue="금융"
             className="tag-gray"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
           <TagInput
+            prefixChar="+"
+            isDisabled={true}
+            defaultValue="문화"
             className="tag-gray"
             placeholder="태그"
+            setValue={(value) => console.log(value)}
+          />
+          <TagInput
+            prefixChar="+"
+            className="tag-gray"
+            placeholder="직접입력.."
             setValue={(value) => console.log(value)}
           />
         </div>

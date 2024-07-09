@@ -5,22 +5,19 @@ import { KeyboardEvent, ChangeEvent, useEffect, useRef, useState } from 'react';
 interface TagInputProps {
   defaultValue?: string;
   placeholder?: string;
+  prefixChar?: string;
   maxLength?: number;
   className?: string;
   isDisabled?: boolean;
   setValue?: (value: string) => void;
 }
 
-// Todo:
-// 1. prefix 넘겨받기
-// 2. setValue에는 changed 이벤트에 달아서 값 보내기
-// 3. 클릭으로 값 선택할 수 잇으니, onClick 이벤트도 달기
-
 export default function TagInput({
   defaultValue,
   placeholder = '',
+  prefixChar = '',
   maxLength = 50,
-  className = '',
+  className = 'tag-purple',
   isDisabled = false,
   setValue,
 }: TagInputProps) {
@@ -40,12 +37,9 @@ export default function TagInput({
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const currText = event.target.value;
-    if (currText === '') {
-      // input의 값이 빈 경우 placeholder 텍스트 크기를 구해야한다.
-      setSpanText(placeholder);
-    } else {
-      setSpanText(currText);
-    }
+
+    // input의 값이 빈 경우 placeholder 텍스트 크기를 구해야한다.
+    setSpanText(currText || placeholder);
 
     // 텍스트가 바뀌면 컴포넌트에서 넘겨받은 setValue 함수를 호출시킨다.
     if (setValue) {
@@ -61,21 +55,23 @@ export default function TagInput({
   };
 
   return (
-    <div style={{ padding: 0 }} className={`w-fit ${className} overflow-hidden rounded-[6px]`}>
+    <div
+      className={`flex w-fit items-center justify-between ${className} overflow-hidden rounded-[6px]`}>
+      {prefixChar && <span className="ml-[4px] flex-center">{prefixChar}</span>}
       <input
         spellCheck={false}
         defaultValue={defaultValue || ''}
         maxLength={maxLength}
         disabled={isDisabled}
         style={{ width: `${tagWidth}px` }}
-        className={`display5 focus-visible:outline-none ${className}`}
+        className={`px-[6px] py-[4px] display5 focus-visible:outline-none ${className}`}
         placeholder={placeholder}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
       <span
         ref={fakeSpanRef}
-        className={`absolute left-0 top-0 -z-10 px-[6px] py-[4px] opacity-0 mobile2`}>
+        className={`invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px] display5`}>
         {spanText}
       </span>
     </div>
