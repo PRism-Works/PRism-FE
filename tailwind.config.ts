@@ -249,7 +249,16 @@ const config: Config = {
           justifyContent: 'center',
         },
         '.bg-purple-indigo-gradient': {
-          backgroundImage: 'linear-gradient(to bottom, #A855F7, #6366F1)',
+          '@apply bg-gradient-to-b from-purple-500 to-indigo-500': {},
+        },
+        '.tag-purple': {
+          '@apply bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300': {},
+        },
+        '.tag-indigo': {
+          '@apply bg-indigo-50 px-[6px] py-[4px] text-indigo-500 placeholder-indigo-300': {},
+        },
+        '.tag-gray': {
+          '@apply bg-gray-100 px-[6px] py-[4px] text-gray-500 placeholder-gray-400': {},
         },
       };
 

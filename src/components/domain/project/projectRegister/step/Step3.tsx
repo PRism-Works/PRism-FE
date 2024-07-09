@@ -44,12 +44,12 @@ export default function Step3() {
         </FormDescription>
         <div className="flex flex-wrap gap-1">
           <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            className="tag-purple"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
           <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            className="tag-purple"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
@@ -67,21 +67,21 @@ export default function Step3() {
         <FormDescription className="text-gray-500 caption">
           공들여 완수한 프로젝트에 대해 간략하게 설명해 주세요
         </FormDescription>
+        <FormControl>
+          <Input className="w-full" placeholder="텍스트 입력..." />
+        </FormControl>
         <div className="flex flex-wrap gap-1">
           <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            className="tag-gray"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
           <TagInput
-            className="bg-purple-100 px-[6px] py-[4px] text-purple-500 placeholder-purple-300"
+            className="tag-gray"
             placeholder="태그"
             setValue={(value) => console.log(value)}
           />
         </div>
-        <FormControl>
-          <Input className="w-full" placeholder="텍스트 입력..." />
-        </FormControl>
       </FormItem>
     </>
   );
