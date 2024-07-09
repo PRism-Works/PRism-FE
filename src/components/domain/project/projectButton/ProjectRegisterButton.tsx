@@ -19,12 +19,9 @@ export default function ProjectRegisterButton({ className }: ProjectRegisterButt
 
   return (
     <div className={cn(className)}>
-      <Button
-        onClick={handleOpenProject}
-        variant={'default'}
-        className="h-[62px] w-[277px] text-white bg-purple-indigo-gradient">
-        <ClipboardEdit className="mr-2 h-[30px] w-[30px]" />
-        <p className="body2">내 프로젝트 등록하기</p>
+      <Button onClick={handleOpenProject} variant={'gradient'} className="h-[60px] w-[250px]">
+        <ClipboardEdit className="mr-2 h-[22px] w-[22px]" />
+        <p className="body6">내 프로젝트 등록하기</p>
       </Button>
     </div>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { IconInput } from '@/components/common/input/IconInput';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -42,12 +44,12 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
       </Tabs>
 
       <IconInput
-        className="h-[64px] w-full max-w-[690px] pl-12 body4 border-gradient"
-        svgIcon={<Search className="h-[28px] w-[28px] text-gray-700" />}
+        className="mt- h-[64px] w-full max-w-[700px] pl-14 body8 border-gradient"
+        svgIcon={<Search className="mx-2 h-[24px] w-[24px] text-gray-500" />}
         placeholder={placeholder}
       />
 
-      <div className="mt-3 flex items-center body6">
+      <div className="mt-3 flex items-center body8">
         <button onClick={toggleDetailVisibility} className="flex items-center text-gray-700">
           {isDetailVisible ? (
             <>
