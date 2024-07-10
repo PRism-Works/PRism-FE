@@ -6,16 +6,16 @@ import { Menubar } from '@/components/ui/menubar';
 import { Button } from '@/components/ui/button';
 import LoginModal from '@/components/domain/auth/login/LoginModal';
 import SignupModal from '@/components/domain/auth/signup/SignupModal';
-import PrismLogo from '@/assets/logo/prism-logo-text.svg';
+import PrismLogo from '@/assets/logo/logo-combine.svg';
 
 export default function GlobalHeader() {
   const openModal = useModalStore((state) => state.openModal);
 
-  const handleOpenLogin = () => {
+  const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
   };
 
-  const handleOpenSignUp = () => {
+  const handleOpenSignupModal = () => {
     openModal(<SignupModal />);
   };
 
@@ -26,13 +26,13 @@ export default function GlobalHeader() {
       </div>
       <div className="flex items-center">
         <Button
-          onClick={handleOpenLogin}
+          onClick={handleOpenLoginModal}
           variant="outline"
           className="border-1 mr-2 border border-gray-700 text-gray-700">
           로그인
         </Button>
         <Button
-          onClick={handleOpenSignUp}
+          onClick={handleOpenSignupModal}
           variant="default"
           className="bg-purple-500 hover:bg-purple-600">
           회원가입
