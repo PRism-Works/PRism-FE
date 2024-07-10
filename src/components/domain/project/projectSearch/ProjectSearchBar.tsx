@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { IconInput } from '@/components/common/input/IconInput';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
@@ -12,7 +12,7 @@ interface ProjectSearchBarProps {
 
 export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
-  const [isDetailVisible, setIsDetailVisible] = useState(false);
+  const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
 
   const handleValueChange = (value: string) => {
     if (value === 'member') {
@@ -20,10 +20,6 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
     } else if (value === 'project') {
       setPlaceholder('프로젝트명을 입력하세요.');
     }
-  };
-
-  const toggleDetailVisibility = () => {
-    setIsDetailVisible((prev) => !prev);
   };
 
   return (
