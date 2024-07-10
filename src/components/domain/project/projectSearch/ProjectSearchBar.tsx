@@ -47,16 +47,11 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
 
       <div className="mt-3 flex items-center body8">
         <button onClick={toggleDetailVisibility} className="flex items-center text-gray-700">
+          <span className="mx-1">상세보기</span>
           {isDetailVisible ? (
-            <>
-              <span className="mx-1">상세보기</span>
-              <ChevronUp className="h-5 w-5" />
-            </>
+            <ChevronUp className="h-5 w-5" />
           ) : (
-            <>
-              <span className="mx-1">상세보기</span>
-              <ChevronDown className="h-5 w-5" />
-            </>
+            <ChevronDown className="h-5 w-5" />
           )}
         </button>
       </div>
