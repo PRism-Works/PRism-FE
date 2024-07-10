@@ -45,12 +45,21 @@ export default function ModalLayout({
   );
 }
 
-const ConfirmButton = ({ title, isSmallScreen }: { title: string; isSmallScreen: boolean }) => {
+interface ConfirmButtonProps {
+  title: string;
+  isSmallScreen: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+}
+
+const ConfirmButton = ({ title, isSmallScreen, onClick, disabled }: ConfirmButtonProps) => {
   return (
     <Button
-      className={`mt-7 h-[55px] w-full max-w-[420px] rounded-[10px] bg-purple-200 px-[24px] py-[16px] text-white ${
-        isSmallScreen ? 'body8' : 'body7'
-      } hover:bg-purple-400`}>
+      className={`mt-7 h-[55px] w-full max-w-[420px] bg-purple-500 px-[24px] py-[16px] text-white ${
+        isSmallScreen ? 'body8' : 'body6'
+      } hover:bg-purple-600`}
+      onClick={onClick}
+      disabled={disabled}>
       {title}
     </Button>
   );
