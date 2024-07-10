@@ -4,7 +4,7 @@ interface HeaderProps {
   currStep: number;
 }
 
-export default function Header({ currStep }: HeaderProps) {
+export default function ProjectRegisterHeader({ currStep }: HeaderProps) {
   const step = STEPS[currStep];
   return (
     <div className="mb-[16px] flex items-center justify-center">

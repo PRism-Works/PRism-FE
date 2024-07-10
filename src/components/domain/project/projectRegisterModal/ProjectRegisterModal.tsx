@@ -9,8 +9,8 @@ import { type ProjectForm, MAX_STEPS, ProjectFormSchema } from '@/models/project
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Step1 from './step/Step1';
-import Header from './layout/Header';
-import Footer from './layout/Footer';
+import Header from './layout/ProjectRegisterHeader';
+import Footer from './layout/ProjectRegisterFooter';
 import Step2 from './step/Step2';
 import Step3 from './step/Step3';
 

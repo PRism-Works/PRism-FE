@@ -1,10 +1,15 @@
-import Link from 'next/link';
+import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
+import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectSearchBar';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-24">
-      메인입니다요
-      <Link href="/home">HOME으로 가기!!</Link>
+    <main className="container mx-auto min-h-screen p-12 flex-col-center">
+      <div className="container flex justify-end" style={{ width: '90%' }}>
+        <ProjectRegisterButton className="-mt-24 mb-20" />
+      </div>
+      <div className="flex w-full justify-center">
+        <ProjectSearchBar className="w-full max-w-[690px]" />
+      </div>
     </main>
   );
 }
