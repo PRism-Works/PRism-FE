@@ -1,31 +1,10 @@
 import { z } from 'zod';
-import { HeartHandshake, LucideFileEdit, UserCheck } from 'lucide-react';
 
-interface Step {
+export interface ProjectRegisterHeaderStep {
   title: string;
   subTitle: string;
   icon: JSX.Element;
 }
-
-export const STEPS: Step[] = [
-  {
-    title: '프로젝트에 대한 정보를 알려주세요!',
-    subTitle: '팀원끼리 검색이 편해져요',
-    icon: <LucideFileEdit className="h-6 w-6" />,
-  },
-  {
-    title: '팀원들에 대한 정보를 알려주세요!',
-    subTitle: '모든 팀원을 평가해 줄 수 있어요',
-    icon: <UserCheck className="h-6 w-6" />,
-  },
-  {
-    title: '프로젝트 산출물 정보를 알려주세요!',
-    subTitle: '신뢰도 높은 프로필을 만드는 데 필요해요',
-    icon: <HeartHandshake className="h-6 w-6" />,
-  },
-];
-
-export const MAX_STEPS = STEPS.length - 1;
 
 const ProjectMemberSchema = z.object({
   name: z.string().min(1, {
