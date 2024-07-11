@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useState } from 'react';
+import React, { useId, useReducer } from 'react';
 import ModalLayout from '@/components/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -15,7 +15,7 @@ import { CheckCircle2 } from 'lucide-react';
 export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
-  const [isAgreed, setIsAgreed] = useState(false);
+  const [isAgreed, setIsAgreed] = useReducer((state) => !state, false);
 
   const formMethods = useForm<SignupForm>({
     mode: 'onChange',
@@ -45,10 +45,6 @@ export default function SignupModal() {
 
   const isEmailValid = !errors.email && email.length > 0;
   const isCertificationValid = !errors.certification && certification.length === 4;
-
-  const handleAgreement = () => {
-    setIsAgreed((prev) => !prev);
-  };
 
   return (
     <FormProvider {...formMethods}>
@@ -197,7 +193,7 @@ export default function SignupModal() {
 
           <div className={`w-full max-w-[420px] ${isSmallScreen ? 'caption' : 'display5'}`}>
             <div className="flex items-center justify-between">
-              <div className="mr-3" onClick={handleAgreement}>
+              <div className="mr-3" onClick={setIsAgreed}>
                 <CheckCircle2
                   className={`h-7 w-7 cursor-pointer stroke-[1.5px] ${
                     isAgreed ? 'text-purple-500' : 'text-gray-400'
