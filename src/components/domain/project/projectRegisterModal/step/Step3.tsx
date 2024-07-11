@@ -14,6 +14,7 @@ export default function Step3() {
   const { categories, isCategorySelected, selectCategory } = useProjectCategory();
 
   // useEffect로 categories 변화 감지, 나중에 여기서 hook form에 setValue 하기
+  // 아래는 수정 예정입니다.
   useEffect(() => {
     console.log(categories);
   }, [categories]);

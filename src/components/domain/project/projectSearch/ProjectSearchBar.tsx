@@ -20,7 +20,7 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
 
   const { categories, isCategorySelected, selectCategory } = useProjectCategory(5);
 
-  // useEffect로 categories 변화 감지, 나중에 여기서 hook form에 setValue 하기
+  // 아래는 categories 변화 감지 예시 코드입니다.
   useEffect(() => {
     console.log(categories);
   }, [categories]);

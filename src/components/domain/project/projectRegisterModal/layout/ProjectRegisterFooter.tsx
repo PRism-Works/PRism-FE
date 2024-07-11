@@ -1,13 +1,13 @@
 import { ArrowLeftCircle, ArrowRightCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { MAX_STEPS } from '@/models/projectModels';
 
-interface FooterProps {
+interface ProjectRegisterFooterProps {
   currStep: number;
   handlePrevStep: () => void;
   handleNextStep: () => void;
   handleExternalSubmit: () => void;
   isValid: boolean;
+  MAX_STEP: number;
 }
 
 export default function ProjectRegisterFooter({
@@ -16,10 +16,11 @@ export default function ProjectRegisterFooter({
   handleNextStep,
   handleExternalSubmit,
   isValid,
-}: FooterProps) {
+  MAX_STEP,
+}: ProjectRegisterFooterProps) {
   const getButtonClass = (isEnabled: boolean) =>
     `h-10 w-10 stroke-[1.5px] ${isEnabled ? 'cursor-pointer' : 'cursor-not-allowed text-gray-400'}`;
-  const isLastStep = currStep === MAX_STEPS;
+  const isLastStep = currStep === MAX_STEP;
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -30,7 +31,7 @@ export default function ProjectRegisterFooter({
           onClick={currStep > 0 ? handlePrevStep : undefined}
         />
         <ArrowRightCircle
-          className={getButtonClass(isValid && currStep < MAX_STEPS)}
+          className={getButtonClass(isValid && currStep < MAX_STEP)}
           onClick={!isLastStep ? handleNextStep : undefined}
         />
       </div>
