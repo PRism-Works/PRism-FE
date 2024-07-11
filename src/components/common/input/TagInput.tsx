@@ -57,7 +57,7 @@ export default function TagInput({
   return (
     <div
       className={`flex w-fit items-center justify-between ${className} overflow-hidden rounded-[6px]`}>
-      {prefixChar && <span className="ml-[4px] flex-center">{prefixChar}</span>}
+      {prefixChar && <span className="ml-[6px] flex-center">{prefixChar}</span>}
       <input
         spellCheck={false}
         defaultValue={defaultValue || ''}
@@ -71,7 +71,7 @@ export default function TagInput({
       />
       <span
         ref={fakeSpanRef}
-        className={`invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px] display5`}>
+        className={`invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px] ${className}`}>
         {spanText}
       </span>
     </div>

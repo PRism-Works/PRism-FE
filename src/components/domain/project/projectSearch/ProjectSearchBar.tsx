@@ -1,10 +1,14 @@
 'use client';
 
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { IconInput } from '@/components/common/input/IconInput';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import TagInput from '@/components/common/input/TagInput';
+import { ProjectCategories } from '@/utils/tagList';
+import CheckTagInput from '@/components/common/input/CheckTagInput';
+import { useProjectCategory } from '@/hooks/useProjectCategory';
 
 interface ProjectSearchBarProps {
   className?: string;
@@ -13,6 +17,13 @@ interface ProjectSearchBarProps {
 export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
   const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
+
+  const { categories, isCategorySelected, selectCategory } = useProjectCategory(5);
+
+  // useEffect로 categories 변화 감지, 나중에 여기서 hook form에 setValue 하기
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
 
   const handleValueChange = (value: string) => {
     if (value === 'member') {
@@ -59,7 +70,24 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
       {isDetailVisible && (
         <div className="mt-2">
           {/* NOTE : 태그 회의 후 상세보기 내용 추가 예정 */}
-          <p className="text-gray-600">태그 추가 예정</p>
+          {/* #20240710.syjang, CheckTagInput 사용 예시 작성하려 임의로 코드 작성했습니다. 아래는 참고만 부탁드립니다. */}
+          <div className="flex gap-4">
+            <TagInput className="px-3 py-1 display6 tag-indigo" defaultValue="카테고리" />
+            <div className="flex gap-1">
+              {ProjectCategories.map((category) => {
+                return (
+                  <CheckTagInput
+                    key={category}
+                    value={category}
+                    isChecked={isCategorySelected(category)}
+                    onClick={() => {
+                      selectCategory(category);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>

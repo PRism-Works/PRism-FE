@@ -1,10 +1,23 @@
-import { IconInput } from '@/components/common/input/IconInput';
-import { FormControl, FormDescription, FormItem, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Paperclip, Search, CircleCheck } from 'lucide-react';
 import TagInput from '@/components/common/input/TagInput';
+import { IconInput } from '@/components/common/input/IconInput';
+import CheckTagInput from '@/components/common/input/CheckTagInput';
+
+import { Input } from '@/components/ui/input';
+import { FormControl, FormDescription, FormItem, FormLabel } from '@/components/ui/form';
+import { Paperclip, Search, CircleCheck } from 'lucide-react';
+
+import { ProjectCategories } from '@/utils/tagList';
+import { useProjectCategory } from '@/hooks/useProjectCategory';
+import { useEffect } from 'react';
 
 export default function Step3() {
+  const { categories, isCategorySelected, selectCategory } = useProjectCategory();
+
+  // useEffect로 categories 변화 감지, 나중에 여기서 hook form에 setValue 하기
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
+
   return (
     <>
       <FormItem className="mb-[25px]">
@@ -67,28 +80,18 @@ export default function Step3() {
           <Input className="w-full" placeholder="텍스트 입력..." />
         </FormControl>
         <div className="flex flex-wrap gap-1">
-          <TagInput
-            prefixChar="+"
-            isDisabled={true}
-            defaultValue="금융"
-            className="tag-gray"
-            placeholder="태그"
-            setValue={(value) => console.log(value)}
-          />
-          <TagInput
-            prefixChar="+"
-            isDisabled={true}
-            defaultValue="문화"
-            className="tag-gray"
-            placeholder="태그"
-            setValue={(value) => console.log(value)}
-          />
-          <TagInput
-            prefixChar="+"
-            className="tag-gray"
-            placeholder="직접입력.."
-            setValue={(value) => console.log(value)}
-          />
+          {ProjectCategories.map((category) => {
+            return (
+              <CheckTagInput
+                key={category}
+                value={category}
+                isChecked={isCategorySelected(category)}
+                onClick={() => {
+                  selectCategory(category);
+                }}
+              />
+            );
+          })}
         </div>
       </FormItem>
     </>
