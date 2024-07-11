@@ -18,7 +18,8 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
   const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
 
-  const { categories, isCategorySelected, selectCategory } = useProjectCategory(5);
+  const { categories, isCategorySelected, selectCategory, isSelectionLimitReached } =
+    useProjectCategory(5);
 
   // 아래는 categories 변화 감지 예시 코드입니다.
   useEffect(() => {
@@ -80,6 +81,7 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
                     key={category}
                     value={category}
                     isChecked={isCategorySelected(category)}
+                    isDisabled={isSelectionLimitReached() && !isCategorySelected(category)}
                     onClick={() => {
                       selectCategory(category);
                     }}

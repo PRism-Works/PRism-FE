@@ -11,7 +11,8 @@ import { useProjectCategory } from '@/hooks/useProjectCategory';
 import { useEffect } from 'react';
 
 export default function Step3() {
-  const { categories, isCategorySelected, selectCategory } = useProjectCategory();
+  const { categories, isCategorySelected, selectCategory, isSelectionLimitReached } =
+    useProjectCategory();
 
   // useEffect로 categories 변화 감지, 나중에 여기서 hook form에 setValue 하기
   // 아래는 수정 예정입니다.
@@ -87,6 +88,7 @@ export default function Step3() {
                 key={category}
                 value={category}
                 isChecked={isCategorySelected(category)}
+                isDisabled={isSelectionLimitReached() && !isCategorySelected(category)}
                 onClick={() => {
                   selectCategory(category);
                 }}

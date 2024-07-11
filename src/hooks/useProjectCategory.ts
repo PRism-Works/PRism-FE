@@ -19,11 +19,13 @@ export function useProjectCategory(maxSelections: number = 3) {
     });
   };
 
-  const isCategorySelected = (category: string) => categories.has(category);
+  const isCategorySelected = (category: string): boolean => categories.has(category);
+  const isSelectionLimitReached = (): boolean => categories.size >= maxSelections;
 
   return {
     categories,
     selectCategory,
     isCategorySelected,
+    isSelectionLimitReached,
   };
 }
