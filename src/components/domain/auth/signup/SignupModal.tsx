@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useReducer } from 'react';
+import React, { useId, useState, useEffect, useReducer } from 'react';
 import ModalLayout from '@/components/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
@@ -23,6 +23,9 @@ export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const [isAgreed, setIsAgreed] = useReducer((state) => !state, false);
+
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const formMethods = useForm<SignupForm>({
     mode: 'onChange',
@@ -52,6 +55,36 @@ export default function SignupModal() {
 
   const isEmailValid = !errors.email && email.length > 0;
   const isCertificationValid = !errors.certification && certification.length === 4;
+
+  const handleGetCertification = () => {
+    // 타이머를 5분(300초)으로 설정
+    setTimeLeft(300);
+    if (timerId) clearInterval(timerId);
+
+    const newTimerId = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(newTimerId);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    setTimerId(newTimerId);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerId) clearInterval(timerId);
+    };
+  }, [timerId]);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
 
   return (
     <ModalLayout
@@ -110,9 +143,10 @@ export default function SignupModal() {
                       />
                     </FormControl>
                     <Button
-                      className="h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isEmailValid}>
-                      중복확인
+                      className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                      disabled={!isEmailValid}
+                      onClick={handleGetCertification}>
+                      인증번호 받기
                     </Button>
                   </div>
                   <FormMessage>{errors.email?.message}</FormMessage>
@@ -130,22 +164,31 @@ export default function SignupModal() {
                   <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
                     인증번호
                   </FormLabel>
+
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
-                      <Input
-                        type="text"
-                        id={`${id}-signup-certification`}
-                        placeholder="0000"
-                        {...field}
-                        className="w-full flex-grow sm:w-auto"
-                      />
+                      <div className="relative w-full flex-grow sm:w-auto">
+                        <Input
+                          type="text"
+                          id={`${id}-signup-certification`}
+                          placeholder="이메일로 전송된 인증번호를 입력해 주세요."
+                          {...field}
+                          className="w-full pr-12"
+                        />
+                        {timeLeft > 0 && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
+                            {formatTime(timeLeft)}
+                          </span>
+                        )}
+                      </div>
                     </FormControl>
                     <Button
-                      className="h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                      className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                       disabled={!isCertificationValid}>
                       인증하기
                     </Button>
                   </div>
+
                   <FormMessage>{errors.certification?.message}</FormMessage>
                 </FormItem>
               )}
