@@ -10,7 +10,7 @@ export const SignupSchema = z
     email: z
       .string()
       .email('올바른 이메일을 입력해 주세요.')
-      .max(320, '이메일 주소는 최대 320자까지 입력 가능합니다.'),
+      .max(100, '이메일 주소는 최대 100자까지 입력 가능합니다.'),
     certification: z
       .string()
       .length(4, '인증번호는 4자리 숫자여야 합니다.')
