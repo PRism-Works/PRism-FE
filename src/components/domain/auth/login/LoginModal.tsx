@@ -4,14 +4,21 @@ import React, { useId } from 'react';
 import ModalLayout from '@/components/modal/ModalLayout';
 import { useModalStore } from '@/stores/modalStore';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema, LoginForm } from '@/models/authModels';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import SignupModal from '../signup/SignupModal';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 export default function LoginModal() {
   const id = useId();
@@ -43,17 +50,17 @@ export default function LoginModal() {
   };
 
   return (
-    <FormProvider {...formMethods}>
-      <ModalLayout
-        title="로그인"
-        footer={
-          <ModalLayout.ConfirmButton
-            title="로그인"
-            isSmallScreen={isSmallScreen}
-            onClick={handleSubmit(onSubmit)}
-            disabled={!isValid}
-          />
-        }>
+    <ModalLayout
+      title="로그인"
+      footer={
+        <ModalLayout.ConfirmButton
+          title="로그인"
+          isSmallScreen={isSmallScreen}
+          onClick={handleSubmit(onSubmit)}
+          disabled={!isValid}
+        />
+      }>
+      <Form {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-12 grid w-full max-w-[420px] items-center gap-1">
             <FormField
@@ -122,7 +129,7 @@ export default function LoginModal() {
             </div>
           </div>
         </form>
-      </ModalLayout>
-    </FormProvider>
+      </Form>
+    </ModalLayout>
   );
 }

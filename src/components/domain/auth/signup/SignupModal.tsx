@@ -3,14 +3,21 @@
 import React, { useId, useReducer } from 'react';
 import ModalLayout from '@/components/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema, SignupForm } from '@/models/authModels';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import { CheckCircle2 } from 'lucide-react';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 export default function SignupModal() {
   const id = useId();
@@ -47,17 +54,17 @@ export default function SignupModal() {
   const isCertificationValid = !errors.certification && certification.length === 4;
 
   return (
-    <FormProvider {...formMethods}>
-      <ModalLayout
-        title="회원가입"
-        footer={
-          <ModalLayout.ConfirmButton
-            title="회원가입하기"
-            isSmallScreen={isSmallScreen}
-            onClick={handleSubmit(onSubmit)}
-            disabled={!isValid || !isAgreed}
-          />
-        }>
+    <ModalLayout
+      title="회원가입"
+      footer={
+        <ModalLayout.ConfirmButton
+          title="회원가입하기"
+          isSmallScreen={isSmallScreen}
+          onClick={handleSubmit(onSubmit)}
+          disabled={!isValid || !isAgreed}
+        />
+      }>
+      <Form {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-8 grid w-full max-w-[420px] items-center gap-1">
             <FormField
@@ -221,7 +228,7 @@ export default function SignupModal() {
             </div>
           </div>
         </form>
-      </ModalLayout>
-    </FormProvider>
+      </Form>
+    </ModalLayout>
   );
 }
