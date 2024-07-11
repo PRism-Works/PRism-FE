@@ -16,6 +16,7 @@ interface ModalLayoutProps {
   children?: React.ReactNode;
   footer?: React.ReactNode;
   showCloseButton?: boolean;
+  preventOutsideClose?: boolean;
 }
 
 export default function ModalLayout({
@@ -24,6 +25,7 @@ export default function ModalLayout({
   children,
   footer,
   showCloseButton = true,
+  preventOutsideClose = true,
 }: ModalLayoutProps) {
   const closeModal = useModalStore((state) => state.closeModal);
   const hasDescription = !!description;
@@ -31,7 +33,12 @@ export default function ModalLayout({
     <Dialog open onOpenChange={closeModal}>
       <DialogContent
         className="max-h-[90vh] overflow-y-auto p-11"
-        showCloseButton={showCloseButton}>
+        showCloseButton={showCloseButton}
+        onInteractOutside={(event) => {
+          if (preventOutsideClose) {
+            event.preventDefault();
+          }
+        }}>
         <DialogHeader className="flex flex-col items-center text-center">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription className={`${hasDescription ? '' : 'hidden'}`}>
