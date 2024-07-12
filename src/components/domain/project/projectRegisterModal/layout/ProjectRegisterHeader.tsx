@@ -1,10 +1,11 @@
-import { STEPS } from '@/models/projectModels';
+import type { ProjectRegisterHeaderStep } from '@/models/projectModels';
 
-interface HeaderProps {
+interface ProjectRegisterHeaderProps {
   currStep: number;
+  STEPS: ProjectRegisterHeaderStep[];
 }
 
-export default function ProjectRegisterHeader({ currStep }: HeaderProps) {
+export default function ProjectRegisterHeader({ currStep, STEPS }: ProjectRegisterHeaderProps) {
   const step = STEPS[currStep];
   return (
     <div className="mb-[16px] flex items-center justify-center">
