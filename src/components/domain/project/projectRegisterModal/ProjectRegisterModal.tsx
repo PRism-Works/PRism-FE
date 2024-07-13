@@ -5,9 +5,11 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Form } from '@/components/ui/form';
+
 import { HeartHandshake, LucideFileEdit, UserCheck } from 'lucide-react';
 
 import ModalLayout from '@/components/common/modal/ModalLayout';
+import ProgressBar from '@/components/common/progressBar/ProgressBar';
 
 //import { useMediaQuery } from '@/hooks/useMediaQuery';
 
@@ -45,7 +47,6 @@ const MAX_STEP = STEPS.length - 1;
 
 export default function ProjectRegisterModal() {
   //const isSmallScreen = useMediaQuery('(max-width: 430px)');
-
   // 기능 붙일 때 추가 예정
   const formMethods = useForm<ProjectForm>({
     mode: 'onChange',
@@ -102,7 +103,7 @@ export default function ProjectRegisterModal() {
           MAX_STEP={MAX_STEP}
         />
       }>
-      <div className="mb-[6px] h-[430px] overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
+      <div className="mb-[6px] h-[430px] w-full overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
         <Form {...formMethods}>
           <FormProvider {...formMethods}>
             <form className="flex flex-col">
