@@ -1,15 +1,16 @@
+import { useEffect } from 'react';
+import { useProjectCategory } from '@/hooks/useProjectCategory';
+
 import TagInput from '@/components/common/input/TagInput';
-import { IconInput } from '@/components/common/input/IconInput';
+import IconInput from '@/components/common/input/IconInput';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
+import InformationTooltip from '@/components/common/information/InfoTooltip';
+import MaxLengthMultiTextArea from '@/components/common/input/MaxLengthMultiTextInput';
 
 import { FormControl, FormDescription, FormItem, FormLabel } from '@/components/ui/form';
 import { Paperclip } from 'lucide-react';
 
 import { ProjectCategories } from '@/utils/tagList';
-import { useProjectCategory } from '@/hooks/useProjectCategory';
-import { useEffect } from 'react';
-import InformationTooltip from '@/components/common/information/InfoTooltip';
-import MaxLengthTextInput from '@/components/common/input/MaxLengthTextInput';
 
 export default function Step3() {
   const { categories, isCategorySelected, selectCategory, isSelectionLimitReached } =
@@ -32,13 +33,11 @@ export default function Step3() {
           프로젝트를 소개할 수 있는 관련 링크를 작성해 주세요.
         </FormDescription>
         <FormControl>
-          <div className="relative w-full">
-            <IconInput
-              className="w-full"
-              svgIcon={<Paperclip className="h-4 w-4 stroke-gray-400" />}
-              placeholder="프로젝트 산출물 혹은 팀페이지 링크"
-            />
-          </div>
+          <IconInput
+            className="w-full"
+            svgIcon={<Paperclip className="h-4 w-4 stroke-gray-400" />}
+            placeholder="프로젝트 산출물 혹은 팀페이지 링크"
+          />
         </FormControl>
       </FormItem>
       <FormItem>
@@ -61,13 +60,13 @@ export default function Step3() {
           공들여 완수한 프로젝트에 대해 간략하게 설명해 주세요.
         </FormDescription>
         <FormControl>
-          <MaxLengthTextInput maxLength={300} className="w-full" placeholder="텍스트 입력..." />
+          <MaxLengthMultiTextArea maxLength={300} className="w-full" placeholder="텍스트 입력..." />
         </FormControl>
       </FormItem>
       <FormItem>
         <FormLabel className="mobile1">카테고리</FormLabel>
         <FormDescription className="text-gray-500 caption">
-          산출물 서비스의 카테고리를 선택해 주세요. (최대 3개 선택)
+          프로젝트의 카테고리를 선택해 주세요. (최대 3개 선택)
         </FormDescription>
         <div className="flex flex-wrap gap-1">
           {ProjectCategories.map((category) => {

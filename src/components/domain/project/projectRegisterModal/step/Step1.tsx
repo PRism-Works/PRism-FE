@@ -33,17 +33,15 @@ export default function Step1() {
             <FormDescription className="text-gray-500">
               서비스 이름 혹은 팀명을 입력해 주세요.
             </FormDescription>
-            <div className="relative">
-              <FormControl>
-                <MaxLengthTextInput
-                  errorMessage={errors.project_name?.message}
-                  maxLength={50}
-                  className={`w-full`}
-                  placeholder="이름"
-                  {...field}
-                />
-              </FormControl>
-            </div>
+            <FormControl>
+              <MaxLengthTextInput
+                errorMessage={errors.project_name?.message}
+                maxLength={50}
+                className={`w-full`}
+                placeholder="이름"
+                {...field}
+              />
+            </FormControl>
           </FormItem>
         )}
       />
