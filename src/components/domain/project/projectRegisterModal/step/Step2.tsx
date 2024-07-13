@@ -35,7 +35,7 @@ export default function Step2() {
   };
 
   return (
-    <>
+    <div className="flex flex-col">
       <FormItem className="mb-[25px]">
         <FormLabel className="text-purple-500 mobile1">팀원정보*</FormLabel>
         <FormDescription className="text-gray-500 caption">
@@ -129,6 +129,6 @@ export default function Step2() {
           +팀원 추가
         </button>
       </FormItem>
-    </>
+    </div>
   );
 }

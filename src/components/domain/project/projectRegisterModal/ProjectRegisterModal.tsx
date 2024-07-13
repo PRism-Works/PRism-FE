@@ -106,7 +106,7 @@ export default function ProjectRegisterModal() {
       <div className="mb-[6px] h-[430px] w-full overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
         <Form {...formMethods}>
           <FormProvider {...formMethods}>
-            <form className="flex flex-col">
+            <form>
               {currStep === 0 && <Step1 />}
               {currStep === 1 && <Step2 />}
               {currStep === 2 && <Step3 />}
