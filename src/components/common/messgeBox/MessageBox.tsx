@@ -1,6 +1,6 @@
 'use client';
 
-import ModalLayout from '@/components/modal/ModalLayout';
+import ModalLayout from '@/components/common/modal/ModalLayout';
 import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/modalStore';
 
