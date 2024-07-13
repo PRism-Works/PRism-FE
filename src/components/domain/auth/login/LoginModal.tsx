@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import SignupModal from '../signup/SignupModal';
+import ResetPasswordModal from '../resetPassword/ResetPasswordModal';
 import {
   Form,
   FormControl,
@@ -47,6 +48,11 @@ export default function LoginModal() {
   const handleOpenSignupModal = () => {
     closeModal();
     openModal(<SignupModal />);
+  };
+
+  const handleOpenResetPasswordModal = () => {
+    closeModal();
+    openModal(<ResetPasswordModal />);
   };
 
   return (
@@ -124,7 +130,8 @@ export default function LoginModal() {
               <span className="-mt-2 ml-2 text-gray-400">비밀번호를 잊으셨나요?</span>
               <Button
                 variant="link"
-                className={`-mt-2 w-full max-w-[100px] text-right text-gray-400 underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                className={`-mt-2 w-full max-w-[100px] text-right text-gray-400 underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+                onClick={handleOpenResetPasswordModal}>
                 비밀번호찾기
               </Button>
             </div>
