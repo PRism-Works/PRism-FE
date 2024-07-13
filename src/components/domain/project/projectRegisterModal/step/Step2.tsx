@@ -36,12 +36,15 @@ export default function Step2() {
     const isDefaultMember = index === 0; // 수정 불가 멤버인지 여부 (프로젝트 등록자인 경우, default 값으로 세팅 되어있음)
     const priorityErrorIndex = getPriorityErrorIndex(index);
 
+    const planetKeys = Object.keys(PlanetIcons) as Array<keyof typeof PlanetIcons>;
+    const PlanetIcon = PlanetIcons[planetKeys[index % planetKeys.length]];
+
     return (
       <li key={field.id}>
         {isDefaultMember && <MemberFieldLabels />}
         <div className="flex w-full items-center gap-[6px]">
           <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">
-            <PlanetIcons.Planet1 />
+            <PlanetIcon />
           </span>
           <MemberInputField
             name={`members.${index}.name`}
@@ -55,7 +58,7 @@ export default function Step2() {
             disabled={isDefaultMember}
             className={cn('w-full', getErrorClass(index, 'email'))}
           />
-          {!isDefaultMember && <RemoveButton onRemove={() => remove(index)} />}
+          {!isDefaultMember && <RemoveMemberButton onRemove={() => remove(index)} />}
         </div>
         <ErrorMessage index={index} priorityErrorIndex={priorityErrorIndex} />
         <RolesField index={index} priorityErrorIndex={priorityErrorIndex} />
@@ -111,7 +114,7 @@ const MemberInputField = ({
   />
 );
 
-const RemoveButton = ({ onRemove }: { onRemove: () => void }) => (
+const RemoveMemberButton = ({ onRemove }: { onRemove: () => void }) => (
   <span onClick={onRemove}>
     <XCircle className="h-6 w-6 cursor-pointer stroke-gray-400 stroke-[1px] hover:fill-gray-200" />
   </span>

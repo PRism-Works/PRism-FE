@@ -1,3 +1,5 @@
+import { FC, SVGProps } from 'react';
+
 import Planet1 from './planet-1.svg';
 import Planet2 from './planet-2.svg';
 import Planet3 from './planet-3.svg';
@@ -11,7 +13,7 @@ import Planet10 from './planet-10.svg';
 import Planet11 from './planet-11.svg';
 import Planet12 from './planet-12.svg';
 
-export const PlanetIcons = {
+export const PlanetIcons: Record<string, FC<SVGProps<SVGSVGElement>>> = {
   Planet1,
   Planet2,
   Planet3,

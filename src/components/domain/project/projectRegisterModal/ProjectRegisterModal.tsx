@@ -57,9 +57,14 @@ export default function ProjectRegisterModal() {
       endDate: '2024-07-07',
       members: [
         {
-          name: '장세영',
-          email: 'rkfhadlwhgdk@naver.com',
-          roles: ['풀스택 개발자', '프론트 개발자', '기획자', '디자이너', 'PM', '기획자'],
+          name: '김프리즘',
+          email: 'prism@prism.com',
+          roles: ['프론트 개발자', '기획자', '디자이너', 'PM'],
+        },
+        {
+          name: '',
+          email: '',
+          roles: [],
         },
       ], // 로그인 한 사용자 기본 세팅
       projectUrlLink: '',
