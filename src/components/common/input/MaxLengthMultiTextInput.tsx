@@ -13,7 +13,7 @@ const MaxLengthMultiTextArea = forwardRef<HTMLTextAreaElement, MaxLengthMultiTex
     return (
       <div className="relative flex flex-col items-end gap-1">
         <Textarea
-          className={cn('pb-5', className)}
+          className={cn('resize-none pb-5', className)}
           ref={ref}
           maxLength={maxLength}
           onInput={(event) => {

@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 import {
   FormControl,
   FormDescription,
@@ -7,10 +9,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
-import { useFormContext } from 'react-hook-form';
-import type { ProjectForm } from '@/models/projectModels';
 import MaxLengthTextInput from '@/components/common/input/MaxLengthTextInput';
+
+import type { ProjectForm } from '@/models/projectModels';
 
 export default function Step1() {
   const {
@@ -23,10 +24,10 @@ export default function Step1() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <section className="flex flex-col gap-4">
       <FormField
         control={control}
-        name="project_name"
+        name="projectName"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-purple-500 mobile1">프로젝트 명*</FormLabel>
@@ -35,7 +36,7 @@ export default function Step1() {
             </FormDescription>
             <FormControl>
               <MaxLengthTextInput
-                errorMessage={errors.project_name?.message}
+                errorMessage={errors.projectName?.message}
                 maxLength={50}
                 className={`w-full`}
                 placeholder="이름"
@@ -47,7 +48,7 @@ export default function Step1() {
       />
       <FormField
         control={control}
-        name="organization_name"
+        name="organizationName"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="mobile1">기관명</FormLabel>
@@ -68,7 +69,7 @@ export default function Step1() {
       {/* 임시 Input -> shadcn 샘플 date picker로 수정 예정, 임시로 start_date로 위치만 잡음 */}
       <FormField
         control={control}
-        name="start_date"
+        name="startDate"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-purple-500 mobile1">프로젝트 기간*</FormLabel>
@@ -76,12 +77,12 @@ export default function Step1() {
               프로젝트 기간을 입력해 주세요.
             </FormDescription>
             <FormControl>
-              <Input type="date" className={`w-full ${getErrorClass('start_date')}`} {...field} />
+              <Input type="date" className={`w-full ${getErrorClass('startDate')}`} {...field} />
             </FormControl>
             <FormMessage className="text-danger-500" />
           </FormItem>
         )}
       />
-    </div>
+    </section>
   );
 }

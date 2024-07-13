@@ -39,7 +39,7 @@ export default function ProjectRegisterFooter({
         {isLastStep && (
           <Button
             onClick={handleExternalSubmit}
-            className="rounded-[10px] px-[16px] py-[10px] text-white mobile1 bg-purple-indigo-gradient">
+            className="rounded-[10px] bg-purple-500 px-[16px] py-[10px] text-white mobile1">
             등록하기
           </Button>
         )}
