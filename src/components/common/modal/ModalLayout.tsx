@@ -10,12 +10,17 @@ import {
 import { useModalStore } from '@/stores/modalStore';
 import { Button } from '@/components/ui/button';
 
+import { cn } from '@/lib/utils';
+
 interface ModalLayoutProps {
   title?: React.ReactNode;
   description?: string;
   children?: React.ReactNode;
   footer?: React.ReactNode;
+  contentClassName?: string;
   showCloseButton?: boolean;
+  preventOutsideClose?: boolean;
+  transparentOverlay?: boolean;
 }
 
 export default function ModalLayout({
@@ -23,18 +28,27 @@ export default function ModalLayout({
   description,
   children,
   footer,
+  contentClassName = '',
   showCloseButton = true,
+  preventOutsideClose = true,
+  transparentOverlay = false,
 }: ModalLayoutProps) {
   const closeModal = useModalStore((state) => state.closeModal);
   const hasDescription = !!description;
   return (
     <Dialog open onOpenChange={closeModal}>
       <DialogContent
-        className="max-h-[90vh] overflow-y-auto p-11"
-        showCloseButton={showCloseButton}>
-        <DialogHeader className="flex flex-col items-center text-center">
+        className={cn(`max-h-[90vh] overflow-y-auto p-11`, contentClassName)}
+        showCloseButton={showCloseButton}
+        transparentOverlay={transparentOverlay}
+        onInteractOutside={(event) => {
+          if (preventOutsideClose) {
+            event.preventDefault();
+          }
+        }}>
+        <DialogHeader className="flex-col-center">
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription className={`${hasDescription ? '' : 'hidden'}`}>
+          <DialogDescription className={cn('mobile1', hasDescription ? '' : 'hidden')}>
             {hasDescription ? description : ''}
           </DialogDescription>
         </DialogHeader>
@@ -52,6 +66,7 @@ interface ConfirmButtonProps {
   disabled?: boolean;
 }
 
+// 전체 너비의 확인 버튼
 const ConfirmButton = ({ title, isSmallScreen, onClick, disabled }: ConfirmButtonProps) => {
   return (
     <Button

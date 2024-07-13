@@ -31,15 +31,18 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { showCloseButton?: boolean }
->(({ className, children, showCloseButton = true, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+    showCloseButton?: boolean;
+    transparentOverlay?: boolean;
+  }
+>(({ className, children, showCloseButton = true, transparentOverlay = false, ...props }, ref) => (
   <DialogPortal>
-    <DialogOverlay />
+    <DialogOverlay className={transparentOverlay ? 'bg-black/0' : ''} />
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          'relative mx-4 w-full max-w-lg rounded-[30px] border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:mx-0',
+          'relative mx-4 w-full max-w-2xl rounded-[30px] border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:mx-0',
           className,
         )}
         {...props}>

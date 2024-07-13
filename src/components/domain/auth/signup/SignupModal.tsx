@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useId, useState, useEffect, useReducer } from 'react';
-import ModalLayout from '@/components/modal/ModalLayout';
+import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -88,6 +88,7 @@ export default function SignupModal() {
 
   return (
     <ModalLayout
+      contentClassName="max-w-[500px]"
       title="회원가입"
       footer={
         <ModalLayout.ConfirmButton

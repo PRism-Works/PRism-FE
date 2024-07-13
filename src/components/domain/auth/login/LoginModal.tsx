@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useId } from 'react';
-import ModalLayout from '@/components/modal/ModalLayout';
+import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useModalStore } from '@/stores/modalStore';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
@@ -51,6 +51,7 @@ export default function LoginModal() {
 
   return (
     <ModalLayout
+      contentClassName="max-w-[500px]"
       title="로그인"
       footer={
         <ModalLayout.ConfirmButton
