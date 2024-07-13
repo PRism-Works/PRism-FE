@@ -18,14 +18,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { checkEmailExists } from '@/apis/auth'; // Email 중복 검사 API
 
 export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const [isAgreed, setIsAgreed] = useReducer((state) => !state, false);
 
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [isCertified, setIsCertified] = useState(false);
 
   const formMethods = useForm<SignupForm>({
     mode: 'onChange',
@@ -43,18 +46,33 @@ export default function SignupModal() {
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    getValues,
+    setError,
+    clearErrors,
   } = formMethods;
 
-  // NOTE: alert는 api 연동하면서 수정할 예정입니다. 현재는 data를 담고 있습니다.
   const onSubmit = (data: SignupForm) => {
     alert(JSON.stringify(data));
   };
 
-  const email = watch('email');
-  const certification = watch('certification');
-
-  const isEmailValid = !errors.email && email.length > 0;
-  const isCertificationValid = !errors.certification && certification.length === 4;
+  const handleCheckEmail = async () => {
+    const email = getValues('email');
+    try {
+      const response = await checkEmailExists(email);
+      if (response.data) {
+        setError('email', {
+          type: 'manual',
+          message: '이미 존재하는 이메일입니다. 다른 이메일로 시도해 주세요.',
+        });
+      } else {
+        clearErrors('email');
+        setIsEmailChecked(true);
+        alert('사용 가능한 이메일입니다.');
+      }
+    } catch (error) {
+      setError('email', { type: 'manual', message: '이메일 확인 중 오류가 발생했습니다.' });
+    }
+  };
 
   const handleGetCertification = () => {
     // 타이머를 5분(300초)으로 설정
@@ -86,6 +104,12 @@ export default function SignupModal() {
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
+  const email = watch('email');
+  const certification = watch('certification');
+
+  const isEmailValid = !errors.email && email.length > 0;
+  const isCertificationValid = !errors.certification && certification.length === 4;
+
   return (
     <ModalLayout
       contentClassName="max-w-[500px]"
@@ -95,7 +119,7 @@ export default function SignupModal() {
           title="회원가입하기"
           isSmallScreen={isSmallScreen}
           onClick={handleSubmit(onSubmit)}
-          disabled={!isValid || !isAgreed}
+          disabled={!isValid || !isAgreed || !isCertified}
         />
       }>
       <Form {...formMethods}>
@@ -140,15 +164,24 @@ export default function SignupModal() {
                         id={`${id}-signup-email`}
                         placeholder="prism12@gmail.com"
                         {...field}
+                        disabled={isEmailChecked}
                         className="w-full flex-grow sm:w-auto"
                       />
                     </FormControl>
-                    <Button
-                      className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isEmailValid}
-                      onClick={handleGetCertification}>
-                      인증번호 받기
-                    </Button>
+                    {isEmailChecked ? (
+                      <Button
+                        className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                        onClick={handleGetCertification}>
+                        인증번호 받기
+                      </Button>
+                    ) : (
+                      <Button
+                        className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                        disabled={!isEmailValid}
+                        onClick={handleCheckEmail}>
+                        중복확인
+                      </Button>
+                    )}
                   </div>
                   <FormMessage>{errors.email?.message}</FormMessage>
                 </FormItem>
@@ -165,7 +198,6 @@ export default function SignupModal() {
                   <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
                     인증번호
                   </FormLabel>
-
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
                       <div className="relative w-full flex-grow sm:w-auto">
@@ -174,6 +206,7 @@ export default function SignupModal() {
                           id={`${id}-signup-certification`}
                           placeholder="이메일로 전송된 인증번호를 입력해 주세요."
                           {...field}
+                          maxLength={4}
                           className="w-full pr-12"
                         />
                         {timeLeft > 0 && (
@@ -185,11 +218,12 @@ export default function SignupModal() {
                     </FormControl>
                     <Button
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isCertificationValid}>
+                      disabled={!isCertificationValid}
+                      onClick={() => setIsCertified(true)}>
                       인증하기
                     </Button>
                   </div>
-
+                  {isCertified && <p className="text-success-500">인증이 완료되었습니다!</p>}
                   <FormMessage>{errors.certification?.message}</FormMessage>
                 </FormItem>
               )}
