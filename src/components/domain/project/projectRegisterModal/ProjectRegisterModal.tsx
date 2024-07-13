@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { HeartHandshake, LucideFileEdit, UserCheck } from 'lucide-react';
 
-import ModalLayout from '@/components/modal/ModalLayout';
+import ModalLayout from '@/components/common/modal/ModalLayout';
 
 //import { useMediaQuery } from '@/hooks/useMediaQuery';
 
@@ -90,6 +90,7 @@ export default function ProjectRegisterModal() {
   // isValid={true} 값 수정 필요
   return (
     <ModalLayout
+      contentClassName="max-w-[500px]"
       title={<ProjectRegisterHeader currStep={currStep} STEPS={STEPS} />}
       footer={
         <ProjectRegisterFooter
@@ -101,7 +102,7 @@ export default function ProjectRegisterModal() {
           MAX_STEP={MAX_STEP}
         />
       }>
-      <div className="mb-[6px] h-[430px] w-full overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
+      <div className="mb-[6px] h-[430px] overflow-auto rounded-[10px] bg-gray-50 p-[18px]">
         <Form {...formMethods}>
           <FormProvider {...formMethods}>
             <form className="flex flex-col">
