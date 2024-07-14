@@ -22,4 +22,4 @@ const IconInput = forwardRef<HTMLInputElement, IconInputProps>(
 
 IconInput.displayName = 'IconInput';
 
-export { IconInput };
+export default IconInput;
