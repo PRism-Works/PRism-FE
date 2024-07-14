@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react';
-import './PageSpinner.module.css';
 
 export default function PageSpinner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext('2d')!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     const PI = Math.PI;
     const TAU = PI * 2;
     const width = 200;
@@ -16,6 +19,7 @@ export default function PageSpinner() {
     let globalAngle = 0;
     let tick = 0;
     let lastFrameTime = 0;
+    let animationFrameId: number;
 
     class Particle {
       x: number;
@@ -52,6 +56,7 @@ export default function PageSpinner() {
       }
 
       draw(i: number) {
+        if (!ctx) return;
         ctx.fillStyle = `hsla(${tick + this.life * 120}, 100%, 60%, ${this.life})`;
         ctx.strokeStyle = `hsla(${tick + this.life * 120}, 100%, 60%, ${this.life})`;
         ctx.beginPath();
@@ -101,6 +106,7 @@ export default function PageSpinner() {
     }
 
     function draw() {
+      if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((particle, i) => {
@@ -109,23 +115,32 @@ export default function PageSpinner() {
     }
 
     function loop(currentTime: number) {
-      window.requestAnimationFrame(loop);
+      animationFrameId = window.requestAnimationFrame(loop);
       const deltaTime = currentTime - lastFrameTime;
 
       if (deltaTime > 16) {
         lastFrameTime = currentTime;
         step();
         draw();
-        tick++;
+        tick += 2;
       }
     }
 
-    window.requestAnimationFrame(loop);
+    animationFrameId = window.requestAnimationFrame(loop);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      if (ctx) {
+        ctx.clearRect(0, 0, width, height);
+      }
+    };
   }, []);
 
   return (
-    <div className="page-spinner">
-      <canvas ref={canvasRef} className="canvas"></canvas>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-80">
+      <div className="relative">
+        <canvas ref={canvasRef} className="block"></canvas>
+      </div>
     </div>
   );
 }
