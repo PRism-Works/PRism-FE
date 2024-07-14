@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { KeyboardEvent, ChangeEvent, useEffect, useRef, useState } from 'react';
 
 interface TagInputProps {
@@ -56,7 +57,10 @@ export default function TagInput({
 
   return (
     <div
-      className={`flex w-fit items-center justify-between ${className} overflow-hidden rounded-[6px]`}>
+      className={cn(
+        'flex w-fit items-center justify-between overflow-hidden rounded-[6px]',
+        className,
+      )}>
       {prefixChar && <span className="ml-[6px] flex-center">{prefixChar}</span>}
       <input
         spellCheck={false}
@@ -64,14 +68,17 @@ export default function TagInput({
         maxLength={maxLength}
         disabled={isDisabled}
         style={{ width: `${tagWidth}px` }}
-        className={`px-[6px] py-[4px] display5 focus-visible:outline-none ${className}`}
+        className={cn('px-[6px] py-[4px] display5 focus-visible:outline-none', className)}
         placeholder={placeholder}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
       <span
         ref={fakeSpanRef}
-        className={`invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px] ${className}`}>
+        className={cn(
+          'invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px]',
+          className,
+        )}>
         {spanText}
       </span>
     </div>
