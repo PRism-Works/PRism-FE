@@ -5,7 +5,6 @@ import IconInput from '@/components/common/input/IconInput';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import TagInput from '@/components/common/input/TagInput';
 import { ProjectCategories } from '@/utils/tagList';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
 import { useProjectCategory } from '@/hooks/useProjectCategory';
@@ -72,22 +71,27 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
         <div className="mt-2">
           {/* NOTE : 태그 회의 후 상세보기 내용 추가 예정 */}
           {/* #20240710.syjang, CheckTagInput 사용 예시 작성하려 임의로 코드 작성했습니다. 아래는 참고만 부탁드립니다. */}
-          <div className="flex gap-4">
-            <TagInput className="px-3 py-1 display6 tag-indigo" defaultValue="카테고리" />
-            <div className="flex gap-1">
-              {ProjectCategories.map((category) => {
-                return (
-                  <CheckTagInput
-                    key={category}
-                    value={category}
-                    isChecked={isCategorySelected(category)}
-                    isDisabled={isSelectionLimitReached() && !isCategorySelected(category)}
-                    onClick={() => {
-                      selectCategory(category);
-                    }}
-                  />
-                );
-              })}
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap gap-3">
+              <ConditionLabel label="카테고리" />
+              <div className="flex flex-wrap gap-1">
+                {ProjectCategories.map((category) => {
+                  return (
+                    <CheckTagInput
+                      key={category}
+                      value={category}
+                      isChecked={isCategorySelected(category)}
+                      isDisabled={isSelectionLimitReached() && !isCategorySelected(category)}
+                      onClick={() => {
+                        selectCategory(category);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <ConditionLabel label="기관명" />
             </div>
           </div>
         </div>
@@ -95,3 +99,11 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
     </div>
   );
 }
+
+const ConditionLabel = ({ label }: { label: string }) => {
+  return (
+    <span className="h-9 w-20 rounded-[6px] bg-indigo-50 px-3 py-2 text-center text-indigo-500 display6">
+      {label}
+    </span>
+  );
+};
