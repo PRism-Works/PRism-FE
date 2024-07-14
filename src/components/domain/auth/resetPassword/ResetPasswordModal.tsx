@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId } from 'react';
+import React, { useId, useState, useEffect } from 'react';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
@@ -22,6 +22,9 @@ import {
 export default function ResetPasswordModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
+
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const formMethods = useForm<ResetPasswordForm>({
     mode: 'onChange',
@@ -51,6 +54,37 @@ export default function ResetPasswordModal() {
 
   const isEmailValid = !errors.email && email.length > 0;
   const isCertificationValid = !errors.certification && certification.length === 4;
+
+  const handleGetCertification = () => {
+    setTimeLeft(300);
+    if (timerId) clearInterval(timerId);
+
+    const newTimerId = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(newTimerId);
+          // 타이머가 종료되면 이메일 주소 입력 필드와 인증번호 받기 버튼을 활성화
+          setTimerId(null);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    setTimerId(newTimerId);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerId) clearInterval(timerId);
+    };
+  }, [timerId]);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
 
   return (
     <ModalLayout
@@ -106,11 +140,14 @@ export default function ResetPasswordModal() {
                         placeholder="prism12@gmail.com"
                         {...field}
                         className="w-full flex-grow sm:w-auto"
+                        // 타이머가 동작 중일 때는 이메일 입력 필드를 비활성화
+                        disabled={timerId !== null}
                       />
                     </FormControl>
                     <Button
                       className="h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isEmailValid}>
+                      disabled={!isEmailValid || timerId !== null} // 타이머가 동작 중일 때는 버튼을 비활성화
+                      onClick={handleGetCertification}>
                       인증번호 받기
                     </Button>
                   </div>
@@ -131,13 +168,20 @@ export default function ResetPasswordModal() {
                   </FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
-                      <Input
-                        type="text"
-                        id={`${id}-reset-password-certification`}
-                        placeholder="0000"
-                        {...field}
-                        className="w-full flex-grow sm:w-auto"
-                      />
+                      <div className="relative w-full flex-grow sm:w-auto">
+                        <Input
+                          type="text"
+                          id={`${id}-reset-password-certification`}
+                          placeholder="0000"
+                          {...field}
+                          className="w-full pr-12"
+                        />
+                        {timeLeft > 0 && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
+                            {formatTime(timeLeft)}
+                          </span>
+                        )}
+                      </div>
                     </FormControl>
                     <Button
                       className="h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
