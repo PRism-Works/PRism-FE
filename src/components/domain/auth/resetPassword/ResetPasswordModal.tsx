@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId } from 'react';
+import { useId, useState } from 'react';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
@@ -24,7 +24,13 @@ import {
 export default function ResetPasswordModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
-  const { timeLeft, startTimer } = useTimer(300);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handleTimerEnd = () => {
+    setIsButtonDisabled(false);
+  };
+
+  const { timeLeft, startTimer } = useTimer(300, handleTimerEnd);
 
   const formMethods = useForm<ResetPasswordForm>({
     mode: 'onChange',
@@ -114,8 +120,9 @@ export default function ResetPasswordModal() {
                     </FormControl>
                     <Button
                       className="h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isEmailValid || timeLeft > 0}
+                      disabled={!isEmailValid || timeLeft > 0 || isButtonDisabled}
                       onClick={() => {
+                        setIsButtonDisabled(true);
                         startTimer();
                         // NOTE: 인증번호 받기 API 호출 로직 추가 예정
                       }}>
