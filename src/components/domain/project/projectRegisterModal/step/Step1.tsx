@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 import {
   FormControl,
   FormDescription,
@@ -7,8 +9,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import MaxLengthTextInput from '@/components/common/input/MaxLengthTextInput';
 
-import { useFormContext } from 'react-hook-form';
 import type { ProjectForm } from '@/models/projectModels';
 
 export default function Step1() {
@@ -22,40 +24,44 @@ export default function Step1() {
   };
 
   return (
-    <>
+    <section className="flex flex-col gap-4">
       <FormField
         control={control}
-        name="project_name"
+        name="projectName"
         render={({ field }) => (
-          <FormItem className="mb-[28px]">
+          <FormItem>
             <FormLabel className="text-purple-500 mobile1">프로젝트 명*</FormLabel>
             <FormDescription className="text-gray-500">
               서비스 이름 혹은 팀명을 입력해 주세요.
             </FormDescription>
-            <div className="relative">
-              <FormControl>
-                <Input
-                  className={`w-full ${getErrorClass('project_name')}`}
-                  placeholder="이름"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage className="absolute bottom-[-20px] left-0 text-danger-500" />
-            </div>
+            <FormControl>
+              <MaxLengthTextInput
+                errorMessage={errors.projectName?.message}
+                maxLength={50}
+                className={`w-full`}
+                placeholder="이름"
+                {...field}
+              />
+            </FormControl>
           </FormItem>
         )}
       />
       <FormField
         control={control}
-        name="organization_name"
+        name="organizationName"
         render={({ field }) => (
-          <FormItem className="mb-[28px]">
+          <FormItem>
             <FormLabel className="mobile1">기관명</FormLabel>
             <FormDescription className="text-gray-500">
               주최 측 혹은 팀이 속한 커뮤니티를 입력해 주세요.
             </FormDescription>
             <FormControl>
-              <Input className={`w-full`} placeholder="기관명" {...field} />
+              <MaxLengthTextInput
+                maxLength={50}
+                className={`w-full`}
+                placeholder="기관명"
+                {...field}
+              />
             </FormControl>
           </FormItem>
         )}
@@ -63,7 +69,7 @@ export default function Step1() {
       {/* 임시 Input -> shadcn 샘플 date picker로 수정 예정, 임시로 start_date로 위치만 잡음 */}
       <FormField
         control={control}
-        name="start_date"
+        name="startDate"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-purple-500 mobile1">프로젝트 기간*</FormLabel>
@@ -71,12 +77,12 @@ export default function Step1() {
               프로젝트 기간을 입력해 주세요.
             </FormDescription>
             <FormControl>
-              <Input type="date" className={`w-full ${getErrorClass('start_date')}`} {...field} />
+              <Input type="date" className={`w-full ${getErrorClass('startDate')}`} {...field} />
             </FormControl>
             <FormMessage className="text-danger-500" />
           </FormItem>
         )}
       />
-    </>
+    </section>
   );
 }

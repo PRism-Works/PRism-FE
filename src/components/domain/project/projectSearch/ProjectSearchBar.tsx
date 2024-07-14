@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useReducer, useState } from 'react';
-import { IconInput } from '@/components/common/input/IconInput';
+import IconInput from '@/components/common/input/IconInput';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
