@@ -53,8 +53,8 @@ export default function ProjectRegisterModal() {
     defaultValues: {
       projectName: '',
       organizationName: '',
-      startDate: '2024-07-07',
-      endDate: '2024-07-07',
+      startDate: null,
+      endDate: null,
       members: [
         {
           name: '김프리즘',
