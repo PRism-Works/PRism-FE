@@ -25,8 +25,6 @@ export default function DatePickerWithRange<T extends FieldValues>({
   startDateFieldName,
   endDateFieldName,
 }: DatePickerWithRangeProps<T>) {
-  // const { control } = useFormContext();
-
   return (
     <FormField
       control={control}
