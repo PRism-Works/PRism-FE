@@ -177,10 +177,10 @@ const RolesField = ({
               <ul className="flex flex-wrap gap-1">
                 {field.value.map((role, roleIndex) => (
                   <li key={roleIndex}>
-                    <TagInput isDisabled={true} prefixChar="#" defaultValue={role} />
+                    <TagInput value={role} buttonType="delete" />
                   </li>
                 ))}
-                <TagInput isDisabled={true} prefixChar="#" placeholder="역할" />
+                <TagInput value="역할" buttonType="add" />
               </ul>
             </FormControl>
             {priorityErrorIndex === PRIORITY_ERROR_FIELDS.indexOf('roles') && (

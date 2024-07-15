@@ -1,86 +1,90 @@
 'use client';
 
+import React from 'react';
 import { cn } from '@/lib/utils';
-import { KeyboardEvent, ChangeEvent, useEffect, useRef, useState } from 'react';
+import { X } from 'lucide-react';
+
+type TagInputColor = 'purple' | 'indigo' | 'gray';
+type TagInputButton = 'delete' | 'add' | 'none';
+
+const colorConfig: Record<
+  TagInputColor,
+  { base: string; active: string; hover: string; iconHover: string }
+> = {
+  purple: {
+    base: 'bg-purple-100 text-purple-500',
+    active: 'text-purple-300',
+    hover: 'hover:bg-purple-200',
+    iconHover: 'group-hover:text-purple-600',
+  },
+  indigo: {
+    base: 'bg-indigo-50 text-indigo-500',
+    active: 'text-indigo-300',
+    hover: 'hover:bg-indigo-100',
+    iconHover: 'group-hover:text-indigo-600',
+  },
+  gray: {
+    base: 'bg-gray-100 text-gray-500',
+    active: 'text-gray-400',
+    hover: 'hover:bg-gray-200',
+    iconHover: 'group-hover:text-gray-600',
+  },
+};
 
 interface TagInputProps {
-  defaultValue?: string;
-  placeholder?: string;
-  prefixChar?: string;
-  maxLength?: number;
+  value: string;
+  buttonType?: TagInputButton;
+  colorThema?: TagInputColor;
   className?: string;
-  isDisabled?: boolean;
-  setValue?: (value: string) => void;
+  onClick?: () => void;
 }
 
 export default function TagInput({
-  defaultValue,
-  placeholder = '',
-  prefixChar = '',
-  maxLength = 50,
-  className = 'tag-purple',
-  isDisabled = false,
-  setValue,
+  value,
+  buttonType = 'none',
+  colorThema = 'purple',
+  className = '',
+  onClick = () => {},
 }: TagInputProps) {
-  // 초기 너비의 참조가 될 텍스트 지정 (우선순위 : defaultValue > placeholder)
-  const initialWidthReference: string = defaultValue || placeholder;
+  const { base, active, hover, iconHover } = colorConfig[colorThema];
 
-  const [tagWidth, setTagWidth] = useState<number>(0);
-  const fakeSpanRef = useRef<HTMLSpanElement>(null);
-  const [spanText, setSpanText] = useState<string>(initialWidthReference);
-
-  useEffect(() => {
-    if (fakeSpanRef.current) {
-      const width = fakeSpanRef.current.getBoundingClientRect().width;
-      setTagWidth(width);
-    }
-  }, [spanText]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const currText = event.target.value;
-
-    // input의 값이 빈 경우 placeholder 텍스트 크기를 구해야한다.
-    setSpanText(currText || placeholder);
-
-    // 텍스트가 바뀌면 컴포넌트에서 넘겨받은 setValue 함수를 호출시킨다.
-    if (setValue) {
-      setValue(currText);
-    }
-  };
-
-  // 엔터 키 이벤트 시, input 포커스 해제
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      event.currentTarget.blur();
-    }
+  const handleTagClick = () => {
+    if (onClick) onClick();
   };
 
   return (
     <div
       className={cn(
-        'flex w-fit items-center justify-between overflow-hidden rounded-[6px]',
+        'group flex w-fit cursor-pointer items-center justify-between gap-1 rounded-[6px] px-1.5 py-1 transition-colors display5',
+        base,
+        hover,
         className,
-      )}>
-      {prefixChar && <span className="ml-[6px] flex-center">{prefixChar}</span>}
-      <input
-        spellCheck={false}
-        defaultValue={defaultValue || ''}
-        maxLength={maxLength}
-        disabled={isDisabled}
-        style={{ width: `${tagWidth}px` }}
-        className={cn('px-[6px] py-[4px] display5 focus-visible:outline-none', className)}
-        placeholder={placeholder}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-      />
-      <span
-        ref={fakeSpanRef}
-        className={cn(
-          'invisible absolute left-0 top-0 -z-10 whitespace-pre px-[6px] py-[4px]',
-          className,
-        )}>
-        {spanText}
-      </span>
+      )}
+      onClick={handleTagClick}>
+      <span>#</span>
+      <span className={cn('whitespace-pre', buttonType === 'add' && active)}>{value}</span>
+      <ButtonIcon buttonType={buttonType} iconHover={iconHover} />
     </div>
   );
 }
+
+const ButtonIcon = ({
+  buttonType,
+  iconHover,
+}: {
+  buttonType: TagInputButton;
+  iconHover: string;
+}) => {
+  if (buttonType === 'none') return null;
+
+  return (
+    <X
+      className={cn(
+        'h-4 w-4 cursor-pointer transition-all',
+        buttonType === 'add' && 'rotate-45',
+        iconHover,
+        'group-hover:stroke-[2.5px]',
+      )}
+    />
+  );
+};

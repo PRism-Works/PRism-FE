@@ -268,15 +268,6 @@ const config: Config = {
           backgroundOrigin: 'border-box',
           backgroundClip: 'padding-box, border-box',
         },
-        '.tag-purple': {
-          '@apply bg-purple-100 text-purple-500 placeholder-purple-300': {},
-        },
-        '.tag-indigo': {
-          '@apply bg-indigo-50  text-indigo-500 placeholder-indigo-300': {},
-        },
-        '.tag-gray': {
-          '@apply bg-gray-100 text-gray-500 placeholder-gray-400': {},
-        },
       };
 
       addUtilities(newUtilities);
