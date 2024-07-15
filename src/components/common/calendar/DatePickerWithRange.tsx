@@ -3,14 +3,12 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
 import { CalendarIcon } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { cn, formatDateToKoreanStyle } from '@/lib/utils';
 
 import { FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
-const formatDate = (date: Date) => format(date, 'yyyy년 MM월 dd일', { locale: ko });
 
 interface DatePickerWithRangeProps<T extends FieldValues> {
   className?: string;
@@ -50,10 +48,11 @@ export default function DatePickerWithRange<T extends FieldValues>({
                     {startDateField.value ? (
                       endDateField.value ? (
                         <>
-                          {formatDate(startDateField.value)} - {formatDate(endDateField.value)}
+                          {formatDateToKoreanStyle(startDateField.value)} -{' '}
+                          {formatDateToKoreanStyle(endDateField.value)}
                         </>
                       ) : (
-                        formatDate(startDateField.value)
+                        formatDateToKoreanStyle(startDateField.value)
                       )
                     ) : (
                       <span className="text-gray-400">기간을 선택해주세요.</span>
