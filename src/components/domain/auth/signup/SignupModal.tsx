@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useState, useEffect, useReducer } from 'react';
+import { useId, useState, useReducer } from 'react';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
@@ -9,6 +9,9 @@ import { SignupSchema, SignupForm } from '@/models/authModels';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
+import { useTimer } from '@/hooks/useTimer';
+import { formatTime } from '@/lib/utils';
+import { checkEmailExists } from '@/apis/auth'; // Email 중복 검사 API
 import { CheckCircle2 } from 'lucide-react';
 import {
   Form,
@@ -18,16 +21,20 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { checkEmailExists } from '@/apis/auth'; // Email 중복 검사 API
 
 export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const [isAgreed, setIsAgreed] = useReducer((state) => !state, false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handleTimerEnd = () => {
+    setIsButtonDisabled(false);
+  };
+
+  const { timeLeft, startTimer } = useTimer(10, handleTimerEnd);
 
   const [isEmailChecked, setIsEmailChecked] = useState(false);
-  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
-  const [timeLeft, setTimeLeft] = useState<number>(0);
   const [isCertified, setIsCertified] = useState(false);
 
   const formMethods = useForm<SignupForm>({
@@ -72,36 +79,6 @@ export default function SignupModal() {
     } catch (error) {
       setError('email', { type: 'manual', message: '이메일 확인 중 오류가 발생했습니다.' });
     }
-  };
-
-  const handleGetCertification = () => {
-    // 타이머를 5분(300초)으로 설정
-    setTimeLeft(300);
-    if (timerId) clearInterval(timerId);
-
-    const newTimerId = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(newTimerId);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    setTimerId(newTimerId);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (timerId) clearInterval(timerId);
-    };
-  }, [timerId]);
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
   const email = watch('email');
@@ -164,14 +141,19 @@ export default function SignupModal() {
                         id={`${id}-signup-email`}
                         placeholder="prism12@gmail.com"
                         {...field}
-                        disabled={isEmailChecked}
+                        disabled={timeLeft > 0}
                         className="w-full flex-grow sm:w-auto"
                       />
                     </FormControl>
                     {isEmailChecked ? (
                       <Button
                         className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                        onClick={handleGetCertification}>
+                        disabled={!isEmailValid || timeLeft > 0 || isButtonDisabled}
+                        onClick={() => {
+                          setIsButtonDisabled(true);
+                          startTimer();
+                          // NOTE: 인증번호 받기 API 호출 로직 추가 예정
+                        }}>
                         인증번호 받기
                       </Button>
                     ) : (
@@ -223,7 +205,9 @@ export default function SignupModal() {
                       인증하기
                     </Button>
                   </div>
-                  {isCertified && <p className="text-success-500">인증이 완료되었습니다!</p>}
+                  {isCertified && (
+                    <p className="text-success-500 caption">인증이 완료되었습니다!</p>
+                  )}
                   <FormMessage>{errors.certification?.message}</FormMessage>
                 </FormItem>
               )}
