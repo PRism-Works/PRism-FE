@@ -8,14 +8,14 @@ import SignupModal from '@/components/domain/auth/signup/SignupModal';
 import PrismLogo from '@/assets/logo/logo-combine.svg';
 
 export default function GlobalHeader() {
-  const openModal = useModalStore((state) => state.openModal);
+  const { openModal, closeModal } = useModalStore();
 
   const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
   };
 
   const handleOpenSignupModal = () => {
-    openModal(<SignupModal />);
+    openModal(<SignupModal onSuccess={closeModal} onClose={closeModal} />);
   };
 
   return (
