@@ -15,6 +15,7 @@ interface SelectTagModalLayoutProps {
   colorTheme: 'purple' | 'indigo' | 'gray';
   placeholder: string;
   tagList: readonly string[];
+  defaultSelectTagList: string[];
   onSelectComplete: (selectTags: string[]) => void;
 }
 
@@ -26,13 +27,14 @@ export default function SelectTagModalLayout({
   colorTheme,
   placeholder,
   tagList,
+  defaultSelectTagList,
   onSelectComplete,
 }: SelectTagModalLayoutProps) {
   const [message, setMessage] = useState<string>('');
   const [searchWord, setSearchWord] = useState<string>('');
 
   const closeModal = useModalStore((state) => state.closeModal);
-  const { selectList, addSelectList, isSelected } = useTagListState();
+  const { selectList, addSelectList, isSelected } = useTagListState(defaultSelectTagList);
 
   const selectTagScrollRef = useRef<HTMLDivElement>(null);
 

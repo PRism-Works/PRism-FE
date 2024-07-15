@@ -25,8 +25,11 @@ import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 
 export default function Step3() {
-  const { control, setValue } = useFormContext<ProjectForm>();
+  const { control, setValue, watch } = useFormContext<ProjectForm>();
   const openModal = useModalStore((state) => state.openModal);
+
+  // 프로젝트 스킬
+  const currentSkills = watch('skills');
 
   // 프로젝트 카테고리
   const {
@@ -34,7 +37,7 @@ export default function Step3() {
     addSelectList,
     isSelected,
     isSelectionLimitReached,
-  } = useTagListState(3);
+  } = useTagListState([], 3);
 
   const handleTechsSelectComplete = (skillTags: string[]) => {
     setValue('skills', skillTags);
@@ -47,6 +50,7 @@ export default function Step3() {
         placeholder="팀원이 맡은 역할을 검색해주세요."
         tagList={TechStacks}
         onSelectComplete={handleTechsSelectComplete}
+        defaultSelectTagList={currentSkills}
       />,
     );
   };

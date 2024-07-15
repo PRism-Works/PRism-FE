@@ -70,7 +70,7 @@ export default function Step2() {
   };
 
   return (
-    <section className="flex flex-col items-end">
+    <section className="flex flex-col">
       <FormItem>
         <FormLabel className="text-purple-500 mobile1">팀원정보*</FormLabel>
         <FormDescription className="text-gray-500 caption">
@@ -168,7 +168,12 @@ const RolesField = ({
     control,
     setValue,
     formState: { errors },
+    watch,
   } = useFormContext<ProjectForm>();
+
+  // 현재 선택된 역할들
+  const currentRoles = watch(`members.${index}.roles`);
+
   const openModal = useModalStore((state) => state.openModal);
 
   const handleRolesSelectComplete = (roleTags: string[]) => {
@@ -184,6 +189,7 @@ const RolesField = ({
         placeholder="팀원이 맡은 역할을 검색해주세요."
         tagList={UserRoles}
         onSelectComplete={handleRolesSelectComplete}
+        defaultSelectTagList={currentRoles}
       />,
     );
   };

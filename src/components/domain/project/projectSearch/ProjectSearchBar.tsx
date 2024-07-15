@@ -17,7 +17,7 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
   const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
 
-  const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState(3);
+  const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState([], 3);
 
   // 아래는 categories 변화 감지 예시 코드입니다.
   useEffect(() => {

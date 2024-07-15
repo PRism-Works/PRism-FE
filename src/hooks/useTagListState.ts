@@ -4,11 +4,15 @@ import { useState } from 'react';
 
 /**
  *
+ * @param defaultSelectList 기본 선택 리스트
  * @param maxSelections 카테고리 최대 선택 개수
  * @returns
  */
-export function useTagListState(maxSelections: number = Number.MAX_SAFE_INTEGER) {
-  const [selectList, setSelectList] = useState<Set<string>>(new Set());
+export function useTagListState(
+  defaultSelectList: string[] = [],
+  maxSelections: number = Number.MAX_SAFE_INTEGER,
+) {
+  const [selectList, setSelectList] = useState<Set<string>>(new Set(defaultSelectList));
   const addSelectList = (category: string) => {
     setSelectList((prev) => {
       const newCategorySet = new Set(prev);
