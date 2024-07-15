@@ -166,12 +166,14 @@ const RolesField = ({
 }) => {
   const {
     control,
+    setValue,
     formState: { errors },
   } = useFormContext<ProjectForm>();
   const openModal = useModalStore((state) => state.openModal);
 
   const handleRolesSelectComplete = (roleTags: string[]) => {
-    console.log(roleTags);
+    // 선택된 역할들을 해당 팀원의 roles 상태에 설정
+    setValue(`members.${index}.roles`, roleTags, { shouldValidate: true });
   };
 
   const handleOpenSelectTagModal = () => {
@@ -197,7 +199,15 @@ const RolesField = ({
               <ul className="flex flex-wrap gap-1">
                 {field.value.map((role, roleIndex) => (
                   <li key={roleIndex}>
-                    <TagInput value={role} colorTheme="indigo" buttonType="delete" />
+                    <TagInput
+                      value={role}
+                      colorTheme="indigo"
+                      buttonType="delete"
+                      onClick={() => {
+                        const newRoles = field.value.filter((_, i) => i !== roleIndex);
+                        setValue(`members.${index}.roles`, newRoles, { shouldValidate: true });
+                      }}
+                    />
                   </li>
                 ))}
                 <TagInput

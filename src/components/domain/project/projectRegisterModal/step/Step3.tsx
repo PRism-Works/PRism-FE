@@ -36,8 +36,8 @@ export default function Step3() {
     isSelectionLimitReached,
   } = useTagListState(3);
 
-  const handleTechsSelectComplete = (roleTags: string[]) => {
-    console.log(roleTags);
+  const handleTechsSelectComplete = (skillTags: string[]) => {
+    setValue('skills', skillTags);
   };
   const handleOpenSelectTagModal = () => {
     openModal(
@@ -82,21 +82,42 @@ export default function Step3() {
           </FormItem>
         )}
       />
-      <FormItem>
-        <FormLabel className="mobile1">기술스택</FormLabel>
-        <FormDescription className="text-gray-500 caption">
-          프로젝트에 사용된 기술스택을 입력해 주세요.
-        </FormDescription>
-        <div className="flex flex-wrap gap-1">
-          <TagInput colorTheme="gray" buttonType="delete" value="Spring Framework" />
-          <TagInput
-            value="역할"
-            onClick={handleOpenSelectTagModal}
-            colorTheme="gray"
-            buttonType="add"
-          />
-        </div>
-      </FormItem>
+      <FormField
+        control={control}
+        name="skills"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="mobile1">기술스택</FormLabel>
+            <FormDescription className="text-gray-500 caption">
+              프로젝트에 사용된 기술스택을 입력해 주세요.
+            </FormDescription>
+            <FormControl>
+              <ul className="flex flex-wrap gap-1">
+                {field.value.map((skill, skillIndex) => (
+                  <li key={skillIndex}>
+                    <TagInput
+                      value={skill}
+                      colorTheme="gray"
+                      buttonType="delete"
+                      onClick={() => {
+                        const newSkiils = field.value.filter((_, i) => i !== skillIndex);
+                        setValue('skills', newSkiils, { shouldValidate: true });
+                      }}
+                    />
+                  </li>
+                ))}
+                <TagInput
+                  value="역할"
+                  onClick={handleOpenSelectTagModal}
+                  colorTheme="gray"
+                  buttonType="add"
+                />
+              </ul>
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
       <FormField
         control={control}
         name="projectDescription"
