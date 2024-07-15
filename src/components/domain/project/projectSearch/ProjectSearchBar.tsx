@@ -7,7 +7,7 @@ import { Search, User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ProjectCategories } from '@/utils/tagList';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
-import { useProjectCategory } from '@/hooks/useProjectCategory';
+import { useTagListState } from '@/hooks/useTagListState';
 
 interface ProjectSearchBarProps {
   className?: string;
@@ -17,13 +17,12 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
   const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
 
-  const { categories, isCategorySelected, selectCategory, isSelectionLimitReached } =
-    useProjectCategory(5);
+  const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState(3);
 
   // 아래는 categories 변화 감지 예시 코드입니다.
   useEffect(() => {
-    console.log(categories);
-  }, [categories]);
+    console.log(selectList);
+  }, [selectList]);
 
   const handleValueChange = (value: string) => {
     if (value === 'member') {
@@ -51,7 +50,7 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
       </Tabs>
 
       <IconInput
-        className="mt- h-[64px] w-full max-w-[700px] pl-14 body8 border-gradient"
+        className="h-[64px] w-full max-w-[700px] pl-14 body8 border-gradient"
         svgIcon={<Search className="mx-2 h-[24px] w-[24px] text-gray-500" />}
         placeholder={placeholder}
       />
@@ -80,10 +79,10 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
                     <CheckTagInput
                       key={category}
                       value={category}
-                      isChecked={isCategorySelected(category)}
-                      isDisabled={isSelectionLimitReached() && !isCategorySelected(category)}
+                      isChecked={isSelected(category)}
+                      isDisabled={isSelectionLimitReached() && !isSelected(category)}
                       onClick={() => {
-                        selectCategory(category);
+                        addSelectList(category);
                       }}
                     />
                   );

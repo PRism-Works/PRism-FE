@@ -1,5 +1,6 @@
+'use client';
 import { useEffect } from 'react';
-import { useProjectCategory } from '@/hooks/useProjectCategory';
+import { useTagListState } from '@/hooks/useTagListState';
 
 import TagInput from '@/components/common/input/TagInput';
 import IconInput from '@/components/common/input/IconInput';
@@ -17,15 +18,38 @@ import {
 } from '@/components/ui/form';
 import { Paperclip } from 'lucide-react';
 
-import { ProjectCategories } from '@/utils/tagList';
+import { ProjectCategories, TechStacks } from '@/utils/tagList';
 import { ProjectForm } from '@/models/projectModels';
 import { useFormContext } from 'react-hook-form';
+import { useModalStore } from '@/stores/modalStore';
+import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 
 export default function Step3() {
   const { control, setValue } = useFormContext<ProjectForm>();
+  const openModal = useModalStore((state) => state.openModal);
 
-  const { categories, isCategorySelected, selectCategory, isSelectionLimitReached } =
-    useProjectCategory();
+  // 프로젝트 카테고리
+  const {
+    selectList: categories,
+    addSelectList,
+    isSelected,
+    isSelectionLimitReached,
+  } = useTagListState(3);
+
+  const handleTechsSelectComplete = (roleTags: string[]) => {
+    console.log(roleTags);
+  };
+  const handleOpenSelectTagModal = () => {
+    openModal(
+      <SelectTagModalLayout
+        title="역할 검색"
+        colorTheme="gray"
+        placeholder="팀원이 맡은 역할을 검색해주세요."
+        tagList={TechStacks}
+        onSelectComplete={handleTechsSelectComplete}
+      />,
+    );
+  };
 
   // useEffect로 categories 변화 감지하여 setValue
   useEffect(() => {
@@ -64,11 +88,12 @@ export default function Step3() {
           프로젝트에 사용된 기술스택을 입력해 주세요.
         </FormDescription>
         <div className="flex flex-wrap gap-1">
+          <TagInput colorTheme="gray" buttonType="delete" value="Spring Framework" />
           <TagInput
-            prefixChar="#"
-            className="tag-gray"
-            defaultValue="Spring Framework"
-            setValue={(value) => console.log(value)}
+            value="역할"
+            onClick={handleOpenSelectTagModal}
+            colorTheme="gray"
+            buttonType="add"
           />
         </div>
       </FormItem>
@@ -104,10 +129,10 @@ export default function Step3() {
               <CheckTagInput
                 key={category}
                 value={category}
-                isChecked={isCategorySelected(category)}
-                isDisabled={isSelectionLimitReached() && !isCategorySelected(category)}
+                isChecked={isSelected(category)}
+                isDisabled={isSelectionLimitReached() && !isSelected(category)}
                 onClick={() => {
-                  selectCategory(category);
+                  addSelectList(category);
                 }}
               />
             );

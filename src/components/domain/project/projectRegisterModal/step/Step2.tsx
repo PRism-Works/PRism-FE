@@ -14,6 +14,9 @@ import { cn } from '@/lib/utils';
 import { useFormContext, useFieldArray, FieldErrors } from 'react-hook-form';
 
 import type { ProjectForm, ProjectMember } from '@/models/projectModels';
+import { useModalStore } from '@/stores/modalStore';
+import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
+import { UserRoles } from '@/utils/tagList';
 
 const DEFAULT_MEMBER: ProjectMember = { name: '', email: '', roles: [] };
 const PRIORITY_ERROR_FIELDS: (keyof FieldErrors<ProjectMember>)[] = ['name', 'email', 'roles']; // error 우선순위대로 선언
@@ -165,6 +168,23 @@ const RolesField = ({
     control,
     formState: { errors },
   } = useFormContext<ProjectForm>();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const handleRolesSelectComplete = (roleTags: string[]) => {
+    console.log(roleTags);
+  };
+
+  const handleOpenSelectTagModal = () => {
+    openModal(
+      <SelectTagModalLayout
+        title="역할 검색"
+        colorTheme="indigo"
+        placeholder="팀원이 맡은 역할을 검색해주세요."
+        tagList={UserRoles}
+        onSelectComplete={handleRolesSelectComplete}
+      />,
+    );
+  };
 
   return (
     <div className="relative ml-[46px] mt-[4px]">
@@ -177,10 +197,15 @@ const RolesField = ({
               <ul className="flex flex-wrap gap-1">
                 {field.value.map((role, roleIndex) => (
                   <li key={roleIndex}>
-                    <TagInput value={role} buttonType="delete" />
+                    <TagInput value={role} colorTheme="indigo" buttonType="delete" />
                   </li>
                 ))}
-                <TagInput value="역할" buttonType="add" />
+                <TagInput
+                  value="역할"
+                  onClick={handleOpenSelectTagModal}
+                  colorTheme="indigo"
+                  buttonType="add"
+                />
               </ul>
             </FormControl>
             {priorityErrorIndex === PRIORITY_ERROR_FIELDS.indexOf('roles') && (
