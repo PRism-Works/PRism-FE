@@ -1,0 +1,22 @@
+.componentSpinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background:
+    radial-gradient(farthest-side, #a855f7 94%, #0000) top/9px 9px no-repeat,
+    conic-gradient(#0000 30%, #a855f7);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 6.4px), #000 0);
+  -moz-mask: radial-gradient(farthest-side, #0000 calc(100% - 6.4px), #000 0);
+  -ms-mask: radial-gradient(farthest-side, #0000 calc(100% - 6.4px), #000 0);
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 6.4px), #000 0);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

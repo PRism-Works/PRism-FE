@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useModalStore } from '@/stores/modalStore';
 import { Menubar } from '@/components/ui/menubar';
 import { Button } from '@/components/ui/button';

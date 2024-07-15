@@ -20,7 +20,7 @@ export default function ProjectRegisterButton({ className }: ProjectRegisterButt
   return (
     <div className={cn(className)}>
       <Button onClick={handleOpenProject} variant={'gradient'} className="h-[60px] w-[250px]">
-        <ClipboardEdit className="mr-2 h-[22px] w-[22px]" />
+        <ClipboardEdit className="mr-2 h-5 w-5" />
         <p className="body6">내 프로젝트 등록하기</p>
       </Button>
     </div>
