@@ -11,16 +11,13 @@ export const SignupSchema = z
       .string()
       .email('올바른 이메일을 입력해 주세요.')
       .max(100, '이메일 주소는 최대 100자까지 입력 가능합니다.'),
-    certification: z
-      .string()
-      .length(4, '인증번호는 4자리 숫자여야 합니다.')
-      .regex(/^\d{4}$/, '인증번호는 4자리 숫자여야 합니다.'),
+    certification: z.string(),
     password: z
       .string()
       .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
       .max(20, '비밀번호는 최대 20자까지 입력 가능합니다.')
       .regex(
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])/,
+        /^(?=.*[A-Za-z])(?=.*\d)|(?=.*[A-Za-z])(?=.*[!@#$%^&*])|(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
         '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 포함해야 합니다.',
       )
       .refine(
@@ -28,9 +25,10 @@ export const SignupSchema = z
         '비밀번호에 동일한 문자가 3회 이상 반복될 수 없습니다.',
       )
       .refine(
-        (val) => !/(\d)\1{2}/.test(val),
+        (val) => !/(012|123|234|345|456|567|678|789|890)/.test(val),
         '비밀번호에 연속된 숫자가 3개 이상 포함될 수 없습니다.',
-      ),
+      )
+      .refine((val) => !/\s/.test(val), '비밀번호에 공백이 포함될 수 없습니다.'),
     verifyPassword: z.string(),
   })
   .superRefine(({ password, verifyPassword }, ctx) => {
@@ -55,16 +53,13 @@ export const ResetPasswordSchema = z
       .min(1, '이름을 입력해주세요.')
       .regex(/^[가-힣a-zA-Z]+$/, '이름은 문자만 입력 가능합니다.'),
     email: z.string().email('올바른 이메일을 입력해 주세요.'),
-    certification: z
-      .string()
-      .length(4, '인증번호는 4자리 숫자여야 합니다.')
-      .regex(/^\d{4}$/, '인증번호는 4자리 숫자여야 합니다.'),
+    certification: z.string(),
     newPassword: z
       .string()
       .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
       .max(20, '비밀번호는 최대 20자까지 입력 가능합니다.')
       .regex(
-        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])/,
+        /^(?=.*[A-Za-z])(?=.*\d)|(?=.*[A-Za-z])(?=.*[!@#$%^&*])|(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
         '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 포함해야 합니다.',
       )
       .refine(
@@ -72,9 +67,10 @@ export const ResetPasswordSchema = z
         '비밀번호에 동일한 문자가 3회 이상 반복될 수 없습니다.',
       )
       .refine(
-        (val) => !/(\d)\1{2}/.test(val),
+        (val) => !/(012|123|234|345|456|567|678|789|890)/.test(val),
         '비밀번호에 연속된 숫자가 3개 이상 포함될 수 없습니다.',
-      ),
+      )
+      .refine((val) => !/\s/.test(val), '비밀번호에 공백이 포함될 수 없습니다.'),
     verifyNewPassword: z.string(),
   })
   .superRefine(({ newPassword, verifyNewPassword }, ctx) => {
