@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useReducer } from 'react';
+import { useId, useReducer } from 'react';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
