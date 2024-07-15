@@ -268,6 +268,27 @@ const config: Config = {
           backgroundOrigin: 'border-box',
           backgroundClip: 'padding-box, border-box',
         },
+        '.scrollbar-thin': {
+          '&::-webkit-scrollbar': {
+            width: '3px',
+            height: '3px',
+          },
+          '&::-webkit-scrollbar-track': {
+            '@apply bg-transparent': {},
+          },
+          '&::-webkit-scrollbar-thumb': {
+            '@apply bg-transparent rounded': {},
+          },
+          '&:hover::-webkit-scrollbar-thumb': {
+            '@apply bg-gray-400': {},
+          },
+          '&:hover::-webkit-scrollbar-thumb:hover': {
+            '@apply bg-gray-500': {},
+          },
+          '.scroll-smooth': {
+            'scroll-behavior': 'smooth',
+          },
+        },
       };
 
       addUtilities(newUtilities);
