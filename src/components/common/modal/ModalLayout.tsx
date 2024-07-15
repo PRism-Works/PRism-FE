@@ -1,5 +1,6 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -10,6 +11,7 @@ import { useModalStore } from '@/stores/modalStore';
 import { Button } from '@/components/ui/button';
 
 import { cn } from '@/lib/utils';
+import { X } from 'lucide-react';
 
 interface ModalLayoutProps {
   title?: React.ReactNode;
@@ -38,18 +40,22 @@ export default function ModalLayout({
     <Dialog open onOpenChange={closeModal}>
       <DialogContent
         className={cn(`max-h-[90vh] overflow-y-auto p-11`, contentClassName)}
-        showCloseButton={showCloseButton}
         transparentOverlay={transparentOverlay}
         onInteractOutside={(event) => {
           if (preventOutsideClose) {
             event.preventDefault();
           }
         }}>
-        <DialogHeader className="flex-col-center">
+        <DialogHeader className="relative flex-col-center">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription className={cn('mobile1', hasDescription ? '' : 'hidden')}>
             {hasDescription ? description : ''}
           </DialogDescription>
+          {showCloseButton && (
+            <DialogClose asChild>
+              <X className="absolute right-0 top-[-5px] h-6 w-6 cursor-pointer stroke-black hover:stroke-[2.5px]" />
+            </DialogClose>
+          )}
         </DialogHeader>
         {children}
         {footer && <DialogFooter>{footer}</DialogFooter>}
