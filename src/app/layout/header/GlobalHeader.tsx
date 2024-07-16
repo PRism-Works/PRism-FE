@@ -22,7 +22,7 @@ export default function GlobalHeader() {
   };
 
   const handleOpenSignupModal = () => {
-    openModal(<SignupModal onSuccess={handleSignupSuccess} afterClose={closeModal} />);
+    openModal(<SignupModal onSuccess={handleSignupSuccess} />);
   };
 
   return (
