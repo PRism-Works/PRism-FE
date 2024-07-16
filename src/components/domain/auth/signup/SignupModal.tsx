@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import { useTimer } from '@/hooks/useTimer';
-import { formatTime } from '@/lib/utils';
+import { formatTime } from '@/lib/dateTime';
 import { CheckCircle2 } from 'lucide-react';
 import {
   Form,
@@ -159,7 +159,6 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
           title="회원가입하기"
           isSmallScreen={isSmallScreen}
           onClick={handleSubmit(onSubmit)}
-          // disabled={!isValid || !isAgreed || !isCertified || isSubmitting}
           disabled={!isValid || !isAgreed || !isCertified || !isEmailChecked || isSubmitting}
         />
       }>
