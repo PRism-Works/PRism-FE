@@ -1,50 +1,14 @@
 import axios from 'axios';
-import { ax } from './axios';
-
-interface EmailExistsResponse {
-  success: boolean;
-  status: number;
-  data: boolean;
-}
-
-interface SendEmailCodeRequest {
-  email: string;
-  authType: 'SIGNUP' | 'RESET_PASSWORD';
-}
-
-interface SendEmailCodeResponse {
-  success: boolean;
-  status: string;
-  data: null;
-}
-
-interface VerifyAuthCodeRequest {
-  email: string;
-  authCode: string;
-  authType: 'SIGNUP' | 'RESET_PASSWORD';
-}
-
-interface VerifyAuthCodeResponse {
-  success: boolean;
-  status: number;
-  data: null;
-}
-
-interface SignupRequest {
-  username: string;
-  email: string;
-  authCode: string;
-  password: string;
-}
-
-interface SignupResponse {
-  success: boolean;
-  status: number;
-  data: {
-    userId: string;
-    email: string;
-  };
-}
+import { ax } from '../axios';
+import {
+  EmailExistsResponse,
+  SendEmailCodeRequest,
+  SendEmailCodeResponse,
+  SignupRequest,
+  SignupResponse,
+  VerifyAuthCodeRequest,
+  VerifyAuthCodeResponse,
+} from '@/models/auth/authApiModels';
 
 // NOTE: 개발을 위해 임시로 로그를 많이 추가해두었습니다. 배포 전 삭제할 예정입니다.
 export const checkEmailExists = async (email: string): Promise<EmailExistsResponse> => {
