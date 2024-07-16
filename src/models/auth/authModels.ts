@@ -1,4 +1,16 @@
 import { z } from 'zod';
+import {
+  passwordMinLength,
+  passwordMaxLength,
+  passwordRegex,
+  passwordRegexMessage,
+  noRepeatingCharsRegex,
+  noRepeatingCharsMessage,
+  noSequentialDigitsRegex,
+  noSequentialDigitsMessage,
+  noWhitespaceRegex,
+  noWhitespaceMessage,
+} from '@/utils/passwordValidation';
 
 export const SignupSchema = z
   .object({
@@ -14,21 +26,12 @@ export const SignupSchema = z
     certification: z.string(),
     password: z
       .string()
-      .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
-      .max(20, '비밀번호는 최대 20자까지 입력 가능합니다.')
-      .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)|(?=.*[A-Za-z])(?=.*[!@#$%^&*])|(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-        '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 포함해야 합니다.',
-      )
-      .refine(
-        (val) => !/(.)\1{2}/.test(val),
-        '비밀번호에 동일한 문자가 3회 이상 반복될 수 없습니다.',
-      )
-      .refine(
-        (val) => !/(012|123|234|345|456|567|678|789|890)/.test(val),
-        '비밀번호에 연속된 숫자가 3개 이상 포함될 수 없습니다.',
-      )
-      .refine((val) => !/\s/.test(val), '비밀번호에 공백이 포함될 수 없습니다.'),
+      .min(passwordMinLength, `비밀번호는 최소 ${passwordMinLength}자 이상이어야 합니다.`)
+      .max(passwordMaxLength, `비밀번호는 최대 ${passwordMaxLength}자까지 입력 가능합니다.`)
+      .regex(passwordRegex, passwordRegexMessage)
+      .refine((val) => !noRepeatingCharsRegex.test(val), noRepeatingCharsMessage)
+      .refine((val) => !noSequentialDigitsRegex.test(val), noSequentialDigitsMessage)
+      .refine((val) => !noWhitespaceRegex.test(val), noWhitespaceMessage),
     verifyPassword: z.string(),
   })
   .superRefine(({ password, verifyPassword }, ctx) => {
@@ -56,21 +59,12 @@ export const ResetPasswordSchema = z
     certification: z.string(),
     newPassword: z
       .string()
-      .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
-      .max(20, '비밀번호는 최대 20자까지 입력 가능합니다.')
-      .regex(
-        /^(?=.*[A-Za-z])(?=.*\d)|(?=.*[A-Za-z])(?=.*[!@#$%^&*])|(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/,
-        '비밀번호는 영문, 숫자, 특수문자 중 2가지 이상을 포함해야 합니다.',
-      )
-      .refine(
-        (val) => !/(.)\1{2}/.test(val),
-        '비밀번호에 동일한 문자가 3회 이상 반복될 수 없습니다.',
-      )
-      .refine(
-        (val) => !/(012|123|234|345|456|567|678|789|890)/.test(val),
-        '비밀번호에 연속된 숫자가 3개 이상 포함될 수 없습니다.',
-      )
-      .refine((val) => !/\s/.test(val), '비밀번호에 공백이 포함될 수 없습니다.'),
+      .min(passwordMinLength, `비밀번호는 최소 ${passwordMinLength}자 이상이어야 합니다.`)
+      .max(passwordMaxLength, `비밀번호는 최대 ${passwordMaxLength}자까지 입력 가능합니다.`)
+      .regex(passwordRegex, passwordRegexMessage)
+      .refine((val) => !noRepeatingCharsRegex.test(val), noRepeatingCharsMessage)
+      .refine((val) => !noSequentialDigitsRegex.test(val), noSequentialDigitsMessage)
+      .refine((val) => !noWhitespaceRegex.test(val), noWhitespaceMessage),
     verifyNewPassword: z.string(),
   })
   .superRefine(({ newPassword, verifyNewPassword }, ctx) => {
