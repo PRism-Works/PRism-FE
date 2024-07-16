@@ -150,7 +150,7 @@ export default function ResetPasswordModal() {
                         <Input
                           type="text"
                           id={`${id}-reset-password-certification`}
-                          placeholder="0000"
+                          placeholder="이메일로 전송된 인증번호를 입력해 주세요."
                           {...field}
                           className="w-full pr-12"
                         />

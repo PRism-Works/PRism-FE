@@ -22,6 +22,7 @@ interface ModalLayoutProps {
   showCloseButton?: boolean;
   preventOutsideClose?: boolean;
   transparentOverlay?: boolean;
+  afterClose?: () => void;
 }
 
 export default function ModalLayout({
@@ -33,11 +34,20 @@ export default function ModalLayout({
   showCloseButton = true,
   preventOutsideClose = true,
   transparentOverlay = false,
+  afterClose,
 }: ModalLayoutProps) {
   const closeModal = useModalStore((state) => state.closeModal);
   const hasDescription = !!description;
+
+  const handleClose = () => {
+    if (afterClose) {
+      afterClose();
+    }
+    closeModal();
+  };
+
   return (
-    <Dialog open onOpenChange={closeModal}>
+    <Dialog open onOpenChange={handleClose}>
       <DialogContent
         className={cn(`max-h-[90vh] overflow-y-auto p-11`, contentClassName)}
         transparentOverlay={transparentOverlay}
