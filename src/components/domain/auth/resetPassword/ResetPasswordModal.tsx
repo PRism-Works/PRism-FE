@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import { useTimer } from '@/hooks/useTimer';
-import { formatTime } from '@/lib/utils';
+import { formatTime } from '@/lib/dateTime';
 
 import {
   Form,
