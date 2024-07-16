@@ -3,7 +3,8 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
 import { CalendarIcon } from 'lucide-react';
 
-import { cn, formatDateToKoreanStyle } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import { formatDateToKoreanStyle } from '@/lib/dateTime';
 
 import { FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
