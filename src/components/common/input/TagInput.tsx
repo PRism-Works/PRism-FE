@@ -9,24 +9,24 @@ type TagInputButton = 'delete' | 'add' | 'none';
 
 const colorConfig: Record<
   TagInputColor,
-  { base: string; description: string; hover: string; iconHover: string }
+  { base: string; description: string; hoverAndActive: string; iconHover: string }
 > = {
   purple: {
     base: 'bg-purple-100 text-purple-500',
     description: 'text-purple-300',
-    hover: 'hover:bg-purple-200',
+    hoverAndActive: 'hover:bg-purple-200 active:bg-purple-300',
     iconHover: 'group-hover:text-purple-600',
   },
   indigo: {
     base: 'bg-indigo-100 text-indigo-500',
     description: 'text-indigo-300',
-    hover: 'hover:bg-indigo-200',
+    hoverAndActive: 'hover:bg-indigo-200 active:bg-indigo-300',
     iconHover: 'group-hover:text-indigo-600',
   },
   gray: {
-    base: 'bg-gray-100 text-gray-500',
+    base: 'bg-gray-100 text-gray-600',
     description: 'text-gray-400',
-    hover: 'hover:bg-gray-200',
+    hoverAndActive: 'hover:bg-gray-200 active:bg-gray-300',
     iconHover: 'group-hover:text-gray-600',
   },
 };
@@ -46,7 +46,7 @@ export default function TagInput({
   className = '',
   onClick = () => {},
 }: TagInputProps) {
-  const { base, description, hover, iconHover } = colorConfig[colorTheme];
+  const { base, description, hoverAndActive, iconHover } = colorConfig[colorTheme];
 
   const handleTagClick = () => {
     if (onClick) onClick();
@@ -57,11 +57,11 @@ export default function TagInput({
       className={cn(
         'group flex h-fit w-fit cursor-pointer items-center justify-between gap-1 rounded-[6px] px-1.5 py-1 transition-colors display5',
         base,
-        hover,
+        hoverAndActive,
         className,
       )}
       onClick={handleTagClick}>
-      <span>#</span>
+      <span className="mobile2">#</span>
       <span className={cn('whitespace-pre', buttonType === 'add' && description)}>{value}</span>
       <ButtonIcon buttonType={buttonType} iconHover={iconHover} />
     </div>

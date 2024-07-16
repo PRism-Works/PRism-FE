@@ -22,7 +22,7 @@ import {
   type ProjectForm,
   type ProjectRegisterHeaderStep,
   ProjectFormSchema,
-} from '@/models/projectModels';
+} from '@/models/project/projectModels';
 
 const STEPS: ProjectRegisterHeaderStep[] = [
   {
@@ -113,12 +113,11 @@ export default function ProjectRegisterModal() {
           handlePrevStep={handlePrevStep}
           handleNextStep={handleNextStep}
           handleExternalSubmit={handleExternalSubmit}
-          isValid={true}
           MAX_STEP={MAX_STEP}
         />
       }>
       <ProgressBar percent={((currStep + 1) / (MAX_STEP + 1)) * 100} />
-      <div className="mb-[6px] h-[425px] w-full overflow-auto scroll-smooth rounded-[10px] bg-gray-50 p-[18px]">
+      <div className="mb-[6px] h-[430px] w-full overflow-auto scroll-smooth rounded-[10px] bg-gray-50 p-[18px]">
         <Form {...formMethods}>
           <FormProvider {...formMethods}>
             <form>

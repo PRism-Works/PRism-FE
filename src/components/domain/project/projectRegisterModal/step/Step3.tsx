@@ -19,7 +19,7 @@ import {
 import { Paperclip } from 'lucide-react';
 
 import { ProjectCategories, TechStacks } from '@/lib/tagList';
-import { ProjectForm } from '@/models/projectModels';
+import { ProjectForm } from '@/models/project/projectModels';
 import { useFormContext } from 'react-hook-form';
 import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';

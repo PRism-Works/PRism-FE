@@ -3,7 +3,7 @@
 import { useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import type { ProjectForm } from '@/models/projectModels';
+import type { ProjectForm } from '@/models/project/projectModels';
 
 import {
   FormControl,

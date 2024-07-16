@@ -5,7 +5,7 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SignupSchema, SignupForm } from '@/models/authModels';
+import { SignupSchema, SignupForm } from '@/models/auth/authModels';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';

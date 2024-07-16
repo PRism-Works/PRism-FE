@@ -5,12 +5,12 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ResetPasswordSchema, ResetPasswordForm } from '@/models/authModels';
+import { ResetPasswordSchema, ResetPasswordForm } from '@/models/auth/authModels';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import { useTimer } from '@/hooks/useTimer';
-import { formatTime } from '@/lib/utils';
+import { formatTime } from '@/lib/dateTime';
 
 import {
   Form,

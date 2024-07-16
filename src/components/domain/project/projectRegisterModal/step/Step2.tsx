@@ -13,7 +13,7 @@ import TagInput from '@/components/common/input/TagInput';
 import { cn } from '@/lib/utils';
 import { useFormContext, useFieldArray, FieldErrors } from 'react-hook-form';
 
-import type { ProjectForm, ProjectMember } from '@/models/projectModels';
+import type { ProjectForm, ProjectMember } from '@/models/project/projectModels';
 import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 import { UserRoles } from '@/lib/tagList';
