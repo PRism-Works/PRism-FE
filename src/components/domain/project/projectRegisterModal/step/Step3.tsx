@@ -18,7 +18,7 @@ import {
 import { Paperclip } from 'lucide-react';
 
 import { ProjectCategories } from '@/utils/tagList';
-import { ProjectForm } from '@/models/projectModels';
+import { ProjectForm } from '@/models/project/projectModels';
 import { useFormContext } from 'react-hook-form';
 
 export default function Step3() {

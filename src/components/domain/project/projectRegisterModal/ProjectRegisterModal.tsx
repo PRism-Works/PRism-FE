@@ -22,7 +22,7 @@ import {
   type ProjectForm,
   type ProjectRegisterHeaderStep,
   ProjectFormSchema,
-} from '@/models/projectModels';
+} from '@/models/project/projectModels';
 
 const STEPS: ProjectRegisterHeaderStep[] = [
   {

@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import MaxLengthTextInput from '@/components/common/input/MaxLengthTextInput';
 
-import type { ProjectForm } from '@/models/projectModels';
+import type { ProjectForm } from '@/models/project/projectModels';
 
 export default function Step1() {
   const {

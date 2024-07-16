@@ -5,7 +5,7 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ResetPasswordSchema, ResetPasswordForm } from '@/models/authModels';
+import { ResetPasswordSchema, ResetPasswordForm } from '@/models/auth/authModels';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
@@ -150,7 +150,7 @@ export default function ResetPasswordModal() {
                         <Input
                           type="text"
                           id={`${id}-reset-password-certification`}
-                          placeholder="0000"
+                          placeholder="이메일로 전송된 인증번호를 입력해 주세요."
                           {...field}
                           className="w-full pr-12"
                         />
