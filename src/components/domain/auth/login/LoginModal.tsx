@@ -6,7 +6,7 @@ import { useModalStore } from '@/stores/modalStore';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema, LoginForm } from '@/models/authModels';
+import { LoginSchema, LoginForm } from '@/models/auth/authModels';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
