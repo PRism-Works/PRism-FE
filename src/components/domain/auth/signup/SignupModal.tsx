@@ -30,14 +30,14 @@ interface SignupModalProps {
 export default function SignupModal({ onSuccess, onClose }: SignupModalProps) {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
-  const [isAgreed, setIsAgreed] = useReducer((state) => !state, false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [isEmailChecking, setIsEmailChecking] = useState(false); // 이메일 중복 확인 요청 상태
-  const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 완료 상태
-  const [isSendingCode, setIsSendingCode] = useState(false); // 인증번호 전송 상태
-  const [isVerifyingCode, setIsVerifyingCode] = useState(false); // 인증코드 확인 요청 상태
-  const [isCertified, setIsCertified] = useState(false); // 인증코드 확인 완료 상태
-  const [isSubmitting, setIsSubmitting] = useState(false); // 회원가입 요청 상태
+  const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [isEmailChecking, setIsEmailChecking] = useState<boolean>(false); // 이메일 중복 확인 요청 상태
+  const [isEmailChecked, setIsEmailChecked] = useState<boolean>(false); // 이메일 중복 확인 완료 상태
+  const [isSendingCode, setIsSendingCode] = useState<boolean>(false); // 인증번호 전송 상태
+  const [isVerifyingCode, setIsVerifyingCode] = useState<boolean>(false); // 인증코드 확인 요청 상태
+  const [isCertified, setIsCertified] = useState<boolean>(false); // 인증코드 확인 완료 상태
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // 회원가입 요청 상태
 
   const handleTimerEnd = () => {
     setIsButtonDisabled(false);
