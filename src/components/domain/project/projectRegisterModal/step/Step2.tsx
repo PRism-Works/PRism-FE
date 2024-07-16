@@ -16,7 +16,7 @@ import { useFormContext, useFieldArray, FieldErrors } from 'react-hook-form';
 import type { ProjectForm, ProjectMember } from '@/models/projectModels';
 import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
-import { UserRoles } from '@/utils/tagList';
+import { UserRoles } from '@/lib/tagList';
 
 const DEFAULT_MEMBER: ProjectMember = { name: '', email: '', roles: [] };
 const PRIORITY_ERROR_FIELDS: (keyof FieldErrors<ProjectMember>)[] = ['name', 'email', 'roles']; // error 우선순위대로 선언

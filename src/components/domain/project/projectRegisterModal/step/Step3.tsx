@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Paperclip } from 'lucide-react';
 
-import { ProjectCategories, TechStacks } from '@/utils/tagList';
+import { ProjectCategories, TechStacks } from '@/lib/tagList';
 import { ProjectForm } from '@/models/projectModels';
 import { useFormContext } from 'react-hook-form';
 import { useModalStore } from '@/stores/modalStore';

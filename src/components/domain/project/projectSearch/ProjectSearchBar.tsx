@@ -5,7 +5,7 @@ import IconInput from '@/components/common/input/IconInput';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Search, User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ProjectCategories } from '@/utils/tagList';
+import { ProjectCategories } from '@/lib/tagList';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
 import { useTagListState } from '@/hooks/useTagListState';
 
@@ -17,7 +17,7 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
   const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
 
-  const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState([], 3);
+  const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState([], 5);
 
   // 아래는 categories 변화 감지 예시 코드입니다.
   useEffect(() => {
@@ -72,7 +72,9 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
           {/* #20240710.syjang, CheckTagInput 사용 예시 작성하려 임의로 코드 작성했습니다. 아래는 참고만 부탁드립니다. */}
           <div className="flex flex-col gap-3">
             <div className="flex flex-wrap gap-3">
-              <ConditionLabel label="카테고리" />
+              <span className="h-9 w-20 rounded-[6px] bg-indigo-50 px-3 py-2 text-center text-indigo-500 display6">
+                카테고리
+              </span>
               <div className="flex flex-wrap gap-1">
                 {ProjectCategories.map((category) => {
                   return (
@@ -89,20 +91,9 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
                 })}
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <ConditionLabel label="기관명" />
-            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
-
-const ConditionLabel = ({ label }: { label: string }) => {
-  return (
-    <span className="h-9 w-20 rounded-[6px] bg-indigo-50 px-3 py-2 text-center text-indigo-500 display6">
-      {label}
-    </span>
-  );
-};
