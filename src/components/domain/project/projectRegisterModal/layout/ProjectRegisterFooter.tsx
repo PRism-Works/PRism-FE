@@ -6,7 +6,6 @@ interface ProjectRegisterFooterProps {
   handlePrevStep: () => void;
   handleNextStep: () => void;
   handleExternalSubmit: () => void;
-  isValid: boolean;
   MAX_STEP: number;
 }
 
@@ -15,7 +14,6 @@ export default function ProjectRegisterFooter({
   handlePrevStep,
   handleNextStep,
   handleExternalSubmit,
-  isValid,
   MAX_STEP,
 }: ProjectRegisterFooterProps) {
   const getButtonClass = (isEnabled: boolean) =>
@@ -31,7 +29,6 @@ export default function ProjectRegisterFooter({
           <span className="text-info-500">한 번 더 확인해 주세요!</span>
         </div>
       )}
-
       <div className="flex w-full items-center">
         <div className="flex-1" /> {/* 왼쪽 여백 */}
         <div className="gap-4 flex-center">
@@ -40,7 +37,7 @@ export default function ProjectRegisterFooter({
             onClick={currStep > 0 ? handlePrevStep : undefined}
           />
           <ArrowRightCircle
-            className={getButtonClass(isValid && currStep < MAX_STEP)}
+            className={getButtonClass(currStep < MAX_STEP)}
             onClick={!isLastStep ? handleNextStep : undefined}
           />
         </div>
