@@ -10,12 +10,19 @@ import PrismLogo from '@/assets/logo/logo-combine.svg';
 export default function GlobalHeader() {
   const { openModal, closeModal } = useModalStore();
 
+  const handleSignupSuccess = () => {
+    closeModal();
+    setTimeout(() => {
+      openModal(<LoginModal />);
+    }, 200);
+  };
+
   const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
   };
 
   const handleOpenSignupModal = () => {
-    openModal(<SignupModal onSuccess={closeModal} onClose={closeModal} />);
+    openModal(<SignupModal onSuccess={handleSignupSuccess} afterClose={closeModal} />);
   };
 
   return (

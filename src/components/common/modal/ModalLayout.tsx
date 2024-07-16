@@ -20,7 +20,7 @@ interface ModalLayoutProps {
   showCloseButton?: boolean;
   preventOutsideClose?: boolean;
   transparentOverlay?: boolean;
-  onClose?: () => void;
+  afterClose?: () => void;
 }
 
 export default function ModalLayout({
@@ -32,14 +32,14 @@ export default function ModalLayout({
   showCloseButton = true,
   preventOutsideClose = true,
   transparentOverlay = false,
-  onClose,
+  afterClose,
 }: ModalLayoutProps) {
   const closeModal = useModalStore((state) => state.closeModal);
   const hasDescription = !!description;
 
   const handleClose = () => {
-    if (onClose) {
-      onClose();
+    if (afterClose) {
+      afterClose();
     }
     closeModal();
   };

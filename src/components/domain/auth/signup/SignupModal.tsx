@@ -24,10 +24,10 @@ import {
 
 interface SignupModalProps {
   onSuccess?: () => void;
-  onClose?: () => void;
+  afterClose?: () => void;
 }
 
-export default function SignupModal({ onSuccess, onClose }: SignupModalProps) {
+export default function SignupModal({ onSuccess, afterClose }: SignupModalProps) {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false);
@@ -153,13 +153,14 @@ export default function SignupModal({ onSuccess, onClose }: SignupModalProps) {
     <ModalLayout
       contentClassName="max-w-[500px]"
       title="회원가입"
-      onClose={onClose}
+      afterClose={afterClose}
       footer={
         <ModalLayout.ConfirmButton
           title="회원가입하기"
           isSmallScreen={isSmallScreen}
           onClick={handleSubmit(onSubmit)}
-          disabled={!isValid || !isAgreed || !isCertified || isSubmitting}
+          // disabled={!isValid || !isAgreed || !isCertified || isSubmitting}
+          disabled={!isValid || !isAgreed || !isCertified || !isEmailChecked || isSubmitting}
         />
       }>
       <Form {...formMethods}>

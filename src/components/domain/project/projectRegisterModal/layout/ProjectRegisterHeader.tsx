@@ -1,4 +1,4 @@
-import type { ProjectRegisterHeaderStep } from '@/models/projectModels';
+import type { ProjectRegisterHeaderStep } from '@/models/project/projectModels';
 
 interface ProjectRegisterHeaderProps {
   currStep: number;
