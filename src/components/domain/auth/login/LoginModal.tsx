@@ -7,6 +7,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchema, LoginForm } from '@/models/auth/authModels';
+import { login } from '@/services/api/authApi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
@@ -20,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import axios from 'axios';
 
 export default function LoginModal() {
   const id = useId();
@@ -40,9 +42,25 @@ export default function LoginModal() {
     formState: { errors, isValid },
   } = formMethods;
 
-  // NOTE: alert는 api 연동하면서 수정할 예정입니다. 현재는 data를 담고 있습니다.
-  const onSubmit = (data: LoginForm) => {
-    alert(JSON.stringify(data));
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const response = await login(data);
+      const { accessToken, refreshToken } = response.data;
+
+      // 토큰을 로컬 스토리지에 저장
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      closeModal();
+      alert('로그인에 성공했습니다.');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+        alert(errorMessage);
+      } else {
+        alert('로그인 중 오류가 발생했습니다.');
+      }
+    }
   };
 
   const handleOpenSignupModal = () => {
