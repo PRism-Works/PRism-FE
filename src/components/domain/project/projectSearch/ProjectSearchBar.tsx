@@ -32,6 +32,10 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
     }
   };
 
+  const handleCategoryClick = (category: string) => {
+    addSelectList(category);
+  };
+
   return (
     <div className={cn('my-4', className)}>
       <Tabs defaultValue="member" onValueChange={handleValueChange}>
@@ -76,19 +80,15 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
                 카테고리
               </span>
               <div className="flex flex-wrap gap-1">
-                {ProjectCategories.map((category) => {
-                  return (
-                    <CheckTagInput
-                      key={category}
-                      value={category}
-                      isChecked={isSelected(category)}
-                      isDisabled={isSelectionLimitReached() && !isSelected(category)}
-                      onClick={() => {
-                        addSelectList(category);
-                      }}
-                    />
-                  );
-                })}
+                {ProjectCategories.map((category) => (
+                  <CheckTagInput
+                    key={category}
+                    value={category}
+                    isChecked={isSelected(category)}
+                    isDisabled={isSelectionLimitReached() && !isSelected(category)}
+                    onClick={() => handleCategoryClick(category)}
+                  />
+                ))}
               </div>
             </div>
           </div>

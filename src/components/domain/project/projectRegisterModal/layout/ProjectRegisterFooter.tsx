@@ -22,13 +22,7 @@ export default function ProjectRegisterFooter({
 
   return (
     <div className="w-full gap-1 flex-col-center">
-      {currStep === 1 && (
-        <div className="text-gray-600 caption">
-          <span className="text-info-500">메일 주소</span>
-          <span>로 팀원을 확인하기 때문에 </span>
-          <span className="text-info-500">한 번 더 확인해 주세요!</span>
-        </div>
-      )}
+      {currStep === 1 && <StepTwoMailCheckMessage />}
       <div className="flex w-full items-center">
         <div className="flex-1" /> {/* 왼쪽 여백 */}
         <div className="gap-4 flex-center">
@@ -54,3 +48,12 @@ export default function ProjectRegisterFooter({
     </div>
   );
 }
+
+// 2번째 단계에서는 팀원의 이메일 체크 메시지를 추가로 띄워준다.
+const StepTwoMailCheckMessage = () => (
+  <div className="text-gray-600 caption">
+    <span className="text-info-500">메일 주소</span>
+    <span>로 팀원을 확인하기 때문에 </span>
+    <span className="text-info-500">한 번 더 확인해 주세요!</span>
+  </div>
+);

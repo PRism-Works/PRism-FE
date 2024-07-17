@@ -39,20 +39,25 @@ export default function Step3() {
     isSelectionLimitReached,
   } = useTagListState([], 3);
 
-  const handleTechsSelectComplete = (skillTags: string[]) => {
+  const handleSkillsSelectComplete = (skillTags: string[]) => {
     setValue('skills', skillTags);
   };
-  const handleOpenSelectTagModal = () => {
+  const handleOpenSkillsModal = () => {
     openModal(
       <SelectTagModalLayout
         title="역할 검색"
         colorTheme="gray"
         placeholder="팀원이 맡은 역할을 검색해주세요."
         tagList={TechStacks}
-        onSelectComplete={handleTechsSelectComplete}
+        onSelectComplete={handleSkillsSelectComplete}
         defaultSelectTagList={currentSkills}
       />,
     );
+  };
+
+  const handleSkillDelete = (fieldValue: string[], skillIndex: number) => {
+    const newSkills = fieldValue.filter((_, i) => i !== skillIndex);
+    setValue('skills', newSkills, { shouldValidate: true });
   };
 
   // useEffect로 categories 변화 감지하여 setValue
@@ -103,16 +108,13 @@ export default function Step3() {
                       value={skill}
                       colorTheme="gray"
                       buttonType="delete"
-                      onClick={() => {
-                        const newSkiils = field.value.filter((_, i) => i !== skillIndex);
-                        setValue('skills', newSkiils, { shouldValidate: true });
-                      }}
+                      onClick={() => handleSkillDelete(field.value, skillIndex)}
                     />
                   </li>
                 ))}
                 <TagInput
                   value="역할"
-                  onClick={handleOpenSelectTagModal}
+                  onClick={handleOpenSkillsModal}
                   colorTheme="gray"
                   buttonType="add"
                 />
@@ -149,19 +151,17 @@ export default function Step3() {
           프로젝트의 카테고리를 선택해 주세요. (최대 3개 선택)
         </FormDescription>
         <div className="flex flex-wrap gap-1">
-          {ProjectCategories.map((category) => {
-            return (
-              <CheckTagInput
-                key={category}
-                value={category}
-                isChecked={isSelected(category)}
-                isDisabled={isSelectionLimitReached() && !isSelected(category)}
-                onClick={() => {
-                  addSelectList(category);
-                }}
-              />
-            );
-          })}
+          {ProjectCategories.map((category) => (
+            <CheckTagInput
+              key={category}
+              value={category}
+              isChecked={isSelected(category)}
+              isDisabled={isSelectionLimitReached() && !isSelected(category)}
+              onClick={() => {
+                addSelectList(category);
+              }}
+            />
+          ))}
         </div>
       </FormItem>
     </section>
