@@ -181,6 +181,11 @@ const RolesField = ({
     setValue(`members.${index}.roles`, roleTags, { shouldValidate: true });
   };
 
+  const handleRoleDelete = (fieldValue: string[], roleIndex: number) => {
+    const newRoles = fieldValue.filter((_, i) => i !== roleIndex);
+    setValue(`members.${index}.roles`, newRoles, { shouldValidate: true });
+  };
+
   const handleOpenSelectTagModal = () => {
     openModal(
       <SelectTagModalLayout
@@ -209,10 +214,7 @@ const RolesField = ({
                       value={role}
                       colorTheme="indigo"
                       buttonType="delete"
-                      onClick={() => {
-                        const newRoles = field.value.filter((_, i) => i !== roleIndex);
-                        setValue(`members.${index}.roles`, newRoles, { shouldValidate: true });
-                      }}
+                      onClick={() => handleRoleDelete(field.value, roleIndex)}
                     />
                   </li>
                 ))}
