@@ -23,8 +23,12 @@ export const ProjectFormSchema = z.object({
     message: '이름을 입력해주세요.',
   }),
   organizationName: z.string(),
-  startDate: z.string().date(),
-  endDate: z.string().date(),
+  startDate: z.union([z.date(), z.null()]).refine((date) => date !== null, {
+    message: '시작 날짜를 선택해주세요.',
+  }),
+  endDate: z.union([z.date(), z.null()]).refine((date) => date !== null, {
+    message: '종료 날짜를 선택해주세요.',
+  }),
   members: z.array(ProjectMemberSchema),
   projectUrlLink: z.string(),
   projectDescription: z.string(),
@@ -33,4 +37,8 @@ export const ProjectFormSchema = z.object({
 });
 
 export type ProjectMember = z.infer<typeof ProjectMemberSchema>;
-export type ProjectForm = z.infer<typeof ProjectFormSchema>;
+
+export type ProjectForm = Omit<z.infer<typeof ProjectFormSchema>, 'startDate' | 'endDate'> & {
+  startDate: Date | null;
+  endDate: Date | null;
+};

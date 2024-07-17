@@ -1,4 +1,9 @@
+'use client';
+
 import { useFormContext } from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
+import type { ProjectForm } from '@/models/project/projectModels';
 
 import {
   FormControl,
@@ -8,10 +13,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import MaxLengthTextInput from '@/components/common/input/MaxLengthTextInput';
 
-import type { ProjectForm } from '@/models/project/projectModels';
+import MaxLengthTextInput from '@/components/common/input/MaxLengthTextInput';
+import DatePickerWithRange from '@/components/common/calendar/DatePickerWithRange';
 
 export default function Step1() {
   const {
@@ -24,7 +28,7 @@ export default function Step1() {
   };
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-2">
       <FormField
         control={control}
         name="projectName"
@@ -66,23 +70,21 @@ export default function Step1() {
           </FormItem>
         )}
       />
-      {/* 임시 Input -> shadcn 샘플 date picker로 수정 예정, 임시로 start_date로 위치만 잡음 */}
-      <FormField
-        control={control}
-        name="startDate"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-purple-500 mobile1">프로젝트 기간*</FormLabel>
-            <FormDescription className="text-gray-500">
-              프로젝트 기간을 입력해 주세요.
-            </FormDescription>
-            <FormControl>
-              <Input type="date" className={`w-full ${getErrorClass('startDate')}`} {...field} />
-            </FormControl>
-            <FormMessage className="text-danger-500" />
-          </FormItem>
-        )}
-      />
+      <FormItem>
+        <FormLabel className="text-purple-500 mobile1">프로젝트 기간*</FormLabel>
+        <FormDescription className="text-gray-500">프로젝트 기간을 입력해 주세요.</FormDescription>
+        <FormControl>
+          <DatePickerWithRange
+            className={cn('w-full', getErrorClass('startDate') || getErrorClass('endDate'))}
+            control={control}
+            startDateFieldName="startDate"
+            endDateFieldName="endDate"
+          />
+        </FormControl>
+        <FormMessage className="text-danger-500">
+          {errors.startDate?.message || errors.endDate?.message}
+        </FormMessage>
+      </FormItem>
     </section>
   );
 }
