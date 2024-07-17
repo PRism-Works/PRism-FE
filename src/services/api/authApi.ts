@@ -8,6 +8,8 @@ import {
   SignupResponse,
   VerifyAuthCodeRequest,
   VerifyAuthCodeResponse,
+  LoginRequest,
+  LoginResponse,
 } from '@/models/auth/authApiModels';
 
 // NOTE: 개발을 위해 임시로 로그를 많이 추가해두었습니다. 배포 전 삭제할 예정입니다.
@@ -79,6 +81,23 @@ export const signup = async (data: SignupRequest): Promise<SignupResponse> => {
     } else {
       console.error(`회원가입 실패: ${error}`);
       throw new Error(`회원가입 실패: ${error}`);
+    }
+  }
+};
+
+export const login = async (data: LoginRequest): Promise<LoginResponse> => {
+  try {
+    const response = await ax.post<LoginResponse>('/api/v1/auth/login', data);
+    console.log('Login Response:', response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`로그인 실패: ${error.response?.data?.message || error.message}`);
+      console.error('Full error response:', error.response?.data);
+      throw new Error(`로그인 실패: ${error.response?.data?.message || error.message}`);
+    } else {
+      console.error(`로그인 실패: ${error}`);
+      throw new Error(`로그인 실패: ${error}`);
     }
   }
 };
