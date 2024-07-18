@@ -297,6 +297,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       placeholder="비밀번호"
                       {...field}
                       className="w-full"
+                      autoComplete="new-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.password?.message}</FormMessage>
@@ -320,6 +321,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       placeholder="비밀번호 확인"
                       {...field}
                       className="w-full"
+                      autoComplete="new-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.verifyPassword?.message}</FormMessage>

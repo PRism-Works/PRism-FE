@@ -14,7 +14,6 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     return (
       <div className="relative w-full">
         <Input
-          autoComplete="current-password"
           type={showPassword ? 'text' : 'password'}
           className={cn('pr-10', className)}
           ref={ref}

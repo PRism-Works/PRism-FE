@@ -43,12 +43,12 @@ export default function LoginModal() {
     formState: { errors, isValid },
   } = formMethods;
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = (data: LoginForm) => {
     loginMutation.mutate(data);
   };
 
   // 엔터 입력 시 로그인 폼 제출
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleSubmit(onSubmit)();
     }
@@ -123,6 +123,7 @@ export default function LoginModal() {
                       {...field}
                       className="w-full"
                       onKeyDown={handleKeyDown}
+                      autoComplete="current-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.password?.message}</FormMessage>
