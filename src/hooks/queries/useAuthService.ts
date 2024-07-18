@@ -13,7 +13,7 @@ export const useLogin = () => {
   const setUser = useUserStore((state) => state.setUser);
 
   return useMutation<LoginResponse, AxiosError, LoginForm>({
-    mutationFn: (data: LoginForm) => login(data),
+    mutationFn: login,
     onSuccess: async (response) => {
       const { accessToken, refreshToken } = response.data;
 

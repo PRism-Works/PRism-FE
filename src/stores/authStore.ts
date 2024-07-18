@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
 
 const AUTH_STORE_NAME = 'auth-state';
 
@@ -14,30 +15,32 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      isLoggedIn: false,
-      accessToken: null,
-      refreshToken: null,
-      login: (accessToken, refreshToken) =>
-        set({
-          isLoggedIn: true,
-          accessToken,
-          refreshToken,
-        }),
-      logout: () =>
-        set({
-          isLoggedIn: false,
-          accessToken: null,
-          refreshToken: null,
-        }),
-      setAccessToken: (newAccessToken) => set({ accessToken: newAccessToken }),
-      setRefreshToken: (newRefreshToken) => set({ refreshToken: newRefreshToken }),
-    }),
-    {
-      name: AUTH_STORE_NAME,
-      storage: createJSONStorage(() => localStorage),
-    },
+  devtools(
+    persist(
+      (set) => ({
+        isLoggedIn: false,
+        accessToken: null,
+        refreshToken: null,
+        login: (accessToken, refreshToken) =>
+          set({
+            isLoggedIn: true,
+            accessToken,
+            refreshToken,
+          }),
+        logout: () =>
+          set({
+            isLoggedIn: false,
+            accessToken: null,
+            refreshToken: null,
+          }),
+        setAccessToken: (newAccessToken) => set({ accessToken: newAccessToken }),
+        setRefreshToken: (newRefreshToken) => set({ refreshToken: newRefreshToken }),
+      }),
+      {
+        name: AUTH_STORE_NAME,
+        storage: createJSONStorage(() => localStorage),
+      },
+    ),
   ),
 );
 
