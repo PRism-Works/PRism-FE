@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import GlobalFooter from './layout/footer/GlobalFooter';
 import GlobalHeader from './layout/header/GlobalHeader';
 import ModalPortal from './layout/modal/ModalPotal';
+import ReactQueryProviders from '@/hooks/useReactQuery';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -25,10 +26,12 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className={pretendard.variable}>
-        <GlobalHeader />
-        {children}
-        <GlobalFooter />
-        <ModalPortal />
+        <ReactQueryProviders>
+          <GlobalHeader />
+          {children}
+          <GlobalFooter />
+          <ModalPortal />
+        </ReactQueryProviders>
       </body>
     </html>
   );
