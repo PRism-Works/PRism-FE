@@ -91,12 +91,14 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
     console.log('Login Response:', response.data);
     return response.data;
   } catch (error) {
+    console.error(`로그인 실패: ${error}`);
     if (axios.isAxiosError(error)) {
-      console.error(`로그인 실패: ${error.response?.data?.message || error.message}`);
-      console.error('Full error response:', error.response?.data);
-      throw new Error(`로그인 실패: ${error.response?.data?.message || error.message}`);
+      const errorCode = error.response?.data?.code;
+      if (errorCode === 'AuthCode_401_5') {
+        throw new Error('이메일을 확인해주세요.');
+      }
+      throw new Error('비밀번호를 확인해주세요.');
     } else {
-      console.error(`로그인 실패: ${error}`);
       throw new Error(`로그인 실패: ${error}`);
     }
   }
