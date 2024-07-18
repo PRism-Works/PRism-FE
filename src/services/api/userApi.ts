@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ax } from '../axios';
 import { UserDataResponse } from '@/models/user/userApiModels';
 
-export const userData = async () => {
+export const userData = async (): Promise<UserDataResponse> => {
   try {
     const response = await ax.get<UserDataResponse>('/api/v1/users/me');
     return response.data;

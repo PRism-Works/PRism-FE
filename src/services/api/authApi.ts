@@ -95,9 +95,9 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
     if (axios.isAxiosError(error)) {
       const errorCode = error.response?.data?.code;
       if (errorCode === 'AuthCode_401_5') {
-        throw new Error('이메일을 확인해주세요.');
+        throw new Error('회원가입되지 않은 이메일입니다.');
       }
-      throw new Error('비밀번호를 확인해주세요.');
+      throw new Error('비밀번호가 일치하지 않습니다.');
     } else {
       throw new Error(`로그인 실패: ${error}`);
     }
