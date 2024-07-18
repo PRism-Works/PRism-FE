@@ -190,6 +190,7 @@ export default function ResetPasswordModal() {
                       placeholder="비밀번호"
                       {...field}
                       className="w-full"
+                      autoComplete="new-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.newPassword?.message}</FormMessage>
@@ -215,6 +216,7 @@ export default function ResetPasswordModal() {
                       placeholder="비밀번호 확인"
                       {...field}
                       className="w-full"
+                      autoComplete="new-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.verifyNewPassword?.message}</FormMessage>

@@ -79,17 +79,25 @@ interface ConfirmButtonProps {
   isSmallScreen: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  pending?: boolean;
 }
 
 // 전체 너비의 확인 버튼
-const ConfirmButton = ({ title, isSmallScreen, onClick, disabled }: ConfirmButtonProps) => {
+const ConfirmButton = ({
+  title,
+  isSmallScreen,
+  onClick,
+  disabled,
+  pending,
+}: ConfirmButtonProps) => {
   return (
     <Button
       className={`mt-7 h-[55px] w-full max-w-[420px] bg-purple-500 px-[24px] py-[16px] text-white ${
         isSmallScreen ? 'body8' : 'body6'
       } hover:bg-purple-600`}
       onClick={onClick}
-      disabled={disabled}>
+      disabled={disabled}
+      pending={pending}>
       {title}
     </Button>
   );

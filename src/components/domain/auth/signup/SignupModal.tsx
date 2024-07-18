@@ -180,6 +180,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       placeholder="이름"
                       {...field}
                       className="w-full"
+                      autoComplete="name"
                     />
                   </FormControl>
                   <FormMessage>{errors.name?.message}</FormMessage>
@@ -206,6 +207,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                         {...field}
                         disabled={timeLeft > 0}
                         className="w-full flex-grow sm:w-auto"
+                        autoComplete="username"
                       />
                     </FormControl>
                     {isEmailChecked ? (
@@ -254,6 +256,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                           {...field}
                           className="w-full pr-12"
                           disabled={isCertified}
+                          autoComplete="off"
                         />
                         {timeLeft > 0 && !isCertified && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
@@ -294,6 +297,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       placeholder="비밀번호"
                       {...field}
                       className="w-full"
+                      autoComplete="new-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.password?.message}</FormMessage>
@@ -317,6 +321,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       placeholder="비밀번호 확인"
                       {...field}
                       className="w-full"
+                      autoComplete="new-password"
                     />
                   </FormControl>
                   <FormMessage>{errors.verifyPassword?.message}</FormMessage>

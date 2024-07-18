@@ -56,3 +56,12 @@ export interface LoginResponse {
     refreshToken: string;
   };
 }
+
+export interface RefreshTokenResponse {
+  success: boolean;
+  status: number;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
