@@ -4,7 +4,7 @@ import { LoginResponse } from '@/models/auth/authApiModels';
 import { useAuthStore } from '@/stores/authStore';
 import { useModalStore } from '@/stores/modalStore';
 import type { LoginForm } from '@/models/auth/authModels';
-import { login } from './authApi';
+import { login } from '../../services/api/authApi';
 
 export const useLogin = () => {
   const { closeModal } = useModalStore();

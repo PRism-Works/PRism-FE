@@ -21,7 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { useLogin } from '@/services/auth/useAuthService';
+import { useLogin } from '@/hooks/queries/useAuthService';
 
 export default function LoginModal() {
   const id = useId();
