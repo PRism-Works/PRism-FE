@@ -99,6 +99,7 @@ export default function LoginModal() {
                       placeholder="prism12@gmail.com"
                       {...field}
                       className="w-full"
+                      autoComplete="username"
                     />
                   </FormControl>
                   <FormMessage>{errors.email?.message}</FormMessage>
