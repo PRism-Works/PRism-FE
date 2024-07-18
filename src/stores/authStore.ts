@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
-import { devtools } from 'zustand/middleware';
+import { createJSONStorage, persist, devtools } from 'zustand/middleware';
 
 const AUTH_STORE_NAME = 'auth-state';
 
