@@ -10,7 +10,7 @@ export default function ShadowCard({ children, className }: ShadowCardProps) {
   return (
     <div
       className={cn(
-        'cursor-pointer rounded-[20px] p-4 shadow-custom-4px transition-shadow duration-300 hover:shadow-custom-16px active:bg-gray-50',
+        'cursor-pointer rounded-[20px] bg-white p-4 shadow-custom-4px transition-shadow duration-300 hover:shadow-custom-16px active:bg-gray-50',
         className,
       )}>
       {children}
