@@ -5,7 +5,7 @@ import { useTagListState } from '@/hooks/useTagListState';
 import TagInput from '@/components/common/input/TagInput';
 import IconInput from '@/components/common/input/IconInput';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
-import InformationTooltip from '@/components/common/tooltip/InfoTooltip';
+import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
 import MaxLengthMultiTextArea from '@/components/common/input/MaxLengthMultiTextInput';
 
 import {
@@ -113,7 +113,7 @@ export default function Step3() {
                   </li>
                 ))}
                 <TagInput
-                  value="역할"
+                  value="JavaScript"
                   onClick={handleOpenSkillsModal}
                   colorTheme="gray"
                   buttonType="add"
