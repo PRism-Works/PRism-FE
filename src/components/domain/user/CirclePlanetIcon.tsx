@@ -10,23 +10,21 @@ interface CirclePlanetIconProps {
 }
 
 const CirclePlanetIcon = ({ className, iconIndex }: CirclePlanetIconProps) => {
-  const [randomIndex, setRandomIndex] = useState<number | null>(null);
+  const planetKeys = Object.keys(PlanetIcons) as Array<keyof typeof PlanetIcons>;
+  const [randomIndex, setRandomIndex] = useState<number>(() =>
+    Math.floor(Math.random() * planetKeys.length),
+  );
 
   useEffect(() => {
     if (iconIndex === undefined) {
-      const planetKeys = Object.keys(PlanetIcons) as Array<keyof typeof PlanetIcons>;
-      const randomIdx = Math.floor(Math.random() * planetKeys.length);
-      setRandomIndex(randomIdx);
+      setRandomIndex(Math.floor(Math.random() * planetKeys.length));
     }
-  }, [iconIndex]);
+  }, [iconIndex, planetKeys.length]);
 
-  const planetKeys = Object.keys(PlanetIcons) as Array<keyof typeof PlanetIcons>;
   const PlanetIcon =
     iconIndex !== undefined
       ? PlanetIcons[planetKeys[iconIndex]]
-      : randomIndex !== null
-        ? PlanetIcons[planetKeys[randomIndex]]
-        : null;
+      : PlanetIcons[planetKeys[randomIndex]];
 
   return (
     <div
