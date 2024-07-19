@@ -1,29 +1,36 @@
 'use client';
 
 import { useId } from 'react';
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  ResponsiveContainer,
-} from 'recharts';
-
+import { Flag, Puzzle, Users, Wand2, Wrench } from 'lucide-react';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
 
-// EvaluationType, Evaluation는 나중에 공통 타입 정의 파일로 옮겨야 하는 interface 입니다.
-type EvaluationType = '의사소통능력' | '적극성' | '문제해결능력' | '책임감' | '협동심';
+const EVALUATIONS = [
+  'COMMUNICATION',
+  'PROACTIVITY',
+  'PROBLEM_SOLVING',
+  'RESPONSIBILITY',
+  'COOPERATION',
+] as const;
+type EvaluationType = (typeof EVALUATIONS)[number];
 
-// export는 다른 컴포넌트에서 데이터 타입을 명시적으로 선언해야해서 임시로 추가했습니다! -> 파일 옮기면서 삭제 예정
+const EVALUATION_LABELS: Record<EvaluationType, string> = {
+  COMMUNICATION: '의사소통능력',
+  PROACTIVITY: '적극성',
+  PROBLEM_SOLVING: '문제해결능력',
+  RESPONSIBILITY: '책임감',
+  COOPERATION: '협동심',
+};
+
 export interface Evaluation {
   evaluation: EvaluationType;
   percent: number;
-  fullMark: number;
 }
 
 interface PRismChartComponentProps {
   data: Evaluation[];
+  name?: string; // 지표에 표시될 사용자 이름
   hideAxis?: boolean;
   fontSize?: number;
   startColor?: string;
@@ -32,33 +39,98 @@ interface PRismChartComponentProps {
 
 export default function PRismChart({
   data,
+  name = '평가대상이름', // 평가 지표의 대상 이름, 툴팁에 표시될 때 사용
   hideAxis = false,
   fontSize = 14,
-  startColor = tailwindColors.indigo[300],
-  endColor = tailwindColors.purple[700],
+  startColor = tailwindColors.purple[500],
+  endColor = tailwindColors.indigo[500],
 }: PRismChartComponentProps) {
   const id = useId();
 
+  // Shadcn의 ChartTooltip을 쓰려면 ChartContainer 으로 감싸야함
+  // ChartContainer는 chartConfig를 필수값으로 가지는데, 이미 이전에 직접 ReChart에 데이터를 정의해서 이 정의는 불필요함
+  // 구색만 맞추려고 추가했으며, 추후에 Shadcn에서 제공해주는 차트로 컨버전할 예정 (그러나 gradient 색 지정 불가하면 유지할 에정)
+  const chartConfig = {
+    desktop: {
+      label: 'evaluation',
+    },
+  };
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+    <ChartContainer className="h-full w-full" config={chartConfig}>
+      <RadarChart cx="50%" cy="50%" outerRadius="70%" data={data}>
         <defs>
           <linearGradient id={id} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor={startColor} />
             <stop offset="100%" stopColor={endColor} />
           </linearGradient>
         </defs>
-        <PolarGrid strokeDasharray="3 3" />
-        {!hideAxis && <PolarAngleAxis dataKey="evaluation" tick={{ fontSize }} />}
+        <PolarGrid strokeLinecap="square" strokeOpacity={0.6} />
+        {!hideAxis && (
+          <PolarAngleAxis dataKey="evaluation" tick={<CustomAxisTick fontSize={fontSize} />} />
+        )}
+        <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
         <PolarRadiusAxis domain={[0, 100]} axisLine={false} tick={false} />
         <Radar
-          name="Mike"
+          name={name}
           dataKey="percent"
-          stroke="transparent"
+          stroke={tailwindColors.purple[500]}
+          strokeWidth={1.18}
           fill={`url(#${id})`}
-          fillOpacity={0.6}
+          fillOpacity={0.4}
+          dot={{
+            r: 2,
+            fillOpacity: 1,
+          }}
+          markerEnd="3"
         />
       </RadarChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 }
+
+interface CustomAxisTickProps {
+  x?: number;
+  y?: number;
+  payload?: {
+    value: EvaluationType;
+  };
+  fontSize?: number;
+}
+
+const ICONS: Record<EvaluationType, React.ElementType> = {
+  COMMUNICATION: Users,
+  PROACTIVITY: Wand2,
+  PROBLEM_SOLVING: Wrench,
+  RESPONSIBILITY: Flag,
+  COOPERATION: Puzzle,
+};
+
+const CustomAxisTick = ({ x, y, payload, fontSize = 14 }: CustomAxisTickProps) => {
+  if (!payload || !payload.value) return null;
+
+  const index = EVALUATIONS.indexOf(payload.value);
+  const angle = (Math.PI * 2 * index) / EVALUATIONS.length - Math.PI / 2;
+  const radius = 20;
+
+  const adjustedX = (x || 0) + Math.cos(angle) * radius;
+  const adjustedY = (y || 0) + Math.sin(angle) * radius;
+
+  const Icon = ICONS[payload.value];
+
+  return (
+    <g transform={`translate(${adjustedX},${adjustedY})`}>
+      <text
+        x={0}
+        y={0}
+        dy={20}
+        textAnchor="middle"
+        className="m-4 fill-gray-400"
+        fontSize={fontSize}>
+        {EVALUATION_LABELS[payload.value]}
+      </text>
+      <foreignObject x={-10} y={-20} width={30} height={30}>
+        <Icon className="h-5 w-5" />
+      </foreignObject>
+    </g>
+  );
+};
