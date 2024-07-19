@@ -25,8 +25,8 @@ import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 
 export default function Step3() {
-  const { control, setValue, watch } = useFormContext<ProjectForm>();
   const openModal = useModalStore((state) => state.openModal);
+  const { control, setValue, watch } = useFormContext<ProjectForm>();
 
   // 프로젝트 스킬
   const currentSkills = watch('skills');
