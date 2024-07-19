@@ -22,8 +22,8 @@ export default function UserSummaryCard() {
         </div>
       </div>
       <div className="mt-auto flex items-center justify-between">
-        <div className="flex items-center">
-          <TagInput value="기획자" buttonType="none" colorTheme="indigo" className="mr-2" />
+        <div className="flex items-center gap-2">
+          <TagInput value="기획자" buttonType="none" colorTheme="indigo" />
           <TagInput value="디자이너" buttonType="none" colorTheme="indigo" />
         </div>
         <div
