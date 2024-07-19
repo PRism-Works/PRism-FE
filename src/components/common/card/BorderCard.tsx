@@ -8,6 +8,8 @@ interface BorderCardProps {
 
 export default function BorderCard({ children, className }: BorderCardProps) {
   return (
-    <div className={cn('rounded-[20px] border border-gray-200 p-4', className)}>{children}</div>
+    <div className={cn('rounded-[20px] border border-gray-300 bg-white p-4', className)}>
+      {children}
+    </div>
   );
 }

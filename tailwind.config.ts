@@ -242,7 +242,7 @@ const config: Config = {
         '.display6': {
           fontSize: '16px',
           fontWeight: '600',
-          lineHeight: '1.2',
+          lineHeight: '1.4',
         },
         '.flex-center': {
           display: 'flex',
