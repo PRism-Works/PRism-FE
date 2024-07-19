@@ -33,7 +33,7 @@ export default function MessageBox({
           </div>
         }
         description={description}
-        contentClassName="w-fit px-[100px]"
+        contentClassName="max-w-[500px] px-[50px]"
         transparentOverlay={true}
         footer={<div className="mt-5 w-full gap-1 flex-center">{footer}</div>}
       />

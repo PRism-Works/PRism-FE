@@ -5,7 +5,7 @@ import { useTagListState } from '@/hooks/useTagListState';
 import TagInput from '@/components/common/input/TagInput';
 import IconInput from '@/components/common/input/IconInput';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
-import InformationTooltip from '@/components/common/tooltip/InfoTooltip';
+import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
 import MaxLengthMultiTextArea from '@/components/common/input/MaxLengthMultiTextInput';
 
 import {
@@ -25,8 +25,8 @@ import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 
 export default function Step3() {
-  const { control, setValue, watch } = useFormContext<ProjectForm>();
   const openModal = useModalStore((state) => state.openModal);
+  const { control, setValue, watch } = useFormContext<ProjectForm>();
 
   // 프로젝트 스킬
   const currentSkills = watch('skills');
@@ -113,7 +113,7 @@ export default function Step3() {
                   </li>
                 ))}
                 <TagInput
-                  value="역할"
+                  value="JavaScript"
                   onClick={handleOpenSkillsModal}
                   colorTheme="gray"
                   buttonType="add"

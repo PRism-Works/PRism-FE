@@ -17,6 +17,7 @@ import type { ProjectForm, ProjectMember } from '@/models/project/projectModels'
 import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 import { UserRoles } from '@/lib/tagList';
+import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
 
 const DEFAULT_MEMBER: ProjectMember = { name: '', email: '', roles: [] };
 const PRIORITY_ERROR_FIELDS: (keyof FieldErrors<ProjectMember>)[] = ['name', 'email', 'roles']; // error 우선순위대로 선언
@@ -72,7 +73,13 @@ export default function Step2() {
   return (
     <section className="flex flex-col">
       <FormItem>
-        <FormLabel className="text-purple-500 mobile1">팀원정보*</FormLabel>
+        <div className="item-center flex gap-1">
+          <FormLabel className="text-purple-500 mobile1">팀원정보*</FormLabel>
+          <InformationTooltip
+            side="right"
+            message="익명으로 원할 경우, 해당 팀원이 직접 ‘MY PAGE’ 에서 설정가능해요!"
+          />
+        </div>
         <FormDescription className="text-gray-500 caption">
           프로젝트에 참여한 팀원의 정보를 알려주세요
         </FormDescription>
