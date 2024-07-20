@@ -33,7 +33,6 @@ export const useAuthStore = create<AuthState>()(
             accessToken: null,
             refreshToken: null,
           });
-          localStorage.removeItem('auth-state');
           useUserStore.getState().clearUser();
         },
         setAccessToken: (newAccessToken) => set({ accessToken: newAccessToken }),

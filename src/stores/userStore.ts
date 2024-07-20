@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist, devtools } from 'zustand/middleware';
+import { User } from '@/models/user/userModels';
 
 const USER_STORE_NAME = 'user-state';
 
-import { User } from '@/models/user/userModels';
 interface UserStoreType {
   user: User | null;
   setUser: (user: User) => void;
@@ -17,10 +17,7 @@ export const useUserStore = create<UserStoreType>()(
       (set) => ({
         user: null,
         setUser: (user: User) => set({ user }),
-        clearUser: () => {
-          set({ user: null });
-          localStorage.removeItem('user-state');
-        },
+        clearUser: () => set({ user: null }),
       }),
       {
         name: USER_STORE_NAME,
