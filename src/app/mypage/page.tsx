@@ -1,7 +1,9 @@
 import BorderCard from '@/components/common/card/BorderCard';
-import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
+import ProjectSummaryCard, {
+  PROJECT_CARD_VARIANT,
+} from '@/components/domain/project/projectCard/ProjectSummaryCard';
 import UserProfile from '@/components/domain/user/userProfile/UserProfile';
-import { PROJECT_CARD_VARIANT, type ProjectSummaryData } from '@/models/project/projectModels';
+import { type ProjectSummaryData } from '@/models/project/projectModels';
 
 export default function MyPage() {
   // 예시로 데이터 넣어놨습니다. 추후 수정 부탁드립니다!
