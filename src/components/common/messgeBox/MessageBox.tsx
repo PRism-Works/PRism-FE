@@ -4,8 +4,6 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/modalStore';
 
-import { cn } from '@/lib/utils';
-
 // 제목, 버튼 필수
 interface MessageBoxProps {
   title: React.ReactNode;
@@ -54,13 +52,7 @@ const MessageConfirmButton = ({ text, onClick, isPrimary = true }: MessageBoxBut
     onClick();
   };
   return (
-    <Button
-      className={cn(
-        isPrimary
-          ? 'bg-purple-500 text-white mobile2 hover:bg-purple-600'
-          : 'border border-gray-700 bg-white text-gray-700 hover:bg-gray-50',
-      )}
-      onClick={handleClick}>
+    <Button variant={isPrimary ? 'default' : 'outline'} onClick={handleClick}>
       {text}
     </Button>
   );

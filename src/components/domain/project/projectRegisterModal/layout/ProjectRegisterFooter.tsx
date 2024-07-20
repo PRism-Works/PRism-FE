@@ -37,9 +37,7 @@ export default function ProjectRegisterFooter({
         </div>
         <div className="flex flex-1 justify-end">
           {isLastStep && (
-            <Button
-              onClick={handleExternalSubmit}
-              className="rounded-[10px] bg-purple-500 px-[16px] py-[10px] text-white mobile1 hover:bg-purple-600">
+            <Button onClick={handleExternalSubmit} className="mobile1">
               등록하기
             </Button>
           )}

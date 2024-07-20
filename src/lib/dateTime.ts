@@ -25,3 +25,12 @@ export const formatDateToKoreanStyle = (date: Date): string =>
 export const formatDateToYYYYMMDDHHmmss = (date: Date): string => {
   return format(date, 'yyyyMMddHHmmss');
 };
+
+/**
+ *
+ * @param date yyyy.MM.dd로 변환될 Date 객체
+ * @returns yyyy.MM.dd
+ */
+export const formatDateToDotSeparatedYYYYMMDD = (date: Date): string => {
+  return format(date, 'yyyy.MM.dd');
+};

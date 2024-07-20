@@ -37,6 +37,7 @@ interface TagInputProps {
   colorTheme?: TagInputColor;
   className?: string;
   onClick?: () => void;
+  isDisabled?: boolean;
 }
 
 export default function TagInput({
@@ -45,6 +46,7 @@ export default function TagInput({
   colorTheme = 'purple',
   className = '',
   onClick = () => {},
+  isDisabled = false,
 }: TagInputProps) {
   const { base, description, hoverAndActive, iconHover } = colorConfig[colorTheme];
 
@@ -57,7 +59,8 @@ export default function TagInput({
       className={cn(
         'group flex h-fit w-fit cursor-pointer items-center justify-between gap-1 rounded-[6px] px-1.5 py-1 transition-colors display5',
         base,
-        hoverAndActive,
+        !isDisabled && hoverAndActive,
+        isDisabled && 'cursor-default',
         className,
       )}
       onClick={handleTagClick}>
