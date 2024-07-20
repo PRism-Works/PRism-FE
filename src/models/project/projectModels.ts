@@ -56,7 +56,7 @@ export interface ProjectSummaryData {
   evaluatedMembersCount?: number;
 }
 
-// 프로젝트 요약 카드 variant
+// 프로젝트 요약 카드 variant (ProjectSummaryCard 안으로 옮기려했으나, 번들링 오류로 위치 유지)
 export const PROJECT_CARD_VARIANT = {
   ADMIN: 'Admin', // 관리자 모드에서 내가 등록한 프로젝트 요약 조회
   LINK_PREVIEW: 'LinkPreview', // 내 프로필에서 조회되는 내가 참여한 프로젝트 요약

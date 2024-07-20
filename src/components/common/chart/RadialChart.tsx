@@ -4,36 +4,30 @@ import React, { useEffect, useState } from 'react';
 import { Crown, HeartHandshake, Gem } from 'lucide-react';
 import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
+import {
+  RADIAL_EVALUATION_TYPES,
+  type RadialEvaluationType,
+} from '@/models/evaluation/evaluationModels';
 
-// 평가 유형 상수 및 관련 정보 정의
-export const EVALUATION_TYPES = {
-  LEADERSHIP: 'LEADERSHIP',
-  RELIABILITY: 'RELIABILITY',
-  CHARISMA: 'CHARISMA',
-} as const;
-
-export type EvaluationType = (typeof EVALUATION_TYPES)[keyof typeof EVALUATION_TYPES];
-
-// tailwindColor를 import하면 hydration 오류나서 테일윈드 컬러 팔레트 접근 안하고 색 직접 정의
 export const EVALUATION_INFO: Record<
-  EvaluationType,
+  RadialEvaluationType,
   {
     label: string;
     icon: React.ElementType;
     color: string;
   }
 > = {
-  [EVALUATION_TYPES.LEADERSHIP]: {
+  [RADIAL_EVALUATION_TYPES.LEADERSHIP]: {
     label: '리더십',
     icon: Crown,
     color: tailwindColors.purple[900],
   },
-  [EVALUATION_TYPES.RELIABILITY]: {
+  [RADIAL_EVALUATION_TYPES.RELIABILITY]: {
     label: '신뢰도',
     icon: HeartHandshake,
     color: tailwindColors.purple[800],
   },
-  [EVALUATION_TYPES.CHARISMA]: {
+  [RADIAL_EVALUATION_TYPES.CHARISMA]: {
     label: '매력도',
     icon: Gem,
     color: tailwindColors.purple[900],
@@ -41,7 +35,7 @@ export const EVALUATION_INFO: Record<
 };
 
 interface RadialChartProps {
-  type: EvaluationType;
+  type: RadialEvaluationType;
   value: number;
 }
 

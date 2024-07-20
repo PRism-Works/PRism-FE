@@ -5,17 +5,9 @@ import { Flag, Puzzle, Users, Wand2, Wrench } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
+import { PRISM_EVALUATIONS, type PRismEvaluationType } from '@/models/evaluation/evaluationModels';
 
-const EVALUATIONS = [
-  'COMMUNICATION',
-  'PROACTIVITY',
-  'PROBLEM_SOLVING',
-  'RESPONSIBILITY',
-  'COOPERATION',
-] as const;
-type EvaluationType = (typeof EVALUATIONS)[number];
-
-const EVALUATION_LABELS: Record<EvaluationType, string> = {
+const EVALUATION_LABELS: Record<PRismEvaluationType, string> = {
   COMMUNICATION: '의사소통능력',
   PROACTIVITY: '적극성',
   PROBLEM_SOLVING: '문제해결능력',
@@ -24,7 +16,7 @@ const EVALUATION_LABELS: Record<EvaluationType, string> = {
 };
 
 export interface Evaluation {
-  evaluation: EvaluationType;
+  evaluation: PRismEvaluationType;
   percent: number;
 }
 
@@ -92,12 +84,12 @@ interface CustomAxisTickProps {
   x?: number;
   y?: number;
   payload?: {
-    value: EvaluationType;
+    value: PRismEvaluationType;
   };
   fontSize?: number;
 }
 
-const ICONS: Record<EvaluationType, React.ElementType> = {
+const ICONS: Record<PRismEvaluationType, React.ElementType> = {
   COMMUNICATION: Users,
   PROACTIVITY: Wand2,
   PROBLEM_SOLVING: Wrench,
@@ -108,9 +100,9 @@ const ICONS: Record<EvaluationType, React.ElementType> = {
 const CustomAxisTick = ({ x, y, payload, fontSize = 14 }: CustomAxisTickProps) => {
   if (!payload || !payload.value) return null;
 
-  const index = EVALUATIONS.indexOf(payload.value);
-  const angle = (Math.PI * 2 * index) / EVALUATIONS.length - Math.PI / 2;
-  const radius = 20;
+  const index = PRISM_EVALUATIONS.indexOf(payload.value);
+  const angle = (Math.PI * 2 * index) / PRISM_EVALUATIONS.length - Math.PI / 2;
+  const radius = 15;
 
   const adjustedX = (x || 0) + Math.cos(angle) * radius;
   const adjustedY = (y || 0) + Math.sin(angle) * radius;
