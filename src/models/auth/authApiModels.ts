@@ -65,3 +65,9 @@ export interface RefreshTokenResponse {
     refreshToken: string;
   };
 }
+
+export interface LogoutResponse {
+  success: boolean;
+  status: number;
+  data: null;
+}
