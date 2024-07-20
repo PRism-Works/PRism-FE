@@ -1,6 +1,7 @@
 'use client';
 
 import { useModalStore } from '@/stores/modalStore';
+import { useAuthStore } from '@/stores/authStore';
 import { Button } from '@/components/ui/button';
 import { AlignJustify, LogOut } from 'lucide-react';
 import LoginModal from '@/components/domain/auth/login/LoginModal';
@@ -14,7 +15,6 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
-import { useAuthStore } from '@/stores/authStore';
 
 export default function GlobalHeader() {
   const { openModal, closeModal } = useModalStore();
@@ -41,7 +41,7 @@ export default function GlobalHeader() {
   };
 
   return (
-    <Menubar className="flex h-[70px] w-full items-center justify-between bg-white px-24 py-8 shadow-custom-2px">
+    <Menubar className="flex h-[70px] w-full items-center justify-between bg-white px-4 py-4 shadow-custom-2px md:px-8 lg:px-24 lg:py-8">
       <div className="flex items-center">
         <PrismLogo className="w-[150px]" />
       </div>
