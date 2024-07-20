@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist, devtools } from 'zustand/middleware';
+import { useUserStore } from './userStore';
 
 const AUTH_STORE_NAME = 'auth-state';
 
@@ -26,12 +27,15 @@ export const useAuthStore = create<AuthState>()(
             accessToken,
             refreshToken,
           }),
-        logout: () =>
+        logout: () => {
           set({
             isLoggedIn: false,
             accessToken: null,
             refreshToken: null,
-          }),
+          });
+          localStorage.removeItem('auth-state');
+          useUserStore.getState().clearUser();
+        },
         setAccessToken: (newAccessToken) => set({ accessToken: newAccessToken }),
         setRefreshToken: (newRefreshToken) => set({ refreshToken: newRefreshToken }),
       }),

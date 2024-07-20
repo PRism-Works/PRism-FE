@@ -17,7 +17,10 @@ export const useUserStore = create<UserStoreType>()(
       (set) => ({
         user: null,
         setUser: (user: User) => set({ user }),
-        clearUser: () => set({ user: null }),
+        clearUser: () => {
+          set({ user: null });
+          localStorage.removeItem('user-state');
+        },
       }),
       {
         name: USER_STORE_NAME,
