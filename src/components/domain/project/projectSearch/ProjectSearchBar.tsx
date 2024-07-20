@@ -58,7 +58,6 @@ export default function ProjectSearchBar({ className }: ProjectSearchBarProps) {
         svgIcon={<Search className="mx-2 h-[24px] w-[24px] text-gray-500" />}
         placeholder={placeholder}
       />
-
       <div className="mt-3 flex items-center body8">
         <button onClick={toggleDetailVisibility} className="flex items-center text-gray-700">
           <span className="mx-1">검색 필터</span>
