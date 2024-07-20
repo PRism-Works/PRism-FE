@@ -11,20 +11,12 @@ import ProjectEditDeleteButton from '../projectButton/ProjectEditDeleteButton';
 import ProjectEvaluationButton from '../projectButton/ProjectEvaluationButton';
 import ProjectSendEvaluationLink from '../projectButton/ProjectSendEvaluationLink';
 
-import { type ProjectSummaryData } from '@/models/project/projectModels';
+import {
+  PROJECT_CARD_VARIANT,
+  type ProjectSummaryCardVariant,
+  type ProjectSummaryData,
+} from '@/models/project/projectModels';
 import { formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
-
-// 프로젝트 요약 카드 variant
-export const PROJECT_CARD_VARIANT = {
-  ADMIN: 'Admin', // 관리자 모드에서 내가 등록한 프로젝트 요약 조회
-  LINK_PREVIEW: 'LinkPreview', // 내 프로필에서 조회되는 내가 참여한 프로젝트 요약
-  MY_PROFILE: 'MyProfile', // 프로젝트 연동을 위해 조회할 때 사용
-  OTHER_PROFILE: 'OtherProfile', // 다른 사용자의 프로필에서 프로젝트 조회 시 사용
-  SEARCH_RESULT: 'SearchResult', // 홈 검색에서 프로젝트 검색 결과 표시 시 사용
-} as const;
-
-export type ProjectSummaryCardVariant =
-  (typeof PROJECT_CARD_VARIANT)[keyof typeof PROJECT_CARD_VARIANT];
 
 interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
