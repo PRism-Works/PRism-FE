@@ -8,6 +8,7 @@ import ProjectRegisterModal from '@/components/domain/project/projectRegisterMod
 import PrismLogo from '@/assets/logo/logo-combine.svg';
 import { useModalStore } from '@/stores/modalStore';
 import { useAuthStore } from '@/stores/authStore';
+import { useLogout } from '@/hooks/queries/useAuthService';
 import { AlignJustify, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,7 +22,8 @@ import {
 
 const GlobalHeader = () => {
   const { openModal, closeModal } = useModalStore();
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
+  const logoutMutation = useLogout();
 
   const handleSignupSuccess = () => {
     closeModal();
@@ -39,8 +41,7 @@ const GlobalHeader = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    alert('로그아웃 되었습니다.');
+    logoutMutation.mutate();
   };
 
   const handleOpenProject = () => {
@@ -110,4 +111,4 @@ const GlobalHeader = () => {
   );
 };
 
-export default React.memo(GlobalHeader);
+export default GlobalHeader;
