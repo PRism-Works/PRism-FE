@@ -81,6 +81,7 @@ export default function EditMyPage() {
       username: name,
       skills,
       interestJobs,
+      introduction: '',
     };
     updateProfileMutation.mutate(profileData);
   };

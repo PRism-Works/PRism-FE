@@ -47,7 +47,10 @@ export const getUserProfile = async (userId: string): Promise<UserProfileRespons
 
 export const updateProfile = async (data: UpdateProfileRequest): Promise<UpdateProfileResponse> => {
   try {
-    const response = await ax.put<UpdateProfileResponse>('/api/v1/users/profile', data);
+    const response = await ax.patch<UpdateProfileResponse>('/api/v1/users/profile', {
+      ...data,
+      introduction: data.introduction || '',
+    });
     if (response.data.success) {
       return response.data;
     } else {
