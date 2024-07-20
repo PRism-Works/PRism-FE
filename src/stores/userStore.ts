@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist, devtools } from 'zustand/middleware';
+import { User } from '@/models/user/userModels';
 
 const USER_STORE_NAME = 'user-state';
 
-import { User } from '@/models/user/userModels';
 interface UserStoreType {
   user: User | null;
   setUser: (user: User) => void;
