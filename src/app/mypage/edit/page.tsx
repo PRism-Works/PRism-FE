@@ -22,7 +22,7 @@ export default function EditMyPage() {
   const updateProfileMutation = useUpdateProfile();
 
   useEffect(() => {
-    if (user) {
+    if (user?.data) {
       setName(user.data.username);
       setEmail(user.data.email);
       setInterestJobs(user.data.interestJobs || []);
@@ -85,20 +85,43 @@ export default function EditMyPage() {
     updateProfileMutation.mutate(profileData);
   };
 
+  const renderTags = (tags: string[], type: 'interestJobs' | 'skills', onOpenModal: () => void) => (
+    <ul className="flex flex-wrap gap-2">
+      {tags.map((tag, index) => (
+        <li key={index}>
+          <TagInput
+            value={tag}
+            colorTheme="gray"
+            buttonType="delete"
+            onClick={() => handleTagDelete(type, index)}
+          />
+        </li>
+      ))}
+      <li>
+        <TagInput
+          value={type === 'interestJobs' ? '관심 직무' : '보유 스킬'}
+          onClick={onOpenModal}
+          colorTheme="gray"
+          buttonType="add"
+        />
+      </li>
+    </ul>
+  );
+
   if (isLoading) {
     return <PageSpinner />;
   }
 
   if (isError) {
     console.error('유저 데이터 가져오기 실패:', error);
-    return <div>Error loading user data</div>;
+    return <div>유저 데이터를 로드하는 중 오류가 발생했습니다.</div>;
   }
 
   return (
     <main className="container mx-auto flex min-h-screen flex-col items-center p-12">
       <div className="flex w-full justify-end" style={{ width: '90%' }}></div>
       <div className="flex w-full max-w-[1040px] flex-col items-center gap-4">
-        <span className="self-start text-gray-900 body6">프로필 수정</span>{' '}
+        <span className="self-start text-gray-900 body6">프로필 수정</span>
         <div className="flex w-full max-w-[1040px] flex-col gap-8 rounded-[30px] bg-white p-8">
           <div className="mx-auto flex w-full max-w-[500px] flex-col gap-8">
             <div className="flex flex-col gap-2">
@@ -111,49 +134,11 @@ export default function EditMyPage() {
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-gray-600 mobile1">관심 직무</span>
-              <ul className="flex flex-wrap gap-2">
-                {interestJobs.map((job, index) => (
-                  <li key={index}>
-                    <TagInput
-                      value={job}
-                      colorTheme="gray"
-                      buttonType="delete"
-                      onClick={() => handleTagDelete('interestJobs', index)}
-                    />
-                  </li>
-                ))}
-                <li>
-                  <TagInput
-                    value="관심 직무"
-                    onClick={handleOpenSelectInterestJobsModal}
-                    colorTheme="gray"
-                    buttonType="add"
-                  />
-                </li>
-              </ul>
+              {renderTags(interestJobs, 'interestJobs', handleOpenSelectInterestJobsModal)}
             </div>
             <div className="mb-[60px] flex flex-col gap-2">
               <span className="text-gray-600 mobile1">보유 스킬</span>
-              <ul className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
-                  <li key={index}>
-                    <TagInput
-                      value={skill}
-                      colorTheme="gray"
-                      buttonType="delete"
-                      onClick={() => handleTagDelete('skills', index)}
-                    />
-                  </li>
-                ))}
-                <li>
-                  <TagInput
-                    value="보유 스킬"
-                    onClick={handleOpenSkillsModal}
-                    colorTheme="gray"
-                    buttonType="add"
-                  />
-                </li>
-              </ul>
+              {renderTags(skills, 'skills', handleOpenSkillsModal)}
             </div>
             <div className="flex justify-center gap-4">
               <Button
