@@ -20,7 +20,7 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 
-const GlobalHeader = () => {
+export default function GlobalHeader() {
   const { openModal, closeModal } = useModalStore();
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
@@ -109,6 +109,4 @@ const GlobalHeader = () => {
       </div>
     </Menubar>
   );
-};
-
-export default GlobalHeader;
+}
