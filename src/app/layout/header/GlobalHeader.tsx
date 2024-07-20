@@ -40,18 +40,10 @@ export default function GlobalHeader() {
         <PrismLogo className="w-[150px]" />
       </div>
       <div className="flex items-center">
-        <Button
-          onClick={handleOpenLoginModal}
-          variant="outline"
-          className="border-1 mr-2 border border-gray-700 text-gray-700">
+        <Button onClick={handleOpenLoginModal} variant="outline" className="border-1 mr-2 border">
           로그인
         </Button>
-        <Button
-          onClick={handleOpenSignupModal}
-          variant="default"
-          className="bg-purple-500 hover:bg-purple-600">
-          회원가입
-        </Button>
+        <Button onClick={handleOpenSignupModal}>회원가입</Button>
       </div>
       <MenubarMenu>
         <MenubarTrigger className="ml-auto">

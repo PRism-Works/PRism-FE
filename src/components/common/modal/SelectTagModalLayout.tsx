@@ -110,11 +110,7 @@ export default function SelectTagModalLayout({
     <ModalLayout
       contentClassName="max-w-[384px] p-[20px]"
       title={<div className="body8">{title}</div>}
-      footer={
-        <Button onClick={handleSelectComplete} className="bg-purple-500 hover:bg-purple-600">
-          등록하기
-        </Button>
-      }>
+      footer={<Button onClick={handleSelectComplete}>등록하기</Button>}>
       <main className="my-[20px] h-[300px] w-full flex-col gap-3">
         <div className="h-[75%] w-full gap-2 overflow-hidden flex-col-center">
           <div className="w-full">
