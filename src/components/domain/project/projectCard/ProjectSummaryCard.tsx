@@ -11,24 +11,12 @@ import ProjectEditDeleteButton from '../projectButton/ProjectEditDeleteButton';
 import ProjectEvaluationButton from '../projectButton/ProjectEvaluationButton';
 import ProjectSendEvaluationLink from '../projectButton/ProjectSendEvaluationLink';
 
-import type { ProjectSummaryData } from '@/models/project/projectModels';
+import {
+  PROJECT_CARD_VARIANT,
+  type ProjectSummaryCardVariant,
+  type ProjectSummaryData,
+} from '@/models/project/projectModels';
 import { formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
-
-/**
- * ProjectSummaryCardVariant
- * Admin - 관리자 모드에서 내가 등록한 프로젝트 요약 조회
- * MyProfile - 내 프로필에서 조회되는 내가 참여한 프로젝트 요약
- * LinkPreview - 프로젝트 연동을 위해 조회할 때 사용
- * OtherProfile - 다른 사용자의 프로필에서 프로젝트 조회 시 사용
- * SearchResult - 홈 검색에서 프로젝트 검색 결과 표시 시 사용
- */
-
-type ProjectSummaryCardVariant =
-  | 'Admin'
-  | 'LinkPreview'
-  | 'MyProfile'
-  | 'OtherProfile'
-  | 'SearchResult';
 
 interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
@@ -36,14 +24,15 @@ interface ProjectSummaryCardProps {
 }
 
 export default function ProjectSummaryCard({
-  variant = 'SearchResult',
+  variant = PROJECT_CARD_VARIANT.SEARCH_RESULT,
   projectData,
 }: ProjectSummaryCardProps) {
   const projectId = projectData.projectId;
-  const isCardDisabled = variant === 'Admin' || variant === 'LinkPreview';
+  const isCardDisabled =
+    variant === PROJECT_CARD_VARIANT.ADMIN || variant === PROJECT_CARD_VARIANT.LINK_PREVIEW;
   const handleClick = () => {
     if (isCardDisabled) return;
-    if (variant === 'MyProfile') {
+    if (variant === PROJECT_CARD_VARIANT.MY_PROFILE) {
       alert(`로그인한 사용자의 ${projectId}번 프로젝트 상세조회 api 호출하며 페이지 이동`);
     } else {
       alert(`타인의 ${projectId}번 프로젝트 상세조회 api 호출하며 페이지 이동`);
@@ -58,7 +47,8 @@ export default function ProjectSummaryCard({
       onClick={handleClick}>
       <div className="flex w-[80%] gap-12">
         <LeftSection projectData={projectData} />
-        {(variant === 'MyProfile' || variant === 'OtherProfile') && (
+        {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
+          variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
           <EvaluationSection evaluation={projectData?.evaluation || ''} />
         )}
       </div>
@@ -105,7 +95,7 @@ const RightSection = ({
   const projectId = projectData.projectId;
   return (
     <aside className="flex w-[20%] flex-col items-end justify-between">
-      {variant !== 'Admin' && (
+      {variant !== PROJECT_CARD_VARIANT.ADMIN && (
         // 프로젝트 카테고리 (관리자 모드에서는 삭제, 수정 버튼 표시)
         <ul className="flex gap-1">
           {projectData.categories?.map((category, index) => (
@@ -115,18 +105,18 @@ const RightSection = ({
           ))}
         </ul>
       )}
-      {variant === 'MyProfile' && (
+      {variant === PROJECT_CARD_VARIANT.MY_PROFILE && (
         // 로그인 사용쟈의 프로젝트 공개, 비공개 처리 버튼
         <ProjectVisibilityButton
           projectId={projectId}
           initialVisibility={projectData.projectVisibility || false}
         />
       )}
-      {variant === 'LinkPreview' && (
+      {variant === PROJECT_CARD_VARIANT.LINK_PREVIEW && (
         // 프로젝트 연동하기 버튼
         <ProjectLinkButton projectId={projectId} />
       )}
-      {variant === 'Admin' && (
+      {variant === PROJECT_CARD_VARIANT.ADMIN && (
         <>
           <ProjectEditDeleteButton projectId={projectId} />
           <footer className="flex flex-col items-end gap-1">
