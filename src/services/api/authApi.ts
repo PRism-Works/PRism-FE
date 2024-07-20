@@ -10,6 +10,7 @@ import {
   VerifyAuthCodeResponse,
   LoginRequest,
   LoginResponse,
+  LogoutResponse,
 } from '@/models/auth/authApiModels';
 
 // NOTE: 개발을 위해 임시로 로그를 많이 추가해두었습니다. 배포 전 삭제할 예정입니다.
@@ -101,5 +102,19 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
     } else {
       throw new Error(`로그인 실패: ${error}`);
     }
+  }
+};
+
+export const logout = async (): Promise<LogoutResponse> => {
+  try {
+    const response = await ax.post<LogoutResponse>('/api/v1/auth/logout');
+    if (response.data.success) {
+      return response.data;
+    } else {
+      throw new Error('로그아웃 실패');
+    }
+  } catch (error) {
+    console.error('로그아웃 실패:', error);
+    throw error;
   }
 };
