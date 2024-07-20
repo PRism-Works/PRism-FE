@@ -4,8 +4,6 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import { Button } from '@/components/ui/button';
 import { useModalStore } from '@/stores/modalStore';
 
-import { cn } from '@/lib/utils';
-
 // 제목, 버튼 필수
 interface MessageBoxProps {
   title: React.ReactNode;
