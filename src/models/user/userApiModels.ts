@@ -10,6 +10,18 @@ export interface UserDataResponse {
   };
 }
 
+export interface UserProfileResponse {
+  success: boolean;
+  status: number;
+  data: {
+    username: string;
+    email: string;
+    interestJobs: string[];
+    skills: string[];
+    introduction?: string;
+  };
+}
+
 export interface UpdateProfileRequest {
   username: string;
   skills: string[];
