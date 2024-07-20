@@ -9,3 +9,16 @@ export interface UserDataResponse {
     skills: string[];
   };
 }
+
+export interface UpdateProfileRequest {
+  username: string;
+  skills: string[];
+  interestJobs: string[];
+  introduction?: string;
+}
+
+export interface UpdateProfileResponse {
+  success: boolean;
+  status: number;
+  data: null;
+}
