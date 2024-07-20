@@ -51,13 +51,11 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const logoutAuthStore = useAuthStore((state) => state.logout);
-  const clearUser = useUserStore((state) => state.clearUser);
 
   return useMutation<LogoutResponse, AxiosError>({
     mutationFn: logout,
     onSuccess: () => {
       logoutAuthStore();
-      clearUser();
       alert('로그아웃 되었습니다.');
     },
     onError: (error) => {
