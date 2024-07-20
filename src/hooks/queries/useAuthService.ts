@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { LoginResponse } from '@/models/auth/authApiModels';
+import { LoginResponse, LogoutResponse } from '@/models/auth/authApiModels';
 import { useAuthStore } from '@/stores/authStore';
 import { useModalStore } from '@/stores/modalStore';
 import type { LoginForm } from '@/models/auth/authModels';
-import { login } from '../../services/api/authApi';
+import { login, logout } from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
 import { userData } from '@/services/api/userApi';
 
@@ -45,6 +45,24 @@ export const useLogin = () => {
     onError: (error) => {
       alert('로그인에 실패했습니다. 다시 시도해 주세요.');
       console.error('로그인 실패: ', error);
+    },
+  });
+};
+
+export const useLogout = () => {
+  const logoutAuthStore = useAuthStore((state) => state.logout);
+  const clearUser = useUserStore((state) => state.clearUser);
+
+  return useMutation<LogoutResponse, AxiosError>({
+    mutationFn: logout,
+    onSuccess: () => {
+      logoutAuthStore();
+      clearUser();
+      alert('로그아웃 되었습니다.');
+    },
+    onError: (error) => {
+      console.error('로그아웃 실패:', error);
+      alert('로그아웃에 실패했습니다. 다시 시도해 주세요.');
     },
   });
 };
