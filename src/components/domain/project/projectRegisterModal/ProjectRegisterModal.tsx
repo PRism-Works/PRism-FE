@@ -91,7 +91,7 @@ export default function ProjectRegisterModal({
       projectName: defaultData?.projectName || '',
       organizationName: defaultData?.organizationName || '',
       startDate: defaultData?.startDate || null,
-      endDate: defaultData?.startDate || null,
+      endDate: defaultData?.endDate || null,
       members: defaultData?.members || [
         {
           // 로그인 한 사용자 기본 세팅

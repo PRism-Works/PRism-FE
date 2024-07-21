@@ -2,7 +2,7 @@ import { Edit3, Trash2 } from 'lucide-react';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
 
 import { useModalStore } from '@/stores/modalStore';
-import { useDeleteProject } from '@/hooks/queries/useProjectService';
+import { useDeleteProject, useGetProjectDetails } from '@/hooks/queries/useProjectService';
 import ProjectRegisterModal from '../projectRegisterModal/ProjectRegisterModal';
 import { ProjectForm } from '@/models/project/projectModels';
 
@@ -13,42 +13,28 @@ interface ProjectEditDeleteButtonProps {
 export default function ProjectEditDeleteButton({ projectId }: ProjectEditDeleteButtonProps) {
   const { openModal, closeModal } = useModalStore();
 
+  const handleGetDetailSuccess = (projectDetailData: ProjectForm) => {
+    openModal(
+      <ProjectRegisterModal isEdit projectId={projectId} defaultData={projectDetailData} />,
+    );
+  };
+  const getDetailMutaion = useGetProjectDetails(handleGetDetailSuccess);
+
   const handleDeleteProject = () => {
     openModal(<DeleteConfirmMessage projectId={projectId} closeModal={closeModal} />);
   };
 
   const handleEditProject = () => {
-    // 현재 프로젝트 아이디에 해당하는 데이터 받아와서 props으로 넘겨주기
-    const projectDefaultData: ProjectForm = {
-      projectName: '프로젝트3',
-      organizationName: '기관이름이름',
-      startDate: new Date(),
-      endDate: new Date(),
-      members: [
-        {
-          name: '장세영23',
-          email: 'jang.se.yeong000@gmail.com',
-          roles: ['Frontend', 'Backend', 'Full Stack', 'Android'],
-        },
-        { name: '팀원2', email: '1@kakao.com', roles: ['Designer'] },
-        { name: '팀원3', email: '222@naver.com', roles: ['Full Stack', 'Designer'] },
-      ],
-      projectUrlLink: 'https://google.com',
-      projectDescription: '설명설명설명',
-      skills: ['Spring Framework', 'AWS'],
-      categories: ['헬스케어', '교육', '커머스'],
-    };
-    openModal(
-      <ProjectRegisterModal isEdit projectId={projectId} defaultData={projectDefaultData} />,
-    );
+    getDetailMutaion.mutate(projectId);
   };
+
   return (
     <nav className="flex gap-3">
       <button aria-label="삭제" onClick={handleDeleteProject}>
-        <Trash2 className="h-6 w-6 stroke-gray-600 stroke-[1.5px]" />
+        <Trash2 className="h-6 w-6 stroke-gray-600 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
       <button aria-label="편집" onClick={handleEditProject}>
-        <Edit3 className="h-6 w-6 stroke-gray-600 stroke-[1.5px]" />
+        <Edit3 className="h-6 w-6 stroke-gray-600 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
     </nav>
   );
@@ -59,12 +45,12 @@ interface DeleteConfirmMessageProps {
   closeModal: () => void;
 }
 const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessageProps) => {
-  const handleProjectDeleteSuccess = () => {
+  const handleDeleteProjectSuccess = () => {
     closeModal();
     alert('프로젝트가 정상적으로 삭제되었습니다.');
   };
-  const deleteMuation = useDeleteProject(handleProjectDeleteSuccess);
-  const handleCancle = () => {
+  const deleteMuation = useDeleteProject(handleDeleteProjectSuccess);
+  const handleCancel = () => {
     closeModal();
   };
   const handleDelete = () => {
@@ -76,7 +62,7 @@ const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessagePro
       titleIcon={<Trash2 className="stroke-purple-500" />}
       footer={
         <>
-          <MessageBox.MessageConfirmButton isPrimary={false} text="취소" onClick={handleCancle} />
+          <MessageBox.MessageConfirmButton isPrimary={false} text="취소" onClick={handleCancel} />
           <MessageBox.MessageConfirmButton text="삭제" onClick={handleDelete} />
         </>
       }
