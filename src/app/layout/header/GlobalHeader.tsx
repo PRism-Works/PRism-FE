@@ -19,6 +19,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { PageSpinner } from '@/components/common/spinner';
 
 export default function GlobalHeader() {
   const { openModal, closeModal } = useModalStore();
@@ -107,6 +108,7 @@ export default function GlobalHeader() {
           renderAuthButtons()
         )}
       </div>
+      {logoutMutation.isPending && <PageSpinner />}
     </Menubar>
   );
 }

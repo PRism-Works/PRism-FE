@@ -6,7 +6,7 @@ import { useModalStore } from '@/stores/modalStore';
 import type { LoginForm } from '@/models/auth/authModels';
 import { login, logout } from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
-import { userData } from '@/services/api/userApi';
+import { userDataByLoginUser } from '@/services/api/userApi';
 
 export const useLogin = () => {
   const { closeModal } = useModalStore();
@@ -23,11 +23,12 @@ export const useLogin = () => {
 
       try {
         // 로그인 후 유저 데이터 가져오기
-        const userDataResponse = await userData();
+        const userDataResponse = await userDataByLoginUser();
         const data = userDataResponse.data;
 
         // 유저 데이터를 Zustand 스토어에 저장
         setUser({
+          userId: data.userId,
           name: data.username,
           email: data.email,
           roles: data.interestJobs,
