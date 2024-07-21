@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { ax } from '../axios';
-import {
+import type {
   ProjectCreateRequest,
   ProjectCreateResponse,
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDeleteResponse,
+  RegisteredProjectsResponse,
+  ProjectDetailResponse,
 } from '@/models/project/projectApiModels';
 
 // 프로젝트 등록
@@ -61,6 +63,54 @@ export const deleteProject = async (projectId: number): Promise<ProjectDeleteRes
     } else {
       console.error(`프로젝트 삭제 실패: ${error}`);
       throw new Error(`프로젝트 삭제 실패: ${error}`);
+    }
+  }
+};
+
+// 내가 등록한 프로젝트 목록 가져오기
+export const getRegisteredProjects = async (): Promise<RegisteredProjectsResponse> => {
+  try {
+    const response = await ax.get<RegisteredProjectsResponse>(
+      `/api/v1/projects/me-registered-projects`,
+    );
+    console.log('Get Registered Project Response:', response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        `등록한 프로젝트 가져오기 실패: ${error.response?.data?.message || error.message}`,
+      );
+      console.error('Full error response:', error.response?.data);
+      throw new Error(
+        `등록한 프로젝트 가져오기 실패: ${error.response?.data?.message || error.message}`,
+      );
+    } else {
+      console.error(`등록한 프로젝트 가져오기 실패: ${error}`);
+      throw new Error(`등록한 프로젝트 가져오기: ${error}`);
+    }
+  }
+};
+
+// 프로젝트 수정 시에 가져올 상세 값들 (Mutation)
+// 따로 나온 게 없어 재사용 ..
+export const getEditProjectDetails = async (projectId: number): Promise<ProjectDetailResponse> => {
+  try {
+    // 아래 2개의 api는 리턴값이 동일함..!
+    // /api/v1/projects/me-involved-projects/{projectId}
+    // /api/v1/projects/summary/detail/{projectId}
+    const response = await ax.get<ProjectDetailResponse>(
+      `/api/v1/projects/me-involved-projects/${projectId}`,
+    );
+    console.log('Get Project Details Response:', response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(`프로젝트 상세 조회 실패: ${error.response?.data?.message || error.message}`);
+      console.error('Full error response:', error.response?.data);
+      throw new Error(`프로젝트 상세 조회 실패: ${error.response?.data?.message || error.message}`);
+    } else {
+      console.error(`프로젝트 상세 조회 실패: ${error}`);
+      throw new Error(`프로젝트 상세 조회: ${error}`);
     }
   }
 };

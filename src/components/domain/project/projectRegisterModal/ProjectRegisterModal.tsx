@@ -29,7 +29,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useModalStore } from '@/stores/modalStore';
 import { useUserStore } from '@/stores/userStore';
 
-import { useCreateProject } from '@/hooks/queries/useProjectService';
+import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectService';
 
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
 
@@ -53,29 +53,48 @@ const STEPS: ProjectRegisterHeaderStep[] = [
 
 const MAX_STEP = STEPS.length - 1;
 
-export default function ProjectRegisterModal() {
+interface ProjectRegisterModalProps {
+  isEdit?: boolean;
+  projectId?: number;
+  defaultData?: ProjectForm;
+}
+
+export default function ProjectRegisterModal({
+  isEdit = false, // 수정 모드인지 여부
+  projectId,
+  defaultData,
+}: ProjectRegisterModalProps) {
+  const [currStep, setCurrStep] = useState<number>(0);
   const { openModal, closeModal } = useModalStore();
   const userData = useUserStore((state) => state.user);
-  const [currStep, setCurrStep] = useState<number>(0);
 
-  // 프로젝트 성공 콜백함수
+  // 프로젝트 저장 성공 콜백함수
   const handleProjectCreateSuccess = () => {
     closeModal();
     setTimeout(() => {
       openModal(<SendSurveyMessage />);
     }, 150);
   };
+  // 프로젝트 수정 성공 콜백함수
+  const handleProjectUpdateSuccess = () => {
+    closeModal();
+    alert('프로젝트가 수정되었습니다.');
+  };
+
   const createMutation = useCreateProject(handleProjectCreateSuccess);
+  const updateMutation = useUpdateProject(handleProjectUpdateSuccess);
+
   const formMethods = useForm<ProjectForm>({
     mode: 'onChange',
     resolver: zodResolver(ProjectFormSchema),
     defaultValues: {
-      projectName: '',
-      organizationName: '',
-      startDate: null,
-      endDate: null,
-      members: [
+      projectName: defaultData?.projectName || '',
+      organizationName: defaultData?.organizationName || '',
+      startDate: defaultData?.startDate || null,
+      endDate: defaultData?.endDate || null,
+      members: defaultData?.members || [
         {
+          // 로그인 한 사용자 기본 세팅
           name: userData?.name || '',
           email: userData?.email || '',
           roles: userData?.roles || [],
@@ -85,11 +104,11 @@ export default function ProjectRegisterModal() {
           email: '',
           roles: [],
         },
-      ], // 로그인 한 사용자 기본 세팅
-      projectUrlLink: '',
-      projectDescription: '',
-      skills: [],
-      categories: [],
+      ],
+      projectUrlLink: defaultData?.projectUrlLink || '',
+      projectDescription: defaultData?.projectDescription || '',
+      skills: defaultData?.skills || [],
+      categories: defaultData?.categories || [],
     },
   });
 
@@ -117,12 +136,19 @@ export default function ProjectRegisterModal() {
   const handleExternalSubmit = () => {
     formMethods.handleSubmit((data: ProjectForm) => {
       const defaultDate = new Date();
-      createMutation.mutate({
+      const mutationData = {
         ...data,
         startDate: formatDateToYYYYMMDDHHmmss(data.startDate || defaultDate),
         endDate: formatDateToYYYYMMDDHHmmss(data.endDate || defaultDate),
         memberCount: data.members.length,
-      });
+      };
+
+      // 현재 수정모드인지에 따라 다른 mutate 실행
+      if (isEdit && projectId) {
+        updateMutation.mutate({ projectId, data: mutationData });
+      } else {
+        createMutation.mutate(mutationData);
+      }
     })();
   };
 

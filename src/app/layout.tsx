@@ -26,10 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className={cn(pretendard.variable, 'bg-gray-50')}>
+      <body className={cn(pretendard.variable, 'flex min-h-screen flex-col bg-gray-50')}>
         <ReactQueryProviders>
           <GlobalHeader />
-          {children}
+          <main className="container mx-auto flex min-h-screen flex-col items-center">
+            {children}
+          </main>
           <GlobalFooter />
           <ModalPortal />
         </ReactQueryProviders>
