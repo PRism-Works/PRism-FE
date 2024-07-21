@@ -1,7 +1,10 @@
-import MessageBox from '@/components/common/messgeBox/MessageBox';
-import { useDeleteProject } from '@/hooks/queries/useProjectService';
-import { useModalStore } from '@/stores/modalStore';
+import Link from 'next/link';
+
 import { Edit3, Trash2 } from 'lucide-react';
+import MessageBox from '@/components/common/messgeBox/MessageBox';
+
+import { useModalStore } from '@/stores/modalStore';
+import { useDeleteProject } from '@/hooks/queries/useProjectService';
 
 interface ProjectEditDeleteButtonProps {
   projectId: number;
@@ -13,17 +16,15 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
   const handleDeleteProject = () => {
     openModal(<DeleteConfirmMessage projectId={projectId} closeModal={closeModal} />);
   };
-  const handleEditProject = () => {
-    alert(`${projectId}번 프로젝트 수정 페이지 이동`);
-  };
+
   return (
     <nav className="flex gap-3">
       <button aria-label="삭제" onClick={handleDeleteProject}>
         <Trash2 className="h-6 w-6 stroke-gray-600 stroke-[1.5px]" />
       </button>
-      <button aria-label="편집" onClick={handleEditProject}>
+      <Link href={`/project/manage/edit/${projectId}`} aria-label="편집">
         <Edit3 className="h-6 w-6 stroke-gray-600 stroke-[1.5px]" />
-      </button>
+      </Link>
     </nav>
   );
 }

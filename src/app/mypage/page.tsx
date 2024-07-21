@@ -71,7 +71,7 @@ export default function MyPage() {
   ];
 
   return (
-    <main className="container flex min-h-screen w-full max-w-[1040px] flex-col justify-center gap-5 p-4">
+    <div className="container flex min-h-screen w-full max-w-[1040px] flex-col justify-center gap-5 p-4">
       <section className="flex flex-col gap-4">
         <h2 className="text-gray-900 body6">프로필</h2>
         <UserProfile />
@@ -135,6 +135,6 @@ export default function MyPage() {
           </ul>
         )}
       </section>
-    </main>
+    </div>
   );
 }

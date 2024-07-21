@@ -11,6 +11,7 @@ import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout
 import TagInput from '@/components/common/input/TagInput';
 import { useUserStore } from '@/stores/userStore';
 import MoveBackButton from '@/components/common/button/MoveBackButton';
+import BorderCard from '@/components/common/card/BorderCard';
 
 // 로그인 한 사용자의 프로필 수정 페이지
 export default function EditMyPage() {
@@ -123,30 +124,30 @@ export default function EditMyPage() {
     return <div>유저 데이터를 로드하는 중 오류가 발생했습니다.</div>;
   }
 
+  // #20240721.syjang, 아래 부분은 나중에 form으로 수정하겠습니다.
   return (
-    <main className="container mx-auto flex min-h-screen flex-col items-center p-12">
-      <div className="flex w-full justify-end" style={{ width: '90%' }}></div>
-      <div className="flex w-full max-w-[1040px] flex-col items-center gap-4">
-        <span className="self-start text-gray-900 body6">프로필 수정</span>
-        <div className="flex w-full max-w-[1040px] flex-col gap-8 rounded-[30px] bg-white p-8">
+    <div className="container mx-auto flex min-h-screen flex-col items-center p-12">
+      <article className="flex w-full max-w-[1040px] flex-col items-center gap-4">
+        <h1 className="self-start text-gray-900 body6">프로필 수정</h1>
+        <BorderCard className="flex w-full max-w-[1040px] flex-col gap-8 rounded-[30px] p-6">
           <div className="mx-auto flex w-full max-w-[500px] flex-col gap-8">
             <div className="flex flex-col gap-2">
-              <span className="text-gray-600 mobile1">이름</span>
+              <label className="text-gray-600 mobile1">이름</label>
               <Input placeholder="이름" value={name} onChange={handleNameChange} />
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-gray-600 mobile1">메일 주소</span>
+              <label className="text-gray-600 mobile1">메일 주소</label>
               <Input placeholder="PRism@gmail.com" value={email} disabled />
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-gray-600 mobile1">관심 직무</span>
+              <label className="text-gray-600 mobile1">관심 직무</label>
               {renderTags(interestJobs, 'interestJobs', handleOpenSelectInterestJobsModal)}
             </div>
-            <div className="mb-[60px] flex flex-col gap-2">
-              <span className="text-gray-600 mobile1">보유 스킬</span>
+            <div className="mb-[30px] flex flex-col gap-2">
+              <label className="text-gray-600 mobile1">보유 스킬</label>
               {renderTags(skills, 'skills', handleOpenSkillsModal)}
             </div>
-            <div className="flex justify-center gap-2">
+            <nav className="flex justify-center gap-2">
               <MoveBackButton className="w-[72px]" />
               <Button
                 className="w-[72px]"
@@ -155,10 +156,10 @@ export default function EditMyPage() {
                 pending={updateProfileMutation.isPending}>
                 저장
               </Button>
-            </div>
+            </nav>
           </div>
-        </div>
-      </div>
-    </main>
+        </BorderCard>
+      </article>
+    </div>
   );
 }

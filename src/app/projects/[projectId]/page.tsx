@@ -11,8 +11,8 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   // Fetch 사용하여 데이터 가져오기
 
   return (
-    <main className="container mx-auto flex min-h-screen flex-col items-center p-12">
+    <div className="container mx-auto flex min-h-screen flex-col items-center p-12">
       <div className="w-full bg-gray-800">프로젝트 상세 조회, Project ID: {projectId}</div>
-    </main>
+    </div>
   );
 }
