@@ -35,8 +35,8 @@ export default function ProjectRegisterButton({
   return (
     <Button
       onClick={handleOpenProject}
-      variant={'gradient'}
-      className={(cn('h-[60px] w-[250px]'), className)}>
+      variant="gradient"
+      className={cn('h-[60px] w-[250px]', className)}>
       <ClipboardEdit className="mr-2 h-6 w-6" />
       <p className="body8">{text}</p>
     </Button>

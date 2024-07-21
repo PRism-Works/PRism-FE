@@ -42,8 +42,8 @@ export default function RegisteredProjectList() {
     </BorderCard>
   ) : (
     <ul className="flex flex-col gap-4">
-      {projectDatas.map((projectData, index) => (
-        <li key={index}>
+      {projectDatas.map((projectData) => (
+        <li key={projectData.projectId}>
           <ProjectSummaryCard variant={PROJECT_CARD_VARIANT.ADMIN} projectData={projectData} />
         </li>
       ))}
