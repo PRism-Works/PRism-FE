@@ -13,6 +13,7 @@ import TagInput from '@/components/common/input/TagInput';
 export default function EditMyPage() {
   const { data: user, isLoading, isError, error } = useUserData();
 
+  const [isPending, setIsPending] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [interestJobs, setInterestJobs] = useState<string[]>([]);
@@ -83,7 +84,13 @@ export default function EditMyPage() {
       interestJobs,
       introduction: '',
     };
-    updateProfileMutation.mutate(profileData);
+
+    setIsPending(true);
+    updateProfileMutation.mutate(profileData, {
+      onSettled: () => {
+        setIsPending(false);
+      },
+    });
   };
 
   const renderTags = (tags: string[], type: 'interestJobs' | 'skills', onOpenModal: () => void) => (
@@ -109,7 +116,7 @@ export default function EditMyPage() {
     </ul>
   );
 
-  if (isLoading) {
+  if (isLoading || isPending) {
     return <PageSpinner />;
   }
 
@@ -145,13 +152,15 @@ export default function EditMyPage() {
               <Button
                 variant="outline"
                 className="border-1 w-[72px] border border-gray-700 text-gray-700"
-                onClick={() => window.history.back()}>
+                onClick={() => window.history.back()}
+                disabled={isPending}>
                 취소
               </Button>
               <Button
                 variant="default"
-                className="w-[72px] bg-purple-500 hover:bg-purple-600"
-                onClick={handleSubmit}>
+                className="w-[72px]"
+                onClick={handleSubmit}
+                disabled={isPending}>
                 저장
               </Button>
             </div>
