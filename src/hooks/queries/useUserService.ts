@@ -16,6 +16,7 @@ export const useUserData = () => {
   });
 };
 
+// TODO: 로그인한 사용자 정보 받아올 때 userId zustand에 저장
 export const useUserProfile = (userId: string) => {
   return useQuery<UserProfileResponse, AxiosError>({
     queryKey: ['userProfile', userId],
