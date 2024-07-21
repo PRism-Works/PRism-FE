@@ -36,6 +36,15 @@ export const formatDateToDotSeparatedYYYYMMDD = (date: Date): string => {
 };
 
 /**
+ * @param dateString yyyyMMddHHmmss 형식의 문자열
+ * @returns yyyy-MM-dd 형식의 문자열
+ */
+export const formatYYYYMMDDHHmmssToYYYYMMDD = (dateString: string): string => {
+  const parsedDate = parse(dateString, 'yyyyMMddHHmmss', new Date());
+  return format(parsedDate, 'yyyy-MM-dd');
+};
+
+/**
  * @param dateString Date 객체로 변환될 "yyyy-MM-dd" 형태의 문자열
  * @returns Date 객체
  */

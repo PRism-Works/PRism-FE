@@ -1,10 +1,18 @@
+import { formatYYYYMMDDHHmmssToYYYYMMDD } from '@/lib/dateTime';
 import type {
   GetRegisteredProjectsResponse,
   ProjectCreateRequest,
   ProjectCreateResponse,
   ProjectDeleteResponse,
+  ProjectUpdateRequest,
+  ProjectUpdateResponse,
 } from '@/models/project/projectApiModels';
-import { createProject, deleteProject, getRegisteredProjects } from '@/services/api/projectApi';
+import {
+  createProject,
+  deleteProject,
+  getRegisteredProjects,
+  updateProject,
+} from '@/services/api/projectApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
@@ -77,6 +85,51 @@ export const useDeleteProject = (successCallback: () => void) => {
     },
     onError: (error) => {
       alert('프로젝트 삭제에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
+// 프로젝트 수정하기
+export const useUpdateProject = (successCallback: () => void) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    ProjectUpdateResponse,
+    AxiosError,
+    { projectId: number; data: ProjectUpdateRequest }
+  >({
+    mutationFn: ({ projectId, data }) => updateProject(projectId, data),
+    onSuccess: (response, { projectId, data }) => {
+      console.log(response);
+
+      // 등록 프로젝트 관리 페이지에서 프로젝트를 수정하면 UI도 갱신되어야 한다.
+      queryClient.setQueryData<GetRegisteredProjectsResponse>(
+        ['getRegisteredProjects'],
+        (oldData) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            data: oldData.data.map((project) =>
+              project.projectId === projectId
+                ? {
+                    ...project,
+                    projectName: data.projectName,
+                    organizationName: data.organizationName,
+                    startDate: formatYYYYMMDDHHmmssToYYYYMMDD(data.startDate),
+                    endDate: formatYYYYMMDDHHmmssToYYYYMMDD(data.endDate),
+                    categories: data.categories,
+                  }
+                : project,
+            ),
+          };
+        },
+      );
+
+      if (successCallback) successCallback();
+    },
+    onError: (error) => {
+      alert('프로젝트 수정에 실패했습니다.');
       console.log(error);
     },
   });
