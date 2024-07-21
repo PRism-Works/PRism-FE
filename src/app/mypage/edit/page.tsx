@@ -13,7 +13,6 @@ import TagInput from '@/components/common/input/TagInput';
 export default function EditMyPage() {
   const { data: user, isLoading, isError, error } = useUserData();
 
-  const [isPending, setIsPending] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [interestJobs, setInterestJobs] = useState<string[]>([]);
@@ -84,13 +83,7 @@ export default function EditMyPage() {
       interestJobs,
       introduction: '',
     };
-
-    setIsPending(true);
-    updateProfileMutation.mutate(profileData, {
-      onSettled: () => {
-        setIsPending(false);
-      },
-    });
+    updateProfileMutation.mutate(profileData);
   };
 
   const renderTags = (tags: string[], type: 'interestJobs' | 'skills', onOpenModal: () => void) => (
@@ -116,7 +109,7 @@ export default function EditMyPage() {
     </ul>
   );
 
-  if (isLoading || isPending) {
+  if (isLoading) {
     return <PageSpinner />;
   }
 
@@ -152,16 +145,15 @@ export default function EditMyPage() {
               <Button
                 variant="outline"
                 className="border-1 w-[72px] border border-gray-700 text-gray-700"
-                onClick={() => window.history.back()}
-                disabled={isPending}>
+                onClick={() => window.history.back()}>
                 취소
               </Button>
               <Button
                 variant="default"
                 className="w-[72px]"
                 onClick={handleSubmit}
-                disabled={isPending}>
-                저장
+                disabled={updateProfileMutation.isPending}>
+                {updateProfileMutation.isPending ? <PageSpinner /> : '저장'}
               </Button>
             </div>
           </div>
