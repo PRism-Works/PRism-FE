@@ -116,7 +116,7 @@ export default function MyPage() {
       <section className="flex flex-col gap-4">
         <div className="flex items-center gap-1">
           <h2 className="text-gray-900 body6">프로젝트 목록</h2>
-          <InformationTooltip message="프로젝트 참여 비공개로 전환 시, 해당 프로젝트에 '익명'으로 표시되요." />
+          <InformationTooltip message="프로젝트 참여 비공개로 전환 시, 해당 프로젝트에 '익명'으로 표시돼요." />
         </div>
         {projectDatas.length === 0 ? (
           <BorderCard className="h-[165px] w-full flex-col-center">
