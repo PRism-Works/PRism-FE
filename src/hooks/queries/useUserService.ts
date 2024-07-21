@@ -26,16 +26,16 @@ export const useUpdateProfile = () => {
 
   return useMutation<UpdateProfileResponse, AxiosError, UpdateProfileRequest>({
     mutationFn: updateProfile,
-    onSuccess: (_, variables) => {
+    onSuccess: (_, requestProfileData) => {
       alert('프로필이 성공적으로 수정되었습니다.');
 
       // 저장 성공 시, zustand의 전역 상태 업데이트 해주기
       const userNewData: User = {
         userId: user?.userId || '',
         email: user?.email || '',
-        name: variables?.username || '',
-        roles: variables?.interestJobs || [],
-        skills: variables?.skills || [],
+        name: requestProfileData?.username || '',
+        roles: requestProfileData?.interestJobs || [],
+        skills: requestProfileData?.skills || [],
       };
       setUser(userNewData);
 

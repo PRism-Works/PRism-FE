@@ -105,6 +105,7 @@ export interface RegisteredProjectsResponse {
 
     categories: string[];
 
+    surveyParcitipants: number;
     visibility: boolean; // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
     userEvaluation: string; // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
   }[];

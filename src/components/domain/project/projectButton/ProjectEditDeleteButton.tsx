@@ -18,14 +18,14 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
       <ProjectRegisterModal isEdit projectId={projectId} defaultData={projectDetailData} />,
     );
   };
-  const getDetailMutaion = useGetProjectDetails(handleGetDetailSuccess);
+  const getDetailMutation = useGetProjectDetails(handleGetDetailSuccess);
 
   const handleDeleteProject = () => {
     openModal(<DeleteConfirmMessage projectId={projectId} closeModal={closeModal} />);
   };
 
   const handleEditProject = () => {
-    getDetailMutaion.mutate(projectId);
+    getDetailMutation.mutate(projectId);
   };
 
   return (
@@ -49,12 +49,12 @@ const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessagePro
     closeModal();
     alert('프로젝트가 정상적으로 삭제되었습니다.');
   };
-  const deleteMuation = useDeleteProject(handleDeleteProjectSuccess);
+  const deleteMutaion = useDeleteProject(handleDeleteProjectSuccess);
   const handleCancel = () => {
     closeModal();
   };
   const handleDelete = () => {
-    deleteMuation.mutate(projectId);
+    deleteMutaion.mutate(projectId);
   };
   return (
     <MessageBox
