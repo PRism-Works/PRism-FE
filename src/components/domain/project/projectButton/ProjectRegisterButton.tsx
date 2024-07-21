@@ -12,10 +12,14 @@ import { useAuthStore } from '@/stores/authStore';
 import { useModalStore } from '@/stores/modalStore';
 
 interface ProjectRegisterButtonProps {
+  text?: string;
   className?: string;
 }
 
-export default function ProjectRegisterButton({ className }: ProjectRegisterButtonProps) {
+export default function ProjectRegisterButton({
+  text = '내 프로젝트 등록하기',
+  className,
+}: ProjectRegisterButtonProps) {
   const openModal = useModalStore((state) => state.openModal);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
@@ -29,11 +33,12 @@ export default function ProjectRegisterButton({ className }: ProjectRegisterButt
   };
 
   return (
-    <div className={cn(className)}>
-      <Button onClick={handleOpenProject} variant={'gradient'} className="h-[60px] w-[250px]">
-        <ClipboardEdit className="mr-2 h-5 w-5" />
-        <p className="body6">내 프로젝트 등록하기</p>
-      </Button>
-    </div>
+    <Button
+      onClick={handleOpenProject}
+      variant={'gradient'}
+      className={(cn('h-[60px] w-[250px]'), className)}>
+      <ClipboardEdit className="mr-2 h-6 w-6" />
+      <p className="body8">{text}</p>
+    </Button>
   );
 }

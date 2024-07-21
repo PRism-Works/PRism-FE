@@ -4,10 +4,10 @@ import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectS
 export default function Home() {
   return (
     <main className="container mx-auto min-h-screen p-12 flex-col-center">
-      <div className="container flex justify-end" style={{ width: '90%' }}>
-        <ProjectRegisterButton className="-mt-24 mb-20" />
+      <div className="container flex w-[90%] justify-end">
+        <ProjectRegisterButton className="mb-20" />
       </div>
-      <div className="flex w-full justify-center">
+      <div className="w-full flex-center">
         <ProjectSearchBar className="w-full max-w-[690px]" />
       </div>
     </main>
