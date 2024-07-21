@@ -28,6 +28,7 @@ export const useLogin = () => {
 
         // 유저 데이터를 Zustand 스토어에 저장
         setUser({
+          userId: data.userId,
           name: data.username,
           email: data.email,
           roles: data.interestJobs,

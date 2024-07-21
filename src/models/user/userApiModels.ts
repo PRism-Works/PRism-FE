@@ -7,7 +7,6 @@ export interface UserDataResponse {
     username: string;
     interestJobs: string[];
     skills: string[];
-    introduction?: string;
   };
 }
 
