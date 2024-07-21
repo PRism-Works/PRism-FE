@@ -47,7 +47,7 @@ export default function Step3() {
       <SelectTagModalLayout
         title="역할 검색"
         colorTheme="gray"
-        placeholder="팀원이 맡은 역할을 검색해주세요."
+        placeholder="프로젝트에 사용된 기술스택을 선택해 주세요."
         tagList={TechStacks}
         onSelectComplete={handleSkillsSelectComplete}
         defaultSelectTagList={currentSkills}
