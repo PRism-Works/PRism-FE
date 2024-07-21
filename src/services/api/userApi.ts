@@ -7,7 +7,8 @@ import {
   UserProfileResponse,
 } from '@/models/user/userApiModels';
 
-export const userData = async (): Promise<UserDataResponse> => {
+// 로그인 한 사용자의 기본 데이터 가져오기 (로그인 시 호출)
+export const userDataByLoginUser = async (): Promise<UserDataResponse> => {
   try {
     const response = await ax.get<UserDataResponse>('/api/v1/users/me');
     return response.data;
@@ -27,7 +28,8 @@ export const userData = async (): Promise<UserDataResponse> => {
   }
 };
 
-export const getUserProfile = async (userId: string): Promise<UserProfileResponse> => {
+// 특정 사용자의 프로필 데이터 가져오기
+export const userProfileDataByUserId = async (userId: string): Promise<UserProfileResponse> => {
   try {
     const response = await ax.get<UserProfileResponse>(`/api/v1/users/${userId}/profile`);
     return response.data;

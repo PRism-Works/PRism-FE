@@ -25,7 +25,7 @@ export default function UserProfile() {
     <section className="flex w-full">
       <div className="mr-4 flex w-[248px] flex-col items-center justify-center rounded-[30px] bg-gradient-to-br from-[#1E1B4B] via-[#1E1B4B] to-[#312E81] body6">
         <CirclePlanetIcon className="bg-white" />
-        <span className="mt-2.5 text-white">안유경</span>
+        <span className="mt-2.5 text-white">{userData?.name}</span>
       </div>
       <BorderCard className="flex w-full min-w-0 max-w-[776px] flex-grow overflow-hidden p-8">
         <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-2">

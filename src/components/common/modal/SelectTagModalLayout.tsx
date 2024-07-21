@@ -139,7 +139,7 @@ export default function SelectTagModalLayout({
         </div>
         <Separator className="my-2" />
         <div className="flex h-[25%] flex-col">
-          <div className="text-gray-700 display5">내가 선택한 역할</div>
+          <div className="text-gray-700 display5">내가 선택한 태그</div>
           <div
             ref={selectTagScrollRef}
             className="flex h-[45px] w-full items-center gap-1 overflow-x-auto scroll-smooth scrollbar-thin">

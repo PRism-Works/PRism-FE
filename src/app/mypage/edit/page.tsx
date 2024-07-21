@@ -2,16 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { useModalStore } from '@/stores/modalStore';
-import { useUpdateProfile, useUserData } from '@/hooks/queries/useUserService';
+import { useUserProfileByUserId, useUpdateProfile } from '@/hooks/queries/useUserService';
 import { TechStacks, UserRoles } from '@/lib/tagList';
 import { PageSpinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 import TagInput from '@/components/common/input/TagInput';
+import { useUserStore } from '@/stores/userStore';
+import MoveBackButton from '@/components/common/button/MoveBackButton';
 
+// 로그인 한 사용자의 프로필 수정 페이지
 export default function EditMyPage() {
-  const { data: user, isLoading, isError, error } = useUserData();
+  const userId = useUserStore((state) => state.user?.userId);
+
+  const { data: user, isLoading, isError, error } = useUserProfileByUserId(userId || '');
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,7 +42,7 @@ export default function EditMyPage() {
   const handleOpenSelectInterestJobsModal = () => {
     openModal(
       <SelectTagModalLayout
-        title="역할 검색"
+        title="관심 직무 검색"
         colorTheme="gray"
         placeholder="관심 직무를 선택해 주세요."
         tagList={UserRoles}
@@ -77,13 +82,13 @@ export default function EditMyPage() {
   };
 
   const handleSubmit = () => {
-    const profileData = {
+    const newProfileData = {
       username: name,
       skills,
       interestJobs,
-      introduction: '',
+      introduction: '', // #20240721.syjang, 기획에 없는 데이터. 백엔드 확인 필요
     };
-    updateProfileMutation.mutate(profileData);
+    updateProfileMutation.mutate(newProfileData);
   };
 
   const renderTags = (tags: string[], type: 'interestJobs' | 'skills', onOpenModal: () => void) => (
@@ -141,19 +146,14 @@ export default function EditMyPage() {
               <span className="text-gray-600 mobile1">보유 스킬</span>
               {renderTags(skills, 'skills', handleOpenSkillsModal)}
             </div>
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-2">
+              <MoveBackButton className="w-[72px]" />
               <Button
-                variant="outline"
-                className="border-1 w-[72px] border border-gray-700 text-gray-700"
-                onClick={() => window.history.back()}>
-                취소
-              </Button>
-              <Button
-                variant="default"
                 className="w-[72px]"
                 onClick={handleSubmit}
-                disabled={updateProfileMutation.isPending}>
-                {updateProfileMutation.isPending ? <PageSpinner /> : '저장'}
+                disabled={updateProfileMutation.isPending}
+                pending={updateProfileMutation.isPending}>
+                저장
               </Button>
             </div>
           </div>

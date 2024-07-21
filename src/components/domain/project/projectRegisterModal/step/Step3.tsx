@@ -45,7 +45,7 @@ export default function Step3() {
   const handleOpenSkillsModal = () => {
     openModal(
       <SelectTagModalLayout
-        title="역할 검색"
+        title="기술 스택 검색"
         colorTheme="gray"
         placeholder="프로젝트에 사용된 기술스택을 선택해 주세요."
         tagList={TechStacks}
