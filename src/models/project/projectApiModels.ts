@@ -105,9 +105,28 @@ export interface RegisteredProjectsResponse {
 
     categories: string[];
 
-    surveyParcitipants: number;
     visibility: boolean; // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
     userEvaluation: string; // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
+  }[];
+}
+
+// 연동할 프로젝트 리스트 가져오기
+export interface LinkProjectResponse {
+  success: boolean;
+  status: number;
+  data: {
+    projectId: number;
+
+    projectName: string;
+    organizationName: string;
+    startDate: string;
+    endDate: string;
+
+    categories: string[];
+
+    surveyParcitipants: number;
+    userEvaluation: string;
+    visibility: boolean;
   }[];
 }
 

@@ -7,12 +7,14 @@ import type {
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDetailResponse,
+  LinkProjectResponse,
 } from '@/models/project/projectApiModels';
 import { ProjectForm } from '@/models/project/projectModels';
 import {
   createProject,
   deleteProject,
   getEditProjectDetails,
+  getLinkProjectsByProjectName,
   getRegisteredProjects,
   updateProject,
 } from '@/services/api/projectApi';
@@ -129,14 +131,6 @@ export const useUpdateProject = (successCallback: () => void) => {
   });
 };
 
-// 내가 등록한 프로젝트 리스트 가져오기
-export const useGetRegisteredProjects = () => {
-  return useQuery<RegisteredProjectsResponse, AxiosError>({
-    queryKey: ['getRegisteredProjects'],
-    queryFn: () => getRegisteredProjects(),
-  });
-};
-
 // 프로젝트 수정을 위해 상세 데이터 조회하기 (클릭 시 조회를 목적으로 하기에 mutaion 사용)
 export const useGetProjectDetails = (successCallback: (projectDetailData: ProjectForm) => void) => {
   return useMutation<ProjectDetailResponse, AxiosError, number>({
@@ -163,5 +157,22 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
       alert('프로젝트 상세 정보 조회에 실패했습니다.');
       console.error('프로젝트 상세 정보 조회 실패:', error);
     },
+  });
+};
+
+// 내가 등록한 프로젝트 리스트 가져오기
+export const useGetRegisteredProjects = () => {
+  return useQuery<RegisteredProjectsResponse, AxiosError>({
+    queryKey: ['getRegisteredProjects'],
+    queryFn: () => getRegisteredProjects(),
+  });
+};
+
+// 프로젝트 이름으로 연동할 프로젝트 리스트 가져오기
+export const useGetLinkProjectsByProjectName = (projectName: string) => {
+  return useQuery<LinkProjectResponse, AxiosError>({
+    queryKey: ['getLinkProjectsByProjectName', projectName],
+    queryFn: () => getLinkProjectsByProjectName(projectName),
+    enabled: !!projectName, // projectName이 존재할 때만 쿼리 실행
   });
 };

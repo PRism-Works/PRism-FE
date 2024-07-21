@@ -8,6 +8,7 @@ import type {
   ProjectDeleteResponse,
   RegisteredProjectsResponse,
   ProjectDetailResponse,
+  LinkProjectResponse,
 } from '@/models/project/projectApiModels';
 
 // 프로젝트 등록
@@ -86,7 +87,34 @@ export const getRegisteredProjects = async (): Promise<RegisteredProjectsRespons
       );
     } else {
       console.error(`등록한 프로젝트 가져오기 실패: ${error}`);
-      throw new Error(`등록한 프로젝트 가져오기: ${error}`);
+      throw new Error(`등록한 프로젝트 가져오기 실패: ${error}`);
+    }
+  }
+};
+
+// 연동할 프로젝트 목록 가져오기
+export const getLinkProjectsByProjectName = async (
+  projectName: string,
+): Promise<LinkProjectResponse> => {
+  try {
+    const response = await ax.get<LinkProjectResponse>('/api/v1/projects/summary/by-name', {
+      params: { projectName },
+    });
+
+    console.log('Get Link Project Response:', response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        `연동할 프로젝트 목록 가져오기 실패: ${error.response?.data?.message || error.message}`,
+      );
+      console.error('Full error response:', error.response?.data);
+      throw new Error(
+        `연동할 프로젝트 목록 가져오기 실패: ${error.response?.data?.message || error.message}`,
+      );
+    } else {
+      console.error(`연동할 프로젝트 목록 가져오기 실패: ${error}`);
+      throw new Error(`연동할 프로젝트 목록 가져오기 실패: ${error}`);
     }
   }
 };
