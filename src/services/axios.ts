@@ -30,7 +30,8 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config; // 기존에 수행하려고 했던 작업
 
-    if (error.response?.status === 401 && originalRequest) {
+    // 인증 만료 시, 500으로 떨어져서 500인 경우에 refresh 토큰으로 한번 더 요청하게 수정
+    if ((error.response?.status === 401 || error.response?.status === 500) && originalRequest) {
       try {
         const refreshToken = useAuthStore.getState().refreshToken;
 
