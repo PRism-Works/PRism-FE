@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { ax } from '../axios';
-import {
+import type {
   ProjectCreateRequest,
   ProjectCreateResponse,
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDeleteResponse,
+  GetRegisteredProjectsResponse,
 } from '@/models/project/projectApiModels';
 
 // 프로젝트 등록
@@ -61,6 +62,30 @@ export const deleteProject = async (projectId: number): Promise<ProjectDeleteRes
     } else {
       console.error(`프로젝트 삭제 실패: ${error}`);
       throw new Error(`프로젝트 삭제 실패: ${error}`);
+    }
+  }
+};
+
+// 내가 등록한 프로젝트 목록 가져오기
+export const getRegisteredProjects = async (): Promise<GetRegisteredProjectsResponse> => {
+  try {
+    const response = await ax.get<GetRegisteredProjectsResponse>(
+      `/api/v1/projects/me-registered-projects`,
+    );
+    console.log('Get Registered Project Response:', response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(
+        `등록한 프로젝트 가져오기 실패: ${error.response?.data?.message || error.message}`,
+      );
+      console.error('Full error response:', error.response?.data);
+      throw new Error(
+        `등록한 프로젝트 가져오기 실패: ${error.response?.data?.message || error.message}`,
+      );
+    } else {
+      console.error(`등록한 프로젝트 가져오기 실패: ${error}`);
+      throw new Error(`등록한 프로젝트 가져오기: ${error}`);
     }
   }
 };

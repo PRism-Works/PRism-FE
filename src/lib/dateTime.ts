@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
 
 /**
@@ -33,4 +33,19 @@ export const formatDateToYYYYMMDDHHmmss = (date: Date): string => {
  */
 export const formatDateToDotSeparatedYYYYMMDD = (date: Date): string => {
   return format(date, 'yyyy.MM.dd');
+};
+
+/**
+ * @param dateString Date 객체로 변환될 "yyyy-MM-dd" 형태의 문자열
+ * @returns Date 객체
+ */
+export const convertStringToDate = (dateString: string): Date => {
+  const parsedDate = parse(dateString, 'yyyy-MM-dd', new Date());
+
+  if (isNaN(parsedDate.getTime())) {
+    console.error('Invalid date string provided');
+    return new Date(); // 오류 발생 시, 오늘 날짜를 보내준다.
+  }
+
+  return parsedDate;
 };
