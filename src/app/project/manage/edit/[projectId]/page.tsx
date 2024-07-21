@@ -11,7 +11,7 @@ export default function ProjectEditPage({ params }: ProjectEditPageProps) {
 
   return (
     <div className="container mx-auto flex min-h-screen flex-col items-center p-12">
-      <div className="w-full bg-gray-800">프로젝트 수정, Project ID: {projectId}</div>
+      <div className="w-full">프로젝트 수정, Project ID: {projectId}</div>
     </div>
   );
 }
