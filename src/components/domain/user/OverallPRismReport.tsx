@@ -52,51 +52,47 @@ export default function OverallPRismReport() {
   ];
 
   return (
-    <>
-      <BorderCard className="relative flex-wrap gap-8 flex-center">
-        {!hasData && (
-          <div className="absolute inset-1 z-10 flex rounded-[30px] bg-white bg-opacity-70 backdrop-blur-md flex-col-center">
-            <p className="text-gray-700 body6">아직 나의 PRism이 없어요!</p>
-            <p className="text-purple-800 display4">
-              프로젝트를 등록하고 나만의 PRism을 시작해 보세요.
-            </p>
-          </div>
-        )}
-        <div
-          className={`flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3 ${!hasData ? 'blur-sm' : ''}`}>
-          <div className="text-indigo-800 body6">나의 PRism</div>
-          <div className="h-full w-full">
-            <PRismChart data={chartData} />
-          </div>
+    <BorderCard className="relative flex-wrap gap-8 flex-center">
+      {!hasData && (
+        <div className="absolute inset-1 z-10 flex rounded-[30px] bg-white bg-opacity-70 backdrop-blur-md flex-col-center">
+          <p className="text-gray-700 body6">아직 나의 PRism이 없어요!</p>
+          <p className="text-purple-800 display4">
+            프로젝트를 등록하고 나만의 PRism을 시작해 보세요.
+          </p>
         </div>
-        <div
-          className={`flex h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3 ${!hasData ? 'blur-sm' : ''}`}>
-          <div className="text-indigo-800 body6">나의 PRism 분석 리포트</div>
-          <div className="gap-3 flex-col-center">
-            <div className="flex-center">
-              <RadialChart type={RADIAL_EVALUATION_TYPES.LEADERSHIP} value={70} />
-              <RadialChart type={RADIAL_EVALUATION_TYPES.RELIABILITY} value={80} />
-              <RadialChart type={RADIAL_EVALUATION_TYPES.CHARISMA} value={50} />
-            </div>
-            <div className="grid grid-cols-[80px_1fr] gap-x-2 gap-y-2">
-              {prismTextData.map((item, index) => (
-                <div key={index} className="contents">
-                  <div className="flex text-gray-400 mobile1">{item.label}</div>
-                  <div className="flex gap-1 text-gray-800 display5">
-                    {!item.value
-                      ? '-'
-                      : item.label === '키워드' && Array.isArray(item.value)
-                        ? item.value.map((value, index) => (
-                            <TagInput key={index} value={value} isDisabled />
-                          ))
-                        : item.value}
-                  </div>
+      )}
+      <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
+        <div className="text-indigo-800 body6">나의 PRism</div>
+        <div className="h-full w-full">
+          <PRismChart data={chartData} />
+        </div>
+      </div>
+      <div className="flex h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3">
+        <div className="text-indigo-800 body6">나의 PRism 분석 리포트</div>
+        <div className="gap-3 flex-col-center">
+          <div className="flex-center">
+            <RadialChart type={RADIAL_EVALUATION_TYPES.LEADERSHIP} value={70} />
+            <RadialChart type={RADIAL_EVALUATION_TYPES.RELIABILITY} value={80} />
+            <RadialChart type={RADIAL_EVALUATION_TYPES.CHARISMA} value={50} />
+          </div>
+          <div className="grid grid-cols-[80px_1fr] gap-x-2 gap-y-2">
+            {prismTextData.map((item, index) => (
+              <div key={index} className="contents">
+                <div className="flex text-gray-400 mobile1">{item.label}</div>
+                <div className="flex gap-1 text-gray-800 display5">
+                  {!item.value
+                    ? '-'
+                    : item.label === '키워드' && Array.isArray(item.value)
+                      ? item.value.map((value, index) => (
+                          <TagInput key={index} value={value} isDisabled />
+                        ))
+                      : item.value}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
-      </BorderCard>
-    </>
+      </div>
+    </BorderCard>
   );
 }
