@@ -9,6 +9,11 @@ import { useState } from 'react';
 export default function ProjectLinkPage() {
   const [keyword, setKeyword] = useState<string>('');
   const handleSearch = (value: string) => {
+    if (value === '') {
+      // 검색어가 비어있으면 알림창을 띄운다
+      alert('검색어를 입력해주세요.');
+      return;
+    }
     setKeyword(value);
   };
   return (
