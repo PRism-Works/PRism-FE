@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useUserStore } from '@/stores/userStore';
 import BorderCard from '@/components/common/card/BorderCard';
-import CirclePlanetIcon from '../CirclePlanetIcon';
+import CirclePlanetIcon from './CirclePlanetIcon';
 import { PencilLine } from 'lucide-react';
 
 export default function UserProfile() {
