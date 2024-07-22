@@ -1,9 +1,9 @@
 import BorderCard from '@/components/common/card/BorderCard';
 import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
-import ProjectSummaryCard from '../project/projectCard/ProjectSummaryCard';
+import ProjectSummaryCard from '../projectCard/ProjectSummaryCard';
 import { PROJECT_CARD_VARIANT, type ProjectSummaryData } from '@/models/project/projectModels';
 
-export default function UserProjectList() {
+export default function ParticipatingProjectList() {
   // TODO: API 연결 예정
   const projectDatas: ProjectSummaryData[] = [
     {

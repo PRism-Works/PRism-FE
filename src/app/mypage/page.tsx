@@ -1,6 +1,6 @@
 import UserProfile from '@/components/domain/user/UserProfile';
 import OverallPRismReport from '@/components/domain/user/OverallPRismReport';
-import UserProjectList from '@/components/domain/user/UserProjectList';
+import ParticipatingProjectList from '@/components/domain/project/projectList/ParticipatingProjectList';
 import GoProjectLinkButton from '@/components/domain/project/projectButton/GoProjectLinkButton';
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
 import ProjectImageSaveButton from '@/components/domain/project/projectButton/ProjectImageSaveButton';
@@ -24,7 +24,7 @@ export default function MyPage() {
         <OverallPRismReport />
       </section>
       <section className="flex flex-col gap-3">
-        <UserProjectList />
+        <ParticipatingProjectList />
       </section>
     </div>
   );
