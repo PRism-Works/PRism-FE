@@ -1,5 +1,5 @@
 import UserProfile from '@/components/domain/user/UserProfile';
-import OverallPRismReport from '@/components/domain/user/OverallPRismReport';
+import OverallPRismReport from '@/components/domain/prism/OverallPRismReport';
 import ParticipatingProjectList from '@/components/domain/project/projectList/ParticipatingProjectList';
 import GoProjectLinkButton from '@/components/domain/project/projectButton/GoProjectLinkButton';
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
