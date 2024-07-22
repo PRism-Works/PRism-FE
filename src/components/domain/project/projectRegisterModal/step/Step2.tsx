@@ -207,7 +207,7 @@ const RolesField = ({
   };
 
   return (
-    <div className="relative ml-[46px] mt-[4px]">
+    <div className="ml-[46px] mt-[4px]">
       <FormField
         control={control}
         name={`members.${index}.roles`}

@@ -16,13 +16,13 @@ export default function ProjectLinkPage() {
       <div className="flex w-full max-w-[1040px] flex-col items-center gap-10">
         <section className="w-full max-w-[700px]">
           <SearchInput
-            placeholder="프로젝트 명을 입력해 주세요."
+            placeholder="연동할 프로젝트 명을 입력해 주세요."
             className="h-[52px] w-full body8"
             onSearch={handleSearch}
           />
         </section>
         <section className="flex w-full flex-col gap-4">
-          <h2 className="text-gray-900 body6">프로젝트 검색 결과</h2>
+          <h2 className="text-gray-900 body6">연동할 프로젝트 검색 결과</h2>
           <LinkProjectList searchProjectName={keyword} />
         </section>
         <footer className="gap-4 flex-col-center">

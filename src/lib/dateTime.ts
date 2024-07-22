@@ -5,7 +5,7 @@ import { ko } from 'date-fns/locale/ko';
  * @param seconds mm:ss 형태로 변환될 초
  * @returns mm:ss
  */
-export const formatTime = (seconds: number): string => {
+export const formatSecondToMMSS = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
