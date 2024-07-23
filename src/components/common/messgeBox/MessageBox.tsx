@@ -41,7 +41,7 @@ export default function MessageBox({
 
 interface MessageBoxButtonProps {
   text: string;
-  onClick: () => void;
+  onClick?: () => void;
   isPrimary?: boolean; // 보라색 강조 버튼 여부
 }
 
@@ -49,7 +49,7 @@ const MessageConfirmButton = ({ text, onClick, isPrimary = true }: MessageBoxBut
   const { closeModal } = useModalStore();
   const handleClick = () => {
     closeModal();
-    onClick();
+    if (onClick) onClick();
   };
   return (
     <Button variant={isPrimary ? 'default' : 'outline'} onClick={handleClick}>

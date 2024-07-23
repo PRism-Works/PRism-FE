@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
 import { useTimer } from '@/hooks/useTimer';
-import { formatTime } from '@/lib/dateTime';
+import { formatSecondToMMSS } from '@/lib/dateTime';
 
 import {
   Form,
@@ -156,7 +156,7 @@ export default function ResetPasswordModal() {
                         />
                         {timeLeft > 0 && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
-                            {formatTime(timeLeft)}
+                            {formatSecondToMMSS(timeLeft)}
                           </span>
                         )}
                       </div>

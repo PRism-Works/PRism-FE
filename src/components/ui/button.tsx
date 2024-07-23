@@ -54,7 +54,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {pending && (
           <div className="absolute inset-0 flex items-center justify-center p-3">
             <svg
-              className="h-full w-full animate-spin text-white"
+              className="h-full w-fit animate-spin text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24">

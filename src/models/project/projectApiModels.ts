@@ -111,6 +111,26 @@ export interface RegisteredProjectsResponse {
   }[];
 }
 
+// 연동할 프로젝트 리스트 가져오기
+export interface LinkProjectResponse {
+  success: boolean;
+  status: number;
+  data: {
+    projectId: number;
+
+    projectName: string;
+    organizationName: string;
+    startDate: string;
+    endDate: string;
+
+    categories: string[];
+
+    surveyParcitipants: number;
+    userEvaluation: string;
+    visibility: boolean;
+  }[];
+}
+
 // 프로젝트 상세 조회
 // 검색 상세조회, 프로젝트 수정 시 상세조회, 타인 프로젝트 상세조회 때 마다 재사용
 export interface ProjectDetailResponse {
