@@ -2,7 +2,7 @@
 export const RADIAL_EVALUATION_TYPES = {
   LEADERSHIP: 'LEADERSHIP',
   RELIABILITY: 'RELIABILITY',
-  CHARISMA: 'CHARISMA',
+  TEAMWORK: 'TEAMWORK',
 } as const;
 
 export type RadialEvaluationType =

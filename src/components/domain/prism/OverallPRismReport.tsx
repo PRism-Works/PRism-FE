@@ -67,13 +67,13 @@ export default function OverallPRismReport() {
           <PRismChart data={chartData} />
         </div>
       </div>
-      <div className="flex h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3">
+      <div className="flex min-h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3">
         <div className="text-indigo-800 body6">나의 PRism 분석 리포트</div>
         <div className="gap-3 flex-col-center">
-          <div className="flex-center">
+          <div className="flex-wrap flex-center">
             <RadialChart type={RADIAL_EVALUATION_TYPES.LEADERSHIP} value={70} />
             <RadialChart type={RADIAL_EVALUATION_TYPES.RELIABILITY} value={80} />
-            <RadialChart type={RADIAL_EVALUATION_TYPES.CHARISMA} value={50} />
+            <RadialChart type={RADIAL_EVALUATION_TYPES.TEAMWORK} value={50} />
           </div>
           <div className="grid grid-cols-[80px_1fr] gap-x-2 gap-y-2">
             {prismTextData.map((item, index) => (

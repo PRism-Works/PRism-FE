@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Crown, HeartHandshake, Gem } from 'lucide-react';
+import { Crown, HeartHandshake, Cog } from 'lucide-react';
 import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
 import {
@@ -27,9 +27,9 @@ export const EVALUATION_INFO: Record<
     icon: HeartHandshake,
     color: tailwindColors.purple[800],
   },
-  [RADIAL_EVALUATION_TYPES.CHARISMA]: {
-    label: '매력도',
-    icon: Gem,
+  [RADIAL_EVALUATION_TYPES.TEAMWORK]: {
+    label: '팀워크',
+    icon: Cog,
     color: tailwindColors.purple[900],
   },
 };
