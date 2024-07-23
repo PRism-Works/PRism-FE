@@ -1,21 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import BorderCard from '@/components/common/card/BorderCard';
-import PRismChart, {
-  defaultPRismChartData,
-  Evaluation,
-} from '@/components/common/chart/PRismChart';
-import TripleRadialChart, {
-  defaultTripleRadialChartData,
-  type RadilChartData,
-} from './report/TripleRadialChart';
-import ReportBlur from './report/ReportBlur';
 
-export default function OverallPRismReport() {
+import BorderCard from '@/components/common/card/BorderCard';
+import ReportBlur from './report/ReportBlur';
+import PRismChart, { defaultPRismChartData } from '@/components/common/chart/PRismChart';
+import PRismExplanation from './report/PRismExplanation';
+import type { Evaluation } from '@/models/prism/prismModels';
+
+export default function PrismReport() {
   const [hasData, setHasData] = useState<boolean>(false);
   const [chartData] = useState<Evaluation[]>(defaultPRismChartData);
-  const [radialChartData] = useState<RadilChartData>(defaultTripleRadialChartData);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {
@@ -27,17 +22,15 @@ export default function OverallPRismReport() {
   }, []);
 
   return (
-    <BorderCard className="relative flex-wrap gap-8 flex-center">
+    <BorderCard className="relative flex-wrap gap-28 flex-center">
       {!hasData && <ReportBlur />}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
-        <div className="text-indigo-800 body6">나의 PRism</div>
         <div className="h-full w-full">
           <PRismChart data={chartData} />
         </div>
       </div>
-      <div className="flex min-h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3">
-        <div className="text-indigo-800 body6">나의 PRism 분석 리포트</div>
-        <TripleRadialChart data={radialChartData} />
+      <div className="rounded-[30px]px-9 flex min-h-[330px] max-w-[560px] gap-3 py-3 flex-col-center">
+        <PRismExplanation userName="김이름" data={chartData} />
       </div>
     </BorderCard>
   );

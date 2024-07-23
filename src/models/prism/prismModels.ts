@@ -17,3 +17,16 @@ export const PRISM_EVALUATIONS = [
   'COOPERATION',
 ] as const;
 export type PRismEvaluationType = (typeof PRISM_EVALUATIONS)[number];
+
+export const EVALUATION_LABELS: Record<PRismEvaluationType, string> = {
+  COMMUNICATION: '의사소통능력',
+  PROACTIVITY: '적극성',
+  PROBLEM_SOLVING: '문제해결능력',
+  RESPONSIBILITY: '책임감',
+  COOPERATION: '협동심',
+};
+
+export interface Evaluation {
+  evaluation: PRismEvaluationType;
+  percent: number;
+}

@@ -27,8 +27,7 @@ export default function UserSummaryCard() {
           <TagInput value="디자이너" buttonType="none" colorTheme="indigo" />
         </div>
         <div
-          className="cursor-pointer text-gray-600 underline decoration-current display5 flex-center"
-          style={{ textUnderlineOffset: '4px' }}
+          className="cursor-pointer text-gray-600 underline decoration-current underline-offset-4 display5 flex-center"
           onClick={handleOpenUserProfile}>
           프로필 보러가기
           <ChevronRight className="h-4 w-4" />

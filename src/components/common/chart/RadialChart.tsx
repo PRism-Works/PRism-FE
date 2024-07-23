@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Crown, HeartHandshake, Cog } from 'lucide-react';
 import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
-import {
-  RADIAL_EVALUATION_TYPES,
-  type RadialEvaluationType,
-} from '@/models/evaluation/evaluationModels';
+import { RADIAL_EVALUATION_TYPES, type RadialEvaluationType } from '@/models/prism/prismModels';
 
 export const EVALUATION_INFO: Record<
   RadialEvaluationType,

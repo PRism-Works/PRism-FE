@@ -39,9 +39,7 @@ export default function UserProfile() {
       </BorderCard>
       <div className="absolute -right-2 -top-7 mr-4">
         <Link href="/mypage/edit">
-          <div
-            className="flex cursor-pointer items-center space-x-1 text-gray-800 underline decoration-current display5"
-            style={{ textUnderlineOffset: '4px' }}>
+          <div className="flex cursor-pointer items-center space-x-1 text-gray-800 underline decoration-current underline-offset-4 display5">
             <span>프로필 수정</span>
             <PencilLine className="h-4 w-4" />
           </div>

@@ -1,0 +1,60 @@
+'use client';
+
+import RadialChart from '@/components/common/chart/RadialChart';
+import TagInput from '@/components/common/input/TagInput';
+import { cn } from '@/lib/utils';
+import { RADIAL_EVALUATION_TYPES, type RadialEvaluationType } from '@/models/prism/prismModels';
+
+export interface RadilChartData {
+  radialChartData: Record<RadialEvaluationType, number>;
+  keyword: string[];
+  evaluation: string;
+}
+
+interface TripleRadialChartProps {
+  data: RadilChartData;
+  radialParentClassName?: string;
+}
+
+export default function TripleRadialChart({ data, radialParentClassName }: TripleRadialChartProps) {
+  const gridTextData = [
+    { id: 'keyword', label: '키워드', value: data.keyword },
+    { id: 'evaluation', label: '팀원 평가 요약', value: data.evaluation },
+  ];
+  return (
+    <div className={cn('flex min-h-[330px] max-w-[560px] flex-col justify-center gap-5')}>
+      <div className={cn('flex-wrap flex-center', radialParentClassName)}>
+        {Object.entries(data.radialChartData).map(([type, value]) => (
+          <RadialChart key={type} type={type as RadialEvaluationType} value={value} />
+        ))}
+      </div>
+      <div className="grid grid-cols-[100px_1fr] gap-x-2 gap-y-2">
+        {gridTextData.map((item) => (
+          <div key={item.id} className="contents">
+            <div className="flex text-gray-400 mobile1">{item.label}</div>
+            <div className="flex items-center gap-1 text-gray-800 display5">
+              {!item.value || (Array.isArray(item.value) && item.value.length === 0)
+                ? '-'
+                : item.id === 'keyword' && Array.isArray(item.value)
+                  ? item.value.map((value, index) => (
+                      <TagInput key={index} value={value} isDisabled />
+                    ))
+                  : item.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export const defaultTripleRadialChartData: RadilChartData = {
+  radialChartData: {
+    [RADIAL_EVALUATION_TYPES.LEADERSHIP]: 70,
+    [RADIAL_EVALUATION_TYPES.RELIABILITY]: 80,
+    [RADIAL_EVALUATION_TYPES.TEAMWORK]: 60,
+  },
+  keyword: ['배려', '책임감', '도전정신'],
+  evaluation:
+    '문제점을 바로 파악하고 해결책을 생각하는 문제해결능력이 큰 장점인 사람입니다. 다만 진행상황에 대해 즉시 공유하는 팀워크 능력이 다소 부족하다.',
+};

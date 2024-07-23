@@ -17,10 +17,9 @@ export default function ProjectImageSaveButton({ className }: ProjectImageSaveBu
     <div
       onClick={handleProjectImageSave}
       className={cn(
-        'flex cursor-pointer items-center space-x-1 text-gray-800 underline decoration-current display5',
+        'flex cursor-pointer items-center space-x-1 text-gray-800 underline decoration-current underline-offset-4 display5',
         className,
-      )}
-      style={{ textUnderlineOffset: '4px' }}>
+      )}>
       <span>이미지로 저장</span>
       <Download className="h-4 w-4" />
     </div>

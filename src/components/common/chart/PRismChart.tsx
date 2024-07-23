@@ -5,20 +5,12 @@ import { Flag, Puzzle, Users, Wand2, Wrench } from 'lucide-react';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
-import { PRISM_EVALUATIONS, type PRismEvaluationType } from '@/models/evaluation/evaluationModels';
-
-const EVALUATION_LABELS: Record<PRismEvaluationType, string> = {
-  COMMUNICATION: '의사소통능력',
-  PROACTIVITY: '적극성',
-  PROBLEM_SOLVING: '문제해결능력',
-  RESPONSIBILITY: '책임감',
-  COOPERATION: '협동심',
-};
-
-export interface Evaluation {
-  evaluation: PRismEvaluationType;
-  percent: number;
-}
+import {
+  EVALUATION_LABELS,
+  PRISM_EVALUATIONS,
+  type Evaluation,
+  type PRismEvaluationType,
+} from '@/models/prism/prismModels';
 
 interface PRismChartComponentProps {
   data: Evaluation[];
@@ -89,7 +81,7 @@ interface CustomAxisTickProps {
   fontSize?: number;
 }
 
-const ICONS: Record<PRismEvaluationType, React.ElementType> = {
+export const ICONS: Record<PRismEvaluationType, React.ElementType> = {
   COMMUNICATION: Users,
   PROACTIVITY: Wand2,
   PROBLEM_SOLVING: Wrench,
@@ -126,3 +118,27 @@ const CustomAxisTick = ({ x, y, payload, fontSize = 14 }: CustomAxisTickProps) =
     </g>
   );
 };
+
+// 데이터 로딩 전 임시 데이터
+export const defaultPRismChartData: Evaluation[] = [
+  {
+    evaluation: 'COMMUNICATION',
+    percent: 30,
+  },
+  {
+    evaluation: 'PROACTIVITY',
+    percent: 40,
+  },
+  {
+    evaluation: 'PROBLEM_SOLVING',
+    percent: 100,
+  },
+  {
+    evaluation: 'RESPONSIBILITY',
+    percent: 80,
+  },
+  {
+    evaluation: 'COOPERATION',
+    percent: 90,
+  },
+];
