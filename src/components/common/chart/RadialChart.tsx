@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Crown, HeartHandshake, Cog } from 'lucide-react';
 import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
-import { RADIAL_EVALUATION_TYPES, type RadialEvaluationType } from '@/models/prism/prismModels';
+import { RADIAL_EVALUATION_LABELS, type RadialEvaluationType } from '@/models/prism/prismModels';
 
 export const EVALUATION_INFO: Record<
   RadialEvaluationType,
@@ -14,18 +14,18 @@ export const EVALUATION_INFO: Record<
     color: string;
   }
 > = {
-  [RADIAL_EVALUATION_TYPES.LEADERSHIP]: {
-    label: '리더십',
+  LEADERSHIP: {
+    label: RADIAL_EVALUATION_LABELS.LEADERSHIP,
     icon: Crown,
     color: tailwindColors.purple[900],
   },
-  [RADIAL_EVALUATION_TYPES.RELIABILITY]: {
-    label: '신뢰도',
+  RELIABILITY: {
+    label: RADIAL_EVALUATION_LABELS.RELIABILITY,
     icon: HeartHandshake,
     color: tailwindColors.purple[800],
   },
-  [RADIAL_EVALUATION_TYPES.TEAMWORK]: {
-    label: '팀워크',
+  TEAMWORK: {
+    label: RADIAL_EVALUATION_LABELS.TEAMWORK,
     icon: Cog,
     color: tailwindColors.purple[900],
   },

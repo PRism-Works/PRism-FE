@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
 import BorderCard from '@/components/common/card/BorderCard';
 import TripleRadialChart, {
   defaultTripleRadialChartData,
-  type RadilChartData,
+  type RadialChartData,
 } from './report/TripleRadialChart';
 import ReportBlur from './report/ReportBlur';
 export default function PrismAnalyzeReport() {
   const [hasData, setHasData] = useState<boolean>(false);
-  const [radialChartData] = useState<RadilChartData>(defaultTripleRadialChartData);
+  const [radialChartData] = useState<RadialChartData>(defaultTripleRadialChartData);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {

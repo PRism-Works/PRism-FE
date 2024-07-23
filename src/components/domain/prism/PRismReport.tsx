@@ -6,11 +6,11 @@ import BorderCard from '@/components/common/card/BorderCard';
 import ReportBlur from './report/ReportBlur';
 import PRismChart, { defaultPRismChartData } from '@/components/common/chart/PRismChart';
 import PRismExplanation from './report/PRismExplanation';
-import type { Evaluation } from '@/models/prism/prismModels';
+import type { PRismEvaluation } from '@/models/prism/prismModels';
 
 export default function PrismReport() {
   const [hasData, setHasData] = useState<boolean>(false);
-  const [chartData] = useState<Evaluation[]>(defaultPRismChartData);
+  const [chartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {

@@ -6,14 +6,14 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
 import {
-  EVALUATION_LABELS,
+  PRISM_EVALUATION_LABELS,
   PRISM_EVALUATIONS,
-  type Evaluation,
+  type PRismEvaluation,
   type PRismEvaluationType,
 } from '@/models/prism/prismModels';
 
 interface PRismChartComponentProps {
-  data: Evaluation[];
+  data: PRismEvaluation[];
   name?: string; // 지표에 표시될 사용자 이름
   hideAxis?: boolean;
   fontSize?: number;
@@ -110,7 +110,7 @@ const CustomAxisTick = ({ x, y, payload, fontSize = 14 }: CustomAxisTickProps) =
         textAnchor="middle"
         className="m-4 fill-gray-400"
         fontSize={fontSize}>
-        {EVALUATION_LABELS[payload.value]}
+        {PRISM_EVALUATION_LABELS[payload.value]}
       </text>
       <foreignObject x={-10} y={-20} width={30} height={30}>
         <Icon className="h-5 w-5" />
@@ -120,7 +120,7 @@ const CustomAxisTick = ({ x, y, payload, fontSize = 14 }: CustomAxisTickProps) =
 };
 
 // 데이터 로딩 전 임시 데이터
-export const defaultPRismChartData: Evaluation[] = [
+export const defaultPRismChartData: PRismEvaluation[] = [
   {
     evaluation: 'COMMUNICATION',
     percent: 30,

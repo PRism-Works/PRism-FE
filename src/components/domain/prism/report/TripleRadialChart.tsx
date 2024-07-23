@@ -3,16 +3,16 @@
 import RadialChart from '@/components/common/chart/RadialChart';
 import TagInput from '@/components/common/input/TagInput';
 import { cn } from '@/lib/utils';
-import { RADIAL_EVALUATION_TYPES, type RadialEvaluationType } from '@/models/prism/prismModels';
+import { RADIAL_EVALUATIONS, type RadialEvaluationType } from '@/models/prism/prismModels';
 
-export interface RadilChartData {
+export interface RadialChartData {
   radialChartData: Record<RadialEvaluationType, number>;
   keyword: string[];
   evaluation: string;
 }
 
 interface TripleRadialChartProps {
-  data: RadilChartData;
+  data: RadialChartData;
   radialParentClassName?: string;
 }
 
@@ -24,8 +24,8 @@ export default function TripleRadialChart({ data, radialParentClassName }: Tripl
   return (
     <div className={cn('flex min-h-[330px] max-w-[560px] flex-col justify-center gap-5')}>
       <div className={cn('flex-wrap flex-center', radialParentClassName)}>
-        {Object.entries(data.radialChartData).map(([type, value]) => (
-          <RadialChart key={type} type={type as RadialEvaluationType} value={value} />
+        {RADIAL_EVALUATIONS.map((type) => (
+          <RadialChart key={type} type={type} value={data.radialChartData[type]} />
         ))}
       </div>
       <div className="grid grid-cols-[100px_1fr] gap-x-2 gap-y-2">
@@ -48,11 +48,11 @@ export default function TripleRadialChart({ data, radialParentClassName }: Tripl
   );
 }
 
-export const defaultTripleRadialChartData: RadilChartData = {
+export const defaultTripleRadialChartData: RadialChartData = {
   radialChartData: {
-    [RADIAL_EVALUATION_TYPES.LEADERSHIP]: 70,
-    [RADIAL_EVALUATION_TYPES.RELIABILITY]: 80,
-    [RADIAL_EVALUATION_TYPES.TEAMWORK]: 60,
+    LEADERSHIP: 70,
+    RELIABILITY: 80,
+    TEAMWORK: 60,
   },
   keyword: ['배려', '책임감', '도전정신'],
   evaluation:

@@ -2,20 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import BorderCard from '@/components/common/card/BorderCard';
-import PRismChart, {
-  defaultPRismChartData,
-  Evaluation,
-} from '@/components/common/chart/PRismChart';
+import PRismChart, { defaultPRismChartData } from '@/components/common/chart/PRismChart';
 import TripleRadialChart, {
   defaultTripleRadialChartData,
-  type RadilChartData,
+  type RadialChartData,
 } from './report/TripleRadialChart';
 import ReportBlur from './report/ReportBlur';
+import type { PRismEvaluation } from '@/models/prism/prismModels';
 
 export default function OverallPRismReport() {
   const [hasData, setHasData] = useState<boolean>(false);
-  const [chartData] = useState<Evaluation[]>(defaultPRismChartData);
-  const [radialChartData] = useState<RadilChartData>(defaultTripleRadialChartData);
+  const [chartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
+  const [radialChartData] = useState<RadialChartData>(defaultTripleRadialChartData);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {

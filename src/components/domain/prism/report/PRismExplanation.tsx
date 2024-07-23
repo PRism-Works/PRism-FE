@@ -1,13 +1,13 @@
 import {
-  EVALUATION_LABELS,
-  type Evaluation,
+  PRISM_EVALUATION_LABELS,
+  type PRismEvaluation,
   type PRismEvaluationType,
 } from '@/models/prism/prismModels';
 import { ICONS } from '@/components/common/chart/PRismChart';
 
 interface PRismExplanationProps {
   userName: string;
-  data: Evaluation[];
+  data: PRismEvaluation[];
 }
 
 export default function PRismExplanation({ userName, data }: PRismExplanationProps) {
@@ -28,7 +28,7 @@ export default function PRismExplanation({ userName, data }: PRismExplanationPro
             <span key={item.evaluation} className="gap-2 flex-col-center">
               <div className="gap-1 text-gray-400 mobile2 flex-col-center">
                 <Icon className="stroke-black" />
-                {EVALUATION_LABELS[item.evaluation]}
+                {PRISM_EVALUATION_LABELS[item.evaluation]}
               </div>
               <span className={`mobile1 ${getColorForEvaluation(item.evaluation)}`}>
                 {item.percent}%
@@ -41,14 +41,14 @@ export default function PRismExplanation({ userName, data }: PRismExplanationPro
         <p>
           {userName}님의 <span className="text-info-500 mobile2">가장 높은 지표</span>는
           <span className="mx-2 text-info-500 display6">
-            {highestEvaluations.map((evaluation) => EVALUATION_LABELS[evaluation]).join(', ')}
+            {highestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
           </span>
           입니다.
         </p>
         <p>
           {userName}님의 <span className="text-purple-500 mobile2">가장 낮은 지표</span>는
           <span className="mx-2 text-purple-500 display6">
-            {lowestEvaluations.map((evaluation) => EVALUATION_LABELS[evaluation]).join(', ')}
+            {lowestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
           </span>
           입니다.
         </p>
@@ -57,7 +57,7 @@ export default function PRismExplanation({ userName, data }: PRismExplanationPro
   );
 }
 
-const findExtremeEvaluations = (data: Evaluation[]) => {
+const findExtremeEvaluations = (data: PRismEvaluation[]) => {
   let maxPercent = -Infinity;
   let minPercent = Infinity;
   let highestEvaluations: PRismEvaluationType[] = [];
