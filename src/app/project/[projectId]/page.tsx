@@ -61,7 +61,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
           <BorderCard className="p-7">
             <div className="grid grid-cols-[90px_1fr] gap-x-8 gap-y-7">
               <div className="text-gray-600 display6">상세설명</div>
-              <div className="text-black display4">
+              <p className="text-black display4">
                 이 프로젝트는 웰훕스팅 커뮤니티 이 프로젝트는 웰훕스팅 커뮤니티 스위코에서 주최한
                 6주 단기 웹 서비스 출시를 목표로 진행된 프로젝트입니다. PRism은 it프로젝트를
                 마무리한 사람들에게 동료평가 서비스를 제공하는 웹사이트입니다. 주요 기능은
@@ -70,32 +70,55 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                 PRism은 it프로젝트를 마무리한 사람들에게 동료평가 서비스를 제공하는 웹사이트입니다.
                 주요 기능은 프로젝트를 등록하고 평가지를 보내 팀원들의 평가를 받아 5가지의 지표로
                 나타내는 것입니다.
-              </div>
+              </p>
 
               <div className="text-gray-600 display6">카테고리</div>
-              <div className="flex gap-2">
-                <TagInput value="금융" isDisabled />
-                <TagInput value="생산성" isDisabled />
-                <TagInput value="기타" isDisabled />
-              </div>
+              <ul className="flex gap-2">
+                <li>
+                  {' '}
+                  <TagInput value="금융" isDisabled />
+                </li>
+                <li>
+                  {' '}
+                  <TagInput value="생산성" isDisabled />
+                </li>
+                <li>
+                  {' '}
+                  <TagInput value="기타" isDisabled />
+                </li>
+              </ul>
 
               <div className="text-gray-600 display6">기술스택</div>
-              <div className="flex gap-2">
-                <TagInput value="Spring Framework" isDisabled colorTheme="gray" />
-                <TagInput value="Python" isDisabled colorTheme="gray" />
-                <TagInput value="HTML/CSS" isDisabled colorTheme="gray" />
-              </div>
+              <ul className="flex gap-2">
+                <li>
+                  <TagInput value="Spring Framework" isDisabled colorTheme="gray" />
+                </li>
+                <li>
+                  <TagInput value="Python" isDisabled colorTheme="gray" />
+                </li>
+                <li>
+                  <TagInput value="HTML/CSS" isDisabled colorTheme="gray" />
+                </li>
+              </ul>
             </div>
           </BorderCard>
         </section>
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">팀원 정보</h2>
-          <div className="flex flex-wrap gap-4">
-            <UserSummaryCard userData={testUserData} />
-            <UserSummaryCard userData={testUserData} variant={USER_CARD_VARIANT.NON_MEMBER} />
-            <UserSummaryCard userData={testUserData} variant={USER_CARD_VARIANT.MEMBER_PRIVATE} />
-            <UserSummaryCard userData={testUserData} variant={USER_CARD_VARIANT.MEMBER_PUBLIC} />
-          </div>
+          <ul className="flex flex-wrap gap-4">
+            <li>
+              <UserSummaryCard userData={testUserData} />
+            </li>
+            <li>
+              <UserSummaryCard userData={testUserData} variant={USER_CARD_VARIANT.NON_MEMBER} />
+            </li>
+            <li>
+              <UserSummaryCard userData={testUserData} variant={USER_CARD_VARIANT.MEMBER_PRIVATE} />
+            </li>
+            <li>
+              <UserSummaryCard userData={testUserData} variant={USER_CARD_VARIANT.MEMBER_PUBLIC} />
+            </li>
+          </ul>
         </section>
       </div>
     </div>

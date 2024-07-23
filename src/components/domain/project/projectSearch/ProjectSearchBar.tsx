@@ -9,9 +9,15 @@ import { useTagListState } from '@/hooks/useTagListState';
 import SearchInput from '@/components/common/input/SearchInput';
 import { cn } from '@/lib/utils';
 
-export default function ProjectSearchBar() {
+interface ProjectSeqrchBarProps {
+  defaultDetailVisible?: boolean;
+}
+export default function ProjectSearchBar({ defaultDetailVisible = false }: ProjectSeqrchBarProps) {
   const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
-  const [isDetailVisible, toggleDetailVisibility] = useReducer((state) => !state, false);
+  const [isDetailVisible, toggleDetailVisibility] = useReducer(
+    (state) => !state,
+    defaultDetailVisible,
+  );
 
   const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState([], 5);
 
@@ -69,22 +75,23 @@ export default function ProjectSearchBar() {
           'w-full overflow-hidden transition-all duration-300 ease-in-out',
           isDetailVisible ? 'opacity-100' : 'opacity-0',
         )}>
-        <div className="mt-2 w-full">
-          <div className="flex w-full flex-wrap gap-3">
+        <div className="mt-1 w-full">
+          <div className="flex w-full flex-wrap gap-4">
             <span className="h-9 w-20 rounded-[6px] bg-indigo-50 px-3 py-2 text-center text-indigo-500 display6">
               카테고리
             </span>
-            <div className="flex flex-wrap gap-1">
+            <ul className="flex flex-wrap gap-2">
               {ProjectCategories.map((category) => (
-                <CheckTagInput
-                  key={category}
-                  value={category}
-                  isChecked={isSelected(category)}
-                  isDisabled={isSelectionLimitReached() && !isSelected(category)}
-                  onClick={() => handleCategoryClick(category)}
-                />
+                <li key={category}>
+                  <CheckTagInput
+                    value={category}
+                    isChecked={isSelected(category)}
+                    isDisabled={isSelectionLimitReached() && !isSelected(category)}
+                    onClick={() => handleCategoryClick(category)}
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
