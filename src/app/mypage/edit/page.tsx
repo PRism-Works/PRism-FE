@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { useModalStore } from '@/stores/modalStore';
+import { useUserStore } from '@/stores/userStore';
 import { useUserProfileByUserId, useUpdateProfile } from '@/hooks/queries/useUserService';
 import { TechStacks, UserRoles } from '@/lib/tagList';
 import { PageSpinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
-import TagInput from '@/components/common/input/TagInput';
-import { useUserStore } from '@/stores/userStore';
 import MoveBackButton from '@/components/common/button/MoveBackButton';
 import BorderCard from '@/components/common/card/BorderCard';
+import TagInput from '@/components/common/input/TagInput';
 
 // 로그인 한 사용자의 프로필 수정 페이지
 export default function EditMyPage() {
