@@ -25,6 +25,7 @@ export default function ProjectIntroduceCard({
       <section>
         <h2 className="text-gray-900 body6">프로젝트 개요</h2>
         <BorderCard>
+          {/* grid로  */}
           <div></div>
         </BorderCard>
       </section>
