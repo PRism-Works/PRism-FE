@@ -7,6 +7,11 @@ import type {
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDetailResponse,
+  MyProjectVisibilityResponse,
+  MyProjectVisibilityRequest,
+  LinkProjectRequest,
+  ProjectSearchResponse,
+  ProjectSearchRequest,
 } from '@/models/project/projectApiModels';
 import { ProjectForm } from '@/models/project/projectModels';
 import {
@@ -14,7 +19,14 @@ import {
   deleteProject,
   getEditProjectDetails,
   getLinkProjectsByProjectName,
+  getMeInvolvedProjects,
+  getMyProjectDetails,
+  getProjectDetails,
   getRegisteredProjects,
+  getSearchProjects,
+  getWhoInvolvedProjects,
+  linkProject,
+  updateMyProjectVisibility,
   updateProject,
 } from '@/services/api/projectApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -157,6 +169,50 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
   });
 };
 
+// 특정 프로젝트에서 본인의 익명 처리 여부 설정 (공개/비공개)
+export const useUpdateMyProjectVisibility = () => {
+  return useMutation<MyProjectVisibilityResponse, AxiosError, MyProjectVisibilityRequest>({
+    mutationFn: updateMyProjectVisibility,
+    onSuccess: (response) => {
+      console.log(response);
+      // 알림 안띄워도 될 것 같음.
+    },
+    onError: (error) => {
+      alert('프로젝트 공개 설정에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
+// 프로젝트 연동하기
+export const useLinkProject = (successCallback: () => void) => {
+  return useMutation<ProjectDetailResponse, AxiosError, LinkProjectRequest>({
+    mutationFn: linkProject,
+    onSuccess: (response) => {
+      console.log(response);
+      if (successCallback) successCallback();
+    },
+    onError: (error) => {
+      alert('프로젝트 연동 요청에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
+// 홈, 검색 페이지에서 프로젝트 검색하기 (Mutaion)
+export const useSearchProjects = () => {
+  return useMutation<ProjectSearchResponse, AxiosError, ProjectSearchRequest>({
+    mutationFn: getSearchProjects,
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (error) => {
+      alert('프로젝트 검색에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
 // 내가 등록한 프로젝트 리스트 가져오기
 export const useGetRegisteredProjects = () => {
   return useQuery<ProjectListResponse, AxiosError>({
@@ -171,5 +227,23 @@ export const useGetLinkProjectsByProjectName = (projectName: string) => {
     queryKey: ['getLinkProjectsByProjectName', projectName],
     queryFn: () => getLinkProjectsByProjectName(projectName),
     enabled: !!projectName, // projectName이 존재할 때만 쿼리 실행
+  });
+};
+
+// 프로필 별 로그인 유저 혹은 타인의 참여 프로젝트 리스트 가져오기
+export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: string) => {
+  return useQuery<ProjectListResponse, AxiosError>({
+    queryKey: ['getParticipatingProjects', userId, fromMyProfile],
+    queryFn: () => (fromMyProfile ? getMeInvolvedProjects() : getWhoInvolvedProjects(userId)),
+    enabled: fromMyProfile || !!userId, // fromMyProfile이 true이거나 userId가 존재할 때만 쿼리 실행
+  });
+};
+
+// 나 또는 타인의 프로젝트 상세 조회하기
+export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectID: number) => {
+  return useQuery<ProjectDetailResponse, AxiosError>({
+    queryKey: ['getParticipatingProjects', projectID, fromMyProfile],
+    queryFn: () => (fromMyProfile ? getMyProjectDetails(projectID) : getProjectDetails(projectID)),
+    enabled: !!projectID, // projectID가 존재할 때만 쿼리 실행
   });
 };

@@ -11,6 +11,8 @@ import type {
   MyProjectVisibilityResponse,
   ProjectSearchRequest,
   ProjectSearchResponse,
+  MyProjectVisibilityRequest,
+  LinkProjectRequest,
 } from '@/models/project/projectApiModels';
 
 // 프로젝트 등록
@@ -236,13 +238,12 @@ export const getProjectDetails = async (projectId: number): Promise<ProjectDetai
 
 // 특정 프로젝트에서 본인의 익명 처리 여부 설정 (공개/비공개)
 export const updateMyProjectVisibility = async (
-  projectId: number,
-  visibility: boolean,
+  data: MyProjectVisibilityRequest,
 ): Promise<MyProjectVisibilityResponse> => {
   try {
     const response = await ax.put<MyProjectVisibilityResponse>(`/api/v1/projects/visibility`, {
-      projectId,
-      urlVisibility: visibility, // 근데 이거 .. urlVisibility 라고 되어있는데 .. 아 근데 말하기가 싫다..
+      projectId: data.projectId,
+      urlVisibility: data.visibility, // 근데 이거 .. urlVisibility 라고 되어있는데 .. 아 근데 말하기가 싫다..
     });
     console.log('Update My Project Visibility Response:', response.data);
     return response.data;
@@ -263,15 +264,12 @@ export const updateMyProjectVisibility = async (
 };
 
 // 프로젝트 연동하기
-export const linkProject = async (
-  projectId: number,
-  anonymousEmail: string,
-): Promise<ProjectDetailResponse> => {
+export const linkProject = async (data: LinkProjectRequest): Promise<ProjectDetailResponse> => {
   try {
     const response = await ax.post<ProjectDetailResponse>(
-      `/api/v1/projects/link-project/${projectId}`,
+      `/api/v1/projects/link-project/${data.projectId}`,
       {
-        params: { anonymousEmail },
+        params: { anonymousEmail: data.anonymousEmail },
       },
     );
     console.log('Create Project Response:', response.data);

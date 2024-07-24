@@ -150,6 +150,10 @@ export interface ProjectDetailResponse {
 }
 
 // 본인이 참여한 프로젝트의 본인 익명 여부
+export interface MyProjectVisibilityRequest {
+  projectId: number;
+  visibility: boolean;
+}
 export interface MyProjectVisibilityResponse {
   projectId: number;
   visibility: boolean;
@@ -180,4 +184,10 @@ export interface ProjectSearchResponse {
       endDate: number; // 타임스태프 형태
     }[];
   };
+}
+
+// 프로젝트 연동 요청
+export interface LinkProjectRequest {
+  projectId: number;
+  anonymousEmail: string;
 }
