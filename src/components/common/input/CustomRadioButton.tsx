@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { useFormContext, UseFormRegister } from 'react-hook-form';
 
 interface CustomRadioButtonProps {
   name: string;
@@ -8,22 +7,12 @@ interface CustomRadioButtonProps {
 }
 
 export default function CustomRadioButton({ name, value, register }: CustomRadioButtonProps) {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsSelected(event.target.checked);
-    console.log(`Radio button ${name} with value ${value} selected: ${event.target.checked}`);
-  };
+  const { watch } = useFormContext();
+  const isSelected = watch(name) === value;
 
   return (
     <label className="relative flex cursor-pointer items-center space-x-4">
-      <input
-        type="radio"
-        {...register(name)}
-        value={value}
-        className="hidden"
-        onChange={handleChange}
-      />
+      <input type="radio" {...register(name)} value={value} className="hidden" />
       <div className="relative flex h-6 w-6 items-center justify-center">
         <div
           className={`absolute h-full w-full rounded-full border-2 ${
