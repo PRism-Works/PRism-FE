@@ -1,5 +1,4 @@
 import { XCircle, Plus } from 'lucide-react';
-import { PlanetIcons } from '@/assets/icon/planet';
 import {
   FormControl,
   FormDescription,
@@ -18,6 +17,7 @@ import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 import { UserRoles } from '@/lib/tagList';
 import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
+import CirclePlanetIcon from '@/components/domain/user/CirclePlanetIcon';
 
 const DEFAULT_MEMBER: ProjectMember = { name: '', email: '', roles: [] };
 const PRIORITY_ERROR_FIELDS: (keyof FieldErrors<ProjectMember>)[] = ['name', 'email', 'roles']; // error 우선순위대로 선언
@@ -40,15 +40,12 @@ export default function Step2() {
     const isDefaultMember = index === 0; // 수정 불가 멤버인지 여부 (프로젝트 등록자인 경우, default 값으로 세팅 되어있음)
     const priorityErrorIndex = getPriorityErrorIndex(index);
 
-    const planetKeys = Object.keys(PlanetIcons) as Array<keyof typeof PlanetIcons>;
-    const PlanetIcon = PlanetIcons[planetKeys[index % planetKeys.length]];
-
     return (
       <li key={field.id}>
         {isDefaultMember && <MemberFieldLabels />}
         <div className="flex w-full items-center gap-[6px]">
           <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">
-            <PlanetIcon />
+            <CirclePlanetIcon iconIndex={index} />
           </span>
           <MemberInputField
             name={`members.${index}.name`}
