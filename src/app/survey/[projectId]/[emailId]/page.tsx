@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { surveyQuestions, SURVEY_QUESTION_TYPE } from '@/lib/surveyQuestions';
 import { SurveyStep } from '@/models/survey/surveyModels';
-import { questions } from '@/lib/surveyQuestion';
 import RatingAnswer from '@/components/domain/survey/answerType/RatingAnswer';
 import CheckBoxAnswer from '@/components/domain/survey/answerType/CheckBoxAnswer';
 import TextAnswer from '@/components/domain/survey/answerType/TextAnswer';
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 
+// TODO: 평가지 API 연동 예정
 const teamMembers = ['김이브', '나동현', '유혜성', '이나윤', '우지희', '박민수', '안유경'];
 
 export default function SurveyPage() {
@@ -24,18 +25,20 @@ export default function SurveyPage() {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const methods = useForm<Record<string, unknown>>();
 
-  const steps: SurveyStep[] = questions.map((question, index) => {
-    if (index === 6) {
-      return {
-        component: CheckBoxAnswer,
-        question: question,
-        stepNumber: index + 1,
-        teamMembers,
-      };
-    } else if (index === 12 || index === 13) {
-      return { component: TextAnswer, question: question, stepNumber: index + 1, teamMembers };
-    } else {
-      return { component: RatingAnswer, question: question, stepNumber: index + 1, teamMembers };
+  const steps: SurveyStep[] = surveyQuestions.map((question, index) => {
+    switch (question.type) {
+      case SURVEY_QUESTION_TYPE.Check:
+        return {
+          component: CheckBoxAnswer,
+          question: question,
+          stepNumber: index + 1,
+          teamMembers,
+        };
+      case SURVEY_QUESTION_TYPE.Text:
+        return { component: TextAnswer, question: question, stepNumber: index + 1, teamMembers };
+      case SURVEY_QUESTION_TYPE.Radio:
+      default:
+        return { component: RatingAnswer, question: question, stepNumber: index + 1, teamMembers };
     }
   });
 
