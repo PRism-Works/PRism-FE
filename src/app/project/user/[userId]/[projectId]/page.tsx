@@ -15,13 +15,13 @@ export default function UserProjectDetailPage({ params }: UserProjectDetailPageP
     <div className="container mx-auto flex min-h-screen flex-col items-center p-12">
       <div className="flex w-full max-w-[1040px] flex-col gap-10">
         {/* 유저 프로필에서 넘어온 상세 조회, Project ID: {projectId} */}
-        <ProjectIntroduceCard userId={userId} projectId={projectId} />
+        <ProjectIntroduceCard userId={userId} projectId={projectId} fromMyProfile={false} />
         <section className="flex flex-col gap-4">
-          <h2 className="text-gray-900 body6">나의 PRism</h2>
+          <h2 className="text-gray-900 body6">PRism</h2>
           <PrismReport />
         </section>
         <section className="flex flex-col gap-4">
-          <h2 className="text-gray-900 body6">나의 PRism 분석 리포트</h2>
+          <h2 className="text-gray-900 body6">PRism 분석 리포트</h2>
           <PrismAnalyzeReport />
         </section>
       </div>
