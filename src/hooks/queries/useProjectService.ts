@@ -170,12 +170,14 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
 };
 
 // 특정 프로젝트에서 본인의 익명 처리 여부 설정 (공개/비공개)
-export const useUpdateMyProjectVisibility = () => {
+export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean) => void) => {
   return useMutation<MyProjectVisibilityResponse, AxiosError, MyProjectVisibilityRequest>({
     mutationFn: updateMyProjectVisibility,
-    onSuccess: (response) => {
+    onSuccess: (response, requsetCondition) => {
       console.log(response);
-      // 알림 안띄워도 될 것 같음.
+      // 성공 시 알림 안띄워도 될 것 같음. 개발 확인용으로 alert 넣기
+      alert(`프로젝트를 ${requsetCondition.visibility ? '공개하도록' : '익명으로'} 설정했습니다.`);
+      if (successCallback) successCallback(requsetCondition.visibility);
     },
     onError: (error) => {
       alert('프로젝트 공개 설정에 실패했습니다.');
