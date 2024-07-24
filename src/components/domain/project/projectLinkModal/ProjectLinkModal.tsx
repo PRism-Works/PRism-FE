@@ -149,7 +149,10 @@ interface MemberItemProps {
 const MemberItem = ({ member, index, isSelected, onSelect }: MemberItemProps) => {
   const planetKeys = Object.keys(PlanetIcons) as Array<keyof typeof PlanetIcons>;
   const PlanetIcon = PlanetIcons[planetKeys[index % planetKeys.length]];
-
+  // 아래 기준처럼 데이터 받아서 분기처리 해야함!
+  // - 비회원 : 이름은 보여지고, 이메일은 앞글자 2개 보여지고 @ 뒤는 다 보여짐
+  // - 회원이지만 비공개 처리 : 이름 한글자만 공개, 이메일은 앞글자 2개 보여지고 @ 뒤는 다 보여짐
+  // - 회원이고 공개처리 : 그냥 다 보여짐
   return (
     <>
       <div className="flex w-full items-center gap-[6px]">

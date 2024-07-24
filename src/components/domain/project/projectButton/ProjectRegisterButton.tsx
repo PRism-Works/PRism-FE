@@ -34,7 +34,7 @@ export default function ProjectRegisterButton({
       onClick={handleOpenProjectRegisterModal}
       variant="gradient"
       className={cn('h-[60px] w-[250px]', className)}>
-      <ClipboardEdit className="mr-2 h-5 w-5" />
+      <ClipboardEdit className="mr-2 h-6 w-6" />
       <p className="body8">{text}</p>
     </Button>
   );

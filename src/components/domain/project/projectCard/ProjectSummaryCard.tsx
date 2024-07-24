@@ -78,7 +78,7 @@ const LeftSection = ({ projectData }: { projectData: ProjectSummaryData }) => (
 
 const EvaluationSection = ({ evaluation }: { evaluation: string }) => (
   <section className="flex flex-col justify-center">
-    <h3 className="text-gray-400 mobile1">한 줄 평가</h3>
+    <h3 className="text-gray-400 mobile1">팀원 평가 요약</h3>
     <p className={cn('overflow-y-auto text-gray-800 display4', evaluation || 'text-gray-300')}>
       {evaluation || '등록된 한 줄 평가가 없습니다.'}
     </p>
