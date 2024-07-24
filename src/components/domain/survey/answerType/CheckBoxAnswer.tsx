@@ -1,8 +1,7 @@
-import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import CheckBoxRow from '../answerRow/CheckBoxRow';
+import { CheckBoxAnswerProps } from '@/models/survey/surveyModels';
 import SurveyLayout from '../SurveyLayout';
-import { CheckBoxAnswerProps } from '../surveyTypes';
+import CheckBoxRow from '../answerRow/CheckBoxRow';
 
 export default function CheckBoxAnswer({
   currentStep,

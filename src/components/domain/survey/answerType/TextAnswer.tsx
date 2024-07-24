@@ -1,8 +1,7 @@
-import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import TextRow from '../answerRow/TextRow';
+import { TextAnswerProps } from '@/models/survey/surveyModels';
 import SurveyLayout from '../SurveyLayout';
-import { TextAnswerProps } from '../surveyTypes';
+import TextRow from '../answerRow/TextRow';
 
 interface InstructionProps {
   type: '강점' | '보완점';

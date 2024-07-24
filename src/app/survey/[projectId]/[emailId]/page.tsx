@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { SurveyStep } from '@/models/survey/surveyModels';
 import { questions } from '@/lib/surveyQuestion';
 import RatingAnswer from '@/components/domain/survey/answerType/RatingAnswer';
 import CheckBoxAnswer from '@/components/domain/survey/answerType/CheckBoxAnswer';
 import TextAnswer from '@/components/domain/survey/answerType/TextAnswer';
-import { SurveyStep } from '@/components/domain/survey/surveyTypes';
 import {
   Carousel,
   CarouselContent,

@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { RatingAnswerProps } from '../surveyTypes';
+import { RatingAnswerProps } from '@/models/survey/surveyModels';
 import SurveyLayout from '../SurveyLayout';
 import RatingScale from '../RatingScale';
 import RatingRow from '../answerRow/RatingRow';
