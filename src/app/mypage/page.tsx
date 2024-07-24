@@ -14,14 +14,14 @@ export default function MyPage() {
           <ProjectRegisterButton text="새 프로젝트 등록하기" className="h-[45px] w-[210px]" />
         </div>
         <h2 className="text-gray-900 body6">프로필</h2>
-        <UserProfile />
+        <UserProfile fromMyProfile />
       </section>
       <section className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-gray-900 body6">PRism 종합 리포트</h2>
           <ProjectImageSaveButton className="-mb-4 mr-2" />
         </div>
-        <OverallPRismReport />
+        <OverallPRismReport fromMyProfile />
       </section>
       <section className="flex flex-col gap-3">
         <ParticipatingProjectList fromMyProfile />

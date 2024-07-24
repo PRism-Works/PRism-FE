@@ -70,7 +70,7 @@ export interface ProjectUpdateRequest {
     name: string;
     email: string;
     roles: string[];
-    anonyVisibility: boolean; // 조회 시 받은 데이터 그대로 돌려줘야할듯
+    anonyVisibility?: boolean; // put api여서 일단 필수값은 아니게 처리
   }[];
 }
 export interface ProjectUpdateResponse {

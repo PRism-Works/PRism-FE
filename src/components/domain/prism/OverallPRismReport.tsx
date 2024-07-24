@@ -10,7 +10,11 @@ import TripleRadialChart, {
 import ReportBlur from './report/ReportBlur';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
 
-export default function OverallPRismReport() {
+interface OverallPRismReportProps {
+  fromMyProfile?: boolean;
+}
+
+export default function OverallPRismReport({ fromMyProfile }: OverallPRismReportProps) {
   const [hasData, setHasData] = useState<boolean>(false);
   const [chartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
   const [radialChartData] = useState<RadialChartData>(defaultTripleRadialChartData);
@@ -28,13 +32,13 @@ export default function OverallPRismReport() {
     <BorderCard className="relative flex-wrap gap-8 flex-center">
       {!hasData && <ReportBlur />}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
-        <div className="text-indigo-800 body6">나의 PRism</div>
+        <div className="text-indigo-800 body6">{fromMyProfile && '나의'} PRism</div>
         <div className="h-full w-full">
           <PRismChart data={chartData} />
         </div>
       </div>
       <div className="flex min-h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3">
-        <div className="text-indigo-800 body6">나의 PRism 분석 리포트</div>
+        <div className="text-indigo-800 body6">{fromMyProfile && '나의'} PRism 분석 리포트</div>
         <TripleRadialChart data={radialChartData} />
       </div>
     </BorderCard>

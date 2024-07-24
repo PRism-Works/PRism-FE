@@ -230,7 +230,7 @@ export const useGetLinkProjectsByProjectName = (projectName: string) => {
   });
 };
 
-// 프로필 별 로그인 유저 혹은 타인의 참여 프로젝트 리스트 가져오기
+// 프로필 별 로그인 유저 혹은 타인의 참여한 프로젝트 리스트 가져오기
 export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: string) => {
   return useQuery<ProjectListResponse, AxiosError>({
     queryKey: ['getParticipatingProjects', userId, fromMyProfile],
