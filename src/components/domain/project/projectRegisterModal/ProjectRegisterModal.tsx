@@ -162,6 +162,8 @@ export default function ProjectRegisterModal({
           handlePrevStep={handlePrevStep}
           handleNextStep={handleNextStep}
           handleExternalSubmit={handleExternalSubmit}
+          isEdit={isEdit}
+          isPending={updateMutation.isPending || createMutation.isPending}
           MAX_STEP={MAX_STEP}
         />
       }>

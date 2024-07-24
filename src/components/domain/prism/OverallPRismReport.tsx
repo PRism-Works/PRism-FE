@@ -11,7 +11,7 @@ import ReportBlur from './report/ReportBlur';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
 
 interface OverallPRismReportProps {
-  fromMyProfile?: boolean;
+  fromMyProfile: boolean;
 }
 
 export default function OverallPRismReport({ fromMyProfile }: OverallPRismReportProps) {

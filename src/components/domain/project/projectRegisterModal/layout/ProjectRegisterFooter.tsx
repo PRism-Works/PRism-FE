@@ -7,6 +7,8 @@ interface ProjectRegisterFooterProps {
   handleNextStep: () => void;
   handleExternalSubmit: () => void;
   MAX_STEP: number;
+  isPending: boolean;
+  isEdit: boolean;
 }
 
 export default function ProjectRegisterFooter({
@@ -15,6 +17,8 @@ export default function ProjectRegisterFooter({
   handleNextStep,
   handleExternalSubmit,
   MAX_STEP,
+  isPending,
+  isEdit,
 }: ProjectRegisterFooterProps) {
   const getButtonClass = (isEnabled: boolean) =>
     `h-10 w-10 stroke-[1.5px] ${isEnabled ? 'cursor-pointer' : 'cursor-not-allowed text-gray-400'}`;
@@ -37,8 +41,8 @@ export default function ProjectRegisterFooter({
         </div>
         <div className="flex flex-1 justify-end">
           {isLastStep && (
-            <Button onClick={handleExternalSubmit} className="mobile1">
-              등록하기
+            <Button onClick={handleExternalSubmit} pending={isPending} className="mobile1">
+              {isEdit ? '수정하기' : '등록하기'}
             </Button>
           )}
         </div>

@@ -60,7 +60,7 @@ export const convertStringToDate = (dateString: string): Date => {
 };
 
 /**
- * Unix 타임스탬프(밀리초)를 "yyyy-MM-dd" 형태의 문자열로 변환
+ * Unix 타임스탬프(밀리초)를 "yyyy-MM-dd" 형태의 문자열로 변환 (프로젝트 검색에서 사용)
  * @param timestamp Unix 타임스탬프 (밀리초)
  * @returns "yyyy-MM-dd" 형태의 문자열
  */

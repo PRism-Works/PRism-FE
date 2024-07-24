@@ -35,7 +35,6 @@ import { AxiosError } from 'axios';
 // 프로젝트 생성하기
 export const useCreateProject = (successCallback: () => void) => {
   const queryClient = useQueryClient();
-
   return useMutation<ProjectCreateResponse, AxiosError, ProjectCreateRequest>({
     mutationFn: createProject,
     onSuccess: (response, requestProjectData) => {
@@ -51,8 +50,8 @@ export const useCreateProject = (successCallback: () => void) => {
           projectId: response.data.projectId, // 서버 응답에서 새 프로젝트 ID를 받아옴
           projectName: requestProjectData.projectName,
           organizationName: requestProjectData.organizationName,
-          startDate: requestProjectData.startDate,
-          endDate: requestProjectData.endDate,
+          startDate: formatYYYYMMDDHHmmssToYYYYMMDD(requestProjectData.startDate),
+          endDate: formatYYYYMMDDHHmmssToYYYYMMDD(requestProjectData.endDate),
           categories: requestProjectData.categories,
           surveyParcitipants: 0, // 새로 생성된 프로젝트이므로 참여자는 0으로 초기화
           urlVisibility: true, // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
@@ -63,6 +62,9 @@ export const useCreateProject = (successCallback: () => void) => {
           data: [newProject, ...oldData.data],
         };
       });
+
+      // 참여 프로젝트 리스트 무효화 (setQueryData가 적용이 안되어 처리)
+      queryClient.invalidateQueries({ queryKey: ['getParticipatingProjects'] });
 
       if (successCallback) successCallback();
     },
@@ -244,7 +246,7 @@ export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: stri
 // 나 또는 타인의 프로젝트 상세 조회하기
 export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectID: number) => {
   return useQuery<ProjectDetailResponse, AxiosError>({
-    queryKey: ['getParticipatingProjects', projectID, fromMyProfile],
+    queryKey: ['getProfileProjectDetails', projectID, fromMyProfile],
     queryFn: () => (fromMyProfile ? getMyProjectDetails(projectID) : getProjectDetails(projectID)),
     enabled: !!projectID, // projectID가 존재할 때만 쿼리 실행
   });

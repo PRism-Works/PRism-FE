@@ -1,16 +1,20 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import ShadowCard from '@/components/common/card/ShadowCard';
 import TagInput from '@/components/common/input/TagInput';
-import CirclePlanetIcon from './CirclePlanetIcon';
+import ShadowCard from '@/components/common/card/ShadowCard';
 import { ChevronRight } from 'lucide-react';
+import CirclePlanetIcon from './CirclePlanetIcon';
+
 import {
   USER_CARD_VARIANT,
   type UserSummaryCardVariant,
   type UserSummaryData,
 } from '@/models/user/userModels';
 import { maskEmail, maskName } from '@/lib/masking';
+
+import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/stores/userStore';
 
 interface UserSummaryCard {
   userData: UserSummaryData;
@@ -21,10 +25,18 @@ export default function UserSummaryCard({
   userData,
   variant = USER_CARD_VARIANT.MEMBER_PUBLIC,
 }: UserSummaryCard) {
+  const router = useRouter();
+  const user = useUserStore((state) => state.user);
   const isPublicUser = variant === USER_CARD_VARIANT.MEMBER_PUBLIC;
+
   const handleOpenUserProfile = () => {
     if (!isPublicUser) return;
-    alert(`${userData.userId}번 유저의 프로필 보러가기`);
+    if (user?.userId === userData.userId) {
+      // 클릭한 유저카드가 나의 카드라면, 마이 페이지로 이동
+      router.push('/mypage');
+    } else {
+      router.push(`/profile/${userData.userId}`);
+    }
   };
 
   return (

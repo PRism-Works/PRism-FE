@@ -43,16 +43,22 @@ interface MessageBoxButtonProps {
   text: string;
   onClick?: () => void;
   isPrimary?: boolean; // 보라색 강조 버튼 여부
+  isPending?: boolean;
 }
 
-const MessageConfirmButton = ({ text, onClick, isPrimary = true }: MessageBoxButtonProps) => {
+const MessageConfirmButton = ({
+  text,
+  onClick,
+  isPrimary = true,
+  isPending = false,
+}: MessageBoxButtonProps) => {
   const { closeModal } = useModalStore();
   const handleClick = () => {
     closeModal();
     if (onClick) onClick();
   };
   return (
-    <Button variant={isPrimary ? 'default' : 'outline'} onClick={handleClick}>
+    <Button variant={isPrimary ? 'default' : 'outline'} onClick={handleClick} pending={isPending}>
       {text}
     </Button>
   );
