@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 import MaxLengthMultiTextArea from '@/components/common/input/MaxLengthMultiTextInput';
 import CirclePlanetIcon from '../../user/CirclePlanetIcon';
 
@@ -15,17 +15,17 @@ export default function TextRow({ name, member, register }: TextRowProps) {
         <CirclePlanetIcon className="bg-gray-200" />
         <span className="mr-4 mobile1">{member}</span>
       </div>
-      <div className="flex w-[80%] flex-col space-y-3">
+      <div className="flex w-[75%] flex-col space-y-3">
         <MaxLengthMultiTextArea
           maxLength={50}
           placeholder="강점을 알려 주세요."
-          className="h-[60px] w-full max-w-[670px] border-2"
+          className="h-[40px] w-full max-w-[670px] border-2"
           {...register(`${name}_short`)}
         />
         <MaxLengthMultiTextArea
           maxLength={200}
           placeholder="자세한 예를 들어 설명해강점을 알려 주세요."
-          className="h-[150px] w-full max-w-[670px] border-2"
+          className="h-[60px] w-full max-w-[670px] border-2"
           {...register(`${name}_long`)}
         />
       </div>
