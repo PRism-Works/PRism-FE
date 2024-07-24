@@ -68,6 +68,7 @@ export default function ParticipatingProjectList({
                     : PROJECT_CARD_VARIANT.OTHER_PROFILE
                 }
                 projectData={projectData}
+                userId={userId}
               />
             </li>
           ))}
