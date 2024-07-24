@@ -1,13 +1,12 @@
 import { convertStringToDate, formatYYYYMMDDHHmmssToYYYYMMDD } from '@/lib/dateTime';
 import type {
-  RegisteredProjectsResponse,
+  ProjectListResponse,
   ProjectCreateRequest,
   ProjectCreateResponse,
   ProjectDeleteResponse,
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDetailResponse,
-  LinkProjectResponse,
 } from '@/models/project/projectApiModels';
 import { ProjectForm } from '@/models/project/projectModels';
 import {
@@ -32,7 +31,7 @@ export const useCreateProject = (successCallback: () => void) => {
 
       // 등록 프로젝트 리스트의 ui 변경을 위해 캐시된 데이터를 직접 수정 (서버 데이터를 refetch 하지 않기 위해 추가)
       // 등록 프로젝트 관리 페이지에서 새 프로젝트를 등록하면 UI도 갱신되어야 한다.
-      queryClient.setQueryData<RegisteredProjectsResponse>(['getRegisteredProjects'], (oldData) => {
+      queryClient.setQueryData<ProjectListResponse>(['getRegisteredProjects'], (oldData) => {
         if (!oldData) return oldData;
 
         // 새 등록 프로젝트 객체 생성
@@ -44,7 +43,7 @@ export const useCreateProject = (successCallback: () => void) => {
           endDate: requestProjectData.endDate,
           categories: requestProjectData.categories,
           surveyParcitipants: 0, // 새로 생성된 프로젝트이므로 참여자는 0으로 초기화
-          visibility: true, // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
+          urlVisibility: true, // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
           userEvaluation: '', // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
         };
         return {
@@ -72,7 +71,7 @@ export const useDeleteProject = (successCallback: () => void) => {
       console.log(response);
 
       // 등록 프로젝트 리스트의 ui 변경을 위해 캐시된 데이터를 직접 수정 (서버 데이터를 refetch 하지 않기 위해 추가)
-      queryClient.setQueryData<RegisteredProjectsResponse>(['getRegisteredProjects'], (oldData) => {
+      queryClient.setQueryData<ProjectListResponse>(['getRegisteredProjects'], (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
@@ -100,10 +99,8 @@ export const useUpdateProject = (successCallback: () => void) => {
   >({
     mutationFn: ({ projectId, data }) => updateProject(projectId, data),
     onSuccess: (response, { projectId, data }) => {
-      console.log(response);
-
       // 등록 프로젝트 관리 페이지에서 프로젝트를 수정하면 UI도 갱신되어야 한다.
-      queryClient.setQueryData<RegisteredProjectsResponse>(['getRegisteredProjects'], (oldData) => {
+      queryClient.setQueryData<ProjectListResponse>(['getRegisteredProjects'], (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
@@ -162,7 +159,7 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
 
 // 내가 등록한 프로젝트 리스트 가져오기
 export const useGetRegisteredProjects = () => {
-  return useQuery<RegisteredProjectsResponse, AxiosError>({
+  return useQuery<ProjectListResponse, AxiosError>({
     queryKey: ['getRegisteredProjects'],
     queryFn: () => getRegisteredProjects(),
   });
@@ -170,7 +167,7 @@ export const useGetRegisteredProjects = () => {
 
 // 프로젝트 이름으로 연동할 프로젝트 리스트 가져오기
 export const useGetLinkProjectsByProjectName = (projectName: string) => {
-  return useQuery<LinkProjectResponse, AxiosError>({
+  return useQuery<ProjectListResponse, AxiosError>({
     queryKey: ['getLinkProjectsByProjectName', projectName],
     queryFn: () => getLinkProjectsByProjectName(projectName),
     enabled: !!projectName, // projectName이 존재할 때만 쿼리 실행

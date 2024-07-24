@@ -5,7 +5,11 @@ import GoProjectLinkButton from '@/components/domain/project/projectButton/GoPro
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
 import ProjectImageSaveButton from '@/components/domain/project/projectButton/ProjectImageSaveButton';
 
-export default function MyPage() {
+interface UserProfilePageProps {
+  params: { userId: string };
+}
+
+export default function UserProfilePage({ params }: UserProfilePageProps) {
   return (
     <div className="container flex min-h-screen w-full max-w-[1040px] flex-col justify-center gap-6 p-4">
       <section className="flex flex-col gap-3">
@@ -24,7 +28,7 @@ export default function MyPage() {
         <OverallPRismReport />
       </section>
       <section className="flex flex-col gap-3">
-        <ParticipatingProjectList fromMyProfile />
+        <ParticipatingProjectList userId={params.userId} />
       </section>
     </div>
   );

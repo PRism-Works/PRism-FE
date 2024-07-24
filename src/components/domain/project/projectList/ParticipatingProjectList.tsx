@@ -3,7 +3,21 @@ import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
 import ProjectSummaryCard from '../projectCard/ProjectSummaryCard';
 import { PROJECT_CARD_VARIANT, type ProjectSummaryData } from '@/models/project/projectModels';
 
-export default function ParticipatingProjectList() {
+interface ParticipatingProjectListProps {
+  userId?: string;
+  fromMyProfile?: boolean;
+}
+
+export default function ParticipatingProjectList({
+  userId,
+  fromMyProfile = false,
+}: ParticipatingProjectListProps) {
+  if (fromMyProfile) {
+    // 내가 등록된 프로젝트 리스트 호출
+  } else {
+    // 타인의 프로젝트 리스트 호출
+    console.log(userId);
+  }
   // TODO: API 연결 예정
   const projectDatas: ProjectSummaryData[] = [
     {

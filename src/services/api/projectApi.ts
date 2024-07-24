@@ -6,9 +6,8 @@ import type {
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDeleteResponse,
-  RegisteredProjectsResponse,
+  ProjectListResponse,
   ProjectDetailResponse,
-  LinkProjectResponse,
 } from '@/models/project/projectApiModels';
 
 // 프로젝트 등록
@@ -69,11 +68,9 @@ export const deleteProject = async (projectId: number): Promise<ProjectDeleteRes
 };
 
 // 내가 등록한 프로젝트 목록 가져오기
-export const getRegisteredProjects = async (): Promise<RegisteredProjectsResponse> => {
+export const getRegisteredProjects = async (): Promise<ProjectListResponse> => {
   try {
-    const response = await ax.get<RegisteredProjectsResponse>(
-      `/api/v1/projects/me-registered-projects`,
-    );
+    const response = await ax.get<ProjectListResponse>(`/api/v1/projects/me-registered-projects`);
     console.log('Get Registered Project Response:', response.data);
     return response.data;
   } catch (error) {
@@ -95,9 +92,9 @@ export const getRegisteredProjects = async (): Promise<RegisteredProjectsRespons
 // 연동할 프로젝트 목록 가져오기
 export const getLinkProjectsByProjectName = async (
   projectName: string,
-): Promise<LinkProjectResponse> => {
+): Promise<ProjectListResponse> => {
   try {
-    const response = await ax.get<LinkProjectResponse>('/api/v1/projects/summary/by-name', {
+    const response = await ax.get<ProjectListResponse>('/api/v1/projects/summary/by-name', {
       params: { projectName },
     });
 
