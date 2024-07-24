@@ -148,3 +148,36 @@ export interface ProjectDetailResponse {
     anonymousCount: number;
   };
 }
+
+// 본인이 참여한 프로젝트의 본인 익명 여부
+export interface MyProjectVisibilityResponse {
+  projectId: number;
+  visibility: boolean;
+}
+
+// 프로젝트 검색 요청
+export interface ProjectSearchRequest {
+  searchType: 'MEMBER_NAME' | 'PROJECT_NAME';
+  searchWord: string;
+  categories: number[]; // 상세 검색 필터, category별 id
+  pageNo: number; // 페이지 번호 0부터 시작 (필수), 페이지 번호는 백엔드에서 0부터 시작하기 때문에 프론트 상에 현재 페이지가 2라면 1을 보내야함
+  pageSize: number; // 한 페이지에 나올 개수 (필수)
+}
+// 프로젝트 검색 응답
+export interface ProjectSearchResponse {
+  success: boolean;
+  status: number;
+  data: {
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+    contents: {
+      projectId: number;
+      projectName: string;
+      organizationName: string;
+      categories: string[];
+      startDate: number; // 타임스태프 형태
+      endDate: number; // 타임스태프 형태
+    }[];
+  };
+}

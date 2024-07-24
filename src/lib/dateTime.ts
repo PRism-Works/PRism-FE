@@ -1,4 +1,4 @@
-import { format, parse } from 'date-fns';
+import { format, fromUnixTime, parse } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
 
 /**
@@ -57,4 +57,20 @@ export const convertStringToDate = (dateString: string): Date => {
   }
 
   return parsedDate;
+};
+
+/**
+ * Unix 타임스탬프(밀리초)를 "yyyy-MM-dd" 형태의 문자열로 변환
+ * @param timestamp Unix 타임스탬프 (밀리초)
+ * @returns "yyyy-MM-dd" 형태의 문자열
+ */
+export const convertTimestampToDateString = (timestamp: number): string => {
+  try {
+    // 밀리초를 초로 변환
+    const date = fromUnixTime(timestamp / 1000);
+    return format(date, 'yyyy-MM-dd');
+  } catch (error) {
+    console.error('Invalid timestamp provided', error);
+    return format(new Date(), 'yyyy-MM-dd'); // 오류 발생 시, 오늘 날짜를 문자열로 반환
+  }
 };
