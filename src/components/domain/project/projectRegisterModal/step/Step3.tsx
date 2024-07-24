@@ -136,8 +136,8 @@ export default function Step3() {
             <FormControl>
               <MaxLengthMultiTextArea
                 maxLength={300}
-                className="w-full"
-                placeholder="텍스트 입력..."
+                className="h-[100px] w-full"
+                placeholder="텍스트를 입력해 주세요."
                 {...field}
               />
             </FormControl>

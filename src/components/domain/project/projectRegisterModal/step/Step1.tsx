@@ -55,7 +55,7 @@ export default function Step1() {
         name="organizationName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="mobile1">기관명</FormLabel>
+            <FormLabel className="text-gray-600 mobile1">기관명</FormLabel>
             <FormDescription className="text-gray-500">
               주최 측 혹은 팀이 속한 커뮤니티를 입력해 주세요.
             </FormDescription>
