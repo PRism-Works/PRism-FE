@@ -1,13 +1,17 @@
 import { convertStringToDate, formatYYYYMMDDHHmmssToYYYYMMDD } from '@/lib/dateTime';
 import type {
-  RegisteredProjectsResponse,
+  ProjectListResponse,
   ProjectCreateRequest,
   ProjectCreateResponse,
   ProjectDeleteResponse,
   ProjectUpdateRequest,
   ProjectUpdateResponse,
   ProjectDetailResponse,
-  LinkProjectResponse,
+  MyProjectVisibilityResponse,
+  MyProjectVisibilityRequest,
+  LinkProjectRequest,
+  ProjectSearchResponse,
+  ProjectSearchRequest,
 } from '@/models/project/projectApiModels';
 import { ProjectForm } from '@/models/project/projectModels';
 import {
@@ -15,7 +19,14 @@ import {
   deleteProject,
   getEditProjectDetails,
   getLinkProjectsByProjectName,
+  getMeInvolvedProjects,
+  getMyProjectDetails,
+  getProjectDetails,
   getRegisteredProjects,
+  getSearchProjects,
+  getWhoInvolvedProjects,
+  linkProject,
+  updateMyProjectVisibility,
   updateProject,
 } from '@/services/api/projectApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -24,7 +35,6 @@ import { AxiosError } from 'axios';
 // 프로젝트 생성하기
 export const useCreateProject = (successCallback: () => void) => {
   const queryClient = useQueryClient();
-
   return useMutation<ProjectCreateResponse, AxiosError, ProjectCreateRequest>({
     mutationFn: createProject,
     onSuccess: (response, requestProjectData) => {
@@ -32,7 +42,7 @@ export const useCreateProject = (successCallback: () => void) => {
 
       // 등록 프로젝트 리스트의 ui 변경을 위해 캐시된 데이터를 직접 수정 (서버 데이터를 refetch 하지 않기 위해 추가)
       // 등록 프로젝트 관리 페이지에서 새 프로젝트를 등록하면 UI도 갱신되어야 한다.
-      queryClient.setQueryData<RegisteredProjectsResponse>(['getRegisteredProjects'], (oldData) => {
+      queryClient.setQueryData<ProjectListResponse>(['getRegisteredProjects'], (oldData) => {
         if (!oldData) return oldData;
 
         // 새 등록 프로젝트 객체 생성
@@ -40,11 +50,11 @@ export const useCreateProject = (successCallback: () => void) => {
           projectId: response.data.projectId, // 서버 응답에서 새 프로젝트 ID를 받아옴
           projectName: requestProjectData.projectName,
           organizationName: requestProjectData.organizationName,
-          startDate: requestProjectData.startDate,
-          endDate: requestProjectData.endDate,
+          startDate: formatYYYYMMDDHHmmssToYYYYMMDD(requestProjectData.startDate),
+          endDate: formatYYYYMMDDHHmmssToYYYYMMDD(requestProjectData.endDate),
           categories: requestProjectData.categories,
           surveyParcitipants: 0, // 새로 생성된 프로젝트이므로 참여자는 0으로 초기화
-          visibility: true, // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
+          urlVisibility: true, // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
           userEvaluation: '', // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
         };
         return {
@@ -52,6 +62,9 @@ export const useCreateProject = (successCallback: () => void) => {
           data: [newProject, ...oldData.data],
         };
       });
+
+      // 참여 프로젝트 리스트 무효화 (setQueryData가 적용이 안되어 처리)
+      queryClient.invalidateQueries({ queryKey: ['getParticipatingProjects'] });
 
       if (successCallback) successCallback();
     },
@@ -72,7 +85,7 @@ export const useDeleteProject = (successCallback: () => void) => {
       console.log(response);
 
       // 등록 프로젝트 리스트의 ui 변경을 위해 캐시된 데이터를 직접 수정 (서버 데이터를 refetch 하지 않기 위해 추가)
-      queryClient.setQueryData<RegisteredProjectsResponse>(['getRegisteredProjects'], (oldData) => {
+      queryClient.setQueryData<ProjectListResponse>(['getRegisteredProjects'], (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
@@ -100,10 +113,8 @@ export const useUpdateProject = (successCallback: () => void) => {
   >({
     mutationFn: ({ projectId, data }) => updateProject(projectId, data),
     onSuccess: (response, { projectId, data }) => {
-      console.log(response);
-
       // 등록 프로젝트 관리 페이지에서 프로젝트를 수정하면 UI도 갱신되어야 한다.
-      queryClient.setQueryData<RegisteredProjectsResponse>(['getRegisteredProjects'], (oldData) => {
+      queryClient.setQueryData<ProjectListResponse>(['getRegisteredProjects'], (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
@@ -160,9 +171,55 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
   });
 };
 
+// 특정 프로젝트에서 본인의 익명 처리 여부 설정 (공개/비공개)
+export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean) => void) => {
+  return useMutation<MyProjectVisibilityResponse, AxiosError, MyProjectVisibilityRequest>({
+    mutationFn: updateMyProjectVisibility,
+    onSuccess: (response, requsetCondition) => {
+      console.log(response);
+      // 성공 시 알림 안띄워도 될 것 같음. 개발 확인용으로 alert 넣기
+      alert(`프로젝트를 ${requsetCondition.visibility ? '공개하도록' : '익명으로'} 설정했습니다.`);
+      if (successCallback) successCallback(requsetCondition.visibility);
+    },
+    onError: (error) => {
+      alert('프로젝트 공개 설정에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
+// 프로젝트 연동하기
+export const useLinkProject = (successCallback: () => void) => {
+  return useMutation<ProjectDetailResponse, AxiosError, LinkProjectRequest>({
+    mutationFn: linkProject,
+    onSuccess: (response) => {
+      console.log(response);
+      if (successCallback) successCallback();
+    },
+    onError: (error) => {
+      alert('프로젝트 연동 요청에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
+// 홈, 검색 페이지에서 프로젝트 검색하기 (Mutaion)
+export const useSearchProjects = () => {
+  return useMutation<ProjectSearchResponse, AxiosError, ProjectSearchRequest>({
+    mutationFn: getSearchProjects,
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (error) => {
+      alert('프로젝트 검색에 실패했습니다.');
+      console.log(error);
+    },
+  });
+};
+
 // 내가 등록한 프로젝트 리스트 가져오기
 export const useGetRegisteredProjects = () => {
-  return useQuery<RegisteredProjectsResponse, AxiosError>({
+  return useQuery<ProjectListResponse, AxiosError>({
     queryKey: ['getRegisteredProjects'],
     queryFn: () => getRegisteredProjects(),
   });
@@ -170,9 +227,27 @@ export const useGetRegisteredProjects = () => {
 
 // 프로젝트 이름으로 연동할 프로젝트 리스트 가져오기
 export const useGetLinkProjectsByProjectName = (projectName: string) => {
-  return useQuery<LinkProjectResponse, AxiosError>({
+  return useQuery<ProjectListResponse, AxiosError>({
     queryKey: ['getLinkProjectsByProjectName', projectName],
     queryFn: () => getLinkProjectsByProjectName(projectName),
     enabled: !!projectName, // projectName이 존재할 때만 쿼리 실행
+  });
+};
+
+// 프로필 별 로그인 유저 혹은 타인의 참여한 프로젝트 리스트 가져오기
+export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: string) => {
+  return useQuery<ProjectListResponse, AxiosError>({
+    queryKey: ['getParticipatingProjects', userId, fromMyProfile],
+    queryFn: () => (fromMyProfile ? getMeInvolvedProjects() : getWhoInvolvedProjects(userId)),
+    enabled: fromMyProfile || !!userId, // fromMyProfile이 true이거나 userId가 존재할 때만 쿼리 실행
+  });
+};
+
+// 나 또는 타인의 프로젝트 상세 조회하기
+export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectID: number) => {
+  return useQuery<ProjectDetailResponse, AxiosError>({
+    queryKey: ['getProfileProjectDetails', projectID, fromMyProfile],
+    queryFn: () => (fromMyProfile ? getMyProjectDetails(projectID) : getProjectDetails(projectID)),
+    enabled: !!projectID, // projectID가 존재할 때만 쿼리 실행
   });
 };

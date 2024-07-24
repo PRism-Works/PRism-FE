@@ -33,7 +33,7 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
       <button aria-label="삭제" onClick={handleDeleteProject}>
         <Trash2 className="h-6 w-6 stroke-gray-600 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
-      <button aria-label="편집" onClick={handleEditProject}>
+      <button aria-label="편집" disabled={getDetailMutation.isPending} onClick={handleEditProject}>
         <Edit3 className="h-6 w-6 stroke-gray-600 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
     </nav>
@@ -63,7 +63,11 @@ const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessagePro
       footer={
         <>
           <MessageBox.MessageConfirmButton isPrimary={false} text="취소" onClick={handleCancel} />
-          <MessageBox.MessageConfirmButton text="삭제" onClick={handleDelete} />
+          <MessageBox.MessageConfirmButton
+            text="삭제"
+            onClick={handleDelete}
+            isPending={deleteMutaion.isPending}
+          />
         </>
       }
     />

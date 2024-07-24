@@ -17,25 +17,29 @@ import {
   type ProjectSummaryData,
 } from '@/models/project/projectModels';
 import { formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
+import { useRouter } from 'next/navigation';
 
 interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
+  userId?: string;
   variant?: ProjectSummaryCardVariant;
 }
 
 export default function ProjectSummaryCard({
-  variant = PROJECT_CARD_VARIANT.SEARCH_RESULT,
   projectData,
+  userId = '',
+  variant = PROJECT_CARD_VARIANT.SEARCH_RESULT,
 }: ProjectSummaryCardProps) {
+  const router = useRouter();
   const projectId = projectData.projectId;
   const isCardDisabled =
     variant === PROJECT_CARD_VARIANT.ADMIN || variant === PROJECT_CARD_VARIANT.LINK_PREVIEW;
   const handleClick = () => {
     if (isCardDisabled) return;
     if (variant === PROJECT_CARD_VARIANT.MY_PROFILE) {
-      alert(`로그인한 사용자의 ${projectId}번 프로젝트 상세조회 api 호출하며 페이지 이동`);
+      router.push(`/project/my/${projectId}`);
     } else {
-      alert(`타인의 ${projectId}번 프로젝트 상세조회 api 호출하며 페이지 이동`);
+      router.push(`/project/user/${userId}/${projectId}`);
     }
   };
   return (
