@@ -10,7 +10,7 @@ export default function RatingAnswer({
   question,
   stepNumber,
   teamMembers,
-}: RatingAnswerProps): JSX.Element {
+}: RatingAnswerProps) {
   const { register } = useFormContext<Record<string, unknown>>();
 
   return (

@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 import { RadioGroup } from '@/components/ui/radio-group';
 import CustomRadioButton from '@/components/common/input/CustomRadioButton';
 import CirclePlanetIcon from '../../user/CirclePlanetIcon';

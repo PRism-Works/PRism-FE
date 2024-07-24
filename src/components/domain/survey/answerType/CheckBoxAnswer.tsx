@@ -9,7 +9,7 @@ export default function CheckBoxAnswer({
   question,
   stepNumber,
   teamMembers,
-}: CheckBoxAnswerProps): JSX.Element {
+}: CheckBoxAnswerProps) {
   const { register } = useFormContext<Record<string, unknown>>();
 
   return (

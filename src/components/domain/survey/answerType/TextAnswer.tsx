@@ -7,7 +7,7 @@ interface InstructionProps {
   type: '강점' | '보완점';
 }
 
-const Instruction: React.FC<InstructionProps> = ({ type }) => (
+const Instruction = ({ type }: InstructionProps) => (
   <div className="my-9 flex-center">
     <p className="text-gray-600 body7">
       <span className="text-black body6">{type}</span>을
@@ -24,7 +24,7 @@ export default function TextAnswer({
   question,
   stepNumber,
   teamMembers,
-}: TextAnswerProps): JSX.Element {
+}: TextAnswerProps) {
   const { register } = useFormContext<Record<string, unknown>>();
 
   return (

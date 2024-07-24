@@ -1,4 +1,4 @@
-import { useFormContext, UseFormRegister } from 'react-hook-form';
+import { useFormContext, type UseFormRegister } from 'react-hook-form';
 
 interface CustomRadioButtonProps {
   name: string;

@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 import CirclePlanetIcon from '../../user/CirclePlanetIcon';
 
 interface CheckBoxRowProps {
