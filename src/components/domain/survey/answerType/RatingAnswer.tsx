@@ -28,6 +28,7 @@ export default function RatingAnswer({
               name={`question${stepNumber}_${member}`}
               member={member}
               register={register}
+              iconIndex={index}
             />
           ))}
         </div>

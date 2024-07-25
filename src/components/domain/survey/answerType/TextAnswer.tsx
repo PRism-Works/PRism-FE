@@ -41,6 +41,7 @@ export default function TextAnswer({
           name={`question${stepNumber}_${member}`}
           member={member}
           register={register}
+          iconIndex={index}
         />
       ))}
     </SurveyLayout>

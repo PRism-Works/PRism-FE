@@ -16,15 +16,17 @@ import { maskEmail, maskName } from '@/lib/masking';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/userStore';
 
-interface UserSummaryCard {
+interface UserSummaryCardProps {
   userData: UserSummaryData;
   variant?: UserSummaryCardVariant;
+  iconIndex: number;
 }
 
 export default function UserSummaryCard({
   userData,
   variant = USER_CARD_VARIANT.MEMBER_PUBLIC,
-}: UserSummaryCard) {
+  iconIndex,
+}: UserSummaryCardProps) {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   const isPublicUser = variant === USER_CARD_VARIANT.MEMBER_PUBLIC;
@@ -47,7 +49,7 @@ export default function UserSummaryCard({
       )}
       onClick={handleOpenUserProfile}>
       <div className="flex items-start space-x-4">
-        <CirclePlanetIcon className="bg-gray-100" />
+        <CirclePlanetIcon className="bg-gray-100" iconIndex={iconIndex} />
         <div className="flex flex-col justify-center">
           <p className="body8">
             {variant === USER_CARD_VARIANT.MEMBER_PRIVATE ? maskName(userData.name) : userData.name}
