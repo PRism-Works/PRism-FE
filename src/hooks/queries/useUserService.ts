@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userProfileDataByUserId, updateProfile } from '@/services/api/userApi';
 import {
   UpdateProfileRequest,
@@ -16,11 +16,13 @@ export const useUserProfileByUserId = (userId: string) => {
     queryKey: ['userProfileByUserId', userId],
     queryFn: () => userProfileDataByUserId(userId),
     retry: false,
+    enabled: !!userId, // userId가 있을 때만 쿼리 실행
   });
 };
 
 // 로그인 한 사용자의 프로필 수정하기
 export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { user, setUser } = useUserStore();
 
@@ -38,6 +40,11 @@ export const useUpdateProfile = () => {
         skills: requestProfileData?.skills || [],
       };
       setUser(userNewData);
+
+      // 쿼리 무효화
+      if (user?.userId) {
+        queryClient.invalidateQueries({ queryKey: ['userProfileByUserId', user.userId] });
+      }
 
       // 마이 페이지로 이동
       router.push('/mypage');
