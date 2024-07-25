@@ -1,4 +1,4 @@
-import { XCircle } from 'lucide-react';
+import { XCircle, Plus } from 'lucide-react';
 import { PlanetIcons } from '@/assets/icon/planet';
 import {
   FormControl,
@@ -135,7 +135,10 @@ const AddMemberButton = ({ onAdd }: { onAdd: () => void }) => (
     type="button"
     onClick={onAdd}
     className="mt-3 w-full rounded-[4px] border border-dashed border-gray-300 px-4 py-2 text-gray-400 mobile2 hover:bg-gray-200">
-    +팀원 추가
+    <div className="flex-center">
+      <Plus className="mr-1 h-4 w-4" />
+      팀원 추가
+    </div>
   </button>
 );
 
