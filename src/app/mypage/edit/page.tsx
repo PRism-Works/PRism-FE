@@ -37,7 +37,9 @@ export default function EditMyPage() {
   }, [user]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    if (e.target.value.length <= 10) {
+      setName(e.target.value);
+    }
   };
 
   const handleOpenSelectInterestJobsModal = () => {
