@@ -14,7 +14,7 @@ export default function MyPage() {
           <ProjectRegisterButton text="새 프로젝트 등록하기" className="h-[45px] w-[210px]" />
         </div>
         <h2 className="text-gray-900 body6">프로필</h2>
-        <UserProfile fromMyProfile iconIndex={0} />
+        <UserProfile fromMyProfile />
       </section>
       <section className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between">
