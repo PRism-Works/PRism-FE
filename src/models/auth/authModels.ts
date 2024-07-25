@@ -28,7 +28,7 @@ export const SignupSchema = z
     name: z
       .string()
       .min(1, '이름을 입력해주세요.')
-      .max(30, '이름은 최대 30자까지 입력 가능합니다.')
+      .max(10, '이름은 최대 10자까지 입력 가능합니다.')
       .regex(nameRegex, nameRegexMessage),
     email: z
       .string()

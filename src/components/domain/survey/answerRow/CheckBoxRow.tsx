@@ -5,13 +5,14 @@ interface CheckBoxRowProps {
   name: string;
   member: string;
   register: UseFormRegister<Record<string, unknown>>;
+  iconIndex: number;
 }
 
-export default function CheckBoxRow({ name, member, register }: CheckBoxRowProps) {
+export default function CheckBoxRow({ name, member, register, iconIndex }: CheckBoxRowProps) {
   return (
     <div className="mb-2 flex w-full items-center justify-between rounded-[20px] bg-gray-100 px-4 py-2 md:px-8">
       <div className="flex items-center gap-4">
-        <CirclePlanetIcon className="bg-gray-200" />
+        <CirclePlanetIcon className="bg-gray-200" iconIndex={iconIndex} />
         <span className="mr-4 mobile1">{member}</span>
         <input
           type="checkbox"

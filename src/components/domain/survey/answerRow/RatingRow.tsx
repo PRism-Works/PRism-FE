@@ -7,13 +7,14 @@ interface RatingRowProps {
   name: string;
   member: string;
   register: UseFormRegister<Record<string, unknown>>;
+  iconIndex: number;
 }
 
-export default function RatingRow({ name, member, register }: RatingRowProps) {
+export default function RatingRow({ name, member, register, iconIndex }: RatingRowProps) {
   return (
     <div className="mb-2 flex w-full items-center justify-between rounded-[20px] bg-gray-100 px-4 py-2 md:px-8">
       <div className="flex items-center gap-4">
-        <CirclePlanetIcon className="bg-gray-200" />
+        <CirclePlanetIcon className="bg-gray-200" iconIndex={iconIndex} />
         <span className="mobile1">{member}</span>
       </div>
       <RadioGroup className="flex items-center space-x-4 md:space-x-8 lg:space-x-20">

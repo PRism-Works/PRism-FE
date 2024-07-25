@@ -46,6 +46,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
       )}
     </span>
   );
+
   return (
     <div className="container mx-auto flex min-h-screen flex-col items-center p-12">
       <div className="flex w-full max-w-[1040px] flex-col gap-10">
@@ -143,7 +144,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                 /* member의 명확한 식별자가 없어서 key는 index로 사용 */
                 memberList.map((member, index) => (
                   <li key={index}>
-                    <UserSummaryCard userData={member} variant={member.type} />
+                    <UserSummaryCard userData={member} variant={member.type} iconIndex={index} />
                   </li>
                 ))
               }

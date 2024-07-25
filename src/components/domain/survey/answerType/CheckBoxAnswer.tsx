@@ -25,6 +25,7 @@ export default function CheckBoxAnswer({
             name={`question${stepNumber}_${member}`}
             member={member}
             register={register}
+            iconIndex={index}
           />
         ))}
       </div>

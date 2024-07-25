@@ -6,13 +6,14 @@ interface TextRowProps {
   name: string;
   member: string;
   register: UseFormRegister<Record<string, unknown>>;
+  iconIndex: number;
 }
 
-export default function TextRow({ name, member, register }: TextRowProps) {
+export default function TextRow({ name, member, register, iconIndex }: TextRowProps) {
   return (
     <div className="mb-2 flex w-full rounded-[20px] bg-gray-100 py-2 md:px-8">
       <div className="flex items-center gap-4">
-        <CirclePlanetIcon className="bg-gray-200" />
+        <CirclePlanetIcon className="bg-gray-200" iconIndex={iconIndex} />
         <span className="mr-4 mobile1">{member}</span>
       </div>
       <div className="flex w-[75%] flex-col space-y-3">
