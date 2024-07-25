@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 
 export function useTimer(initialTime: number, callback: () => void) {
-  const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(initialTime);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
   const startTimer = () => {
-    setTimeLeft(initialTime);
     if (timerId) clearInterval(timerId);
 
     const newTimerId = setInterval(() => {

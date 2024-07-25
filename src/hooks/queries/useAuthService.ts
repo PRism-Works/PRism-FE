@@ -1,10 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { LoginResponse, LogoutResponse } from '@/models/auth/authApiModels';
+import type {
+  LoginResponse,
+  LogoutResponse,
+  SendEmailCodeRequest,
+  SendEmailCodeResponse,
+  VerifyAuthCodeRequest,
+  VerifyAuthCodeResponse,
+} from '@/models/auth/authApiModels';
 import { useAuthStore } from '@/stores/authStore';
 import { useModalStore } from '@/stores/modalStore';
 import type { LoginForm } from '@/models/auth/authModels';
-import { login, logout } from '../../services/api/authApi';
+import { login, logout, sendEmailCode, verifyAuthCode } from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
 import { userDataByLoginUser } from '@/services/api/userApi';
 
@@ -71,6 +78,33 @@ export const useLogout = () => {
     onError: (error) => {
       console.error('로그아웃 실패:', error);
       alert('로그아웃에 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
+};
+
+export const useSendEmailCode = (successCallback: () => void) => {
+  return useMutation<SendEmailCodeResponse, AxiosError, SendEmailCodeRequest>({
+    mutationFn: sendEmailCode,
+    onSuccess: () => {
+      if (successCallback) successCallback();
+      alert('인증번호가 전송되었습니다.');
+    },
+    onError: (error) => {
+      console.error('인증번호 발송 실패:', error);
+      alert('인증번호 발송에 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
+};
+
+export const useVerifyAuthCode = (successCallback: () => void) => {
+  return useMutation<VerifyAuthCodeResponse, AxiosError, VerifyAuthCodeRequest>({
+    mutationFn: verifyAuthCode,
+    onSuccess: () => {
+      if (successCallback) successCallback();
+    },
+    onError: (error) => {
+      console.error('인증번호 인증 실패:', error);
+      alert('인증번호 인증에 실패했습니다. 다시 시도해 주세요.');
     },
   });
 };

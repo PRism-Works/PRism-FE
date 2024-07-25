@@ -244,10 +244,10 @@ export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: stri
 };
 
 // 나 또는 타인의 프로젝트 상세 조회하기
-export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectID: number) => {
+export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectId: number) => {
   return useQuery<ProjectDetailResponse, AxiosError>({
-    queryKey: ['getProfileProjectDetails', projectID, fromMyProfile],
-    queryFn: () => (fromMyProfile ? getMyProjectDetails(projectID) : getProjectDetails(projectID)),
-    enabled: !!projectID, // projectID가 존재할 때만 쿼리 실행
+    queryKey: ['getProfileProjectDetails', projectId, fromMyProfile],
+    queryFn: () => (fromMyProfile ? getMyProjectDetails(projectId) : getProjectDetails(projectId)),
+    enabled: !!projectId, // projectId가 존재할 때만 쿼리 실행
   });
 };
