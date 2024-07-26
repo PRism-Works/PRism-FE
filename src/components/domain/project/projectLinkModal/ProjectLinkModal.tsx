@@ -35,6 +35,10 @@ interface MemberData {
   anonyVisibility: boolean;
 }
 
+interface MemberDataWithId extends MemberData {
+  uniqueId: string;
+}
+
 interface ProjectLinkForm {
   selectedEmail: string;
   authCode: string;
@@ -157,7 +161,7 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
         <span className="text-gray-600 display6">연동할 프로젝트의 팀원이 없습니다.</span>
       ) : (
         sortedMemberData.map((member, index) => (
-          <li key={index}>
+          <li key={member.uniqueId}>
             <MemberItem
               member={member}
               index={index}
@@ -302,22 +306,32 @@ const LinkCompleteMessage = () => {
 };
 
 // 팀원 데이터 정렬 및 비회원/회원 구분선 index 구하기
-const processingMemberData = (memberData: MemberData[]) => {
+const processingMemberData = (
+  memberData: MemberData[],
+): {
+  sortedMemberData: MemberDataWithId[];
+  separatorIndex: number;
+} => {
+  const NON_MEMBER_ID = '-1';
+
   // 회원가입이 안된 팀원 먼저 보여주기 - userId, 이름순 정렬
-  const sortedMemberData = memberData.sort((a, b) => {
+  const sortedMemberData = [...memberData].sort((a, b) => {
     if (a.userId !== b.userId) {
-      return a.userId !== '-1' ? 1 : -1;
+      return a.userId !== NON_MEMBER_ID ? 1 : -1;
     }
     return a.name.localeCompare(b.name);
   });
 
+  // 고유 ID 추가
+  const membersWithId = sortedMemberData.map((member, index) => ({
+    ...member,
+    uniqueId: `member-${index}`,
+  }));
+
   // Separator를 넣어줄 비회원->회원 경계 index값 찾기
-  let separatorIndex = -1;
-  for (let i = 0; i < sortedMemberData.length - 1; i++) {
-    if (sortedMemberData[i].userId != sortedMemberData[i + 1].userId) {
-      separatorIndex = i;
-      break;
-    }
-  }
-  return { sortedMemberData, separatorIndex };
+  const separatorIndex = membersWithId.findIndex(
+    (member, index, arr) => index < arr.length - 1 && member.userId !== arr[index + 1].userId,
+  );
+
+  return { sortedMemberData: membersWithId, separatorIndex };
 };
