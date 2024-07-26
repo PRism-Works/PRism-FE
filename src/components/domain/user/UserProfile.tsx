@@ -8,10 +8,9 @@ import { PencilLine } from 'lucide-react';
 
 interface UserProfileProps {
   fromMyProfile: boolean;
-  iconIndex: number;
 }
 
-export default function UserProfile({ fromMyProfile, iconIndex }: UserProfileProps) {
+export default function UserProfile({ fromMyProfile }: UserProfileProps) {
   const userData = useUserStore((state) => state.user);
 
   const profileData = [

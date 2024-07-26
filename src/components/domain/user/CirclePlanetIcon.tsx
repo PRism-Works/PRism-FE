@@ -15,13 +15,7 @@ export default function CirclePlanetIcon({ className, iconIndex = 0 }: CirclePla
   return (
     <div
       className={cn('flex h-[56px] w-[56px] items-center justify-center rounded-full', className)}>
-      {PlanetIcon ? (
-        <PlanetIcon />
-      ) : (
-        <div className="h-[56px] w-[56px] flex-center">
-          <ComponentSpinner />
-        </div>
-      )}
+      {PlanetIcon && <PlanetIcon />}
     </div>
   );
 }

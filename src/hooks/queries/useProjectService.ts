@@ -177,8 +177,6 @@ export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean)
     mutationFn: updateMyProjectVisibility,
     onSuccess: (response, requsetCondition) => {
       console.log(response);
-      // 성공 시 알림 안띄워도 될 것 같음. 개발 확인용으로 alert 넣기
-      alert(`프로젝트를 ${requsetCondition.visibility ? '공개하도록' : '익명으로'} 설정했습니다.`);
       if (successCallback) successCallback(requsetCondition.visibility);
     },
     onError: (error) => {

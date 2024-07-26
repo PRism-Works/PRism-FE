@@ -34,7 +34,9 @@ export default function ProjectVisibilityButton({
   return (
     <div className="flex items-center gap-2" onClick={handleStopPropagation}>
       <Switch id={projectVisibilityId} checked={visibility} onCheckedChange={handleClickSwitch} />
-      <Label htmlFor={projectVisibilityId} className={cn('mobile2', visibility || 'text-gray-400')}>
+      <Label
+        htmlFor={projectVisibilityId}
+        className={cn('text-wrap break-keep mobile2', visibility || 'text-gray-400')}>
         {visibility ? '프로젝트 공개' : '프로젝트 비공개'}
       </Label>
     </div>
