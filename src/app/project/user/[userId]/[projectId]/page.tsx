@@ -18,11 +18,15 @@ export default function UserProjectDetailPage({ params }: UserProjectDetailPageP
         <ProjectIntroduceCard userId={userId} projectId={projectId} fromMyProfile={false} />
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">PRism</h2>
-          <PRismChartExplanationReport reportedUserId={userId} fromMyProfile={false} />
+          <PRismChartExplanationReport
+            fromMyProfile={false}
+            projectId={projectId}
+            reportedUserId={userId}
+          />
         </section>
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">PRism 분석 리포트</h2>
-          <RadialChartReport reportedUserId={userId} fromMyProfile={false} />
+          <RadialChartReport projectId={projectId} reportedUserId={userId} fromMyProfile={false} />
         </section>
       </div>
     </div>

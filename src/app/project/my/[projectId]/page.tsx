@@ -17,11 +17,11 @@ export default function MyProjectDetailPage({ params }: MyProjectDetailPageProps
         <ProjectIntroduceCard fromMyProfile projectId={projectId} />
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">나의 PRism</h2>
-          <PRismChartExplanationReport fromMyProfile />
+          <PRismChartExplanationReport fromMyProfile projectId={projectId} />
         </section>
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">나의 PRism 분석 리포트</h2>
-          <RadialChartReport fromMyProfile />
+          <RadialChartReport fromMyProfile projectId={projectId} />
         </section>
       </div>
     </div>
