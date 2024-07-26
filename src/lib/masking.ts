@@ -14,6 +14,7 @@ export const maskName = (name: string): string => {
  */
 export const maskEmail = (email: string): string => {
   const [local, domain] = email.split('@');
-  const maskedLocal = local.slice(0, 2) + '*'.repeat(Math.max(local.length - 2, 0));
+  let maskedLocal = local.slice(0, 2) + '*'.repeat(Math.max(local.length - 2, 0));
+  if (maskedLocal.length === 1) maskedLocal += '**'; // 이메일 앞 글자가 1자리일 경우, ** 를 더해주기
   return `${maskedLocal}@${domain}`;
 };

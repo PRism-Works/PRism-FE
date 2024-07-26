@@ -30,6 +30,7 @@ export default function UserSummaryCard({
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   const isPublicUser = variant === USER_CARD_VARIANT.MEMBER_PUBLIC;
+  const isPrivateUser = variant === USER_CARD_VARIANT.MEMBER_PRIVATE;
 
   const handleOpenUserProfile = () => {
     if (!isPublicUser) return;
@@ -51,9 +52,7 @@ export default function UserSummaryCard({
       <div className="flex items-start space-x-4">
         <CirclePlanetIcon className="bg-gray-100" iconIndex={iconIndex} />
         <div className="flex flex-col justify-center">
-          <p className="body8">
-            {variant === USER_CARD_VARIANT.MEMBER_PRIVATE ? maskName(userData.name) : userData.name}
-          </p>
+          <p className="body8">{isPrivateUser ? maskName(userData.name) : userData.name}</p>
           <p className="text-gray-500 display5">
             {isPublicUser ? userData.email : maskEmail(userData.email)}
           </p>

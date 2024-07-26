@@ -205,7 +205,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                         id={`${id}-signup-email`}
                         placeholder="prism12@gmail.com"
                         {...field}
-                        disabled={timeLeft > 0}
+                        disabled={isEmailChecked}
                         className="w-full flex-grow sm:w-auto"
                         autoComplete="username"
                       />
@@ -213,7 +213,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                     {isEmailChecked ? (
                       <Button
                         className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                        disabled={timeLeft > 0 || isButtonDisabled}
+                        disabled={!isEmailChecked || isButtonDisabled}
                         onClick={() => {
                           setIsButtonDisabled(true);
                           handleSendEmailCode();

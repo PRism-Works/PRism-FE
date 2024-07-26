@@ -6,7 +6,7 @@ export interface EmailExistsResponse {
 
 export interface SendEmailCodeRequest {
   email: string;
-  authType: 'SIGNUP' | 'RESET_PASSWORD';
+  authType: 'SIGNUP' | 'RESET_PASSWORD' | 'LOAD_PROJECT';
 }
 
 export interface SendEmailCodeResponse {
@@ -18,7 +18,7 @@ export interface SendEmailCodeResponse {
 export interface VerifyAuthCodeRequest {
   email: string;
   authCode: string;
-  authType: 'SIGNUP' | 'RESET_PASSWORD';
+  authType: 'SIGNUP' | 'RESET_PASSWORD' | 'LOAD_PROJECT';
 }
 
 export interface VerifyAuthCodeResponse {

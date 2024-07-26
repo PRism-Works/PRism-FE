@@ -52,7 +52,7 @@ export interface ProjectSummaryData {
   organizationName?: string;
   categories?: string[];
   evaluation?: string;
-  projectVisibility?: boolean;
+  projectVisibility?: boolean; // 프로젝트에 대한 참여 유저의 익명 여부
   evaluatedMembersCount?: number;
 }
 

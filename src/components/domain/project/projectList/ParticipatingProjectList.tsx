@@ -32,7 +32,7 @@ export default function ParticipatingProjectList({
           organizationName: project.organizationName,
           categories: project.categories,
           evaluatedMembersCount: project.surveyParcitipants,
-          projectVisibility: false, // 임시로 넣음
+          projectVisibility: project.anonyVisibility,
         };
       });
 

@@ -241,9 +241,9 @@ export const updateMyProjectVisibility = async (
   data: MyProjectVisibilityRequest,
 ): Promise<MyProjectVisibilityResponse> => {
   try {
-    const response = await ax.put<MyProjectVisibilityResponse>(`/api/v1/projects/visibility`, {
+    const response = await ax.put<MyProjectVisibilityResponse>(`/api/v1/projects/anonyVisibility`, {
       projectId: data.projectId,
-      urlVisibility: data.visibility, // 근데 이거 .. urlVisibility 라고 되어있는데 .. 아 근데 말하기가 싫다..
+      anonyVisibility: data.visibility,
     });
     console.log('Update My Project Visibility Response:', response.data);
     return response.data;
@@ -268,6 +268,7 @@ export const linkProject = async (data: LinkProjectRequest): Promise<ProjectDeta
   try {
     const response = await ax.post<ProjectDetailResponse>(
       `/api/v1/projects/link-project/${data.projectId}`,
+      {},
       {
         params: { anonymousEmail: data.anonymousEmail },
       },

@@ -177,8 +177,6 @@ export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean)
     mutationFn: updateMyProjectVisibility,
     onSuccess: (response, requsetCondition) => {
       console.log(response);
-      // 성공 시 알림 안띄워도 될 것 같음. 개발 확인용으로 alert 넣기
-      alert(`프로젝트를 ${requsetCondition.visibility ? '공개하도록' : '익명으로'} 설정했습니다.`);
       if (successCallback) successCallback(requsetCondition.visibility);
     },
     onError: (error) => {
@@ -244,10 +242,10 @@ export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: stri
 };
 
 // 나 또는 타인의 프로젝트 상세 조회하기
-export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectID: number) => {
+export const useGetProfileProjectDetails = (fromMyProfile: boolean, projectId: number) => {
   return useQuery<ProjectDetailResponse, AxiosError>({
-    queryKey: ['getProfileProjectDetails', projectID, fromMyProfile],
-    queryFn: () => (fromMyProfile ? getMyProjectDetails(projectID) : getProjectDetails(projectID)),
-    enabled: !!projectID, // projectID가 존재할 때만 쿼리 실행
+    queryKey: ['getProfileProjectDetails', projectId, fromMyProfile],
+    queryFn: () => (fromMyProfile ? getMyProjectDetails(projectId) : getProjectDetails(projectId)),
+    enabled: !!projectId, // projectId가 존재할 때만 쿼리 실행
   });
 };
