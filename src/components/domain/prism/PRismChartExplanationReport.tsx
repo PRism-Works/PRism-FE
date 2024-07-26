@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BorderCard from '@/components/common/card/BorderCard';
 import ReportBlur from './report/ReportBlur';
@@ -22,7 +22,7 @@ export default function PRismChartExplanationReport({
   projectId,
   reportedUserId = '',
 }: PRismChartExplanationReportProps) {
-  const [chartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
+  const [prismChartData, setPRismChartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
 
   // fromMyProfile = true : 그 프로젝트에서 나의 지표
   // fromMyProfile = false : 그 프로젝트에서 타인의 지표
@@ -32,6 +32,34 @@ export default function PRismChartExplanationReport({
   const { data, isLoading, isError } = useGetPRismProjectUserReport(targetUserId || '', projectId);
   console.log(data);
 
+  useEffect(() => {
+    if (data) {
+      const userPRismChartData: PRismEvaluation[] = [
+        {
+          evaluation: 'COMMUNICATION',
+          percent: data.prismData.communication,
+        },
+        {
+          evaluation: 'PROACTIVITY',
+          percent: data.prismData.proactivity,
+        },
+        {
+          evaluation: 'PROBLEM_SOLVING',
+          percent: data.prismData.problemSolving,
+        },
+        {
+          evaluation: 'RESPONSIBILITY',
+          percent: data.prismData.responsibility,
+        },
+        {
+          evaluation: 'COOPERATION',
+          percent: data.prismData.cooperation,
+        },
+      ];
+      setPRismChartData(userPRismChartData);
+    }
+  }, [data]);
+
   return (
     <BorderCard className="relative flex-wrap gap-28 flex-center">
       {!data && (
@@ -39,11 +67,11 @@ export default function PRismChartExplanationReport({
       )}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
         <div className="h-full w-full">
-          <PRismChart data={chartData} />
+          <PRismChart data={prismChartData} />
         </div>
       </div>
       <div className="rounded-[30px]px-9 flex min-h-[330px] max-w-[560px] gap-3 py-3 flex-col-center">
-        <PRismExplanation userName="김이름" data={chartData} />
+        <PRismExplanation userName="김이름" data={prismChartData} />
       </div>
     </BorderCard>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BorderCard from '@/components/common/card/BorderCard';
 import TripleRadialChart, {
@@ -22,7 +22,9 @@ export default function RadialChartReport({
   projectId,
   reportedUserId,
 }: RadialChartReportProps) {
-  const [radialChartData] = useState<RadialChartData>(defaultTripleRadialChartData);
+  const [radialChartData, setRadialChartData] = useState<RadialChartData>(
+    defaultTripleRadialChartData,
+  );
 
   // fromMyProfile = true : 내가 속한 전체 프로젝트의 종합 분석
   // fromMyProfile = false : 타인 유저가 속한 전체 프로젝트의 종합 분석
@@ -31,6 +33,21 @@ export default function RadialChartReport({
 
   const { data, isLoading, isError } = useGetPRismProjectUserReport(targetUserId || '', projectId);
   console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      const userRadialChartData: RadialChartData = {
+        radialChartData: {
+          LEADERSHIP: data.radialData.leadership,
+          RELIABILITY: data.radialData.reliability,
+          TEAMWORK: data.radialData.teamwork,
+        },
+        keyword: data.radialData.keywords,
+        evaluation: data.radialData.evaluation,
+      };
+      setRadialChartData(userRadialChartData);
+    }
+  }, [data]);
 
   return (
     <BorderCard className="relative flex-wrap flex-center">
