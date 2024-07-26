@@ -1,3 +1,8 @@
+'use client';
+
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 import BorderCard from '@/components/common/card/BorderCard';
 import TagInput from '@/components/common/input/TagInput';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
@@ -6,17 +11,20 @@ import { ComponentSpinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { useGetProfileProjectDetails } from '@/hooks/queries/useProjectService';
+import CirclePlanetIcon from '../../user/CirclePlanetIcon';
+
+import { useGetProfileProjectDetails, useLinkProject } from '@/hooks/queries/useProjectService';
+import { useSendEmailCode, useVerifyAuthCode } from '@/hooks/queries/useAuthService';
+import { useTimer } from '@/hooks/useTimer';
+
 import { formatSecondToMMSS } from '@/lib/dateTime';
 import { maskEmail, maskName } from '@/lib/masking';
 import { cn } from '@/lib/utils';
+
 import { useModalStore } from '@/stores/modalStore';
+import { useUserStore } from '@/stores/userStore';
+
 import { CheckCircle } from 'lucide-react';
-import { useState } from 'react';
-import CirclePlanetIcon from '../../user/CirclePlanetIcon';
-import { useTimer } from '@/hooks/useTimer';
-import { useSendEmailCode, useVerifyAuthCode } from '@/hooks/queries/useAuthService';
-import { useForm } from 'react-hook-form';
 
 // 임시 데이터
 interface MemberData {
@@ -44,55 +52,72 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
     },
   });
 
-  const selectedEmail = watch('selectedEmail');
-  const authCode = watch('authCode'); // authCode 값을 실시간으로 감시
+  const selectedEmail = watch('selectedEmail'); // 비회원 목록 중 선택한 팀원의 이메일
+  const authCode = watch('authCode');
 
-  const [isEmailSelected, setIsEmailSelected] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false);
   const { openModal, closeModal } = useModalStore();
+  const loginUser = useUserStore((state) => state.user);
+  const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호가 전송된 상태인지
 
-  // 타이머 종료 시 '인증번호 받기' 버튼 활성화 처리
   const handleTimerEnd = () => {
+    // 타이머 종료 시 인증번호를 다시 받을 수 있도록 버튼 활성화 처리
     setIsCodeSent(false);
+    // 인증번호 입력 칸 초기화
+    setValue('authCode', '');
+    // 알림 띄우기
+    alert('인증시간이 만료되었습니다. 인증번호를 다시 요청해주세요.');
   };
-  const { timeLeft, startTimer } = useTimer(10, handleTimerEnd);
+  const { timeLeft, startTimer } = useTimer(300, handleTimerEnd);
 
   const handleSendCodeSuccess = () => {
+    // 인증번호 발송에 성공하면, 타이머 시작하며 전송 상태 true로 변경
     startTimer();
     setIsCodeSent(true);
-    setIsEmailSelected(false);
   };
 
   const handleVerifyCodeSuccess = () => {
+    // 인증번호 검증에 성공하면, 해당 정보로 프로젝트 링크 api 호출하기
+    linkProjectMutation.mutate({ projectId, anonymousEmail: selectedEmail });
+  };
+
+  const handleLinkProjectSuccess = () => {
+    // 연동에 성공하면, 모달을 닫으며 연동 완료 메시지창 띄우기
+    alert('연동 성공');
     closeModal();
     setTimeout(() => {
       openModal(<LinkCompleteMessage />);
     });
   };
 
-  const isDisabledVerifyButton = !isCodeSent || authCode.length === 0 || timeLeft === 0;
-
   const sendCodeMutation = useSendEmailCode(handleSendCodeSuccess);
   const verifyCodeMutation = useVerifyAuthCode(handleVerifyCodeSuccess);
+  const linkProjectMutation = useLinkProject(handleLinkProjectSuccess);
 
+  // 인증번호 받기 버튼 비활성화 기준 : 선택된 이메일이 없거나, 인증번호를 받은 상태일 때
+  const isDisabledSendButton = !selectedEmail || isCodeSent;
+
+  // 인증하기 버튼 비활성화 기준 : 인증번호가 전송되지 않았거나, 입력창에 값이 없거나, 시간이 끝났을 때
+  const isDisabledVerifyButton = !isCodeSent || !authCode || !timeLeft;
+
+  // 인증번호 받기, 인증하기 form 제출
   const onSubmit = (data: ProjectLinkForm) => {
     if (!isCodeSent) {
-      alert(`${data.selectedEmail} 발송`);
-      //data.selectedEmail
-      sendCodeMutation.mutate({ email: 'jang.se.yeong000@gmail.com', authType: 'RESET_PASSWORD' });
+      // 인증번호가 전송이 된 상태가 아니라면, 인증번호 전송 api 호출
+      sendCodeMutation.mutate({ email: data.selectedEmail, authType: 'LOAD_PROJECT' });
     } else {
+      // 인증번호 전송이 진행된 상태라면, 인증하기 api 호출
       verifyCodeMutation.mutate({
         email: data.selectedEmail,
         authCode: data.authCode,
-        authType: 'RESET_PASSWORD',
+        authType: 'LOAD_PROJECT',
       });
     }
   };
 
   const handleSelectMember = (email: string) => {
+    // 인증번호를 받은 상태라면 상태 변경 비활성화
     if (!isCodeSent) {
       setValue('selectedEmail', email);
-      setIsEmailSelected(true);
     }
   };
 
@@ -106,6 +131,19 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
   const memberData: MemberData[] = data?.data.members || [];
   const { sortedMemberData, separatorIndex } = processingMemberData(memberData);
   const isValidData = !(memberDataLoading || memberDataError || !data);
+
+  // 내가 이미 포함되어 있는 프로젝트라면 return 처리
+  const alertShownRef = useRef(false);
+
+  const isAlreadyMember = sortedMemberData.some((member) => member.userId === loginUser?.userId);
+  if (isAlreadyMember && loginUser?.userId && !alertShownRef.current) {
+    alertShownRef.current = true;
+    closeModal();
+    setTimeout(() => {
+      alert('이미 연동된 프로젝트입니다.');
+    });
+    return null;
+  }
 
   const renderMemberList = () => (
     <ul className={cn('flex min-h-[300px] w-full flex-col gap-4', !isValidData && 'flex-center')}>
@@ -146,7 +184,7 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
         <section className="w-full flex-col-center">
           <Button
             type="submit"
-            disabled={!isEmailSelected || isCodeSent}
+            disabled={isDisabledSendButton}
             pending={sendCodeMutation.isPending}>
             인증번호 받기
           </Button>

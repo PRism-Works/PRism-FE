@@ -268,6 +268,7 @@ export const linkProject = async (data: LinkProjectRequest): Promise<ProjectDeta
   try {
     const response = await ax.post<ProjectDetailResponse>(
       `/api/v1/projects/link-project/${data.projectId}`,
+      {},
       {
         params: { anonymousEmail: data.anonymousEmail },
       },
