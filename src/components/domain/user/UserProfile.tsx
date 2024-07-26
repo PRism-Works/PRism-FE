@@ -29,7 +29,7 @@ export default function UserProfile({ fromMyProfile, iconIndex }: UserProfilePro
   return (
     <section className="relative flex w-full">
       <div className="mr-4 flex w-[248px] rounded-[30px] bg-gradient-to-br from-[#1E1B4B] via-[#1E1B4B] to-[#312E81] body6 flex-col-center">
-        <CirclePlanetIcon className="bg-white" iconIndex={iconIndex} />
+        <CirclePlanetIcon className="bg-white" iconIndex={0} />
         <span className="mt-2.5 text-white">{userData?.name}</span>
       </div>
       <BorderCard className="flex h-[185px] w-full min-w-0 max-w-[776px] p-8">
