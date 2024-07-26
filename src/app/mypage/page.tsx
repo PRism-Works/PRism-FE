@@ -1,5 +1,5 @@
 import UserProfile from '@/components/domain/user/UserProfile';
-import OverallPRismReport from '@/components/domain/prism/OverallPRismReport';
+import PRismAndRadialReport from '@/components/domain/prism/PRismAndRadialReport';
 import ParticipatingProjectList from '@/components/domain/project/projectList/ParticipatingProjectList';
 import GoProjectLinkButton from '@/components/domain/project/projectButton/GoProjectLinkButton';
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
@@ -21,7 +21,7 @@ export default function MyPage() {
           <h2 className="text-gray-900 body6">PRism 종합 리포트</h2>
           <ProjectImageSaveButton className="-mb-4 mr-2" />
         </div>
-        <OverallPRismReport fromMyProfile />
+        <PRismAndRadialReport fromMyProfile />
       </section>
       <section className="flex flex-col gap-3">
         <ParticipatingProjectList fromMyProfile />

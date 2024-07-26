@@ -8,9 +8,25 @@ import TripleRadialChart, {
   type RadialChartData,
 } from './report/TripleRadialChart';
 import ReportBlur from './report/ReportBlur';
-export default function PrismAnalyzeReport() {
+import { useUserStore } from '@/stores/userStore';
+
+interface RadialChartReportProps {
+  reportedUserId?: string;
+  fromMyProfile: boolean;
+}
+
+export default function RadialChartReport({
+  reportedUserId,
+  fromMyProfile,
+}: RadialChartReportProps) {
   const [hasData, setHasData] = useState<boolean>(false);
   const [radialChartData] = useState<RadialChartData>(defaultTripleRadialChartData);
+
+  // fromMyProfile: true : 내가 속한 전체 프로젝트의 종합 분석
+  // fromMyProfile: false : 타인 유저가 속한 전체 프로젝트의 종합 분석
+  const loginUser = useUserStore((state) => state.user);
+  const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
+  console.log(targetUserId);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {

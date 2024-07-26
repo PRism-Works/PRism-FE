@@ -1,5 +1,5 @@
 import UserProfile from '@/components/domain/user/UserProfile';
-import OverallPRismReport from '@/components/domain/prism/OverallPRismReport';
+import PRismAndRadialReport from '@/components/domain/prism/PRismAndRadialReport';
 import ParticipatingProjectList from '@/components/domain/project/projectList/ParticipatingProjectList';
 
 interface UserProfilePageProps {
@@ -17,7 +17,7 @@ export default function UserProfilePage({ params }: UserProfilePageProps) {
         <div className="flex items-center justify-between">
           <h2 className="text-gray-900 body6">PRism 종합 리포트</h2>
         </div>
-        <OverallPRismReport fromMyProfile={false} />
+        <PRismAndRadialReport fromMyProfile={false} />
       </section>
       <section className="flex flex-col gap-3">
         <ParticipatingProjectList userId={params.userId} fromMyProfile={false} />

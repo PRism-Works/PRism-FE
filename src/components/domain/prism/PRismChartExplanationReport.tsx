@@ -7,10 +7,26 @@ import ReportBlur from './report/ReportBlur';
 import PRismChart, { defaultPRismChartData } from '@/components/common/chart/PRismChart';
 import PRismExplanation from './report/PRismExplanation';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
+import { useUserStore } from '@/stores/userStore';
 
-export default function PrismReport() {
+// 유저 -> 프로젝트 상세 조회 시 나타나는 것.
+
+interface PRismChartExplanationReportProps {
+  reportedUserId?: string;
+  fromMyProfile: boolean;
+}
+export default function PRismChartExplanationReport({
+  reportedUserId = '',
+  fromMyProfile,
+}: PRismChartExplanationReportProps) {
   const [hasData, setHasData] = useState<boolean>(false);
   const [chartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
+
+  // fromMyProfile true : 그 프로젝트에서 나의 지표
+  // fromMyProfile false : 그 프로젝트에서 타인의 지표
+  const loginUser = useUserStore((state) => state.user);
+  const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
+  console.log(targetUserId);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {

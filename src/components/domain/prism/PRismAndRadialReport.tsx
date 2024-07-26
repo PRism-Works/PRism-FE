@@ -9,15 +9,26 @@ import TripleRadialChart, {
 } from './report/TripleRadialChart';
 import ReportBlur from './report/ReportBlur';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
+import { useUserStore } from '@/stores/userStore';
 
-interface OverallPRismReportProps {
+interface PRismAndRadialReportProps {
+  reportedUserId?: string;
   fromMyProfile: boolean;
 }
 
-export default function OverallPRismReport({ fromMyProfile }: OverallPRismReportProps) {
+export default function PRismAndRadialReport({
+  reportedUserId = '',
+  fromMyProfile,
+}: PRismAndRadialReportProps) {
   const [hasData, setHasData] = useState<boolean>(false);
   const [chartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
   const [radialChartData] = useState<RadialChartData>(defaultTripleRadialChartData);
+
+  // fromMyProfile: true : 내가 속한 전체 프로젝트의 종합 분석
+  // fromMyProfile: false : 타인 유저가 속한 전체 프로젝트의 종합 분석
+  const loginUser = useUserStore((state) => state.user);
+  const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
+  console.log(targetUserId);
 
   // TODO: API 연동 후 데이터를 받아와서 setHasData(true) 호출, 나중에 isPending으로 변경
   useEffect(() => {
