@@ -2,15 +2,18 @@
 
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { useModalStore } from '@/stores/modalStore';
 
 // 제목, 버튼 필수
 interface MessageBoxProps {
   title: React.ReactNode;
   titleIcon?: JSX.Element;
-  subTitle?: string; // with Color
+  subTitle?: React.ReactNode; // with Color
   description?: string;
   footer: React.ReactNode;
+  showCloseButton?: boolean;
+  contentClassName?: string;
 }
 
 export default function MessageBox({
@@ -19,6 +22,8 @@ export default function MessageBox({
   subTitle,
   description = '',
   footer,
+  showCloseButton = true,
+  contentClassName = '',
 }: MessageBoxProps) {
   return (
     <div className="shadow-custom-6px">
@@ -31,9 +36,10 @@ export default function MessageBox({
           </div>
         }
         description={description}
-        contentClassName="max-w-[500px] px-[50px]"
+        contentClassName={cn('max-w-[500px] px-[50px]', contentClassName)}
         transparentOverlay={true}
         footer={<div className="mt-5 w-full gap-1 flex-center">{footer}</div>}
+        showCloseButton={showCloseButton}
       />
     </div>
   );

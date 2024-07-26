@@ -10,7 +10,14 @@ import {
 
 import { Form } from '@/components/ui/form';
 
-import { ClipboardCheck, HeartHandshake, LucideFileEdit, Send, UserCheck } from 'lucide-react';
+import {
+  ClipboardCheck,
+  HeartHandshake,
+  LucideFileEdit,
+  MailCheck,
+  Send,
+  UserCheck,
+} from 'lucide-react';
 
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import ProgressBar from '@/components/common/progressBar/ProgressBar';
@@ -23,7 +30,7 @@ import ProjectRegisterFooter from './layout/ProjectRegisterFooter';
 import { PageSpinner } from '@/components/common/spinner';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import { useModalStore } from '@/stores/modalStore';
@@ -121,7 +128,15 @@ export default function ProjectRegisterModal({
       result = await formMethods.trigger(['projectName', 'startDate', 'endDate']);
     } else if (currStep === 1) {
       result = await formMethods.trigger(['members']);
+
+      // Step2일 경우, 이메일 수신 동의 메시지 박스를 띄운다.
+      // 등록이든 수정이든, 이메일이 바뀔 수 있으니 항상 띄우게 함.
+      if (result) {
+        openModal(<EmailConsentConfirmation setCurrStep={setCurrStep} />);
+        return;
+      }
     }
+
     if (result && currStep < MAX_STEP) {
       setCurrStep((prev) => prev + 1);
     }
@@ -242,6 +257,34 @@ const SendSurveyCompleteMessage = () => {
       title={renderTitle()}
       titleIcon={<Send className="stroke-purple-500" />}
       footer={<MessageBox.MessageConfirmButton text="완료" onClick={handleClickComplete} />}
+    />
+  );
+};
+
+const EmailConsentConfirmation = ({
+  setCurrStep,
+}: {
+  setCurrStep: Dispatch<SetStateAction<number>>;
+}) => {
+  const handleEmailConsentConfirm = () => {
+    setCurrStep((prev) => prev + 1);
+  };
+  const handleClickShowTerms = () => {
+    alert('이메일 수신 동의 약관');
+  };
+  return (
+    <MessageBox
+      title={
+        <div>
+          팀원들로부터 이메일 수신에 대한
+          <br /> 동의를 받았음을 확인합니다.
+        </div>
+      }
+      subTitle={<a onClick={handleClickShowTerms}>이메일 수신 이용 약관</a>}
+      titleIcon={<MailCheck className="stroke-purple-500" />}
+      footer={<MessageBox.MessageConfirmButton text="확인" onClick={handleEmailConsentConfirm} />}
+      showCloseButton={false}
+      contentClassName="max-w-[600px]"
     />
   );
 };
