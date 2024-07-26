@@ -24,7 +24,7 @@ export function useTimer(initialTime: number, callback: () => void) {
       }, 1000);
     } else if (isRunning && timeLeft === 0) {
       setIsRunning(false);
-      if (callbackRef.current) callbackRef.current();
+      callbackRef.current();
     }
 
     return () => {
