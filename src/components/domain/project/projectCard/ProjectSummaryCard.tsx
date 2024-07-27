@@ -36,10 +36,16 @@ export default function ProjectSummaryCard({
     variant === PROJECT_CARD_VARIANT.ADMIN || variant === PROJECT_CARD_VARIANT.LINK_PREVIEW;
   const handleClick = () => {
     if (isCardDisabled) return;
-    if (variant === PROJECT_CARD_VARIANT.MY_PROFILE) {
-      router.push(`/project/my/${projectId}`);
-    } else {
-      router.push(`/project/user/${userId}/${projectId}`);
+    switch (variant) {
+      case PROJECT_CARD_VARIANT.SEARCH_RESULT:
+        router.push(`/project/${projectId}`);
+        break;
+      case PROJECT_CARD_VARIANT.MY_PROFILE:
+        router.push(`/project/my/${projectId}`);
+        break;
+      case PROJECT_CARD_VARIANT.OTHER_PROFILE:
+        router.push(`/project/user/${userId}/${projectId}`);
+        break;
     }
   };
   return (

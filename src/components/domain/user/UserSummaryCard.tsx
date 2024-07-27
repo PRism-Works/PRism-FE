@@ -33,7 +33,10 @@ export default function UserSummaryCard({
   const isPrivateUser = variant === USER_CARD_VARIANT.MEMBER_PRIVATE;
 
   const handleOpenUserProfile = () => {
-    if (!isPublicUser) return;
+    if (!isPublicUser) {
+      alert('비공개 팀원입니다.');
+      return;
+    }
     if (user?.userId === userData.userId) {
       // 클릭한 유저카드가 나의 카드라면, 마이 페이지로 이동
       router.push('/mypage');

@@ -12,12 +12,12 @@ import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface ProjectSeqrchBarProps {
-  defualtKeyword?: string;
+  defaultKeyword?: string;
   defaultCategories?: number[];
   defaultDetailVisible?: boolean;
 }
 export default function ProjectSearchBar({
-  defualtKeyword = '',
+  defaultKeyword = '',
   defaultCategories = [],
   defaultDetailVisible = false,
 }: ProjectSeqrchBarProps) {
@@ -85,7 +85,7 @@ export default function ProjectSearchBar({
             : '프로젝트명을 입력해 주세요.'
         }
         onSearch={handleSearch}
-        defaultKeyword={defualtKeyword}
+        defaultKeyword={defaultKeyword}
       />
       <div className="flex w-full items-center body8">
         <button onClick={toggleDetailVisibility} className="flex items-center text-gray-700">

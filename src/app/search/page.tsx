@@ -20,23 +20,28 @@ import { useSearchProjects } from '@/hooks/queries/useProjectService';
 import { useSearchStore } from '@/stores/searchStore';
 
 import { convertTimestampToDate } from '@/lib/dateTime';
+import { cn } from '@/lib/utils';
+
+const ITEMS_PER_PAGE = 8; // 한 페이지에 나올 아이템의 최대 개수
+const DEFAULT_ITEMS_TOTAL_COUNT = 1; // 데이터를 받아오기 전, 아이템 총 개수 기본값
 
 export default function SearchPage() {
+  // 검색 조건
   const searchCondition = useSearchStore((state) => state.searchCondition);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const totalItems = 30; // 총 프로젝트가 30개라고 가정
-  const itemsPerPage = 8; // 한 페이지에 8개씩 보여줌
-  const totalPages = Math.ceil(totalItems / itemsPerPage); // 4
+  // 현재 검색 페이지
+  const [currentPage, setCurrentPage] = useState(0); // 0부터 시작, 0이 1페이지
 
+  // 조건에 따른 검색 결과 (api)
   const { data, isLoading, isError } = useSearchProjects({
     searchType: searchCondition.type,
     searchWord: searchCondition.keyword,
     categories: searchCondition.categories,
-    pageNo: 0,
-    pageSize: 8,
+    pageNo: currentPage,
+    pageSize: ITEMS_PER_PAGE, // 한 화면에 8개 고정
   });
 
+  // 검색 결과 데이터 프로세싱
   const searchProjects =
     data?.data.contents.map((content) => {
       return {
@@ -49,10 +54,33 @@ export default function SearchPage() {
       };
     }) || [];
 
+  // 데이터 유효성 검사
   const isValidData = !(isLoading || searchProjects.length === 0 || isError);
+
+  // 페이징 관련
+  const totalItems = data?.data.totalCount || DEFAULT_ITEMS_TOTAL_COUNT; // defualt: 24
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const handleClickPaginationItem = (page: number) => {
     setCurrentPage(page);
+  };
+
+  // "이전" 버튼
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else {
+      setCurrentPage(0);
+    }
+  };
+
+  // "다음" 버튼
+  const handleNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    } else {
+      setCurrentPage(totalPages - 1);
+    }
   };
 
   return (
@@ -60,13 +88,13 @@ export default function SearchPage() {
       <div className="absolute h-56 w-full bg-white flex-center">
         <section className="w-full max-w-[1500px] flex-center">
           <ProjectSearchBar
-            defualtKeyword={searchCondition.keyword}
+            defaultKeyword={searchCondition.keyword}
             defaultCategories={searchCondition.categories}
             defaultDetailVisible
           />
         </section>
       </div>
-      <div className="container mx-auto mb-14 flex min-h-screen flex-col items-center gap-16 pt-60">
+      <div className="container mx-auto mb-14 flex min-h-screen flex-col items-center gap-12 pt-60">
         <section className="flex w-full max-w-[1040px] flex-col gap-5">
           <h2 className="text-gray-900 body6">프로젝트 목록</h2>
           {!isValidData ? (
@@ -75,7 +103,7 @@ export default function SearchPage() {
             <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
               {searchProjects.map((projectData) => (
                 <li key={projectData.projectId} className="w-full">
-                  <ProjectSummaryCard projectData={projectData} />
+                  <ProjectSummaryCard projectData={projectData} variant="SearchResult" />
                 </li>
               ))}
             </ul>
@@ -85,19 +113,26 @@ export default function SearchPage() {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious />
+                <PaginationPrevious
+                  className={cn(
+                    currentPage === 0 && 'text-gray-300 hover:bg-gray-50 hover:text-gray-300',
+                  )}
+                  onClick={handlePrevious}
+                />
               </PaginationItem>
               {[...Array(totalPages)].map((_, index) => (
-                <PaginationItem key={index} onClick={() => handleClickPaginationItem(index + 1)}>
-                  <PaginationLink isActive={currentPage === index + 1}>{index + 1}</PaginationLink>
+                <PaginationItem key={index} onClick={() => handleClickPaginationItem(index)}>
+                  <PaginationLink isActive={currentPage === index}>{index + 1}</PaginationLink>
                 </PaginationItem>
               ))}
-              {/* 필요 시 PaginationEllipsis 사용 */}
-              {/* <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem> */}
               <PaginationItem>
-                <PaginationNext />
+                <PaginationNext
+                  className={cn(
+                    currentPage === totalPages - 1 &&
+                      'text-gray-300 hover:bg-gray-50 hover:text-gray-300',
+                  )}
+                  onClick={handleNext}
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
@@ -107,6 +142,7 @@ export default function SearchPage() {
   );
 }
 
+// 로딩중, 오류, 데이터가 비었을 때 표시될 컴포넌트
 const ValidInformation = ({ isLoading, isError }: { isLoading: boolean; isError: boolean }) => {
   const isEmpty = !(isLoading || isError);
   const message = isError
@@ -117,7 +153,7 @@ const ValidInformation = ({ isLoading, isError }: { isLoading: boolean; isError:
     : '오타가 없는지 확인하거나, 다른 검색어를 사용해 보세요.';
 
   return (
-    <section className="gap-14 flex-col-center">
+    <section className="gap-7 flex-col-center">
       <BorderCard className="h-[165px] w-full flex-col-center">
         {isLoading ? (
           <ComponentSpinner />
