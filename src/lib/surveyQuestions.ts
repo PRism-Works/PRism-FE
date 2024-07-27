@@ -1,18 +1,7 @@
-export const SURVEY_QUESTION_TYPE = {
-  Radio: 'Radio',
-  Check: 'Check',
-  Text: 'Text',
-} as const;
+import { SURVEY_QUESTION_TYPE } from '@/models/survey/surveyModels';
+import type { SurveyQuestion } from '@/models/survey/surveyModels';
 
-type surveyQuestionsType = (typeof SURVEY_QUESTION_TYPE)[keyof typeof SURVEY_QUESTION_TYPE];
-
-interface Question {
-  id: number;
-  type: surveyQuestionsType;
-  text: string;
-}
-
-export const surveyQuestions: Question[] = [
+export const surveyQuestions: SurveyQuestion[] = [
   {
     id: 1,
     type: SURVEY_QUESTION_TYPE.Radio,
