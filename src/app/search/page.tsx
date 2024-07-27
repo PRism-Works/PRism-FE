@@ -1,8 +1,6 @@
 'use client';
 
-// 퍼블리싱만 먼저 빠르게 함. 'use client'; 지우고 컴포넌트 분리할지 고민 필요
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
 import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectSearchBar';
 import {
@@ -14,8 +12,10 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { convertStringToDate } from '@/lib/dateTime';
+import { useSearchStore } from '@/stores/searchStore';
 
 export default function SearchPage() {
+  const searchCondition = useSearchStore((state) => state.searchCondition);
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalItems = 30; // 총 프로젝트가 30개라고 가정
@@ -25,76 +25,24 @@ export default function SearchPage() {
   const handleClickPaginationItem = (page: number) => {
     setCurrentPage(page);
   };
-  const testData = [
-    {
-      projectId: 1,
-      projectname: 'project.projectName1',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 2,
-      projectname: 'project.proj4ectName2',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 3,
-      projectname: 'project.project1Name',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 5,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 6,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 7,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 8,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-  ];
+
+  useEffect(() => {
+    if (!(searchCondition.keyword === '' && searchCondition.categories.length === 0)) {
+      alert(JSON.stringify(searchCondition));
+    }
+  }, [searchCondition]);
+
   return (
     <>
       <div className="absolute h-56 w-full bg-white flex-center">
         <section className="w-full max-w-[1500px] flex-center">
-          <ProjectSearchBar defaultDetailVisible />
+          <ProjectSearchBar
+            // 검색 페이지에서 페이지 새로고침 시, zustand에서 persist 값을 다시 세팅해주는데, 그 값 인지를 못해서 새로운 인스턴스로 생성하며 강제 렌더링 하게 함.
+            key={JSON.stringify(searchCondition)}
+            defualtKeyword={searchCondition.keyword}
+            defaultCategories={searchCondition.categories}
+            defaultDetailVisible
+          />
         </section>
       </div>
       <div className="container mx-auto mb-14 flex min-h-screen flex-col items-center gap-16 pt-60">
@@ -133,3 +81,69 @@ export default function SearchPage() {
     </>
   );
 }
+
+const testData = [
+  {
+    projectId: 1,
+    projectname: 'project.projectName1',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+  {
+    projectId: 2,
+    projectname: 'project.proj4ectName2',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+  {
+    projectId: 3,
+    projectname: 'project.project1Name',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+  {
+    projectId: 5,
+    projectname: 'project.projectName3',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+  {
+    projectId: 6,
+    projectname: 'project.projectName3',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+  {
+    projectId: 7,
+    projectname: 'project.projectName3',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+  {
+    projectId: 8,
+    projectname: 'project.projectName3',
+    startDate: convertStringToDate('2024-02-02'),
+    endDate: convertStringToDate('2024-05-02'),
+    organizationName: 'project.organizationName',
+    categories: ['기타', '금융', '생산성'],
+    evaluatedMembersCount: 0,
+  },
+];

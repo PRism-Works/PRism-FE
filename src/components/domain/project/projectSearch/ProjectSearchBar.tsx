@@ -7,30 +7,43 @@ import { ProjectCategories } from '@/lib/tagList';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
 import { useTagListState } from '@/hooks/useTagListState';
 import SearchInput from '@/components/common/input/SearchInput';
+import { SearchTypeConst, useSearchStore, type SearchType } from '@/stores/searchStore';
 import { cn } from '@/lib/utils';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface ProjectSeqrchBarProps {
+  defualtKeyword?: string;
+  defaultCategories?: number[];
   defaultDetailVisible?: boolean;
+  key?: string;
 }
-export default function ProjectSearchBar({ defaultDetailVisible = false }: ProjectSeqrchBarProps) {
-  const [placeholder, setPlaceholder] = useState('이름 혹은 이메일을 검색해주세요');
+export default function ProjectSearchBar({
+  defualtKeyword = '',
+  defaultCategories = [],
+  defaultDetailVisible = false,
+}: ProjectSeqrchBarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const setSearhcCondition = useSearchStore((state) => state.setSearhcCondition);
+  const [selectTabType, setSelectTabType] = useState<SearchType>(SearchTypeConst.MEMBER_NAME);
   const [isDetailVisible, toggleDetailVisibility] = useReducer(
     (state) => !state,
     defaultDetailVisible,
   );
 
-  const { selectList, addSelectList, isSelected, isSelectionLimitReached } = useTagListState([], 5);
+  const { selectList, addSelectList, isSelected, isSelectionLimitReached } =
+    useTagListState<number>(defaultCategories, 5);
 
   const handleValueChange = (value: string) => {
-    if (value === 'member') {
-      setPlaceholder('이름 혹은 이메일을 검색해 주세요.');
-    } else if (value === 'project') {
-      setPlaceholder('프로젝트명을 입력해 주세요.');
+    if (value === SearchTypeConst.MEMBER_NAME) {
+      setSelectTabType(SearchTypeConst.MEMBER_NAME);
+    } else if (value === SearchTypeConst.PROJECT_NAME) {
+      setSelectTabType(SearchTypeConst.PROJECT_NAME);
     }
   };
 
-  const handleCategoryClick = (category: string) => {
-    addSelectList(category);
+  const handleCategoryClick = (categoryCode: number) => {
+    addSelectList(categoryCode);
   };
 
   const handleSearch = (keyword: string) => {
@@ -38,27 +51,42 @@ export default function ProjectSearchBar({ defaultDetailVisible = false }: Proje
       alert('검색어 입력 또는 카테고리를 선택해 주세요.');
       return;
     }
-    alert(`keyword: ${keyword}, category: ${JSON.stringify(Array.from(selectList))} 로 검색하기`);
+    // 검색 시 현재 검색어 searchStore에 저장
+    setSearhcCondition({
+      type: selectTabType,
+      keyword,
+      categories: Array.from(selectList),
+    });
+
+    // 홈에서 한 검색이 아니라면 search 페이지로 이동
+    if (pathname === '/') {
+      router.push('/search');
+    }
   };
 
   return (
     <div className="my-4 w-[60%] gap-2 flex-col-center">
-      <Tabs defaultValue="member" onValueChange={handleValueChange}>
+      <Tabs defaultValue={selectTabType} onValueChange={handleValueChange}>
         <TabsList>
-          <TabsTrigger value="member">
+          <TabsTrigger value={SearchTypeConst.MEMBER_NAME}>
             <User className="mr-2 h-6 w-6" />
             <p className="body8">팀원</p>
           </TabsTrigger>
-          <TabsTrigger value="project">
+          <TabsTrigger value={SearchTypeConst.PROJECT_NAME}>
             <Clipboard className="mr-2 h-6 w-6" />
             <p className="body8">프로젝트명</p>
           </TabsTrigger>
         </TabsList>
       </Tabs>
       <SearchInput
-        className="h-[64px] w-full body8 border-gradient"
-        placeholder={placeholder}
+        className="h-[64px] w-full body8 border-gradient focus:border-gradient"
+        placeholder={
+          selectTabType === SearchTypeConst.MEMBER_NAME
+            ? '이름 혹은 이메일을 검색해주세요.'
+            : '프로젝트명을 입력해 주세요.'
+        }
         onSearch={handleSearch}
+        defaultKeyword={defualtKeyword}
       />
       <div className="flex w-full items-center body8">
         <button onClick={toggleDetailVisibility} className="flex items-center text-gray-700">
@@ -81,13 +109,13 @@ export default function ProjectSearchBar({ defaultDetailVisible = false }: Proje
               카테고리
             </span>
             <ul className="flex flex-wrap gap-2">
-              {ProjectCategories.map((category) => (
+              {ProjectCategories.map((category, index) => (
                 <li key={category}>
                   <CheckTagInput
                     value={category}
-                    isChecked={isSelected(category)}
-                    isDisabled={isSelectionLimitReached() && !isSelected(category)}
-                    onClick={() => handleCategoryClick(category)}
+                    isChecked={isSelected(index + 1)}
+                    isDisabled={isSelectionLimitReached() && !isSelected(index + 1)}
+                    onClick={() => handleCategoryClick(index + 1)}
                   />
                 </li>
               ))}

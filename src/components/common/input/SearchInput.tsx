@@ -13,7 +13,7 @@ export interface SearchInputProps extends Omit<InputProps, 'onChange'> {
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   ({ className, onSearch, defaultKeyword = '', ...props }, ref) => {
-    const [keyword, setKeyword] = useState<string>('');
+    const [keyword, setKeyword] = useState<string>(defaultKeyword);
 
     const handleSearch = () => {
       onSearch(keyword);
@@ -39,7 +39,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           className={cn('pr-24', className)}
           ref={ref}
           {...props}
-          value={keyword || defaultKeyword}
+          value={keyword}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />

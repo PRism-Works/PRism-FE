@@ -12,6 +12,7 @@ export const UserRoles = [
 ] as const;
 
 // 프로젝트 카테고리, 직접 추가 불가
+// 다음 배열의 순서는 중요, 순서가 서버에서 관리하는 코드값임
 export const ProjectCategories = [
   '금융',
   '헬스케어',
