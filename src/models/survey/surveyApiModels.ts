@@ -1,3 +1,5 @@
+import { SurveyQuestionCategoryType } from './surveyModels';
+
 export interface SurveyLinkRequest {
   code: string;
 }
@@ -55,20 +57,14 @@ export interface SubmitSurveyRequest {
   responses: {
     questionOrder: string;
     questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
-    questionCategory:
-      | 'responsibility'
-      | 'initiative'
-      | 'problemSolving'
-      | 'communication'
-      | 'teamwork'
-      | 'strength'
-      | 'improvementPoint';
+    questionCategory: SurveyQuestionCategoryType;
     responseDetails: {
       revieweeEmail: string;
       response: {
         score?: number;
         choice?: boolean;
         description?: string;
+        example?: string;
       };
     }[];
   }[];
@@ -79,14 +75,7 @@ export interface FormSurveyResponse {
   responses: {
     questionOrder: string;
     questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
-    questionCategory:
-      | 'responsibility'
-      | 'initiative'
-      | 'problemSolving'
-      | 'communication'
-      | 'teamwork'
-      | 'strength'
-      | 'improvementPoint';
+    questionCategory: SurveyQuestionCategoryType;
     responseDetails: FormResponseDetails[];
   }[];
 }
