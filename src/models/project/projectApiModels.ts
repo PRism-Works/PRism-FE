@@ -147,6 +147,7 @@ export interface ProjectDetailResponse {
       anonyVisibility: boolean;
     }[];
     anonymousCount: number;
+    mostCommonTraits?: string;
   };
 }
 
