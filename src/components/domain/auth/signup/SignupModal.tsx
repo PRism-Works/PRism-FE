@@ -1,18 +1,15 @@
-'use client';
-
+import { cn } from '@/lib/utils';
 import { useId, useState, useReducer } from 'react';
-import ModalLayout from '@/components/common/modal/ModalLayout';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useForm } from 'react-hook-form';
+import { useTimer } from '@/hooks/useTimer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema, SignupForm } from '@/models/auth/authModels';
 import { checkEmailExists, sendEmailCode, verifyAuthCode, signup } from '@/services/api/authApi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
-import { useTimer } from '@/hooks/useTimer';
 import { formatSecondToMMSS } from '@/lib/dateTime';
-import { CheckCircle2 } from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -21,6 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import ModalLayout from '@/components/common/modal/ModalLayout';
+import AgreementCheckbox from '../privacyPolicy/AgreementCheckbox';
 
 interface SignupModalProps {
   onSuccess?: () => void;
@@ -170,7 +169,11 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                  <FormLabel
+                    className={cn('text-black', {
+                      mobile2: isSmallScreen,
+                      mobile1: !isSmallScreen,
+                    })}>
                     이름
                   </FormLabel>
                   <FormControl>
@@ -195,7 +198,11 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                  <FormLabel
+                    className={cn('text-black', {
+                      mobile2: isSmallScreen,
+                      mobile1: !isSmallScreen,
+                    })}>
                     이메일 주소
                   </FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
@@ -243,7 +250,11 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
               name="certification"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                  <FormLabel
+                    className={cn('text-black', {
+                      mobile2: isSmallScreen,
+                      mobile1: !isSmallScreen,
+                    })}>
                     인증번호
                   </FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
@@ -288,7 +299,11 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                  <FormLabel
+                    className={cn('text-black', {
+                      mobile2: isSmallScreen,
+                      mobile1: !isSmallScreen,
+                    })}>
                     비밀번호
                   </FormLabel>
                   <FormControl>
@@ -312,7 +327,11 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
               name="verifyPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                  <FormLabel
+                    className={cn('text-black', {
+                      mobile2: isSmallScreen,
+                      mobile1: !isSmallScreen,
+                    })}>
                     비밀번호 확인
                   </FormLabel>
                   <FormControl>
@@ -329,36 +348,16 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
               )}
             />
           </div>
-
-          <div className={`w-full max-w-[420px] ${isSmallScreen ? 'caption' : 'display5'}`}>
-            <div className="flex items-center justify-between">
-              <div className="mr-3" onClick={setIsAgreed}>
-                <CheckCircle2
-                  className={`h-7 w-7 cursor-pointer stroke-[1.5px] ${
-                    isAgreed ? 'text-purple-500' : 'text-gray-400'
-                  }`}
-                />
-              </div>
-
-              <p className="text-sm text-muted-foreground md:text-left">
-                필수동의 항목 및{' '}
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  className="cursor-pointer text-info underline underline-offset-4">
-                  개인정보 수집 및 이용 동의
-                </a>{' '}
-                및{' '}
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  className="cursor-pointer text-info underline underline-offset-4">
-                  이메일 정보 수신
-                </a>
-                에 모두 동의합니다.
-              </p>
-            </div>
-          </div>
+          <AgreementCheckbox
+            isAgreed={isAgreed}
+            onToggle={setIsAgreed}
+            isSmallScreen={false}
+            text="필수동의 항목 및"
+            privacyPolicyText="개인정보 수집 및 이용 동의"
+            privacyPolicyLink="/privacy-policy"
+            termsOfServiceText="이메일 정보 수신"
+            termsOfServiceLink="/terms-of-service"
+          />
         </form>
       </Form>
     </ModalLayout>
