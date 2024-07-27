@@ -14,7 +14,7 @@ export default function ReportBlur({
   const message = isError
     ? 'PRism을 로드하는데 문제가 발생했습니다.'
     : isLoading
-      ? `${fromMyProfile ? '나의' : '상대의'} PRism을 불러오는 중이에요!`
+      ? `${fromMyProfile ? '나의' : '상대의'} PRism 분석 결과를 불러오는 중이에요!`
       : `아직 ${fromMyProfile ? '나의' : '상대의'} PRism이 없어요!`;
   const subMessage = isError
     ? '다시 시도해주세요.'

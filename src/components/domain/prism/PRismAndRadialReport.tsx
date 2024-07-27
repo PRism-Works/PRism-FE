@@ -10,7 +10,7 @@ import TripleRadialChart, {
 import ReportBlur from './report/ReportBlur';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
 import { useUserStore } from '@/stores/userStore';
-import { usePRismUserOverallReport } from '@/hooks/queries/usePRismService';
+import { useUserOverallProjectAnalysis } from '@/hooks/queries/usePRismService';
 
 interface PRismAndRadialReportProps {
   reportedUserId?: string;
@@ -31,7 +31,7 @@ export default function PRismAndRadialReport({
   const loginUser = useUserStore((state) => state.user);
   const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
 
-  const { data, isLoading, isError } = usePRismUserOverallReport(targetUserId || '');
+  const { data, isLoading, isError } = useUserOverallProjectAnalysis(targetUserId || '');
   console.log(data);
 
   useEffect(() => {

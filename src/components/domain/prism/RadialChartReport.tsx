@@ -9,7 +9,7 @@ import TripleRadialChart, {
 } from './report/TripleRadialChart';
 import ReportBlur from './report/ReportBlur';
 import { useUserStore } from '@/stores/userStore';
-import { useGetPRismProjectUserReport } from '@/hooks/queries/usePRismService';
+import { useSingleProjectUserAnalysis } from '@/hooks/queries/usePRismService';
 
 interface RadialChartReportProps {
   fromMyProfile: boolean;
@@ -31,7 +31,7 @@ export default function RadialChartReport({
   const loginUser = useUserStore((state) => state.user);
   const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
 
-  const { data, isLoading, isError } = useGetPRismProjectUserReport(targetUserId || '', projectId);
+  const { data, isLoading, isError } = useSingleProjectUserAnalysis(targetUserId || '', projectId);
   console.log(data);
 
   useEffect(() => {

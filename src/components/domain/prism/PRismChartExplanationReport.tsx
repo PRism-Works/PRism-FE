@@ -8,7 +8,7 @@ import PRismChart, { defaultPRismChartData } from '@/components/common/chart/PRi
 import PRismExplanation from './report/PRismExplanation';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
 import { useUserStore } from '@/stores/userStore';
-import { useGetPRismProjectUserReport } from '@/hooks/queries/usePRismService';
+import { useSingleProjectUserAnalysis } from '@/hooks/queries/usePRismService';
 
 // 유저 -> 프로젝트 상세 조회 시 나타나는 것.
 
@@ -29,7 +29,7 @@ export default function PRismChartExplanationReport({
   const loginUser = useUserStore((state) => state.user);
   const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
 
-  const { data, isLoading, isError } = useGetPRismProjectUserReport(targetUserId || '', projectId);
+  const { data, isLoading, isError } = useSingleProjectUserAnalysis(targetUserId || '', projectId);
   console.log(data);
 
   useEffect(() => {
