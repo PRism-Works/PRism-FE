@@ -12,10 +12,11 @@ import type {
 
 // 설문 링크 가져오기
 export const useFetchSurveyLink = (params: SurveyLinkRequest) => {
+  console.log('Fetching survey link with params:', params);
   return useQuery<SurveyLinkResponse, AxiosError>({
     queryKey: ['fetchSurveyLink', params],
-    queryFn: () => fetchSurveyLink(params),
-    enabled: !!params.code, // code가 존재할 때만 쿼리 실행
+    queryFn: () => (params.code ? fetchSurveyLink(params) : Promise.reject('No code provided')),
+    enabled: !!params.code,
   });
 };
 
