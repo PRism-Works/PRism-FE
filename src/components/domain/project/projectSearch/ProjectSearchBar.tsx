@@ -103,22 +103,24 @@ export default function ProjectSearchBar({
           isDetailVisible ? 'opacity-100' : 'opacity-0',
         )}>
         <div className="mt-1 w-full">
-          <div className="flex w-full flex-wrap gap-4">
+          <div className="flex w-full flex-wrap gap-4 overflow-hidden">
             <span className="h-9 w-20 rounded-[6px] bg-indigo-50 px-3 py-2 text-center text-indigo-500 display6">
               카테고리
             </span>
-            <ul className="flex flex-wrap gap-2">
-              {Object.values(ProjectCategories).map((category) => (
-                <li key={category.code}>
-                  <CheckTagInput
-                    value={category.name}
-                    isChecked={isSelected(category.code)}
-                    isDisabled={isSelectionLimitReached() && !isSelected(category.code)}
-                    onClick={() => handleCategoryClick(category.code)}
-                  />
-                </li>
-              ))}
-            </ul>
+            <span className="flex-1 overflow-y-auto scroll-smooth scrollbar-thin">
+              <ul className="flex gap-2">
+                {Object.values(ProjectCategories).map((category) => (
+                  <li key={category.code}>
+                    <CheckTagInput
+                      value={category.name}
+                      isChecked={isSelected(category.code)}
+                      isDisabled={isSelectionLimitReached() && !isSelected(category.code)}
+                      onClick={() => handleCategoryClick(category.code)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </span>
           </div>
         </div>
       </div>
