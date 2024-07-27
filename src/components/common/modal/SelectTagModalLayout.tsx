@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useTagListState } from '@/hooks/useTagListState';
+import { useUniqueListState } from '@/hooks/useUniqueListState';
 import { Button } from '@/components/ui/button';
 import ModalLayout from './ModalLayout';
 import { Separator } from '@/components/ui/separator';
@@ -34,7 +34,8 @@ export default function SelectTagModalLayout({
   const [searchWord, setSearchWord] = useState<string>('');
 
   const closeModal = useModalStore((state) => state.closeModal);
-  const { selectList, addSelectList, isSelected } = useTagListState<string>(defaultSelectTagList);
+  const { selectList, addSelectList, isSelected } =
+    useUniqueListState<string>(defaultSelectTagList);
 
   const selectTagScrollRef = useRef<HTMLDivElement>(null);
 

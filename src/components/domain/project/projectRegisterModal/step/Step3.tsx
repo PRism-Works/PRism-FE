@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useTagListState } from '@/hooks/useTagListState';
+import { useUniqueListState } from '@/hooks/useUniqueListState';
 
 import TagInput from '@/components/common/input/TagInput';
 import IconInput from '@/components/common/input/IconInput';
@@ -39,7 +39,7 @@ export default function Step3() {
     addSelectList,
     isSelected,
     isSelectionLimitReached,
-  } = useTagListState<string>(defaultCategories, 3);
+  } = useUniqueListState<string>(defaultCategories, 3);
 
   const handleSkillsSelectComplete = (skillTags: string[]) => {
     setValue('skills', skillTags);

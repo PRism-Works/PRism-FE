@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import { ProjectCategories } from '@/lib/tagList';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
-import { useTagListState } from '@/hooks/useTagListState';
+import { useUniqueListState } from '@/hooks/useUniqueListState';
 import SearchInput from '@/components/common/input/SearchInput';
 import { SearchTypeConst, useSearchStore, type SearchType } from '@/stores/searchStore';
 import { cn } from '@/lib/utils';
@@ -31,7 +31,7 @@ export default function ProjectSearchBar({
   );
 
   const { selectList, addSelectList, isSelected, isSelectionLimitReached } =
-    useTagListState<number>(defaultCategories, 5);
+    useUniqueListState<number>(defaultCategories, 5);
 
   const handleValueChange = (value: string) => {
     if (value === SearchTypeConst.MEMBER_NAME) {
