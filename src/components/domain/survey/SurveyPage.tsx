@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { useSubmitSurvey } from '@/hooks/queries/useSurveyService';
-import { SurveyStep, SURVEY_QUESTION_TYPE } from '@/models/survey/surveyModels';
-import { surveyQuestions } from '@/lib/surveyQuestions';
+import {
+  SurveyStep,
+  SURVEY_QUESTION_TYPE,
+  SurveyQuestionCategoryType,
+} from '@/models/survey/surveyModels';
 import {
   SurveyLinkResponse,
   SubmitSurveyRequest,
   SurveyFormValues,
 } from '@/models/survey/surveyApiModels';
+import { surveyQuestions } from '@/lib/surveyQuestions';
 import SurveyIntroduction from '@/components/domain/survey/SurveyIntroduction';
 import RatingAnswer from '@/components/domain/survey/answerType/RatingAnswer';
 import CheckBoxAnswer from '@/components/domain/survey/answerType/CheckBoxAnswer';
@@ -36,7 +40,19 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [showCompletionMessageBox, setShowCompletionMessageBox] = useState<boolean>(false);
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
 
-  const methods = useForm<SurveyFormValues>();
+  const methods = useForm<SurveyFormValues>({
+    defaultValues: {
+      responses: surveyQuestions.map((question) => ({
+        questionOrder: question.id.toString(),
+        questionType: question.type as 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer',
+        questionCategory: question.category as SurveyQuestionCategoryType,
+        responseDetails: surveyData.data.revieweeEmails.map((email) => ({
+          revieweeEmail: email,
+          response: {},
+        })),
+      })),
+    },
+  });
 
   useEffect(() => {
     setTeamMembers(surveyData.data.revieweeEmails);
@@ -54,16 +70,16 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
 
   const steps: SurveyStep[] = surveyQuestions.map((question, index) => {
     switch (question.type) {
-      case SURVEY_QUESTION_TYPE.Check:
+      case SURVEY_QUESTION_TYPE.MultipleChoiceMember:
         return {
           component: CheckBoxAnswer,
           question: question,
           stepNumber: index + 1,
           teamMembers,
         };
-      case SURVEY_QUESTION_TYPE.Text:
+      case SURVEY_QUESTION_TYPE.ShortAnswer:
         return { component: TextAnswer, question: question, stepNumber: index + 1, teamMembers };
-      case SURVEY_QUESTION_TYPE.Radio:
+      case SURVEY_QUESTION_TYPE.SingleChoice:
       default:
         return { component: RatingAnswer, question: question, stepNumber: index + 1, teamMembers };
     }
@@ -83,15 +99,11 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
 
     const formData = methods.getValues();
     const submitData: SubmitSurveyRequest = {
-      reviewerEmail: 'reviewer@example.com', // 리뷰어 이메일을 설정
-      responses: Object.values(formData).map((response) => ({
-        questionOrder: response.questionOrder,
-        questionType: response.questionType,
-        questionCategory:
-          response.questionCategory as SubmitSurveyRequest['responses'][number]['questionCategory'],
-        responseDetails: response.responseDetails,
-      })),
+      reviewerEmail: 'reviewerEmail', // FIX: 리뷰어 이메일을 받아올 수 있는 api가 없음
+      responses: formData.responses,
     };
+
+    console.log('Submit Data:', submitData);
 
     submitSurveyMutation.mutate({
       projectId: parseInt(surveyData.data.projectId, 10),
