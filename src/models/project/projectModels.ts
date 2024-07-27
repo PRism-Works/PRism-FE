@@ -46,7 +46,7 @@ export type ProjectForm = Omit<z.infer<typeof ProjectFormSchema>, 'startDate' | 
 // 프로젝트 요약 카드에 쓰이는 interface
 export interface ProjectSummaryData {
   projectId: number;
-  projectname: string;
+  projectName: string;
   startDate: Date;
   endDate: Date;
   organizationName?: string;

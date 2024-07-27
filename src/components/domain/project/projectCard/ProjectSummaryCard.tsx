@@ -77,7 +77,7 @@ const LeftSection = ({ projectData }: { projectData: ProjectSummaryData }) => (
         )}>
         {projectData.organizationName || '소속 없음'}
       </p>
-      <h2 className="overflow-y-auto text-gray-800 body7">{projectData.projectname}</h2>
+      <h2 className="overflow-y-auto text-gray-800 body7">{projectData.projectName}</h2>
     </header>
     <footer className="flex-shrink-0 text-gray-500 display5">
       <time>{formatDateToDotSeparatedYYYYMMDD(projectData.startDate)}</time> -{' '}

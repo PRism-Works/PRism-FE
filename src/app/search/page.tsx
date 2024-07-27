@@ -46,7 +46,7 @@ export default function SearchPage() {
     data?.data.contents.map((content) => {
       return {
         projectId: content.projectId,
-        projectname: content.projectName,
+        projectName: content.projectName,
         startDate: convertTimestampToDate(content.startDate),
         endDate: convertTimestampToDate(content.endDate),
         organizationName: content.organizationName,
