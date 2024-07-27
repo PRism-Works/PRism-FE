@@ -12,17 +12,16 @@ export const UserRoles = [
 ] as const;
 
 // 프로젝트 카테고리, 직접 추가 불가
-// 다음 배열의 순서는 중요, 순서가 서버에서 관리하는 코드값임
-export const ProjectCategories = [
-  '금융',
-  '헬스케어',
-  '교육',
-  '커머스',
-  '여행',
-  '엔터테인먼트',
-  '생산성',
-  '기타',
-] as const;
+export const ProjectCategories = {
+  FINANCE: { code: 1, name: '금융' },
+  HEALTHCARE: { code: 2, name: '헬스케어' },
+  EDUCATION: { code: 3, name: '교육' },
+  COMMERCE: { code: 4, name: '커머스' },
+  TRAVEL: { code: 5, name: '여행' },
+  ENTERTAINMENT: { code: 6, name: '엔터테인먼트' },
+  PRODUCTIVITY: { code: 7, name: '생산성' },
+  OTHER: { code: 8, name: '기타' },
+} as const;
 
 // 기술 스택 리스트, 직접 추가 가능
 export const TechStacks = [

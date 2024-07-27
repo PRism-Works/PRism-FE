@@ -108,13 +108,13 @@ export default function ProjectSearchBar({
               카테고리
             </span>
             <ul className="flex flex-wrap gap-2">
-              {ProjectCategories.map((category, index) => (
-                <li key={category}>
+              {Object.values(ProjectCategories).map((category) => (
+                <li key={category.code}>
                   <CheckTagInput
-                    value={category}
-                    isChecked={isSelected(index + 1)}
-                    isDisabled={isSelectionLimitReached() && !isSelected(index + 1)}
-                    onClick={() => handleCategoryClick(index + 1)}
+                    value={category.name}
+                    isChecked={isSelected(category.code)}
+                    isDisabled={isSelectionLimitReached() && !isSelected(category.code)}
+                    onClick={() => handleCategoryClick(category.code)}
                   />
                 </li>
               ))}

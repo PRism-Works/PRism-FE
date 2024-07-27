@@ -23,7 +23,7 @@ import { convertTimestampToDate } from '@/lib/dateTime';
 import { cn } from '@/lib/utils';
 
 const ITEMS_PER_PAGE = 8; // 한 페이지에 나올 아이템의 최대 개수
-const DEFAULT_ITEMS_TOTAL_COUNT = 1; // 데이터를 받아오기 전, 아이템 총 개수 기본값
+const DEFAULT_ITEMS_TOTAL_COUNT = 1; // 데이터를 받아오기 전, 아이템 총 개수 기본값 / 한 페이지만 떠도 되니까 1로 둠
 
 export default function SearchPage() {
   // 검색 조건
@@ -58,7 +58,7 @@ export default function SearchPage() {
   const isValidData = !(isLoading || searchProjects.length === 0 || isError);
 
   // 페이징 관련
-  const totalItems = data?.data.totalCount || DEFAULT_ITEMS_TOTAL_COUNT; // defualt: 24
+  const totalItems = data?.data.totalCount || DEFAULT_ITEMS_TOTAL_COUNT;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const handleClickPaginationItem = (page: number) => {
