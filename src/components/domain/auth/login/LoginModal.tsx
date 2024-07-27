@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/form';
 
 import { useLogin } from '@/hooks/queries/useAuthService';
+import { cn } from '@/lib/utils';
 
 export default function LoginModal() {
   const id = useId();
@@ -89,7 +90,7 @@ export default function LoginModal() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
+                  <FormLabel className={cn('text-black', isSmallScreen ? 'mobile2' : 'mobile1')}>
                     이메일 주소
                   </FormLabel>
                   <FormControl>

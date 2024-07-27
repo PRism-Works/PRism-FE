@@ -1,10 +1,12 @@
 'use client';
 
-// 퍼블리싱만 먼저 빠르게 함. 'use client'; 지우고 컴포넌트 분리할지 고민 필요
+import { useEffect, useState } from 'react';
 
-import { useState } from 'react';
-import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
+import { ComponentSpinner } from '@/components/common/spinner';
+import BorderCard from '@/components/common/card/BorderCard';
+import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
 import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectSearchBar';
+import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
 import {
   Pagination,
   PaginationContent,
@@ -13,118 +15,126 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { convertStringToDate } from '@/lib/dateTime';
+
+import { useSearchProjects } from '@/hooks/queries/useProjectService';
+import { useSearchStore } from '@/stores/searchStore';
+
+import { convertTimestampToDate } from '@/lib/dateTime';
+import { cn } from '@/lib/utils';
+
+const ITEMS_PER_PAGE = 8; // 한 페이지에 나올 아이템의 최대 개수
+const DEFAULT_ITEMS_TOTAL_COUNT = 1; // 데이터를 받아오기 전, 아이템 총 개수 기본값 / 한 페이지만 떠도 되니까 1로 둠
 
 export default function SearchPage() {
-  const [currentPage, setCurrentPage] = useState(1);
+  // 검색 조건
+  const searchCondition = useSearchStore((state) => state.searchCondition);
 
-  const totalItems = 30; // 총 프로젝트가 30개라고 가정
-  const itemsPerPage = 8; // 한 페이지에 8개씩 보여줌
-  const totalPages = Math.ceil(totalItems / itemsPerPage); // 4
+  // 현재 검색 페이지
+  const [currentPage, setCurrentPage] = useState(0); // 0부터 시작, 0이 1페이지
+
+  // 조건에 따른 검색 결과 (api)
+  const { data, isLoading, isError } = useSearchProjects({
+    searchType: searchCondition.type,
+    searchWord: searchCondition.keyword,
+    categories: searchCondition.categories,
+    pageNo: currentPage,
+    pageSize: ITEMS_PER_PAGE, // 한 화면에 8개 고정
+  });
+
+  // 검색 결과 데이터 프로세싱
+  const searchProjects =
+    data?.data.contents.map((content) => {
+      return {
+        projectId: content.projectId,
+        projectName: content.projectName,
+        startDate: convertTimestampToDate(content.startDate),
+        endDate: convertTimestampToDate(content.endDate),
+        organizationName: content.organizationName,
+        categories: content.categories,
+      };
+    }) || [];
+
+  // 데이터 유효성 검사
+  const isValidData = !(isLoading || searchProjects.length === 0 || isError);
+
+  // 페이징 관련
+  const totalItems = data?.data.totalCount || DEFAULT_ITEMS_TOTAL_COUNT;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const handleClickPaginationItem = (page: number) => {
     setCurrentPage(page);
   };
-  const testData = [
-    {
-      projectId: 1,
-      projectname: 'project.projectName1',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 2,
-      projectname: 'project.proj4ectName2',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 3,
-      projectname: 'project.project1Name',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 5,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 6,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 7,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-    {
-      projectId: 8,
-      projectname: 'project.projectName3',
-      startDate: convertStringToDate('2024-02-02'),
-      endDate: convertStringToDate('2024-05-02'),
-      organizationName: 'project.organizationName',
-      categories: ['기타', '금융', '생산성'],
-      evaluatedMembersCount: 0,
-    },
-  ];
+
+  // "이전" 버튼
+  const handlePrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  // "다음" 버튼
+  const handleNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  // 검색 조건이 다르거나 검색창 입력을 하며 store값이 바뀌면, currentPage도 0으로 초기화 시켜줘야한다.
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [searchCondition, setCurrentPage]);
+
   return (
     <>
       <div className="absolute h-56 w-full bg-white flex-center">
         <section className="w-full max-w-[1500px] flex-center">
-          <ProjectSearchBar defaultDetailVisible />
+          <ProjectSearchBar
+            defaultKeyword={searchCondition.keyword}
+            defaultCategories={searchCondition.categories}
+            defaultDetailVisible
+          />
         </section>
       </div>
-      <div className="container mx-auto mb-14 flex min-h-screen flex-col items-center gap-16 pt-60">
+      <div className="container mx-auto mb-14 flex min-h-screen flex-col items-center gap-12 pt-60">
         <section className="flex w-full max-w-[1040px] flex-col gap-5">
           <h2 className="text-gray-900 body6">프로젝트 목록</h2>
-          <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-            {testData.map((projectData) => (
-              <li key={projectData.projectId} className="w-full">
-                <ProjectSummaryCard projectData={projectData} />
-              </li>
-            ))}
-          </ul>
+          {!isValidData ? (
+            <ValidInformation isLoading={isLoading} isError={isError} />
+          ) : (
+            <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+              {searchProjects.map((projectData) => (
+                <li key={projectData.projectId} className="w-full">
+                  <ProjectSummaryCard projectData={projectData} variant="SearchResult" />
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
         <nav>
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious />
+                <PaginationPrevious
+                  className={cn(
+                    currentPage === 0 &&
+                      'cursor-not-allowed text-gray-300 hover:bg-gray-50 hover:text-gray-300',
+                  )}
+                  onClick={handlePrevious}
+                />
               </PaginationItem>
               {[...Array(totalPages)].map((_, index) => (
-                <PaginationItem key={index} onClick={() => handleClickPaginationItem(index + 1)}>
-                  <PaginationLink isActive={currentPage === index + 1}>{index + 1}</PaginationLink>
+                <PaginationItem key={index} onClick={() => handleClickPaginationItem(index)}>
+                  <PaginationLink isActive={currentPage === index}>{index + 1}</PaginationLink>
                 </PaginationItem>
               ))}
-              {/* 필요 시 PaginationEllipsis 사용 */}
-              {/* <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem> */}
               <PaginationItem>
-                <PaginationNext />
+                <PaginationNext
+                  className={cn(
+                    currentPage === totalPages - 1 &&
+                      'cursor-not-allowed text-gray-300 hover:bg-gray-50 hover:text-gray-300',
+                  )}
+                  onClick={handleNext}
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
@@ -133,3 +143,35 @@ export default function SearchPage() {
     </>
   );
 }
+
+// 로딩중, 오류, 데이터가 비었을 때 표시될 컴포넌트
+const ValidInformation = ({ isLoading, isError }: { isLoading: boolean; isError: boolean }) => {
+  const isEmpty = !(isLoading || isError);
+  const message = isError
+    ? '프로젝트를 검색하는 중 오류가 발생했습니다.'
+    : '일치하는 검색 결과가 없습니다.';
+  const subMessage = isError
+    ? '다시 시도해주세요.'
+    : '오타가 없는지 확인하거나, 다른 검색어를 사용해 보세요.';
+
+  return (
+    <section className="gap-7 flex-col-center">
+      <BorderCard className="h-[165px] w-full flex-col-center">
+        {isLoading ? (
+          <ComponentSpinner />
+        ) : (
+          <span className="gap-3 flex-col-center">
+            <span className="text-gray-600 display6">{message}</span>
+            <span className="text-gray-500 mobile2">{subMessage}</span>
+          </span>
+        )}
+      </BorderCard>
+      {isEmpty && (
+        <div className="gap-4 flex-col-center">
+          <span className="text-gray-600 mobile1">해당 프로젝트가 등록이 안 되어있나요?</span>
+          <ProjectRegisterButton className="h-[45px] w-[210px]" />
+        </div>
+      )}
+    </section>
+  );
+};

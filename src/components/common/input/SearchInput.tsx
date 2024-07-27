@@ -8,11 +8,12 @@ import { Search, XCircle } from 'lucide-react';
 
 export interface SearchInputProps extends Omit<InputProps, 'onChange'> {
   onSearch: (keyword: string) => void;
+  defaultKeyword?: string;
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ className, onSearch, ...props }, ref) => {
-    const [keyword, setKeyword] = useState<string>('');
+  ({ className, onSearch, defaultKeyword = '', ...props }, ref) => {
+    const [keyword, setKeyword] = useState<string>(defaultKeyword);
 
     const handleSearch = () => {
       onSearch(keyword);

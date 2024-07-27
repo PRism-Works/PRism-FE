@@ -36,10 +36,17 @@ export default function ProjectSummaryCard({
     variant === PROJECT_CARD_VARIANT.ADMIN || variant === PROJECT_CARD_VARIANT.LINK_PREVIEW;
   const handleClick = () => {
     if (isCardDisabled) return;
-    if (variant === PROJECT_CARD_VARIANT.MY_PROFILE) {
-      router.push(`/project/my/${projectId}`);
+    const routes = {
+      [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
+      [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
+      [PROJECT_CARD_VARIANT.OTHER_PROFILE]: `/project/user/${userId}/${projectId}`,
+    };
+    const route = routes[variant];
+
+    if (route) {
+      router.push(route);
     } else {
-      router.push(`/project/user/${userId}/${projectId}`);
+      alert('이동할 페이지가 없습니다.');
     }
   };
   return (
@@ -71,7 +78,7 @@ const LeftSection = ({ projectData }: { projectData: ProjectSummaryData }) => (
         )}>
         {projectData.organizationName || '소속 없음'}
       </p>
-      <h2 className="overflow-y-auto text-gray-800 body7">{projectData.projectname}</h2>
+      <h2 className="overflow-y-auto text-gray-800 body7">{projectData.projectName}</h2>
     </header>
     <footer className="flex-shrink-0 text-gray-500 display5">
       <time>{formatDateToDotSeparatedYYYYMMDD(projectData.startDate)}</time> -{' '}

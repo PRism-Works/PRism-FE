@@ -59,9 +59,16 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
               <>
                 <h3 className="flex flex-col gap-1">
                   <div className="text-gray-500 caption">
-                    {/* 백엔드에서 데이터를 넘겨줄지 잘 모르겠음. 일단 하드코딩 */}
-                    <span className="text-purple-500 mobile2">적극성</span>이 높은 팀원이 많은 팀의
-                    프로젝트에요!
+                    {projectData.mostCommonTraits ? (
+                      <>
+                        <span className="text-purple-500 mobile2">
+                          {projectData.mostCommonTraits}
+                        </span>
+                        이 높은 팀원이 많은 팀의 프로젝트에요!
+                      </>
+                    ) : (
+                      '팀원들의 주요 특성을 분석중이에요!'
+                    )}
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-gray-700 body7">{projectData.projectName}</span>

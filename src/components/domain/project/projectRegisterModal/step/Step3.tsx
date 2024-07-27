@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useTagListState } from '@/hooks/useTagListState';
+import { useUniqueListState } from '@/hooks/useUniqueListState';
 
 import TagInput from '@/components/common/input/TagInput';
 import IconInput from '@/components/common/input/IconInput';
@@ -26,18 +26,20 @@ import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout
 
 export default function Step3() {
   const openModal = useModalStore((state) => state.openModal);
-  const { control, setValue, watch } = useFormContext<ProjectForm>();
+  const { control, setValue, getValues, watch } = useFormContext<ProjectForm>();
 
   // 프로젝트 스킬
   const currentSkills = watch('skills');
 
   // 프로젝트 카테고리
+  // default 값이 있다면 적용하기
+  const defaultCategories = getValues('categories');
   const {
     selectList: categories,
     addSelectList,
     isSelected,
     isSelectionLimitReached,
-  } = useTagListState([], 3);
+  } = useUniqueListState<string>(defaultCategories, 3);
 
   const handleSkillsSelectComplete = (skillTags: string[]) => {
     setValue('skills', skillTags);
@@ -151,14 +153,14 @@ export default function Step3() {
           프로젝트의 카테고리를 선택해 주세요. (최대 3개 선택)
         </FormDescription>
         <div className="flex flex-wrap gap-1">
-          {ProjectCategories.map((category) => (
+          {Object.values(ProjectCategories).map((category) => (
             <CheckTagInput
-              key={category}
-              value={category}
-              isChecked={isSelected(category)}
-              isDisabled={isSelectionLimitReached() && !isSelected(category)}
+              key={category.code}
+              value={category.name}
+              isChecked={isSelected(category.name)}
+              isDisabled={isSelectionLimitReached() && !isSelected(category.name)}
               onClick={() => {
-                addSelectList(category);
+                addSelectList(category.name);
               }}
             />
           ))}

@@ -17,7 +17,7 @@ export default function LinkProjectList({ searchProjectName }: LinkProjectListPr
     data?.data?.map(
       (project): ProjectSummaryData => ({
         projectId: project.projectId,
-        projectname: project.projectName,
+        projectName: project.projectName,
         organizationName: project.organizationName,
         startDate: convertStringToDate(project.startDate),
         endDate: convertStringToDate(project.endDate),

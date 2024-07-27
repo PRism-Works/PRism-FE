@@ -26,7 +26,7 @@ export default function ParticipatingProjectList({
     : projectList.map((project) => {
         return {
           projectId: project.projectId,
-          projectname: project.projectName,
+          projectName: project.projectName,
           startDate: convertStringToDate(project.startDate),
           endDate: convertStringToDate(project.endDate),
           organizationName: project.organizationName,
