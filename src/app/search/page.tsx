@@ -1,8 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
+import { useState } from 'react';
+
+import { ComponentSpinner } from '@/components/common/spinner';
+import BorderCard from '@/components/common/card/BorderCard';
+import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
 import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectSearchBar';
+import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
 import {
   Pagination,
   PaginationContent,
@@ -11,8 +15,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import { convertStringToDate } from '@/lib/dateTime';
+
+import { useSearchProjects } from '@/hooks/queries/useProjectService';
 import { useSearchStore } from '@/stores/searchStore';
+
+import { convertTimestampToDate } from '@/lib/dateTime';
 
 export default function SearchPage() {
   const searchCondition = useSearchStore((state) => state.searchCondition);
@@ -22,15 +29,31 @@ export default function SearchPage() {
   const itemsPerPage = 8; // 한 페이지에 8개씩 보여줌
   const totalPages = Math.ceil(totalItems / itemsPerPage); // 4
 
+  const { data, isLoading, isError } = useSearchProjects({
+    searchType: searchCondition.type,
+    searchWord: searchCondition.keyword,
+    categories: searchCondition.categories,
+    pageNo: 0,
+    pageSize: 8,
+  });
+
+  const searchProjects =
+    data?.data.contents.map((content) => {
+      return {
+        projectId: content.projectId,
+        projectname: content.projectName,
+        startDate: convertTimestampToDate(content.startDate),
+        endDate: convertTimestampToDate(content.endDate),
+        organizationName: content.organizationName,
+        categories: content.categories,
+      };
+    }) || [];
+
+  const isValidData = !(isLoading || searchProjects.length === 0 || isError);
+
   const handleClickPaginationItem = (page: number) => {
     setCurrentPage(page);
   };
-
-  useEffect(() => {
-    if (!(searchCondition.keyword === '' && searchCondition.categories.length === 0)) {
-      alert(JSON.stringify(searchCondition));
-    }
-  }, [searchCondition]);
 
   return (
     <>
@@ -46,13 +69,17 @@ export default function SearchPage() {
       <div className="container mx-auto mb-14 flex min-h-screen flex-col items-center gap-16 pt-60">
         <section className="flex w-full max-w-[1040px] flex-col gap-5">
           <h2 className="text-gray-900 body6">프로젝트 목록</h2>
-          <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
-            {testData.map((projectData) => (
-              <li key={projectData.projectId} className="w-full">
-                <ProjectSummaryCard projectData={projectData} />
-              </li>
-            ))}
-          </ul>
+          {!isValidData ? (
+            <ValidInformation isLoading={isLoading} isError={isError} />
+          ) : (
+            <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+              {searchProjects.map((projectData) => (
+                <li key={projectData.projectId} className="w-full">
+                  <ProjectSummaryCard projectData={projectData} />
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
         <nav>
           <Pagination>
@@ -80,68 +107,33 @@ export default function SearchPage() {
   );
 }
 
-const testData = [
-  {
-    projectId: 1,
-    projectname: 'project.projectName1',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-  {
-    projectId: 2,
-    projectname: 'project.proj4ectName2',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-  {
-    projectId: 3,
-    projectname: 'project.project1Name',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-  {
-    projectId: 5,
-    projectname: 'project.projectName3',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-  {
-    projectId: 6,
-    projectname: 'project.projectName3',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-  {
-    projectId: 7,
-    projectname: 'project.projectName3',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-  {
-    projectId: 8,
-    projectname: 'project.projectName3',
-    startDate: convertStringToDate('2024-02-02'),
-    endDate: convertStringToDate('2024-05-02'),
-    organizationName: 'project.organizationName',
-    categories: ['기타', '금융', '생산성'],
-    evaluatedMembersCount: 0,
-  },
-];
+const ValidInformation = ({ isLoading, isError }: { isLoading: boolean; isError: boolean }) => {
+  const isEmpty = !(isLoading || isError);
+  const message = isError
+    ? '프로젝트를 검색하는 중 오류가 발생했습니다.'
+    : '일치하는 검색 결과가 없습니다.';
+  const subMessage = isError
+    ? '다시 시도해주세요.'
+    : '오타가 없는지 확인하거나, 다른 검색어를 사용해 보세요.';
+
+  return (
+    <section className="gap-14 flex-col-center">
+      <BorderCard className="h-[165px] w-full flex-col-center">
+        {isLoading ? (
+          <ComponentSpinner />
+        ) : (
+          <span className="gap-3 flex-col-center">
+            <span className="text-gray-600 display6">{message}</span>
+            <span className="text-gray-500 mobile2">{subMessage}</span>
+          </span>
+        )}
+      </BorderCard>
+      {isEmpty && (
+        <div className="gap-4 flex-col-center">
+          <span className="text-gray-600 mobile1">해당 프로젝트가 등록이 안 되어있나요?</span>
+          <ProjectRegisterButton className="h-[45px] w-[210px]" />
+        </div>
+      )}
+    </section>
+  );
+};

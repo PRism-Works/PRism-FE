@@ -202,16 +202,18 @@ export const useLinkProject = (successCallback: () => void) => {
 };
 
 // 홈, 검색 페이지에서 프로젝트 검색하기 (Mutaion)
-export const useSearchProjects = () => {
-  return useMutation<ProjectSearchResponse, AxiosError, ProjectSearchRequest>({
-    mutationFn: getSearchProjects,
-    onSuccess: (response) => {
-      console.log(response);
-    },
-    onError: (error) => {
-      alert('프로젝트 검색에 실패했습니다.');
-      console.log(error);
-    },
+export const useSearchProjects = (condition: ProjectSearchRequest) => {
+  return useQuery<ProjectSearchResponse, AxiosError>({
+    queryKey: [
+      'getSearchProjects',
+      condition.searchType,
+      condition.searchWord,
+      [...condition.categories],
+      condition.pageNo,
+      condition.pageSize,
+    ],
+    queryFn: () => getSearchProjects(condition),
+    enabled: !(condition.searchWord === '' && condition.categories.length === 0), // keyword나 categories가 둘 다 비어있으면 실행하지 않음
   });
 };
 
