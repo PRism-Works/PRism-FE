@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ComponentSpinner } from '@/components/common/spinner';
 import BorderCard from '@/components/common/card/BorderCard';
@@ -67,21 +67,22 @@ export default function SearchPage() {
 
   // "이전" 버튼
   const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    } else {
-      setCurrentPage(0);
+    if (currentPage > 0) {
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
   // "다음" 버튼
   const handleNext = () => {
     if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    } else {
-      setCurrentPage(totalPages - 1);
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
+
+  // 검색 조건이 다르거나 검색창 입력을 하며 store값이 바뀌면, currentPage도 0으로 초기화 시켜줘야한다.
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [searchCondition, setCurrentPage]);
 
   return (
     <>
@@ -115,7 +116,8 @@ export default function SearchPage() {
               <PaginationItem>
                 <PaginationPrevious
                   className={cn(
-                    currentPage === 0 && 'text-gray-300 hover:bg-gray-50 hover:text-gray-300',
+                    currentPage === 0 &&
+                      'cursor-not-allowed text-gray-300 hover:bg-gray-50 hover:text-gray-300',
                   )}
                   onClick={handlePrevious}
                 />
@@ -129,7 +131,7 @@ export default function SearchPage() {
                 <PaginationNext
                   className={cn(
                     currentPage === totalPages - 1 &&
-                      'text-gray-300 hover:bg-gray-50 hover:text-gray-300',
+                      'cursor-not-allowed text-gray-300 hover:bg-gray-50 hover:text-gray-300',
                   )}
                   onClick={handleNext}
                 />
