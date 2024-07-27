@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { useSubmitSurvey } from '@/hooks/queries/useSurveyService';
 import { SurveyStep, SURVEY_QUESTION_TYPE } from '@/models/survey/surveyModels';
 import { surveyQuestions } from '@/lib/surveyQuestions';
-import { SurveyLinkResponse } from '@/models/survey/surveyApiModels';
+import {
+  SurveyLinkResponse,
+  SubmitSurveyRequest,
+  SurveyFormValues,
+} from '@/models/survey/surveyApiModels';
 import SurveyIntroduction from '@/components/domain/survey/SurveyIntroduction';
 import RatingAnswer from '@/components/domain/survey/answerType/RatingAnswer';
 import CheckBoxAnswer from '@/components/domain/survey/answerType/CheckBoxAnswer';
@@ -31,7 +36,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [showCompletionMessageBox, setShowCompletionMessageBox] = useState<boolean>(false);
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
 
-  const methods = useForm<Record<string, unknown>>();
+  const methods = useForm<SurveyFormValues>();
 
   useEffect(() => {
     setTeamMembers(surveyData.data.revieweeEmails);
@@ -64,21 +69,34 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
     }
   });
 
-  const onSubmit = (data: Record<string, unknown>) => {
+  const submitSurveyMutation = useSubmitSurvey(() => {
+    setShowCompletionMessageBox(true);
+  });
+
+  const onSubmit: SubmitHandler<SurveyFormValues> = (data) => {
     console.log(data);
     setShowSubmitMessageBox(true);
   };
 
   const handleClickSubmit = async () => {
     setShowSubmitMessageBox(false);
-    try {
-      // 평가지 보내기 API 호출
-      alert('평가를 전송했습니다.');
-      setShowCompletionMessageBox(true);
-    } catch (error) {
-      console.error('Error submitting survey:', error);
-      alert('평가 제출에 실패했습니다.');
-    }
+
+    const formData = methods.getValues();
+    const submitData: SubmitSurveyRequest = {
+      reviewerEmail: 'reviewer@example.com', // 리뷰어 이메일을 설정
+      responses: Object.values(formData).map((response) => ({
+        questionOrder: response.questionOrder,
+        questionType: response.questionType,
+        questionCategory:
+          response.questionCategory as SubmitSurveyRequest['responses'][number]['questionCategory'],
+        responseDetails: response.responseDetails,
+      })),
+    };
+
+    submitSurveyMutation.mutate({
+      projectId: parseInt(surveyData.data.projectId, 10),
+      data: submitData,
+    });
   };
 
   return (

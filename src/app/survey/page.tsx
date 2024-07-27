@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { PageSpinner } from '@/components/common/spinner';
 
 export default function SurveyPageRedirect() {
   const searchParams = useSearchParams();
@@ -14,5 +15,5 @@ export default function SurveyPageRedirect() {
     }
   }, [code, router]);
 
-  return <div>Redirecting...</div>;
+  return <PageSpinner />;
 }

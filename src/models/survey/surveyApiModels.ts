@@ -31,7 +31,6 @@ export interface SendSurveyLinkErrorResponse {
   message: string;
 }
 
-// Form data structure
 export interface FormResponseDetails {
   revieweeEmail: string;
   response: {
@@ -42,21 +41,13 @@ export interface FormResponseDetails {
   };
 }
 
-export interface FormSurveyResponse {
-  reviewerEmail: string;
-  responses: {
+export interface SurveyFormValues {
+  [key: string]: {
     questionOrder: string;
     questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
-    questionCategory:
-      | 'responsibility'
-      | 'initiative'
-      | 'problemSolving'
-      | 'communication'
-      | 'teamwork'
-      | 'strength'
-      | 'improvementPoint';
+    questionCategory: string;
     responseDetails: FormResponseDetails[];
-  }[];
+  };
 }
 
 export interface SubmitSurveyRequest {
@@ -78,9 +69,25 @@ export interface SubmitSurveyRequest {
         score?: number;
         choice?: boolean;
         description?: string;
-        example?: string;
       };
     }[];
+  }[];
+}
+
+export interface FormSurveyResponse {
+  reviewerEmail: string;
+  responses: {
+    questionOrder: string;
+    questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
+    questionCategory:
+      | 'responsibility'
+      | 'initiative'
+      | 'problemSolving'
+      | 'communication'
+      | 'teamwork'
+      | 'strength'
+      | 'improvementPoint';
+    responseDetails: FormResponseDetails[];
   }[];
 }
 
