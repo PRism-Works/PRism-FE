@@ -1,7 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, persist, devtools } from 'zustand/middleware';
-
-const USER_STORE_NAME = 'search-condition-state';
+import { devtools } from 'zustand/middleware';
 
 export const SearchTypeConst = {
   MEMBER_NAME: 'MEMBER_NAME',
@@ -24,24 +22,16 @@ interface useSearchStoreType {
 
 // 유저 데이터 정보 저장 스토어
 export const useSearchStore = create<useSearchStoreType>()(
-  devtools(
-    persist(
-      (set) => ({
-        searchCondition: {
-          type: 'MEMBER_NAME',
-          keyword: '',
-          categories: [],
-        },
-        setSearhcCondition: (searchCondition: SearchCondition) => set({ searchCondition }),
-        clearSearhcCondition: () =>
-          set({
-            searchCondition: { type: 'MEMBER_NAME', keyword: '', categories: [] },
-          }),
+  devtools((set) => ({
+    searchCondition: {
+      type: 'MEMBER_NAME',
+      keyword: '',
+      categories: [],
+    },
+    setSearhcCondition: (searchCondition: SearchCondition) => set({ searchCondition }),
+    clearSearhcCondition: () =>
+      set({
+        searchCondition: { type: 'MEMBER_NAME', keyword: '', categories: [] },
       }),
-      {
-        name: USER_STORE_NAME,
-        storage: createJSONStorage(() => localStorage),
-      },
-    ),
-  ),
+  })),
 );

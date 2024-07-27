@@ -15,7 +15,6 @@ interface ProjectSeqrchBarProps {
   defualtKeyword?: string;
   defaultCategories?: number[];
   defaultDetailVisible?: boolean;
-  key?: string;
 }
 export default function ProjectSearchBar({
   defualtKeyword = '',

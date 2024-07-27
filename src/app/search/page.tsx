@@ -37,8 +37,6 @@ export default function SearchPage() {
       <div className="absolute h-56 w-full bg-white flex-center">
         <section className="w-full max-w-[1500px] flex-center">
           <ProjectSearchBar
-            // 검색 페이지에서 페이지 새로고침 시, zustand에서 persist 값을 다시 세팅해주는데, 그 값 인지를 못해서 새로운 인스턴스로 생성하며 강제 렌더링 하게 함.
-            key={JSON.stringify(searchCondition)}
             defualtKeyword={searchCondition.keyword}
             defaultCategories={searchCondition.categories}
             defaultDetailVisible
