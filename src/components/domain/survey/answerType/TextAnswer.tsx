@@ -4,13 +4,13 @@ import SurveyLayout from '../SurveyLayout';
 import TextRow from '../answerRow/TextRow';
 
 interface InstructionProps {
-  type: '강점' | '보완점';
+  indicator: '강점' | '보완점';
 }
 
-const Instruction = ({ type }: InstructionProps) => (
+const Instruction = ({ indicator }: InstructionProps) => (
   <div className="my-9 flex-center">
     <p className="text-gray-600 body7">
-      <span className="text-black body6">{type}</span>을
+      <span className="text-black body6">{indicator}</span>을
       <span className="text-purple-600 body6"> 한가지로 요약</span>하고,
       <span className="text-black body6">그렇게 생각한 이유</span>를{' '}
       <span className="text-purple-600 body6">자세한 예</span>를 들어 설명해 주세요.
@@ -33,8 +33,8 @@ export default function TextAnswer({
       totalSteps={totalSteps}
       question={question.text}
       stepNumber={stepNumber}>
-      {stepNumber === 13 && <Instruction type="강점" />}
-      {stepNumber === 14 && <Instruction type="보완점" />}
+      {stepNumber === 13 && <Instruction indicator="강점" />}
+      {stepNumber === 14 && <Instruction indicator="보완점" />}
       {teamMembers.map((member, index) => (
         <TextRow
           key={index}
