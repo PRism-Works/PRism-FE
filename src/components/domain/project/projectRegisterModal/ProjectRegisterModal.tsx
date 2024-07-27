@@ -1,15 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import {
   type ProjectForm,
   type ProjectRegisterHeaderStep,
   ProjectFormSchema,
 } from '@/models/project/projectModels';
-
 import { Form } from '@/components/ui/form';
-
 import {
   ClipboardCheck,
   HeartHandshake,
@@ -18,7 +15,6 @@ import {
   Send,
   UserCheck,
 } from 'lucide-react';
-
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import ProgressBar from '@/components/common/progressBar/ProgressBar';
 import Step1 from './step/Step1';
@@ -26,19 +22,15 @@ import Step2 from './step/Step2';
 import Step3 from './step/Step3';
 import ProjectRegisterHeader from './layout/ProjectRegisterHeader';
 import ProjectRegisterFooter from './layout/ProjectRegisterFooter';
-
 import { PageSpinner } from '@/components/common/spinner';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
-
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-
 import { useModalStore } from '@/stores/modalStore';
 import { useUserStore } from '@/stores/userStore';
-
 import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectService';
-
+import { sendSurveyLink } from '@/services/api/surveyApi';
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
+import MessageBox from '@/components/common/messgeBox/MessageBox';
 
 const STEPS: ProjectRegisterHeaderStep[] = [
   {
@@ -76,12 +68,13 @@ export default function ProjectRegisterModal({
   const userData = useUserStore((state) => state.user);
 
   // 프로젝트 저장 성공 콜백함수
-  const handleProjectCreateSuccess = () => {
+  const handleProjectCreateSuccess = (createdProjectId: number) => {
     closeModal();
     setTimeout(() => {
-      openModal(<SendSurveyMessage />);
+      openModal(<SendSurveyMessage projectId={createdProjectId} />);
     }, 150);
   };
+
   // 프로젝트 수정 성공 콜백함수
   const handleProjectUpdateSuccess = () => {
     closeModal();
@@ -200,19 +193,25 @@ export default function ProjectRegisterModal({
 }
 
 // 평가지 보내기 메시지창
-const SendSurveyMessage = () => {
+const SendSurveyMessage = ({ projectId }: { projectId: number }) => {
   const { openModal, closeModal } = useModalStore();
 
   // '나중에' 버튼 클릭
   const handleClickLater = () => {
     closeModal();
   };
+
   // '보내기 버튼 클릭
-  const handleClickSendSurvey = () => {
-    // 평가지 보내기 api 호출
-    // 평가지 전송 완료 메시지박스 띄우기
-    openModal(<SendSurveyCompleteMessage />);
+  const handleClickSendSurvey = async () => {
+    try {
+      await sendSurveyLink({ projectId });
+      openModal(<SendSurveyCompleteMessage />);
+    } catch (error) {
+      alert('평가 링크 전송에 실패했습니다.');
+      console.error(error);
+    }
   };
+
   return (
     <MessageBox
       title="프로젝트가 등록되었어요!"
