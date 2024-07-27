@@ -34,7 +34,7 @@ export default function SelectTagModalLayout({
   const [searchWord, setSearchWord] = useState<string>('');
 
   const closeModal = useModalStore((state) => state.closeModal);
-  const { selectList, addSelectList, isSelected } = useTagListState(defaultSelectTagList);
+  const { selectList, addSelectList, isSelected } = useTagListState<string>(defaultSelectTagList);
 
   const selectTagScrollRef = useRef<HTMLDivElement>(null);
 

@@ -8,24 +8,24 @@ import { useState } from 'react';
  * @param maxSelections 카테고리 최대 선택 개수
  * @returns
  */
-export function useTagListState(
-  defaultSelectList: string[] = [],
+export function useTagListState<T>(
+  defaultSelectList: T[] = [],
   maxSelections: number = Number.MAX_SAFE_INTEGER,
 ) {
-  const [selectList, setSelectList] = useState<Set<string>>(new Set(defaultSelectList));
-  const addSelectList = (category: string) => {
+  const [selectList, setSelectList] = useState<Set<T>>(new Set(defaultSelectList));
+  const addSelectList = (tag: T) => {
     setSelectList((prev) => {
       const newCategorySet = new Set(prev);
-      if (newCategorySet.has(category)) {
-        newCategorySet.delete(category);
+      if (newCategorySet.has(tag)) {
+        newCategorySet.delete(tag);
       } else if (newCategorySet.size < maxSelections) {
-        newCategorySet.add(category);
+        newCategorySet.add(tag);
       }
       return newCategorySet;
     });
   };
 
-  const isSelected = (category: string): boolean => selectList.has(category);
+  const isSelected = (category: T): boolean => selectList.has(category);
   const isSelectionLimitReached = (): boolean => selectList.size >= maxSelections;
 
   return {

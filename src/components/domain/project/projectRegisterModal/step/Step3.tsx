@@ -37,7 +37,7 @@ export default function Step3() {
     addSelectList,
     isSelected,
     isSelectionLimitReached,
-  } = useTagListState([], 3);
+  } = useTagListState<string>([], 3);
 
   const handleSkillsSelectComplete = (skillTags: string[]) => {
     setValue('skills', skillTags);
