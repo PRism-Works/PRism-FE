@@ -38,10 +38,12 @@ export default function TextAnswer({
       {teamMembers.map((member, index) => (
         <TextRow
           key={index}
-          name={`question${stepNumber}_${member}`}
+          name={`responses[${stepNumber - 1}].responseDetails[${index}].response`}
           member={member}
           register={register}
           iconIndex={index}
+          questionIndex={stepNumber - 1}
+          index={index}
         />
       ))}
     </SurveyLayout>

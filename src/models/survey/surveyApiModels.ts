@@ -44,16 +44,6 @@ export interface FormResponseDetails {
 }
 
 export interface SurveyFormValues {
-  [key: string]: {
-    questionOrder: string;
-    questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
-    questionCategory: string;
-    responseDetails: FormResponseDetails[];
-  };
-}
-
-export interface SubmitSurveyRequest {
-  reviewerEmail: string;
   responses: {
     questionOrder: string;
     questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
@@ -80,6 +70,10 @@ export interface FormSurveyResponse {
   }[];
 }
 
+export interface SubmitSurveyRequest {
+  reviewerEmail: string;
+  responses: SurveyFormValues['responses'];
+}
 export interface SubmitSurveyResponse {
   success: boolean;
   status: number;
