@@ -16,8 +16,8 @@ export interface SearchCondition {
 
 interface useSearchStoreType {
   searchCondition: SearchCondition;
-  setSearhcCondition: (searchCondition: SearchCondition) => void;
-  clearSearhcCondition: () => void;
+  setSearchCondition: (searchCondition: SearchCondition) => void;
+  clearSearchCondition: () => void;
 }
 
 // 유저 데이터 정보 저장 스토어
@@ -28,8 +28,8 @@ export const useSearchStore = create<useSearchStoreType>()(
       keyword: '',
       categories: [],
     },
-    setSearhcCondition: (searchCondition: SearchCondition) => set({ searchCondition }),
-    clearSearhcCondition: () =>
+    setSearchCondition: (searchCondition: SearchCondition) => set({ searchCondition }),
+    clearSearchCondition: () =>
       set({
         searchCondition: { type: 'MEMBER_NAME', keyword: '', categories: [] },
       }),

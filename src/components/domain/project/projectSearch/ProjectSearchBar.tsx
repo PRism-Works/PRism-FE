@@ -23,7 +23,7 @@ export default function ProjectSearchBar({
 }: ProjectSeqrchBarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const setSearhcCondition = useSearchStore((state) => state.setSearhcCondition);
+  const setSearchCondition = useSearchStore((state) => state.setSearchCondition);
   const [selectTabType, setSelectTabType] = useState<SearchType>(SearchTypeConst.MEMBER_NAME);
   const [isDetailVisible, toggleDetailVisibility] = useReducer(
     (state) => !state,
@@ -51,7 +51,7 @@ export default function ProjectSearchBar({
       return;
     }
     // 검색 시 현재 검색어 searchStore에 저장
-    setSearhcCondition({
+    setSearchCondition({
       type: selectTabType,
       keyword,
       categories: Array.from(selectList),
