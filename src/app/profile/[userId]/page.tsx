@@ -7,11 +7,13 @@ interface UserProfilePageProps {
 }
 
 export default function UserProfilePage({ params }: UserProfilePageProps) {
+  const userId = params.userId;
+
   return (
     <div className="container flex min-h-screen w-full max-w-[1040px] flex-col justify-center gap-6 p-4">
       <section className="flex flex-col gap-3">
         <h2 className="text-gray-900 body6">프로필</h2>
-        <UserProfile fromMyProfile={false} />
+        <UserProfile fromMyProfile={false} userId={userId} />
       </section>
       <section className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between">
