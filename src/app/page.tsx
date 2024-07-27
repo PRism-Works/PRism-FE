@@ -3,7 +3,7 @@ import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectS
 
 export default function Home() {
   return (
-    <div className="container mx-auto min-h-screen p-12 flex-col-center">
+    <div className="container mx-auto min-h-screen p-10 flex-col-center">
       <div className="container flex w-[90%] justify-end">
         <ProjectRegisterButton className="mb-20 h-12 w-60" />
       </div>

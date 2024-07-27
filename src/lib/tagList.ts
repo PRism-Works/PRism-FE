@@ -17,8 +17,8 @@ export const ProjectCategories = [
   '헬스케어',
   '교육',
   '커머스',
-  '엔터테인먼트',
   '여행',
+  '엔터테인먼트',
   '생산성',
   '기타',
 ] as const;
