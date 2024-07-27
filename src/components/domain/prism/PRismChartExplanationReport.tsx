@@ -62,7 +62,7 @@ export default function PRismChartExplanationReport({
 
   return (
     <BorderCard className="relative flex-wrap gap-28 flex-center">
-      {!data && (
+      {(!data || !data.radialData?.evaluation) && (
         <ReportBlur fromMyProfile={fromMyProfile} isLoading={isLoading} isError={isError} />
       )}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">

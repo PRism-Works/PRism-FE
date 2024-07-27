@@ -51,7 +51,7 @@ export default function RadialChartReport({
 
   return (
     <BorderCard className="relative flex-wrap flex-center">
-      {!data && (
+      {(!data || !data.radialData?.evaluation) && (
         <ReportBlur fromMyProfile={fromMyProfile} isLoading={isLoading} isError={isError} />
       )}
       <TripleRadialChart data={radialChartData} radialParentClassName="gap-10" />
