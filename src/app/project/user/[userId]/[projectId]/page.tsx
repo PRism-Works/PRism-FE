@@ -1,6 +1,6 @@
 // 다른 유저 프로필에서 넘어온 프로젝트 상세 조회 페이지
-import PrismAnalyzeReport from '@/components/domain/prism/PrismAnalyzeReport';
-import PrismReport from '@/components/domain/prism/PRismReport';
+import RadialChartReport from '@/components/domain/prism/RadialChartReport';
+import PRismChartExplanationReport from '@/components/domain/prism/PRismChartExplanationReport';
 import ProjectIntroduceCard from '@/components/domain/project/projectCard/ProjectIntroduceCard';
 
 interface UserProjectDetailPageProps {
@@ -18,11 +18,15 @@ export default function UserProjectDetailPage({ params }: UserProjectDetailPageP
         <ProjectIntroduceCard userId={userId} projectId={projectId} fromMyProfile={false} />
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">PRism</h2>
-          <PrismReport />
+          <PRismChartExplanationReport
+            fromMyProfile={false}
+            projectId={projectId}
+            reportedUserId={userId}
+          />
         </section>
         <section className="flex flex-col gap-4">
           <h2 className="text-gray-900 body6">PRism 분석 리포트</h2>
-          <PrismAnalyzeReport />
+          <RadialChartReport projectId={projectId} reportedUserId={userId} fromMyProfile={false} />
         </section>
       </div>
     </div>
