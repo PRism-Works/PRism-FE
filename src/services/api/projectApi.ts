@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { ax } from '../axios';
+import qs from 'qs';
+
 import type {
   ProjectCreateRequest,
   ProjectCreateResponse,
@@ -294,6 +296,7 @@ export const getSearchProjects = async (
   try {
     const response = await ax.get<ProjectSearchResponse>('/api/v1/search/projects', {
       params: searchCondition,
+      paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
     });
     console.log('Get Search Projects Response:', response.data);
     return response.data;
