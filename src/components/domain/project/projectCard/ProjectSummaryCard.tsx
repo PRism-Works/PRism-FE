@@ -36,16 +36,17 @@ export default function ProjectSummaryCard({
     variant === PROJECT_CARD_VARIANT.ADMIN || variant === PROJECT_CARD_VARIANT.LINK_PREVIEW;
   const handleClick = () => {
     if (isCardDisabled) return;
-    switch (variant) {
-      case PROJECT_CARD_VARIANT.SEARCH_RESULT:
-        router.push(`/project/${projectId}`);
-        break;
-      case PROJECT_CARD_VARIANT.MY_PROFILE:
-        router.push(`/project/my/${projectId}`);
-        break;
-      case PROJECT_CARD_VARIANT.OTHER_PROFILE:
-        router.push(`/project/user/${userId}/${projectId}`);
-        break;
+    const routes = {
+      [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
+      [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
+      [PROJECT_CARD_VARIANT.OTHER_PROFILE]: `/project/user/${userId}/${projectId}`,
+    };
+    const route = routes[variant];
+
+    if (route) {
+      router.push(route);
+    } else {
+      alert('이동할 페이지가 없습니다.');
     }
   };
   return (
