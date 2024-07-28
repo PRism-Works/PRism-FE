@@ -129,6 +129,7 @@ const RightSection = ({
       )}
       {variant === PROJECT_CARD_VARIANT.ADMIN && (
         <>
+          {/* 프로젝트 삭제/수정 버튼 */}
           <ProjectEditDeleteButton projectId={projectId} />
           <footer className="flex flex-col items-end gap-1">
             <p className="flex items-center gap-2">
@@ -138,7 +139,9 @@ const RightSection = ({
               </strong>
             </p>
             <div className="flex gap-2">
+              {/* 평가지 보내기 버튼 */}
               <ProjectSendEvaluationLink projectId={projectId} />
+              {/* 프리즘 분석 갱신하기 버튼 */}
               <ProjectEvaluationButton projectId={projectId} />
             </div>
           </footer>
