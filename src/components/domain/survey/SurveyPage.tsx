@@ -1,15 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { z } from 'zod';
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { useSubmitSurvey } from '@/hooks/queries/useSurveyService';
-import { SurveyStep, SURVEY_QUESTION_TYPE } from '@/models/survey/surveyModels';
 import {
-  SurveyLinkResponse,
-  SubmitSurveyRequest,
+  SurveyStep,
   SurveyFormValues,
-} from '@/models/survey/surveyApiModels';
+  surveyFormSchema,
+  SURVEY_QUESTION_TYPE,
+} from '@/models/survey/surveyModels';
+import { SurveyLinkResponse, SubmitSurveyRequest } from '@/models/survey/surveyApiModels';
 import { surveyQuestions } from '@/lib/surveyQuestions';
 import SurveyIntroduction from '@/components/domain/survey/SurveyIntroduction';
 import RatingAnswer from '@/components/domain/survey/answerType/RatingAnswer';
@@ -25,7 +27,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
-import { MailOpen, Sparkles } from 'lucide-react';
+import { MailOpen, Sparkles, AlertTriangle } from 'lucide-react';
 
 interface SurveyPageProps {
   surveyData: SurveyLinkResponse;
@@ -37,10 +39,13 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [showIntroduction, setShowIntroduction] = useState<boolean>(true);
   const [showSubmitMessageBox, setShowSubmitMessageBox] = useState<boolean>(false);
   const [showCompletionMessageBox, setShowCompletionMessageBox] = useState<boolean>(false);
+  const [showErrorMessageBox, setShowErrorMessageBox] = useState<boolean>(false);
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
 
   const methods = useForm<SurveyFormValues>({
+    mode: 'onChange',
     defaultValues: {
+      reviewerEmail: surveyData?.data?.reviewerEmail ?? '',
       responses: surveyQuestions.map((question) => ({
         questionOrder: question.id.toString(),
         questionType: question.type,
@@ -48,7 +53,6 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
         responseDetails:
           surveyData?.data?.revieweeInfoList?.map((info) => ({
             revieweeEmail: info.revieweeEmail,
-            revieweeName: info.revieweeName,
             response: {},
           })) ?? [],
       })),
@@ -93,7 +97,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   });
 
   const onSubmit: SubmitHandler<SurveyFormValues> = (data) => {
-    console.log(data);
+    console.log('Submitted data:', data);
     setShowSubmitMessageBox(true);
   };
 
@@ -112,6 +116,35 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
       projectId: parseInt(surveyData.data.projectId, 10),
       data: submitData,
     });
+  };
+
+  const handleValidationAndSubmit = async () => {
+    const formData = methods.getValues();
+
+    // 유효성 검사 추가: 모든 질문에 응답이 있는지 확인
+    const allResponsesFilled = formData.responses.every((response) =>
+      response.responseDetails.every((detail) => {
+        const responseValues = Object.values(detail.response);
+        return (
+          responseValues.length > 0 &&
+          responseValues.every((value) => value !== undefined && value !== null && value !== '')
+        );
+      }),
+    );
+
+    if (!allResponsesFilled) {
+      setShowErrorMessageBox(true);
+      return;
+    }
+    try {
+      const validatedData = surveyFormSchema.parse(formData);
+      onSubmit(validatedData);
+    } catch (error: unknown) {
+      if (error instanceof z.ZodError) {
+        console.error('Validation failed:', error.errors);
+      }
+      setShowErrorMessageBox(true);
+    }
   };
 
   return (
@@ -145,7 +178,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
             {currentStep === steps.length ? (
               <Button
                 type="button"
-                onClick={() => methods.handleSubmit(onSubmit)()}
+                onClick={handleValidationAndSubmit}
                 className="-mt-9 h-[50px] w-[100px] cursor-pointer body8">
                 등록하기
               </Button>
@@ -191,10 +224,24 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
           description="팀원들의 평가 참여도가 높을수록 분석 결과가 정확해요."
           titleIcon={<Sparkles className="h-6 w-6 stroke-purple-600" />}
           footer={
-            // NOTE: 임시로 마이페이지로 보내줌
             <Link href="/mypage">
               <MessageBox.MessageConfirmButton text="내 평가 결과 보러가기" isPrimary={true} />
             </Link>
+          }
+        />
+      )}
+
+      {showErrorMessageBox && (
+        <MessageBox
+          title={<div>모든 항목을 작성해주세요.</div>}
+          description="누락된 응답이 있습니다. 모든 질문에 답변해주세요."
+          titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
+          footer={
+            <MessageBox.MessageConfirmButton
+              text="확인"
+              onClick={() => setShowErrorMessageBox(false)}
+              isPrimary={true}
+            />
           }
         />
       )}

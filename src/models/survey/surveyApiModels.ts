@@ -47,6 +47,7 @@ export interface FormResponseDetails {
 }
 
 export interface SurveyFormValues {
+  reviewerEmail: string;
   responses: {
     questionOrder: string;
     questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
@@ -54,7 +55,7 @@ export interface SurveyFormValues {
     responseDetails: {
       revieweeEmail: string;
       response: {
-        score?: number;
+        score?: number | string;
         choice?: boolean;
         description?: string;
         example?: string;
