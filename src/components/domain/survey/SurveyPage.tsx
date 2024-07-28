@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/router'; // 추가
 import { useSubmitSurvey } from '@/hooks/queries/useSurveyService';
 import {
   SurveyStep,
@@ -39,6 +40,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [showSubmitMessageBox, setShowSubmitMessageBox] = useState<boolean>(false);
   const [showCompletionMessageBox, setShowCompletionMessageBox] = useState<boolean>(false);
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
+  const router = useRouter(); // 추가
 
   const methods = useForm<SurveyFormValues>({
     defaultValues: {
@@ -109,6 +111,10 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
       projectId: parseInt(surveyData.data.projectId, 10),
       data: submitData,
     });
+  };
+
+  const handleGoToMyPage = () => {
+    router.push('/mypage'); // 임시 라우팅
   };
 
   return (
@@ -191,9 +197,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
             <MessageBox.MessageConfirmButton
               text="내 평가 결과 보러가기"
               isPrimary={true}
-              onClick={() => {
-                alert('평가 결과 보러가기');
-              }}
+              onClick={handleGoToMyPage} // NOTE: 일단 마이페이지로 보내줌 (추후 변경)
             />
           }
         />

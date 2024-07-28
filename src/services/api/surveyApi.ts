@@ -42,7 +42,7 @@ export const sendSurveyLink = async (
       '/api/v1/peer-reviews/link',
       {},
       {
-        params,
+        params: { projectId: params.projectId },
       },
     );
     console.log('Send Survey Link Response:', response.data);

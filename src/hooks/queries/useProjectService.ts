@@ -65,7 +65,6 @@ export const useCreateProject = (successCallback: (projectId: number) => void) =
       });
 
       // 참여 프로젝트 리스트 무효화 (setQueryData가 적용이 안되어 처리)
-      queryClient.invalidateQueries({ queryKey: ['getRegisteredProjects'] });
       queryClient.invalidateQueries({ queryKey: ['getParticipatingProjects'] });
 
       if (successCallback) successCallback(createdProjectId);
