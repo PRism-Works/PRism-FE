@@ -26,7 +26,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
-import { MailOpen } from 'lucide-react';
+import { MailOpen, Sparkles } from 'lucide-react';
 
 interface SurveyPageProps {
   surveyData: SurveyLinkResponse;
@@ -99,7 +99,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
 
     const formData = methods.getValues();
     const submitData: SubmitSurveyRequest = {
-      reviewerEmail: 'reviewerEmail', // FIX: 리뷰어 이메일을 받아올 수 있는 api가 없음
+      reviewerEmail: surveyData.data.reviewerEmail,
       responses: formData.responses,
     };
 
@@ -186,6 +186,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
             </div>
           }
           description="팀원들의 평가 참여도가 높을수록 분석 결과가 정확해요."
+          titleIcon={<Sparkles className="h-6 w-6 stroke-purple-600" />}
           footer={
             <MessageBox.MessageConfirmButton
               text="내 평가 결과 보러가기"

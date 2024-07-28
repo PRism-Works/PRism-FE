@@ -9,6 +9,7 @@ export interface SurveyLinkResponse {
   status: number;
   data: {
     revieweeEmails: string[];
+    reviewerEmail: string;
     projectId: string;
   };
 }
