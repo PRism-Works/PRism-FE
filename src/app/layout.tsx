@@ -15,6 +15,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://prism-fe.vercel.app/'),
   title: 'PRism : AI 기반 소프트스킬 분석 및 개인 홍보 플랫폼',
   description:
     '팀원 평가를 통해 본인의 소프트스킬을 AI로 분석하여 검증하고, 포트폴리오로도 활용할 수 있는 무료 솔루션입니다.',

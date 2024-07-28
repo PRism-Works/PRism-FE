@@ -33,27 +33,30 @@ export default function PRismChartExplanationReport({
   console.log(data);
 
   useEffect(() => {
-    if (data) {
+    const reportData = data?.data;
+    const isEmpty = data?.data.isEvaluationEmpty; // 비어있으면 defaultPRismChartData 값을 사용하도록 덮어쓰지 않는다.
+
+    if (reportData && !isEmpty) {
       const userPRismChartData: PRismEvaluation[] = [
         {
           evaluation: 'COMMUNICATION',
-          percent: data.prismData.communication,
+          percent: reportData.prismData.communication,
         },
         {
           evaluation: 'PROACTIVITY',
-          percent: data.prismData.proactivity,
+          percent: reportData.prismData.proactivity,
         },
         {
           evaluation: 'PROBLEM_SOLVING',
-          percent: data.prismData.problemSolving,
+          percent: reportData.prismData.problemSolving,
         },
         {
           evaluation: 'RESPONSIBILITY',
-          percent: data.prismData.responsibility,
+          percent: reportData.prismData.responsibility,
         },
         {
           evaluation: 'COOPERATION',
-          percent: data.prismData.cooperation,
+          percent: reportData.prismData.cooperation,
         },
       ];
       setPRismChartData(userPRismChartData);
@@ -62,7 +65,7 @@ export default function PRismChartExplanationReport({
 
   return (
     <BorderCard className="relative flex-wrap gap-28 flex-center">
-      {(!data || !data.radialData?.evaluation) && (
+      {(!data?.data || data.data.isEvaluationEmpty) && (
         <ReportBlur fromMyProfile={fromMyProfile} isLoading={isLoading} isError={isError} />
       )}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
