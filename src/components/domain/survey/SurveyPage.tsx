@@ -32,7 +32,7 @@ interface SurveyPageProps {
 }
 
 export default function SurveyPage({ surveyData }: SurveyPageProps) {
-  const [current, setCurrent] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [showIntroduction, setShowIntroduction] = useState<boolean>(true);
   const [showSubmitMessageBox, setShowSubmitMessageBox] = useState<boolean>(false);
@@ -43,7 +43,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
     defaultValues: {
       responses: surveyQuestions.map((question) => ({
         questionOrder: question.id.toString(),
-        questionType: question.type as 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer',
+        questionType: question.type,
         questionCategory: question.category,
         responseDetails: surveyData.data.revieweeEmails.map((email) => ({
           revieweeEmail: email,
@@ -60,10 +60,10 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   useEffect(() => {
     if (!api) return;
 
-    setCurrent(api.selectedScrollSnap() + 1);
+    setCurrentStep(api.selectedScrollSnap() + 1);
 
     api.on('select', () => {
-      setCurrent(api.selectedScrollSnap() + 1);
+      setCurrentStep(api.selectedScrollSnap() + 1);
     });
   }, [api]);
 
@@ -124,7 +124,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
                   return (
                     <CarouselItem key={index}>
                       <StepComponent
-                        currentStep={current}
+                        currentStep={currentStep}
                         totalSteps={steps.length}
                         question={step.question}
                         stepNumber={step.stepNumber}
@@ -138,7 +138,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
           </FormProvider>
           <div className="flex-center">
             <CarouselPrevious className="h-10 w-10" />
-            {current === steps.length ? (
+            {currentStep === steps.length ? (
               <Button
                 type="button"
                 onClick={() => methods.handleSubmit(onSubmit)()}
