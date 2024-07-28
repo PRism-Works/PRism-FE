@@ -33,6 +33,7 @@ export default function ParticipatingProjectList({
           categories: project.categories,
           evaluatedMembersCount: project.surveyParcitipants,
           projectVisibility: project.anonyVisibility,
+          evaluation: project.userEvaluation,
         };
       });
 
