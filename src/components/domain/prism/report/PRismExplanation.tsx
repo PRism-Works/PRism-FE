@@ -4,6 +4,7 @@ import {
   type PRismEvaluationType,
 } from '@/models/prism/prismModels';
 import { ICONS } from '@/components/common/chart/PRismChart';
+import { cn } from '@/lib/utils';
 
 interface PRismExplanationProps {
   userName?: string;
@@ -30,7 +31,7 @@ export default function PRismExplanation({ data, userName = '' }: PRismExplanati
                 <Icon className="stroke-black" />
                 {PRISM_EVALUATION_LABELS[item.evaluation]}
               </div>
-              <span className={`mobile1 ${getColorForEvaluation(item.evaluation)}`}>
+              <span className={cn('mobile1', getColorForEvaluation(item.evaluation))}>
                 {item.percent}%
               </span>
             </span>
@@ -39,7 +40,7 @@ export default function PRismExplanation({ data, userName = '' }: PRismExplanati
       </div>
       <div className="flex flex-col justify-center gap-4 text-gray-800 display5">
         <p>
-          {userName && `${userName}님의`}
+          {userName && `${userName}님의 `}
           <span className="text-info-500 mobile2">가장 높은 지표</span>는
           <span className="mx-2 text-info-500 display6">
             {highestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
@@ -47,7 +48,7 @@ export default function PRismExplanation({ data, userName = '' }: PRismExplanati
           입니다.
         </p>
         <p>
-          {userName && `${userName}님의`}
+          {userName && `${userName}님의 `}
           <span className="text-purple-500 mobile2">가장 낮은 지표</span>는
           <span className="mx-2 text-purple-500 display6">
             {lowestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
