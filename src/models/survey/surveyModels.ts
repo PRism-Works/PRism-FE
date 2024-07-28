@@ -33,7 +33,7 @@ export interface CommonProps {
   totalSteps: number;
   question: { id: number; text: string };
   stepNumber: number;
-  teamMembers: string[];
+  teamMembers: string[] | undefined;
   options?: string[];
 }
 

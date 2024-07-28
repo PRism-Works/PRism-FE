@@ -45,16 +45,19 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
         questionOrder: question.id.toString(),
         questionType: question.type,
         questionCategory: question.category,
-        responseDetails: surveyData.data.revieweeEmails.map((email) => ({
-          revieweeEmail: email,
-          response: {},
-        })),
+        responseDetails:
+          surveyData?.data?.revieweeInfoList?.map((info) => ({
+            revieweeEmail: info.revieweeEmail,
+            response: {},
+          })) ?? [],
       })),
     },
   });
 
   useEffect(() => {
-    setTeamMembers(surveyData.data.revieweeEmails);
+    if (surveyData?.data?.revieweeInfoList) {
+      setTeamMembers(surveyData.data.revieweeInfoList.map((info) => info.revieweeEmail));
+    }
   }, [surveyData]);
 
   useEffect(() => {

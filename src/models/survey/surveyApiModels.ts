@@ -8,9 +8,12 @@ export interface SurveyLinkResponse {
   success: boolean;
   status: number;
   data: {
-    revieweeEmails: string[];
-    reviewerEmail: string;
+    revieweeInfoList: Array<{
+      revieweeEmail: string;
+      revieweeName: string;
+    }>;
     projectId: string;
+    reviewerEmail: string;
   };
 }
 
@@ -18,7 +21,6 @@ export interface SurveyLinkErrorResponse {
   code: string;
   message: string;
 }
-
 export interface SendSurveyLinkRequest {
   projectId: number;
 }
