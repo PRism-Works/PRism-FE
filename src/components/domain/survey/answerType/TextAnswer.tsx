@@ -36,7 +36,7 @@ export default function TextAnswer({
       question={question.text}
       stepNumber={stepNumber}>
       {(stepNumber === 13 || stepNumber === 14) && <Instruction indicator={indicator} />}
-      {teamMembers.map((member, index) => (
+      {teamMembers?.map((member, index) => (
         <TextRow
           key={index}
           name={`responses[${stepNumber - 1}].responseDetails[${index}].response`}
@@ -47,7 +47,7 @@ export default function TextAnswer({
           index={index}
           indicator={indicator}
         />
-      ))}
+      )) ?? <p>팀원 정보를 불러올 수 없습니다.</p>}
     </SurveyLayout>
   );
 }

@@ -19,7 +19,7 @@ export default function CheckBoxAnswer({
       question={question.text}
       stepNumber={stepNumber}>
       <div className="w-full space-y-4">
-        {teamMembers.map((member, index) => (
+        {teamMembers?.map((member, index) => (
           <CheckBoxRow
             key={index}
             name={`responses[${stepNumber - 1}].responseDetails[${index}].response.choice`}
@@ -29,7 +29,7 @@ export default function CheckBoxAnswer({
             questionIndex={stepNumber - 1}
             index={index}
           />
-        ))}
+        )) ?? <p>팀원 정보를 불러올 수 없습니다.</p>}
       </div>
     </SurveyLayout>
   );
