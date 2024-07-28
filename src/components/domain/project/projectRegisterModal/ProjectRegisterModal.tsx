@@ -28,7 +28,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useModalStore } from '@/stores/modalStore';
 import { useUserStore } from '@/stores/userStore';
 import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectService';
-import { sendSurveyLink } from '@/services/api/surveyApi';
+import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
 
@@ -196,20 +196,18 @@ export default function ProjectRegisterModal({
 const SendSurveyMessage = ({ projectId }: { projectId: number }) => {
   const { openModal, closeModal } = useModalStore();
 
+  const sendSurveyLinkMutation = useSendSurveyLink(() => {
+    openModal(<SendSurveyCompleteMessage />);
+  });
+
   // '나중에' 버튼 클릭
   const handleClickLater = () => {
     closeModal();
   };
 
-  // '보내기 버튼 클릭
-  const handleClickSendSurvey = async () => {
-    try {
-      await sendSurveyLink({ projectId });
-      openModal(<SendSurveyCompleteMessage />);
-    } catch (error) {
-      alert('평가 링크 전송에 실패했습니다.');
-      console.error(error);
-    }
+  // '보내기' 버튼 클릭
+  const handleClickSendSurvey = () => {
+    sendSurveyLinkMutation.mutate({ projectId });
   };
 
   return (

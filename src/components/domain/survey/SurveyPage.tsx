@@ -1,12 +1,10 @@
+'use client';
+
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
-import { useRouter } from 'next/router'; // 추가
 import { useSubmitSurvey } from '@/hooks/queries/useSurveyService';
-import {
-  SurveyStep,
-  SURVEY_QUESTION_TYPE,
-  SurveyQuestionCategoryType,
-} from '@/models/survey/surveyModels';
+import { SurveyStep, SURVEY_QUESTION_TYPE } from '@/models/survey/surveyModels';
 import {
   SurveyLinkResponse,
   SubmitSurveyRequest,
@@ -40,14 +38,13 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [showSubmitMessageBox, setShowSubmitMessageBox] = useState<boolean>(false);
   const [showCompletionMessageBox, setShowCompletionMessageBox] = useState<boolean>(false);
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
-  const router = useRouter(); // 추가
 
   const methods = useForm<SurveyFormValues>({
     defaultValues: {
       responses: surveyQuestions.map((question) => ({
         questionOrder: question.id.toString(),
         questionType: question.type as 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer',
-        questionCategory: question.category as SurveyQuestionCategoryType,
+        questionCategory: question.category,
         responseDetails: surveyData.data.revieweeEmails.map((email) => ({
           revieweeEmail: email,
           response: {},
@@ -111,10 +108,6 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
       projectId: parseInt(surveyData.data.projectId, 10),
       data: submitData,
     });
-  };
-
-  const handleGoToMyPage = () => {
-    router.push('/mypage'); // 임시 라우팅
   };
 
   return (
@@ -194,11 +187,10 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
           description="팀원들의 평가 참여도가 높을수록 분석 결과가 정확해요."
           titleIcon={<Sparkles className="h-6 w-6 stroke-purple-600" />}
           footer={
-            <MessageBox.MessageConfirmButton
-              text="내 평가 결과 보러가기"
-              isPrimary={true}
-              onClick={handleGoToMyPage} // NOTE: 일단 마이페이지로 보내줌 (추후 변경)
-            />
+            // NOTE: 임시로 마이페이지로 보내줌
+            <Link href="/mypage">
+              <MessageBox.MessageConfirmButton text="내 평가 결과 보러가기" isPrimary={true} />
+            </Link>
           }
         />
       )}

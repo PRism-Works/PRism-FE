@@ -19,9 +19,9 @@ export default function AgreementCheckbox({
   onToggle,
   isSmallScreen,
   privacyPolicyText,
-  privacyPolicyLink,
   termsOfServiceText,
-  termsOfServiceLink,
+  // privacyPolicyLink,
+  // termsOfServiceLink,
   className,
 }: AgreementCheckboxProps) {
   return (
@@ -44,7 +44,7 @@ export default function AgreementCheckbox({
         <p className="text-sm text-muted-foreground md:text-left">
           {text}{' '}
           <a
-            href={privacyPolicyLink}
+            // href={privacyPolicyLink} // NOTE: 임시로 링크 비활성화
             target="_blank"
             rel="noreferrer"
             className="cursor-pointer text-info underline underline-offset-4">
@@ -52,7 +52,7 @@ export default function AgreementCheckbox({
           </a>{' '}
           및{' '}
           <a
-            href={termsOfServiceLink}
+            // href={termsOfServiceLink}
             target="_blank"
             rel="noreferrer"
             className="cursor-pointer text-info underline underline-offset-4">
