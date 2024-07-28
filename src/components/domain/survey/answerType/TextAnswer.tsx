@@ -36,11 +36,11 @@ export default function TextAnswer({
       question={question.text}
       stepNumber={stepNumber}>
       {(stepNumber === 13 || stepNumber === 14) && <Instruction indicator={indicator} />}
-      {teamMembers?.map((member, index) => (
+      {teamMembers?.map((revieweeName, index) => (
         <TextRow
           key={index}
           name={`responses[${stepNumber - 1}].responseDetails[${index}].response`}
-          member={member}
+          revieweeName={revieweeName}
           register={register}
           iconIndex={index}
           questionIndex={stepNumber - 1}

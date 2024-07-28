@@ -48,6 +48,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
         responseDetails:
           surveyData?.data?.revieweeInfoList?.map((info) => ({
             revieweeEmail: info.revieweeEmail,
+            revieweeName: info.revieweeName,
             response: {},
           })) ?? [],
       })),
@@ -56,7 +57,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
 
   useEffect(() => {
     if (surveyData?.data?.revieweeInfoList) {
-      setTeamMembers(surveyData.data.revieweeInfoList.map((info) => info.revieweeEmail));
+      setTeamMembers(surveyData.data.revieweeInfoList.map((info) => info.revieweeName));
     }
   }, [surveyData]);
 

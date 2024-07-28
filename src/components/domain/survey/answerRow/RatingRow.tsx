@@ -7,7 +7,7 @@ import CirclePlanetIcon from '../../user/CirclePlanetIcon';
 interface RatingRowProps {
   index: number;
   name: string;
-  member: string;
+  revieweeName: string;
   iconIndex: number;
   questionIndex: number;
   register: UseFormRegister<Record<string, unknown>>;
@@ -15,7 +15,7 @@ interface RatingRowProps {
 
 export default function RatingRow({
   index,
-  member,
+  revieweeName,
   register,
   iconIndex,
   questionIndex,
@@ -28,9 +28,9 @@ export default function RatingRow({
         'mb-2 flex w-full items-center justify-between rounded-[20px] px-4 py-2 md:px-8',
         backgroundColor,
       )}>
-      <div className="flex items-center gap-4">
+      <div className="flex max-w-[250px] items-center gap-2">
         <CirclePlanetIcon className="bg-gray-100" iconIndex={iconIndex} />
-        <span className="mobile1">{member}</span>
+        <span className="mobile1">{revieweeName}</span>
       </div>
       <RadioGroup className="flex items-center space-x-4 md:space-x-8 lg:space-x-20">
         <CustomRadioButton
