@@ -86,7 +86,6 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
 
   const handleLinkProjectSuccess = () => {
     // 연동에 성공하면, 모달을 닫으며 연동 완료 메시지창 띄우기
-    alert('연동 성공');
     closeModal();
     setTimeout(() => {
       openModal(<LinkCompleteMessage />);

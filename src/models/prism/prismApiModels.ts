@@ -19,3 +19,9 @@ export interface PRismReportResponse {
     isEvaluationEmpty?: boolean;
   };
 }
+
+export interface PRismEvaluationUpdateResponse {
+  success: boolean;
+  status: number;
+  data: null;
+}
