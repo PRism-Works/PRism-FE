@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useUniqueListState } from '@/hooks/useUniqueListState';
 
 import TagInput from '@/components/common/input/TagInput';
@@ -16,20 +16,33 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Paperclip } from 'lucide-react';
+import { CheckCircle2, Paperclip } from 'lucide-react';
 
 import { ProjectCategories, TechStacks } from '@/lib/tagList';
 import { ProjectForm } from '@/models/project/projectModels';
 import { useFormContext } from 'react-hook-form';
 import { useModalStore } from '@/stores/modalStore';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
+import { cn } from '@/lib/utils';
 
-export default function Step3() {
+interface Step3Props {
+  isEdit: boolean;
+}
+export default function Step3({ isEdit }: Step3Props) {
   const openModal = useModalStore((state) => state.openModal);
   const { control, setValue, getValues, watch } = useFormContext<ProjectForm>();
 
   // 프로젝트 스킬
   const currentSkills = watch('skills');
+
+  // 프로젝트 url 공개 여부
+  // 프로젝트 url 공개/비공개 여부는 수정모드에서만 선택 가능, 등록시에는 무조건 false
+  const defaultUrlVisibility = getValues('urlVisibility');
+  const [urlVisibility, setUrlVisibility] = useState<boolean>(defaultUrlVisibility);
+  const handleSelectUrlVisibility = (visibility: boolean) => {
+    setUrlVisibility(visibility);
+    setValue('urlVisibility', visibility);
+  };
 
   // 프로젝트 카테고리
   // default 값이 있다면 적용하기
@@ -44,6 +57,7 @@ export default function Step3() {
   const handleSkillsSelectComplete = (skillTags: string[]) => {
     setValue('skills', skillTags);
   };
+
   const handleOpenSkillsModal = () => {
     openModal(
       <SelectTagModalLayout
@@ -74,7 +88,7 @@ export default function Step3() {
         control={control}
         name="projectUrlLink"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="relative">
             <div className="item-center flex gap-1">
               <FormLabel className="mobile1">프로젝트 인증</FormLabel>
               <InformationTooltip message="나중에 추가 혹은 수정이 가능해요!" />
@@ -90,6 +104,12 @@ export default function Step3() {
                 {...field}
               />
             </FormControl>
+            {isEdit && (
+              <ProjectUrlVisibility
+                visibility={urlVisibility}
+                handleSelectUrlVisibility={handleSelectUrlVisibility}
+              />
+            )}
           </FormItem>
         )}
       />
@@ -125,7 +145,6 @@ export default function Step3() {
           </FormItem>
         )}
       />
-
       <FormField
         control={control}
         name="projectDescription"
@@ -138,7 +157,7 @@ export default function Step3() {
             <FormControl>
               <MaxLengthMultiTextArea
                 maxLength={300}
-                className="h-[100px] w-full"
+                className="w-full"
                 placeholder="텍스트를 입력해 주세요."
                 {...field}
               />
@@ -169,3 +188,31 @@ export default function Step3() {
     </section>
   );
 }
+
+const ProjectUrlVisibility = ({
+  visibility,
+  handleSelectUrlVisibility,
+}: {
+  visibility: boolean;
+  handleSelectUrlVisibility: (visibility: boolean) => void;
+}) => {
+  const getButtonClasses = (isSelected: boolean) =>
+    cn('gap-1 caption flex-center', isSelected ? 'text-success-500' : 'text-gray-500');
+
+  const getIconClasses = (isSelected: boolean) =>
+    cn('h-4 w-4', isSelected ? 'fill-success-50 stroke-success-500' : 'stroke-gray-400');
+
+  return (
+    <div className="absolute bottom-[-22px] right-0 flex cursor-pointer gap-3">
+      {[true, false].map((isPublic) => (
+        <span
+          key={isPublic ? 'public' : 'private'}
+          onClick={() => handleSelectUrlVisibility(isPublic)}
+          className={getButtonClasses(visibility === isPublic)}>
+          <CheckCircle2 className={getIconClasses(visibility === isPublic)} />
+          {isPublic ? '공개' : '비공개'}
+        </span>
+      ))}
+    </div>
+  );
+};

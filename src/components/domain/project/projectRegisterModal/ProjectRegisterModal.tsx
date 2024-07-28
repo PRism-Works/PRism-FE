@@ -113,6 +113,7 @@ export default function ProjectRegisterModal({
         },
       ],
       projectUrlLink: defaultData?.projectUrlLink || '',
+      urlVisibility: defaultData?.urlVisibility || false,
       projectDescription: defaultData?.projectDescription || '',
       skills: defaultData?.skills || [],
       categories: defaultData?.categories || [],
@@ -157,7 +158,6 @@ export default function ProjectRegisterModal({
         endDate: formatDateToYYYYMMDDHHmmss(data.endDate || defaultDate),
         memberCount: data.members.length,
       };
-
       // 현재 수정모드인지에 따라 다른 mutate 실행
       if (isEdit && projectId) {
         updateMutation.mutate({ projectId, data: mutationData });
@@ -189,7 +189,7 @@ export default function ProjectRegisterModal({
             <form>
               {currStep === 0 && <Step1 />}
               {currStep === 1 && <Step2 />}
-              {currStep === 2 && <Step3 />}
+              {currStep === 2 && <Step3 isEdit={isEdit} />}
             </form>
           </FormProvider>
         </Form>

@@ -157,6 +157,7 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
         endDate: convertStringToDate(detailData.endDate),
         members: detailData.members,
         projectUrlLink: detailData.projectUrlLink,
+        urlVisibility: detailData.urlVisibility,
         projectDescription: detailData.projectDescription,
         skills: detailData.skills,
         categories: detailData.categories,

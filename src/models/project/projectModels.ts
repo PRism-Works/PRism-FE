@@ -31,6 +31,7 @@ export const ProjectFormSchema = z.object({
   }),
   members: z.array(ProjectMemberSchema),
   projectUrlLink: z.string(),
+  urlVisibility: z.boolean(),
   projectDescription: z.string(),
   skills: z.array(z.string()),
   categories: z.array(z.string()),
