@@ -9,6 +9,7 @@ interface TextRowProps {
   iconIndex: number;
   questionIndex: number;
   register: UseFormRegister<Record<string, unknown>>;
+  indicator: '강점' | '보완점';
 }
 
 export default function TextRow({
@@ -17,6 +18,7 @@ export default function TextRow({
   register,
   iconIndex,
   questionIndex,
+  indicator,
 }: TextRowProps) {
   return (
     <div className="mb-2 flex w-full rounded-[20px] bg-gray-100 py-2 md:px-8">
@@ -27,7 +29,7 @@ export default function TextRow({
       <div className="flex w-[75%] flex-col space-y-3">
         <MaxLengthMultiTextArea
           maxLength={50}
-          placeholder="강점을 알려 주세요."
+          placeholder={`${indicator}을 알려 주세요.`}
           className="h-[40px] w-full max-w-[670px] border-2"
           {...register(
             `responses[${questionIndex}].responseDetails[${index}].response.description`,
@@ -35,7 +37,7 @@ export default function TextRow({
         />
         <MaxLengthMultiTextArea
           maxLength={200}
-          placeholder="자세한 예를 들어 설명해 강점을 알려 주세요."
+          placeholder={`자세한 예를 들어 설명해 ${indicator}을 알려 주세요.`}
           className="h-[60px] w-full max-w-[670px] border-2"
           {...register(`responses[${questionIndex}].responseDetails[${index}].response.example`)}
         />
