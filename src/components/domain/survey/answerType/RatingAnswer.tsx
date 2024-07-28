@@ -21,14 +21,16 @@ export default function RatingAnswer({
       stepNumber={stepNumber}>
       <div className="flex flex-col items-end gap-2">
         <RatingScale />
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-2">
           {teamMembers.map((member, index) => (
             <RatingRow
               key={index}
-              name={`question${stepNumber}_${member}`}
+              name={`responses[${stepNumber - 1}].responseDetails[${index}].response.score`}
               member={member}
               register={register}
               iconIndex={index}
+              index={index}
+              questionIndex={stepNumber - 1}
             />
           ))}
         </div>

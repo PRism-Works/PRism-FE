@@ -1,8 +1,8 @@
 import '../styles/globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import GlobalHeaderWrapper from './layout/header/GlobalHeaderWrapper';
 import GlobalFooter from './layout/footer/GlobalFooter';
-import GlobalHeader from './layout/header/GlobalHeader';
 import ModalPortal from './layout/modal/ModalPotal';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import { cn } from '@/lib/utils';
@@ -72,7 +72,7 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body className={cn(pretendard.variable, 'flex min-h-screen flex-col bg-gray-50')}>
         <ReactQueryProviders>
-          <GlobalHeader />
+          <GlobalHeaderWrapper />
           <main className="container mx-auto flex min-h-screen flex-col items-center">
             {children}
           </main>

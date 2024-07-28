@@ -22,10 +22,12 @@ export default function CheckBoxAnswer({
         {teamMembers.map((member, index) => (
           <CheckBoxRow
             key={index}
-            name={`question${stepNumber}_${member}`}
+            name={`responses[${stepNumber - 1}].responseDetails[${index}].response.choice`}
             member={member}
             register={register}
             iconIndex={index}
+            questionIndex={stepNumber - 1}
+            index={index}
           />
         ))}
       </div>

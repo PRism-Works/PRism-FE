@@ -33,11 +33,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 // 프로젝트 생성하기
-export const useCreateProject = (successCallback: () => void) => {
+export const useCreateProject = (successCallback: (projectId: number) => void) => {
   const queryClient = useQueryClient();
   return useMutation<ProjectCreateResponse, AxiosError, ProjectCreateRequest>({
     mutationFn: createProject,
     onSuccess: (response, requestProjectData) => {
+      const createdProjectId = response.data.projectId;
       console.log(response);
 
       // 등록 프로젝트 리스트의 ui 변경을 위해 캐시된 데이터를 직접 수정 (서버 데이터를 refetch 하지 않기 위해 추가)
@@ -66,7 +67,7 @@ export const useCreateProject = (successCallback: () => void) => {
       // 참여 프로젝트 리스트 무효화 (setQueryData가 적용이 안되어 처리)
       queryClient.invalidateQueries({ queryKey: ['getParticipatingProjects'] });
 
-      if (successCallback) successCallback();
+      if (successCallback) successCallback(createdProjectId);
     },
     onError: (error) => {
       alert('프로젝트 등록에 실패했습니다.');
