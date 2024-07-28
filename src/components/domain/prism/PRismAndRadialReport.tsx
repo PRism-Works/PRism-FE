@@ -45,30 +45,30 @@ export default function PRismAndRadialReport({
       const userPRismChartData: PRismEvaluation[] = [
         {
           evaluation: 'COMMUNICATION',
-          percent: reportData.prismData.communication,
+          percent: (reportData.prismData.communication / 5) * 100,
         },
         {
           evaluation: 'PROACTIVITY',
-          percent: reportData.prismData.proactivity,
+          percent: (reportData.prismData.proactivity / 5) * 100,
         },
         {
           evaluation: 'PROBLEM_SOLVING',
-          percent: reportData.prismData.problemSolving,
+          percent: (reportData.prismData.problemSolving / 5) * 100,
         },
         {
           evaluation: 'RESPONSIBILITY',
-          percent: reportData.prismData.responsibility,
+          percent: (reportData.prismData.responsibility / 5) * 100,
         },
         {
           evaluation: 'COOPERATION',
-          percent: reportData.prismData.cooperation,
+          percent: (reportData.prismData.cooperation / 5) * 100,
         },
       ];
       const userRadialChartData: RadialChartData = {
         radialChartData: {
-          LEADERSHIP: reportData.radialData.leadership,
-          RELIABILITY: reportData.radialData.reliability,
-          TEAMWORK: reportData.radialData.teamwork,
+          LEADERSHIP: (reportData.radialData.leadership / 5) * 100,
+          RELIABILITY: (reportData.radialData.reliability / 5) * 100,
+          TEAMWORK: (reportData.radialData.teamwork / 5) * 100,
         },
         keyword: reportData.radialData.keywords,
         evaluation: reportData.radialData.evaluation,
