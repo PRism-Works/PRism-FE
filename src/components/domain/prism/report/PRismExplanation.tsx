@@ -6,11 +6,11 @@ import {
 import { ICONS } from '@/components/common/chart/PRismChart';
 
 interface PRismExplanationProps {
-  userName: string;
+  userName?: string;
   data: PRismEvaluation[];
 }
 
-export default function PRismExplanation({ userName, data }: PRismExplanationProps) {
+export default function PRismExplanation({ data, userName = '' }: PRismExplanationProps) {
   const { highestEvaluations, lowestEvaluations } = findExtremeEvaluations(data);
 
   const getColorForEvaluation = (evaluation: PRismEvaluationType) => {
@@ -39,14 +39,16 @@ export default function PRismExplanation({ userName, data }: PRismExplanationPro
       </div>
       <div className="flex flex-col justify-center gap-4 text-gray-800 display5">
         <p>
-          {userName}님의 <span className="text-info-500 mobile2">가장 높은 지표</span>는
+          {userName && `${userName}님의`}
+          <span className="text-info-500 mobile2">가장 높은 지표</span>는
           <span className="mx-2 text-info-500 display6">
             {highestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
           </span>
           입니다.
         </p>
         <p>
-          {userName}님의 <span className="text-purple-500 mobile2">가장 낮은 지표</span>는
+          {userName && `${userName}님의`}
+          <span className="text-purple-500 mobile2">가장 낮은 지표</span>는
           <span className="mx-2 text-purple-500 display6">
             {lowestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
           </span>

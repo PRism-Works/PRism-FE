@@ -11,6 +11,7 @@ import ReportBlur from './report/ReportBlur';
 import type { PRismEvaluation } from '@/models/prism/prismModels';
 import { useUserStore } from '@/stores/userStore';
 import { useUserOverallProjectAnalysis } from '@/hooks/queries/usePRismService';
+import { useUserProfileByUserId } from '@/hooks/queries/useUserService';
 
 interface PRismAndRadialReportProps {
   reportedUserId?: string;
@@ -30,6 +31,8 @@ export default function PRismAndRadialReport({
   // fromMyProfile = false : 타인 유저가 속한 전체 프로젝트의 종합 분석
   const loginUser = useUserStore((state) => state.user);
   const targetUserId = fromMyProfile ? loginUser?.userId : reportedUserId;
+
+  const { data: userData } = useUserProfileByUserId(targetUserId || '');
 
   const { data, isLoading, isError } = useUserOverallProjectAnalysis(targetUserId || '');
   console.log(data);
@@ -83,7 +86,7 @@ export default function PRismAndRadialReport({
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
         <div className="text-indigo-800 body6">{fromMyProfile && '나의'} PRism</div>
         <div className="h-full w-full">
-          <PRismChart data={prismChartData} />
+          <PRismChart userName={userData?.data.username} data={prismChartData} />
         </div>
       </div>
       <div className="flex min-h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] bg-gray-50 px-9 py-3">
