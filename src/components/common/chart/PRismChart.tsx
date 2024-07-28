@@ -14,7 +14,7 @@ import {
 
 interface PRismChartComponentProps {
   data: PRismEvaluation[];
-  name?: string; // 지표에 표시될 사용자 이름
+  userName?: string; // 지표에 표시될 사용자 이름
   hideAxis?: boolean;
   fontSize?: number;
   startColor?: string;
@@ -23,7 +23,7 @@ interface PRismChartComponentProps {
 
 export default function PRismChart({
   data,
-  name = '평가대상이름', // 평가 지표의 대상 이름, 툴팁에 표시될 때 사용
+  userName = '', // 평가 지표의 대상 이름, 툴팁에 표시될 때 사용
   hideAxis = false,
   fontSize = 14,
   startColor = tailwindColors.purple[500],
@@ -55,7 +55,7 @@ export default function PRismChart({
         <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
         <PolarRadiusAxis domain={[0, 100]} axisLine={false} tick={false} />
         <Radar
-          name={name}
+          name={userName}
           dataKey="percent"
           stroke={tailwindColors.purple[500]}
           strokeWidth={1.18}
