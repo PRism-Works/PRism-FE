@@ -22,7 +22,6 @@ export default function CheckBoxAnswer({
         {teamMembers?.map((revieweeName, index) => (
           <CheckBoxRow
             key={index}
-            name={`responses[${stepNumber - 1}].responseDetails[${index}].response.choice`}
             revieweeName={revieweeName}
             register={register}
             iconIndex={index}
