@@ -25,7 +25,6 @@ export default function RatingAnswer({
           {teamMembers?.map((revieweeName, index) => (
             <RatingRow
               key={index}
-              name={`responses[${stepNumber - 1}].responseDetails[${index}].response.score`}
               revieweeName={revieweeName}
               register={register}
               iconIndex={index}

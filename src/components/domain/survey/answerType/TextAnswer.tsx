@@ -39,7 +39,6 @@ export default function TextAnswer({
       {teamMembers?.map((revieweeName, index) => (
         <TextRow
           key={index}
-          name={`responses[${stepNumber - 1}].responseDetails[${index}].response`}
           revieweeName={revieweeName}
           register={register}
           iconIndex={index}
