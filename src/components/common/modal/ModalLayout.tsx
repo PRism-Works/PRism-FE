@@ -22,6 +22,7 @@ interface ModalLayoutProps {
   showCloseButton?: boolean;
   preventOutsideClose?: boolean;
   transparentOverlay?: boolean;
+  beforeClose?: (closeLayoutModal: () => void) => void;
   afterClose?: () => void;
 }
 
@@ -34,20 +35,35 @@ export default function ModalLayout({
   showCloseButton = true,
   preventOutsideClose = true,
   transparentOverlay = false,
+  beforeClose,
   afterClose,
 }: ModalLayoutProps) {
   const closeModal = useModalStore((state) => state.closeModal);
   const hasDescription = !!description;
 
-  const handleClose = () => {
+  // x 버튼이나 layout 바깥 영역 클릭하여 모달을 닫으려 하는 경우,
+  // before 함수의 유무를 체크하고 여부에 따라 닫는 로직을 다르게 실행한다.
+  const handleClickDiaglogClose = () => {
+    if (beforeClose) {
+      // beforeClose가 있을 경우, 모달을 닫을 수 있는 handleCloaseModal를 파라미터로 넘겨서
+      // 모달을 닫을지 안닫을지의 결졍권을 beforeClose 내부 로직에 맡긴다.
+      beforeClose(closeLayoutModal);
+    } else {
+      // beforeClose가 없다면 모달을 닫는 로직을 실행한다.
+      closeLayoutModal();
+    }
+  };
+
+  const closeLayoutModal = () => {
+    closeModal();
+    // 모달을 닫은 후 실행할 로직이 있다면 실행
     if (afterClose) {
       afterClose();
     }
-    closeModal();
   };
 
   return (
-    <Dialog open onOpenChange={handleClose}>
+    <Dialog open onOpenChange={handleClickDiaglogClose}>
       <DialogContent
         className={cn(`max-h-[90vh] overflow-y-auto p-11`, contentClassName)}
         transparentOverlay={transparentOverlay}

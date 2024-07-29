@@ -51,19 +51,18 @@ export default function ProjectSummaryCard({
   };
   return (
     <ShadowCard
-      className={cn(
-        'flex h-44 justify-between',
-        isCardDisabled && 'cursor-default active:bg-white',
-      )}
+      className={cn(isCardDisabled && 'cursor-default active:bg-white')}
       onClick={handleClick}>
-      <div className="flex w-[80%] gap-12">
-        <LeftSection projectData={projectData} />
-        {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
-          variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
-          <EvaluationSection evaluation={projectData?.evaluation || ''} />
-        )}
+      <div className="flex min-h-[176px] flex-col justify-between lg:h-44 lg:flex-row">
+        <div className="mb-4 flex w-full flex-wrap gap-3 sm:gap-6 lg:mb-0 lg:w-[80%] lg:gap-12">
+          <LeftSection projectData={projectData} />
+          {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
+            variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
+            <EvaluationSection evaluation={projectData?.evaluation || ''} />
+          )}
+        </div>
+        <RightSection variant={variant} projectData={projectData} />
       </div>
-      <RightSection variant={variant} projectData={projectData} />
     </ShadowCard>
   );
 }
@@ -105,7 +104,7 @@ const RightSection = ({
 }) => {
   const projectId = projectData.projectId;
   return (
-    <aside className="flex w-[20%] flex-col items-end justify-between">
+    <aside className="flex w-full flex-col justify-between gap-2 lg:w-[20%] lg:items-end">
       {variant !== PROJECT_CARD_VARIANT.ADMIN && (
         // 프로젝트 카테고리 (관리자 모드에서는 삭제, 수정 버튼 표시)
         <ul className="flex gap-1">
@@ -132,13 +131,13 @@ const RightSection = ({
           {/* 프로젝트 삭제/수정 버튼 */}
           <ProjectEditDeleteButton projectId={projectId} />
           <footer className="flex flex-col items-end gap-1">
-            <p className="flex items-center gap-2">
+            <p className="flex items-end gap-2">
               <span className="text-gray-500 display5">지금까지 평가한 팀원 수:</span>
               <strong className="text-purple-500 display6">
                 {projectData.evaluatedMembersCount || 0}
               </strong>
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               {/* 평가지 보내기 버튼 */}
               <ProjectSendEvaluationLink projectId={projectId} />
               {/* 프리즘 분석 갱신하기 버튼 */}

@@ -9,7 +9,7 @@ export default function MyPage() {
   return (
     <div className="container flex min-h-screen w-full max-w-[1040px] flex-col justify-center gap-6 p-4">
       <section className="flex flex-col gap-3">
-        <div className="mt-4 flex justify-end gap-4">
+        <div className="mt-4 flex flex-col items-end gap-4 sm:flex-row sm:justify-end">
           <GoProjectLinkButton />
           <ProjectRegisterButton text="새 프로젝트 등록하기" className="h-[45px] w-[210px]" />
         </div>

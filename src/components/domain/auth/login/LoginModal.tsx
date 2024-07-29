@@ -89,7 +89,7 @@ export default function LoginModal() {
               control={formMethods.control}
               name="email"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel className={cn('text-black', isSmallScreen ? 'mobile2' : 'mobile1')}>
                     이메일 주소
                   </FormLabel>
@@ -103,17 +103,17 @@ export default function LoginModal() {
                       autoComplete="username"
                     />
                   </FormControl>
-                  <FormMessage>{errors.email?.message}</FormMessage>
+                  <FormMessage className="absolute">{errors.email?.message}</FormMessage>
                 </FormItem>
               )}
             />
           </div>
-          <div className="my-8 grid w-full max-w-[420px] items-center gap-1">
+          <div className="my-10 grid w-full max-w-[420px] items-center gap-1">
             <FormField
               control={formMethods.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
                     비밀번호
                   </FormLabel>
@@ -127,7 +127,7 @@ export default function LoginModal() {
                       autoComplete="current-password"
                     />
                   </FormControl>
-                  <FormMessage>{errors.password?.message}</FormMessage>
+                  <FormMessage className="absolute">{errors.password?.message}</FormMessage>
                 </FormItem>
               )}
             />

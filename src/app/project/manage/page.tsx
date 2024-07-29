@@ -7,7 +7,7 @@ export default function ProjectManagePage() {
   return (
     <div className="container mx-auto flex min-h-screen flex-col items-center p-5">
       <div className="flex w-full max-w-[1040px] flex-col items-end gap-3">
-        <div className="mt-4 flex justify-end gap-4">
+        <div className="mt-4 flex flex-col items-end gap-4 sm:flex-row sm:justify-end">
           <GoProjectLinkButton />
           <ProjectRegisterButton text="새 프로젝트 등록하기" className="h-[45px] w-[210px]" />
         </div>

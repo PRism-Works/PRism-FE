@@ -9,6 +9,7 @@ import IconInput from '../input/IconInput';
 import { Search } from 'lucide-react';
 import TagInput from '../input/TagInput';
 import { useModalStore } from '@/stores/modalStore';
+import { cn } from '@/lib/utils';
 
 interface SelectTagModalLayoutProps {
   title: string;
@@ -31,6 +32,8 @@ export default function SelectTagModalLayout({
   onSelectComplete,
 }: SelectTagModalLayoutProps) {
   const [message, setMessage] = useState<string>('');
+  const [messageClassName, setMessageClassname] = useState<string>('');
+
   const [searchWord, setSearchWord] = useState<string>('');
 
   const closeModal = useModalStore((state) => state.closeModal);
@@ -75,6 +78,7 @@ export default function SelectTagModalLayout({
         addSelectList(searchWord);
         setSearchWord('');
         setMessage('');
+        setMessageClassname('');
       }
     }
   };
@@ -83,11 +87,14 @@ export default function SelectTagModalLayout({
     if (availableTags.length === 0) {
       if (checkExistTags(searchWord)) {
         setMessage('이미 존재하는 태그입니다.');
+        setMessageClassname('text-danger-500');
       } else {
         setMessage('엔터를 눌러 새 태그를 추가하세요!');
+        setMessageClassname('text-info-500');
       }
     } else {
       setMessage('');
+      setMessageClassname('');
     }
   }, [availableTags, checkExistTags, searchWord]);
 
@@ -131,7 +138,11 @@ export default function SelectTagModalLayout({
                   {availableTags.map((tag, index) => renderTagInput(tag, index, false))}
                 </div>
               ) : (
-                <div className="flex h-full flex-col gap-2 text-gray-500 mobile2">
+                <div
+                  className={cn(
+                    'flex h-full flex-col gap-2 text-gray-500 display5',
+                    messageClassName,
+                  )}>
                   <span>{message}</span>
                 </div>
               )}
