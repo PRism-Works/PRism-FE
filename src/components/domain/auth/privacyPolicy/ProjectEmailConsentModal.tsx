@@ -2,7 +2,7 @@ import TermsModalLayout from '@/components/common/modal/TermsModalLayout';
 
 export default function ProjectEmailConsentModal() {
   return (
-    <TermsModalLayout title="이메일 주소 제공 동의 ">
+    <TermsModalLayout title="[필수] 이메일 주소 제공 동의 ">
       <p className="mt-3 text-gray-800 mobile2">
         귀하는 팀원들의 이메일 주소를 제공하기 전에, 팀원들로부터 이메일 수신에 대한 동의를 받았음을
         확인해야 합니다. 팀원들에게 PRism 평가지를 전송하기 위해 팀원들의 이메일 주소를 제공하시는
