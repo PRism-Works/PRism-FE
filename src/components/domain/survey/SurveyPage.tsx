@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { z } from 'zod';
 import { useState, useEffect } from 'react';
+import { useModalStore } from '@/stores/modalStore';
 import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import { useSubmitSurvey } from '@/hooks/queries/useSurveyService';
 import {
@@ -37,10 +38,9 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [showIntroduction, setShowIntroduction] = useState<boolean>(true);
-  const [showSubmitMessageBox, setShowSubmitMessageBox] = useState<boolean>(false);
-  const [showCompletionMessageBox, setShowCompletionMessageBox] = useState<boolean>(false);
-  const [showErrorMessageBox, setShowErrorMessageBox] = useState<boolean>(false);
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
+
+  const { openModal, closeModal } = useModalStore();
 
   const methods = useForm<SurveyFormValues>({
     defaultValues: {
@@ -92,24 +92,20 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   });
 
   const submitSurveyMutation = useSubmitSurvey(() => {
-    setShowCompletionMessageBox(true);
+    closeModal();
+    setTimeout(() => {
+      openModal(<CompletionMessage />);
+    }, 150);
   });
 
-  const onSubmit: SubmitHandler<SurveyFormValues> = (data) => {
-    console.log('Submitted data:', data);
-    setShowSubmitMessageBox(true);
-  };
-
   const handleClickSubmit = async () => {
-    setShowSubmitMessageBox(false);
+    closeModal();
 
     const formData = methods.getValues();
     const submitData: SubmitSurveyRequest = {
       reviewerEmail: surveyData.data.reviewerEmail,
       responses: formData.responses,
     };
-
-    console.log('Submit Data:', submitData);
 
     submitSurveyMutation.mutate({
       projectId: parseInt(surveyData.data.projectId, 10),
@@ -132,9 +128,10 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
     );
 
     if (!allResponsesFilled) {
-      setShowErrorMessageBox(true);
+      openModal(<ErrorMessage />);
       return;
     }
+
     try {
       const validatedData = surveyFormSchema.parse(formData);
       onSubmit(validatedData);
@@ -142,8 +139,76 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
       if (error instanceof z.ZodError) {
         console.error('Validation failed:', error.errors);
       }
-      setShowErrorMessageBox(true);
+      openModal(<ErrorMessage />);
     }
+  };
+
+  const onSubmit: SubmitHandler<SurveyFormValues> = () => {
+    openModal(<SubmitSurveyMessage handleClickSubmit={handleClickSubmit} />);
+  };
+
+  // 평가 제출 메시지창
+  const SubmitSurveyMessage = ({ handleClickSubmit }: { handleClickSubmit: () => void }) => {
+    const { closeModal } = useModalStore();
+
+    return (
+      <MessageBox
+        title={<div>평가를 제출할까요?</div>}
+        titleIcon={<MailOpen className="h-6 w-6 stroke-purple-600" />}
+        footer={
+          <>
+            <MessageBox.MessageConfirmButton
+              text="이전으로"
+              onClick={closeModal}
+              isPrimary={false}
+            />
+            <MessageBox.MessageConfirmButton
+              text="제출하기"
+              onClick={handleClickSubmit}
+              isPrimary
+            />
+          </>
+        }
+      />
+    );
+  };
+
+  // 평가 완료 메시지창
+  const CompletionMessage = () => {
+    return (
+      <MessageBox
+        title={
+          <div className="flex-col-center">
+            <div>이제 팀원들이 평가한 내 협업 능력을 분석한</div>
+            <div className="flex items-center">
+              나의{'\u00A0'}
+              <span className="text-purple-500">PRism</span> 을 볼 수 있어요!
+            </div>
+          </div>
+        }
+        description="팀원들의 평가 참여도가 높을수록 분석 결과가 정확해요."
+        titleIcon={<Sparkles className="h-6 w-6 stroke-purple-600" />}
+        footer={
+          <Link href="/mypage">
+            <MessageBox.MessageConfirmButton text="내 평가 결과 보러가기" isPrimary={true} />
+          </Link>
+        }
+      />
+    );
+  };
+
+  // 오류 메시지창(유효성 검사)
+  const ErrorMessage = () => {
+    const { closeModal } = useModalStore();
+
+    return (
+      <MessageBox
+        title={<div>모든 항목을 작성해주세요.</div>}
+        description="누락된 응답이 있습니다. 모든 질문에 답변해주세요."
+        titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
+        footer={<MessageBox.MessageConfirmButton text="확인" onClick={closeModal} isPrimary />}
+      />
+    );
   };
 
   return (
@@ -186,63 +251,6 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
             )}
           </div>
         </Carousel>
-      )}
-
-      {showSubmitMessageBox && (
-        <MessageBox
-          title={<div>평가를 제출할까요?</div>}
-          titleIcon={<MailOpen className="h-6 w-6 stroke-purple-600" />}
-          footer={
-            <>
-              <MessageBox.MessageConfirmButton
-                text="이전으로"
-                onClick={() => setShowSubmitMessageBox(false)}
-                isPrimary={false}
-              />
-              <MessageBox.MessageConfirmButton
-                text="제출하기"
-                onClick={handleClickSubmit}
-                isPrimary
-              />
-            </>
-          }
-        />
-      )}
-
-      {showCompletionMessageBox && (
-        <MessageBox
-          title={
-            <div className="flex-col-center">
-              <div>이제 팀원들이 평가한 내 협업 능력을 분석한</div>
-              <div className="flex items-center">
-                나의{'\u00A0'}
-                <span className="text-purple-500">PRism</span> 을 볼 수 있어요!
-              </div>
-            </div>
-          }
-          description="팀원들의 평가 참여도가 높을수록 분석 결과가 정확해요."
-          titleIcon={<Sparkles className="h-6 w-6 stroke-purple-600" />}
-          footer={
-            <Link href="/mypage">
-              <MessageBox.MessageConfirmButton text="내 평가 결과 보러가기" isPrimary={true} />
-            </Link>
-          }
-        />
-      )}
-
-      {showErrorMessageBox && (
-        <MessageBox
-          title={<div>모든 항목을 작성해주세요.</div>}
-          description="누락된 응답이 있습니다. 모든 질문에 답변해주세요."
-          titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
-          footer={
-            <MessageBox.MessageConfirmButton
-              text="확인"
-              onClick={() => setShowErrorMessageBox(false)}
-              isPrimary={true}
-            />
-          }
-        />
       )}
     </div>
   );
