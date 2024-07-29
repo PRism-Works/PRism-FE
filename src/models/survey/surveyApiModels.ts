@@ -8,9 +8,12 @@ export interface SurveyLinkResponse {
   success: boolean;
   status: number;
   data: {
-    revieweeEmails: string[];
-    reviewerEmail: string;
+    revieweeInfoList: Array<{
+      revieweeEmail: string;
+      revieweeName: string;
+    }>;
     projectId: string;
+    reviewerEmail: string;
   };
 }
 
@@ -18,7 +21,6 @@ export interface SurveyLinkErrorResponse {
   code: string;
   message: string;
 }
-
 export interface SendSurveyLinkRequest {
   projectId: number;
 }
@@ -45,6 +47,7 @@ export interface FormResponseDetails {
 }
 
 export interface SurveyFormValues {
+  reviewerEmail: string;
   responses: {
     questionOrder: string;
     questionType: 'singleChoice' | 'multipleChoiceMember' | 'shortAnswer';
@@ -52,7 +55,7 @@ export interface SurveyFormValues {
     responseDetails: {
       revieweeEmail: string;
       response: {
-        score?: number;
+        score?: number | string;
         choice?: boolean;
         description?: string;
         example?: string;

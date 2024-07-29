@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ax } from '../axios';
 import type {
   SurveyLinkErrorResponse,
@@ -22,10 +22,24 @@ export const fetchSurveyLink = async (params: SurveyLinkRequest): Promise<Survey
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorResponse: SurveyLinkErrorResponse = error.response?.data;
-      console.error(`평가 링크 정보 가져오기 실패: ${errorResponse.message || error.message}`);
+      const axiosError = error as AxiosError<SurveyLinkErrorResponse>;
+      const errorResponse = axiosError.response?.data;
+
+      console.error(`평가 링크 정보 가져오기 실패: ${errorResponse?.message || error.message}`);
       console.error('Full error response:', errorResponse);
-      throw new Error(`평가 링크 정보 가져오기 실패: ${errorResponse.message || error.message}`);
+
+      switch (errorResponse?.code) {
+        case 'PeerReviewCode_404_1':
+          throw new Error('평가 링크 코드를 찾을 수 없습니다.');
+        case 'PeerReviewCode_400_1':
+          throw new Error('이미 평가를 완료했습니다.');
+        case 'PeerReviewCode_400_2':
+          throw new Error('평가할 프로젝트 멤버가 없습니다.');
+        default:
+          throw new Error(
+            `평가 링크 정보 가져오기 실패: ${errorResponse?.message || error.message}`,
+          );
+      }
     } else {
       console.error(`평가 링크 정보 가져오기 실패: ${error}`);
       throw new Error(`평가 링크 정보 가져오기 실패: ${error}`);

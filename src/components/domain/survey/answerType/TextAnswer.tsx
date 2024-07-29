@@ -27,25 +27,27 @@ export default function TextAnswer({
 }: TextAnswerProps) {
   const { register } = useFormContext<Record<string, unknown>>();
 
+  const indicator = stepNumber === 13 ? '강점' : '보완점';
+
   return (
     <SurveyLayout
       currentStep={currentStep}
       totalSteps={totalSteps}
       question={question.text}
       stepNumber={stepNumber}>
-      {stepNumber === 13 && <Instruction indicator="강점" />}
-      {stepNumber === 14 && <Instruction indicator="보완점" />}
-      {teamMembers.map((member, index) => (
+      {(stepNumber === 13 || stepNumber === 14) && <Instruction indicator={indicator} />}
+      {teamMembers?.map((revieweeName, index) => (
         <TextRow
           key={index}
           name={`responses[${stepNumber - 1}].responseDetails[${index}].response`}
-          member={member}
+          revieweeName={revieweeName}
           register={register}
           iconIndex={index}
           questionIndex={stepNumber - 1}
           index={index}
+          indicator={indicator}
         />
-      ))}
+      )) ?? <p>팀원 정보를 불러올 수 없습니다.</p>}
     </SurveyLayout>
   );
 }
