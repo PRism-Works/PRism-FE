@@ -43,7 +43,6 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
 
   const methods = useForm<SurveyFormValues>({
-    mode: 'onChange',
     defaultValues: {
       reviewerEmail: surveyData?.data?.reviewerEmail ?? '',
       responses: surveyQuestions.map((question) => ({
