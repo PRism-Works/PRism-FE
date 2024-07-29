@@ -34,27 +34,27 @@ export default function RatingRow({
       <RadioGroup className="flex items-center space-x-4 md:space-x-8 lg:space-x-20">
         <CustomRadioButton
           name={`responses[${questionIndex}].responseDetails[${index}].response.score`}
-          value={1}
+          value="1"
           register={register}
         />
         <CustomRadioButton
           name={`responses[${questionIndex}].responseDetails[${index}].response.score`}
-          value={2}
+          value="2"
           register={register}
         />
         <CustomRadioButton
           name={`responses[${questionIndex}].responseDetails[${index}].response.score`}
-          value={3}
+          value="3"
           register={register}
         />
         <CustomRadioButton
           name={`responses[${questionIndex}].responseDetails[${index}].response.score`}
-          value={4}
+          value="4"
           register={register}
         />
         <CustomRadioButton
           name={`responses[${questionIndex}].responseDetails[${index}].response.score`}
-          value={5}
+          value="5"
           register={register}
         />
       </RadioGroup>
