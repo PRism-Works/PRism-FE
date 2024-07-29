@@ -31,6 +31,7 @@ import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectSe
 import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
+import ProjectEmailConsentModal from '../../auth/privacyPolicy/ProjectEmailConsentModal';
 
 const STEPS: ProjectRegisterHeaderStep[] = [
   {
@@ -263,11 +264,12 @@ const EmailConsentConfirmation = ({
 }: {
   setCurrStep: Dispatch<SetStateAction<number>>;
 }) => {
+  const { openModal } = useModalStore();
   const handleEmailConsentConfirm = () => {
     setCurrStep((prev) => prev + 1);
   };
   const handleClickShowTerms = () => {
-    alert('이메일 수신 동의 약관');
+    openModal(<ProjectEmailConsentModal />);
   };
   return (
     <MessageBox
@@ -277,7 +279,13 @@ const EmailConsentConfirmation = ({
           <br /> 동의를 받았음을 확인합니다.
         </div>
       }
-      subTitle={<a onClick={handleClickShowTerms}>이메일 수신 이용 약관</a>}
+      subTitle={
+        <p
+          className="my-3 cursor-pointer font-medium text-info underline underline-offset-4"
+          onClick={handleClickShowTerms}>
+          이메일 수신 이용 약관
+        </p>
+      }
       titleIcon={<MailCheck className="stroke-purple-500" />}
       footer={<MessageBox.MessageConfirmButton text="확인" onClick={handleEmailConsentConfirm} />}
       showCloseButton={false}
