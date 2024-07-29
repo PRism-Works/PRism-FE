@@ -116,22 +116,6 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const handleValidationAndSubmit = async () => {
     const formData = methods.getValues();
 
-    // 유효성 검사 추가: 모든 질문에 응답이 있는지 확인
-    const allResponsesFilled = formData.responses.every((response) =>
-      response.responseDetails.every((detail) => {
-        const responseValues = Object.values(detail.response);
-        return (
-          responseValues.length > 0 &&
-          responseValues.every((value) => value !== undefined && value !== null && value !== '')
-        );
-      }),
-    );
-
-    if (!allResponsesFilled) {
-      openModal(<ErrorMessage />);
-      return;
-    }
-
     try {
       const validatedData = surveyFormSchema.parse(formData);
       onSubmit(validatedData);

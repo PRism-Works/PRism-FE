@@ -90,13 +90,15 @@ export const surveyFormSchema = z
   })
   .refine(
     (data) =>
-      data.responses.every((response) =>
-        response.responseDetails.every((detail) =>
-          Object.values(detail.response).some(
-            (value) => value !== undefined && value !== null && value !== '',
-          ),
-        ),
-      ),
+      data.responses.every((response) => {
+        return response.responseDetails.every((detail) => {
+          const responseValues = Object.values(detail.response);
+          return (
+            responseValues.length > 0 &&
+            responseValues.every((value) => value !== undefined && value !== null && value !== '')
+          );
+        });
+      }),
     {
       message: '모든 문항에 적어도 하나의 응답이 필요합니다.',
     },
