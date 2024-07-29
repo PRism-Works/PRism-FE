@@ -4,6 +4,7 @@ import CirclePlanetIcon from '../../user/CirclePlanetIcon';
 
 interface TextRowProps {
   index: number;
+  name: string;
   revieweeName: string;
   iconIndex: number;
   questionIndex: number;
