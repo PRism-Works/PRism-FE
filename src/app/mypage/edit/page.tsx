@@ -12,7 +12,7 @@ import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout
 import BorderCard from '@/components/common/card/BorderCard';
 import TagInput from '@/components/common/input/TagInput';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
-import { AlertCircle, Check, Download } from 'lucide-react';
+import { AlertCircle, Check, Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // 로그인 한 사용자의 프로필 수정 페이지
@@ -219,7 +219,7 @@ const CheckSaveConfirmation = ({ handleSaveProfile }: { handleSaveProfile: () =>
   return (
     <MessageBox
       title="수정된 정보를 저장할까요?"
-      titleIcon={<Download className="stroke-purple-500" />}
+      titleIcon={<Pencil className="stroke-purple-500" />}
       footer={
         <>
           <MessageBox.MessageConfirmButton text="취소" isPrimary={false} />
