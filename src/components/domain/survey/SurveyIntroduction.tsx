@@ -1,8 +1,11 @@
-import PrismLogo from '@/assets/logo/logo-combine.svg';
-import AgreementCheckbox from '../auth/privacyPolicy/AgreementCheckbox';
 import { useReducer } from 'react';
+import { useModalStore } from '@/stores/modalStore';
 import { AlarmClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import PrismLogo from '@/assets/logo/logo-combine.svg';
+import PRismPrivacyPolicyModal from '../auth/privacyPolicy/PRismPrivacyPolicyModal';
+import PRismTermsOfServiceModal from '../auth/privacyPolicy/PRismTermsOfServiceModal';
+import AgreementCheckbox from '../auth/privacyPolicy/AgreementCheckbox';
 
 interface SurveyIntroductionProps {
   setShowIntroduction: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,6 +13,7 @@ interface SurveyIntroductionProps {
 
 export default function SurveyIntroduction({ setShowIntroduction }: SurveyIntroductionProps) {
   const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false);
+  const { openModal } = useModalStore();
 
   return (
     <div className="container min-h-screen w-full max-w-[1040px] px-4 py-8 text-gray-700 flex-col-center md:px-8">
@@ -110,9 +114,9 @@ export default function SurveyIntroduction({ setShowIntroduction }: SurveyIntrod
               isSmallScreen={false}
               text="필수동의 항목 및"
               privacyPolicyText="개인정보 처리 방침"
-              privacyPolicyLink="/another-privacy-policy"
+              onPrivacyPolicyClick={() => openModal(<PRismPrivacyPolicyModal />)}
               termsOfServiceText="이용약관"
-              termsOfServiceLink="/another-terms-of-service"
+              onTermsOfServiceClick={() => openModal(<PRismTermsOfServiceModal />)}
               className="mt-8 mobile1"
             />
           </div>
