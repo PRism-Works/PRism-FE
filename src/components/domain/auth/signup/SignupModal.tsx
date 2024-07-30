@@ -1,7 +1,8 @@
 import { cn } from '@/lib/utils';
 import { useId, useState, useReducer } from 'react';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useModalStore } from '@/stores/modalStore';
 import { useForm } from 'react-hook-form';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useTimer } from '@/hooks/useTimer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema, SignupForm } from '@/models/auth/authModels';
@@ -20,6 +21,8 @@ import {
 } from '@/components/ui/form';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import AgreementCheckbox from '../privacyPolicy/AgreementCheckbox';
+import SignupPrivacyPolicyModal from '../privacyPolicy/SignupPrivacyPolicyModal';
+import SignupEmailConsentModal from '../privacyPolicy/SignupEmailConsentModal';
 
 interface SignupModalProps {
   onSuccess?: () => void;
@@ -43,6 +46,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
     formMethods.setValue('certification', '');
   };
 
+  const { openModal } = useModalStore();
   const { timeLeft, startTimer } = useTimer(300, handleTimerEnd);
 
   const formMethods = useForm<SignupForm>({
@@ -354,9 +358,9 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
             isSmallScreen={false}
             text="필수동의 항목 및"
             privacyPolicyText="개인정보 수집 및 이용 동의"
-            privacyPolicyLink="/privacy-policy"
+            onPrivacyPolicyClick={() => openModal(<SignupPrivacyPolicyModal />)}
             termsOfServiceText="이메일 정보 수신"
-            termsOfServiceLink="/terms-of-service"
+            onTermsOfServiceClick={() => openModal(<SignupEmailConsentModal />)}
           />
         </form>
       </Form>
