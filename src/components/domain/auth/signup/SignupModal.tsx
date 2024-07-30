@@ -166,13 +166,14 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
         />
       }>
       <Form {...formMethods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mt-8 grid w-full max-w-[420px] items-center gap-1">
+        <form className="mt-8 gap-8 flex-col-center" onSubmit={handleSubmit(onSubmit)}>
+          {/* 이름 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel
                     className={cn('text-black', {
                       mobile2: isSmallScreen,
@@ -190,18 +191,20 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       autoComplete="name"
                     />
                   </FormControl>
-                  <FormMessage>{errors.name?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5 left-0">
+                    {errors.name?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 이메일 주소 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="email"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel
                     className={cn('text-black', {
                       mobile2: isSmallScreen,
@@ -242,18 +245,18 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       </Button>
                     )}
                   </div>
-                  <FormMessage>{errors.email?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">{errors.email?.message}</FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 인증번호 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="certification"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel
                     className={cn('text-black', {
                       mobile2: isSmallScreen,
@@ -273,7 +276,7 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                           disabled={isCertified}
                           autoComplete="off"
                         />
-                        {timeLeft > 0 && !isCertified && (
+                        {isSendingCode && !isCertified && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
@@ -289,20 +292,24 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                     </Button>
                   </div>
                   {isCertified && (
-                    <p className="text-success-500 caption">인증이 완료되었습니다!</p>
+                    <p className="absolute -bottom-5 text-success-500 caption">
+                      인증이 완료되었습니다!
+                    </p>
                   )}
-                  <FormMessage>{errors.certification?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">
+                    {errors.certification?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 비밀번호 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel
                     className={cn('text-black', {
                       mobile2: isSmallScreen,
@@ -319,18 +326,20 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage>{errors.password?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">
+                    {errors.password?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mb-6 mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 비밀번호 확인 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="verifyPassword"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel
                     className={cn('text-black', {
                       mobile2: isSmallScreen,
@@ -347,7 +356,9 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage>{errors.verifyPassword?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">
+                    {errors.verifyPassword?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
