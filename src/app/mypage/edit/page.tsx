@@ -9,14 +9,16 @@ import { PageSpinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
-import MoveBackButton from '@/components/common/button/MoveBackButton';
 import BorderCard from '@/components/common/card/BorderCard';
 import TagInput from '@/components/common/input/TagInput';
+import MessageBox from '@/components/common/messgeBox/MessageBox';
+import { AlertCircle, Check, Pencil } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 // 로그인 한 사용자의 프로필 수정 페이지
 export default function EditMyPage() {
   const userId = useUserStore((state) => state.user?.userId);
-
+  const router = useRouter();
   const { data: user, isLoading, isError, error } = useUserProfileByUserId(userId || '');
 
   const [name, setName] = useState('');
@@ -25,7 +27,14 @@ export default function EditMyPage() {
   const [skills, setSkills] = useState<string[]>([]);
 
   const openModal = useModalStore((state) => state.openModal);
-  const updateProfileMutation = useUpdateProfile();
+
+  const handleProfileSaveSuccess = () => {
+    openModal(<ProfileSaveSuccessMessage />);
+    // 이전 페이지로 이동
+    // (페이지 이동은 메시지 확인 버튼 콜백으로 안넘기고, 비동기로 실행되어도 된다)
+    handleGoBack();
+  };
+  const updateProfileMutation = useUpdateProfile(handleProfileSaveSuccess);
 
   useEffect(() => {
     if (user?.data) {
@@ -84,6 +93,14 @@ export default function EditMyPage() {
     setSkills(selectedTags);
   };
 
+  const handleClickCancle = () => {
+    openModal(<CheckCancleConfirmation handleEditCancleProfile={handleGoBack} />);
+  };
+
+  const handleClickSave = () => {
+    openModal(<CheckSaveConfirmation handleSaveProfile={handleSubmit} />);
+  };
+
   const handleSubmit = () => {
     const newProfileData = {
       username: name,
@@ -92,6 +109,9 @@ export default function EditMyPage() {
       introduction: '', // #20240721.syjang, 기획에 없는 데이터. 백엔드 확인 필요
     };
     updateProfileMutation.mutate(newProfileData);
+  };
+  const handleGoBack = () => {
+    router.back();
   };
 
   const renderTags = (tags: string[], type: 'interestJobs' | 'skills', onOpenModal: () => void) => (
@@ -150,10 +170,12 @@ export default function EditMyPage() {
               {renderTags(skills, 'skills', handleOpenSkillsModal)}
             </div>
             <nav className="flex justify-center gap-2">
-              <MoveBackButton className="w-[72px]" />
+              <Button variant="outline" onClick={handleClickCancle} className={'w-[72px]'}>
+                취소
+              </Button>
               <Button
                 className="w-[72px]"
-                onClick={handleSubmit}
+                onClick={handleClickSave}
                 disabled={updateProfileMutation.isPending}
                 pending={updateProfileMutation.isPending}>
                 저장
@@ -165,3 +187,57 @@ export default function EditMyPage() {
     </div>
   );
 }
+
+const CheckCancleConfirmation = ({
+  handleEditCancleProfile,
+}: {
+  handleEditCancleProfile: () => void;
+}) => {
+  const handleConfirm = () => {
+    handleEditCancleProfile(); // 확인 버튼 클릭 시 프로젝트 등록 모달창을 닫는 콜백함수 실행
+  };
+  return (
+    <MessageBox
+      title="수정된 정보가 저장되지 않았아요!"
+      subTitle="그래도 취소할까요?"
+      titleIcon={<AlertCircle className="stroke-purple-500" />}
+      footer={
+        <>
+          <MessageBox.MessageConfirmButton text="취소" isPrimary={false} />
+          <MessageBox.MessageConfirmButton text="확인" onClick={handleConfirm} />
+        </>
+      }
+      contentClassName="max-w-[550px]"
+    />
+  );
+};
+
+const CheckSaveConfirmation = ({ handleSaveProfile }: { handleSaveProfile: () => void }) => {
+  const handleConfirm = () => {
+    handleSaveProfile(); // 확인 버튼 클릭 시 프로젝트 등록 모달창을 닫는 콜백함수 실행
+  };
+  return (
+    <MessageBox
+      title="수정된 정보를 저장할까요?"
+      titleIcon={<Pencil className="stroke-purple-500" />}
+      footer={
+        <>
+          <MessageBox.MessageConfirmButton text="취소" isPrimary={false} />
+          <MessageBox.MessageConfirmButton text="확인" onClick={handleConfirm} />
+        </>
+      }
+      contentClassName="max-w-[550px]"
+    />
+  );
+};
+
+const ProfileSaveSuccessMessage = () => {
+  return (
+    <MessageBox
+      title="프로필이 성공적으로 수정되었습니다."
+      titleIcon={<Check className="stroke-purple-500" />}
+      footer={<MessageBox.MessageConfirmButton text="확인" />}
+      contentClassName="max-w-[550px]"
+    />
+  );
+};

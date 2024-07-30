@@ -33,7 +33,7 @@ export default function ProjectRegisterButton({
     <Button
       onClick={handleOpenProjectRegisterModal}
       variant="gradient"
-      className={cn('h-[60px] w-[250px]', className)}>
+      className={cn('h-[60px] w-[250px] flex-center', className)}>
       <ClipboardEdit className="mr-2 h-6 w-6" />
       <p className="body8">{text}</p>
     </Button>
