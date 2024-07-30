@@ -11,6 +11,8 @@ import {
   LoginRequest,
   LoginResponse,
   LogoutResponse,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
 } from '@/models/auth/authApiModels';
 
 // NOTE: 개발을 위해 임시로 로그를 많이 추가해두었습니다. 배포 전 삭제할 예정입니다.
@@ -116,5 +118,29 @@ export const logout = async (): Promise<LogoutResponse> => {
   } catch (error) {
     console.error('로그아웃 실패:', error);
     throw error;
+  }
+};
+
+export const resetPassword = async (data: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
+  try {
+    const response = await ax.put<ResetPasswordResponse>('/api/v1/auth/password', data);
+    console.log('Reset Password Response:', response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorCode = error.response?.data?.code;
+      if (errorCode === 'AuthCode_401_5') {
+        throw new Error('회원가입되지 않은 이메일입니다.');
+      }
+      if (errorCode === 'AuthCode_400_3') {
+        throw new Error('이메일 인증을 하지 않았습니다.');
+      }
+      console.error(`비밀번호 재설정 실패: ${error.response?.data?.message || error.message}`);
+      console.error('Full error response:', error.response?.data);
+      throw new Error(`비밀번호 재설정 실패: ${error.response?.data?.message || error.message}`);
+    } else {
+      console.error(`비밀번호 재설정 실패: ${error}`);
+      throw new Error(`비밀번호 재설정 실패: ${error}`);
+    }
   }
 };
