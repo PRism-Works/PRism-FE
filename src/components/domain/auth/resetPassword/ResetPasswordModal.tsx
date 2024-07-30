@@ -47,7 +47,6 @@ export default function ResetPasswordModal() {
     mode: 'onChange',
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
-      name: '',
       email: '',
       certification: '',
       newPassword: '',
@@ -148,30 +147,7 @@ export default function ResetPasswordModal() {
       }>
       <Form {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mt-8 grid w-full max-w-[420px] items-center gap-1">
-            <FormField
-              control={formMethods.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
-                    이름
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      id={`${id}-reset-password-name`}
-                      placeholder="이름"
-                      {...field}
-                      className="w-full"
-                    />
-                  </FormControl>
-                  <FormMessage className="absolute">{errors.name?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="mt-10 grid w-full max-w-[420px] items-center gap-1">
+          <div className="mt-12 grid w-full max-w-[420px] items-center gap-1">
             <FormField
               control={formMethods.control}
               name="email"
