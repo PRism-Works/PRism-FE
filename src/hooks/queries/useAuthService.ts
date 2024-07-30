@@ -7,11 +7,19 @@ import type {
   SendEmailCodeResponse,
   VerifyAuthCodeRequest,
   VerifyAuthCodeResponse,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
 } from '@/models/auth/authApiModels';
 import { useAuthStore } from '@/stores/authStore';
 import { useModalStore } from '@/stores/modalStore';
 import type { LoginForm } from '@/models/auth/authModels';
-import { login, logout, sendEmailCode, verifyAuthCode } from '../../services/api/authApi';
+import {
+  login,
+  logout,
+  sendEmailCode,
+  verifyAuthCode,
+  resetPassword,
+} from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
 import { userDataByLoginUser } from '@/services/api/userApi';
 
@@ -105,6 +113,28 @@ export const useVerifyAuthCode = (successCallback: () => void) => {
     onError: (error) => {
       console.error('인증번호 인증 실패:', error);
       alert('인증번호 인증에 실패했습니다. 다시 시도해 주세요.');
+    },
+  });
+};
+
+export const useResetPassword = (successCallback: () => void) => {
+  return useMutation<ResetPasswordResponse, AxiosError, ResetPasswordRequest>({
+    mutationFn: resetPassword,
+    onSuccess: () => {
+      if (successCallback) successCallback();
+      alert('비밀번호가 성공적으로 재설정되었습니다.');
+    },
+    onError: (error) => {
+      console.error('비밀번호 재설정 실패:', error);
+      if (error instanceof AxiosError) {
+        if (error.response?.data?.code === 'AuthCode_401_5') {
+          alert('회원가입되지 않은 이메일입니다.');
+        } else if (error.response?.data?.code === 'AuthCode_400_3') {
+          alert('이메일 인증을 하지 않았습니다.');
+        } else {
+          alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+        }
+      }
     },
   });
 };
