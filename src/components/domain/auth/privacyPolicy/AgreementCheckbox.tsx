@@ -7,9 +7,9 @@ interface AgreementCheckboxProps {
   onToggle: () => void;
   isSmallScreen: boolean;
   privacyPolicyText: string;
-  privacyPolicyLink: string;
   termsOfServiceText: string;
-  termsOfServiceLink: string;
+  onPrivacyPolicyClick: () => void;
+  onTermsOfServiceClick: () => void;
   className?: string;
 }
 
@@ -20,8 +20,8 @@ export default function AgreementCheckbox({
   isSmallScreen,
   privacyPolicyText,
   termsOfServiceText,
-  // privacyPolicyLink,
-  // termsOfServiceLink,
+  onPrivacyPolicyClick,
+  onTermsOfServiceClick,
   className,
 }: AgreementCheckboxProps) {
   return (
@@ -43,21 +43,17 @@ export default function AgreementCheckbox({
 
         <p className="text-sm text-muted-foreground md:text-left">
           {text}{' '}
-          <a
-            // href={privacyPolicyLink} // NOTE: 임시로 링크 비활성화
-            target="_blank"
-            rel="noreferrer"
-            className="cursor-pointer text-info underline underline-offset-4">
+          <span
+            onClick={onPrivacyPolicyClick}
+            className="cursor-pointer font-medium text-info underline underline-offset-4">
             {privacyPolicyText}
-          </a>{' '}
+          </span>{' '}
           및{' '}
-          <a
-            // href={termsOfServiceLink}
-            target="_blank"
-            rel="noreferrer"
-            className="cursor-pointer text-info underline underline-offset-4">
+          <span
+            onClick={onTermsOfServiceClick}
+            className="cursor-pointer font-medium text-info underline underline-offset-4">
             {termsOfServiceText}
-          </a>
+          </span>
           에 모두 동의합니다.
         </p>
       </div>
