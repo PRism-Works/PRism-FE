@@ -127,13 +127,9 @@ export const useResetPassword = (successCallback: () => void) => {
     onError: (error) => {
       console.error('비밀번호 재설정 실패:', error);
       if (error instanceof AxiosError) {
-        if (error.response?.data?.code === 'AuthCode_401_5') {
-          alert('회원가입되지 않은 이메일입니다.');
-        } else if (error.response?.data?.code === 'AuthCode_400_3') {
-          alert('이메일 인증을 하지 않았습니다.');
-        } else {
-          alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
-        }
+        alert(error.message);
+      } else {
+        alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
       }
     },
   });
