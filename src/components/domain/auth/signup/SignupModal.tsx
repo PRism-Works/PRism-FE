@@ -124,7 +124,7 @@ export default function SignupModal() {
   };
 
   // 회원가입 제출
-  const onSubmit = async (data: SignupForm) => {
+  const onSignupSubmit = async (data: SignupForm) => {
     try {
       await signupMutation.mutateAsync({
         username: data.name,
@@ -161,13 +161,13 @@ export default function SignupModal() {
         <ModalLayout.ConfirmButton
           title="회원가입하기"
           isSmallScreen={isSmallScreen}
-          onClick={handleSubmit(onSubmit)}
+          onClick={handleSubmit(onSignupSubmit)}
           pending={signupMutation.isPending}
           disabled={!isValid || !isAgreed || !isCertified || !isEmailExistChecked}
         />
       }>
       <Form {...formMethods}>
-        <form className="mt-8 gap-8 flex-col-center" onSubmit={handleSubmit(onSubmit)}>
+        <form className="mt-8 gap-8 flex-col-center" onSubmit={handleSubmit(onSignupSubmit)}>
           {/* 이름 */}
           <div className="w-full">
             <FormField
@@ -178,10 +178,10 @@ export default function SignupModal() {
                   <FormLabel className={cn('text-black', labelStyle)}>이름</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       type="text"
                       id={`${id}-signup-name`}
                       placeholder="이름"
-                      {...field}
                       className="w-full"
                       autoComplete="name"
                     />
@@ -204,11 +204,11 @@ export default function SignupModal() {
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
                       <Input
+                        {...field}
                         type="email"
                         id={`${id}-signup-email`}
                         placeholder="prism12@gmail.com"
-                        {...field}
-                        disabled={isEmailExistChecked} // 이메일 중복 확인이 끝나면 수정 불가
+                        disabled={isEmailExistChecked || sendCodeMutation.isPending} // 이메일 중복 확인이 끝나면 수정 불가
                         className="w-full flex-grow sm:w-auto"
                         autoComplete="username"
                       />
@@ -251,10 +251,10 @@ export default function SignupModal() {
                     <FormControl>
                       <div className="relative w-full flex-grow sm:w-auto">
                         <Input
+                          {...field}
                           type="text"
                           id={`${id}-signup-certification`}
                           placeholder="이메일로 전송된 인증번호를 입력해 주세요."
-                          {...field}
                           className="w-full pr-12"
                           disabled={isCertified}
                           autoComplete="off"
@@ -299,9 +299,9 @@ export default function SignupModal() {
                   <FormLabel className={cn('text-black', labelStyle)}>비밀번호</FormLabel>
                   <FormControl>
                     <PasswordInput
+                      {...field}
                       id={`${id}-signup-password`}
                       placeholder="비밀번호"
-                      {...field}
                       className="w-full"
                       autoComplete="new-password"
                     />
@@ -323,9 +323,9 @@ export default function SignupModal() {
                   <FormLabel className={cn('text-black', labelStyle)}>비밀번호 확인</FormLabel>
                   <FormControl>
                     <PasswordInput
+                      {...field}
                       id={`${id}-signup-verify-password`}
                       placeholder="비밀번호 확인"
-                      {...field}
                       className="w-full"
                       autoComplete="new-password"
                     />

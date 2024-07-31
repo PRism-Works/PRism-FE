@@ -122,13 +122,9 @@ export const useVerifyAuthCode = (successCallback: () => void) => {
   });
 };
 
-export const useResetPassword = (successCallback: () => void) => {
+export const useResetPassword = () => {
   return useMutation<ResetPasswordResponse, AxiosError, ResetPasswordRequest>({
     mutationFn: resetPassword,
-    onSuccess: () => {
-      if (successCallback) successCallback();
-      alert('비밀번호가 성공적으로 재설정되었습니다.');
-    },
     onError: (error) => {
       console.error('비밀번호 재설정 실패:', error);
       if (error instanceof AxiosError) {
