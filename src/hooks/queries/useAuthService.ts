@@ -9,6 +9,9 @@ import type {
   VerifyAuthCodeResponse,
   ResetPasswordRequest,
   ResetPasswordResponse,
+  EmailExistsResponse,
+  SignupResponse,
+  SignupRequest,
 } from '@/models/auth/authApiModels';
 import { useAuthStore } from '@/stores/authStore';
 import { useModalStore } from '@/stores/modalStore';
@@ -19,6 +22,8 @@ import {
   sendEmailCode,
   verifyAuthCode,
   resetPassword,
+  checkEmailExists,
+  signup,
 } from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
 import { userDataByLoginUser } from '@/services/api/userApi';
@@ -130,6 +135,35 @@ export const useResetPassword = (successCallback: () => void) => {
         alert(error.message);
       } else {
         alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+      }
+    },
+  });
+};
+
+export const useCheckEmailExists = () => {
+  return useMutation<EmailExistsResponse, AxiosError, string>({
+    mutationFn: checkEmailExists,
+
+    onError: (error) => {
+      console.error('이메일 중복검사 실패:', error);
+      if (error instanceof AxiosError) {
+        alert(error.message);
+      } else {
+        alert('이메일 중복검사에 실패했습니다. 다시 시도해 주세요.');
+      }
+    },
+  });
+};
+
+export const useSignup = () => {
+  return useMutation<SignupResponse, AxiosError, SignupRequest>({
+    mutationFn: signup,
+    onError: (error) => {
+      console.error('회원가입 실패:', error);
+      if (error instanceof AxiosError) {
+        alert(error.message);
+      } else {
+        alert('회원가입에 실패했습니다. 다시 시도해 주세요.');
       }
     },
   });
