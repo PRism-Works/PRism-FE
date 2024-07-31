@@ -71,3 +71,15 @@ export interface LogoutResponse {
   status: number;
   data: null;
 }
+
+export interface ResetPasswordRequest {
+  email: string;
+  authCode: string;
+  password: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  status: number;
+  data: null;
+}

@@ -62,7 +62,6 @@ export const LoginSchema = z.object({
 
 export const ResetPasswordSchema = z
   .object({
-    name: z.string().min(1, '이름을 입력해주세요.').regex(nameRegex, nameRegexMessage),
     email: z.string().email('올바른 이메일을 입력해 주세요.'),
     certification: z.string(),
     newPassword: z
