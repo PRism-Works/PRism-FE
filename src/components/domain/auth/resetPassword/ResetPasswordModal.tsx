@@ -34,17 +34,16 @@ export default function ResetPasswordModal() {
   const { openModal, closeModal } = useModalStore();
 
   // mutation
-  const sendEmailCodeMutation = useSendEmailCode(() => {});
-  const verifyAuthCodeMutation = useVerifyAuthCode(() => {});
+  const sendEmailCodeMutation = useSendEmailCode();
+  const verifyAuthCodeMutation = useVerifyAuthCode();
   const resetPasswordMutation = useResetPassword();
 
   const [isCertified, setIsCertified] = useState(false);
-  const [isCodeSended, setIsCodeSended] = useState<boolean>(false); // 인증코드 전송 완료 상태
+  const [isCodeSent, setIsCodeSent] = useState<boolean>(false); // 인증코드 전송 완료 상태
 
   const handleTimerEnd = () => {
-    setIsCodeSended(false);
-
-    formMethods.setValue('certification', '');
+    setIsCodeSent(false);
+    setValue('certification', '');
   };
 
   const { timeLeft, startTimer, isRunning } = useTimer(300, handleTimerEnd);
@@ -64,6 +63,7 @@ export default function ResetPasswordModal() {
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    setValue,
     getValues,
     setError,
   } = formMethods;
@@ -83,7 +83,7 @@ export default function ResetPasswordModal() {
         authType: 'RESET_PASSWORD',
       });
       // 인증번호 전송에 성공하면, 타이머 시작
-      setIsCodeSended(true);
+      setIsCodeSent(true);
       startTimer();
     } catch (error) {
       console.error('인증번호 발송 실패:', error);
@@ -158,13 +158,13 @@ export default function ResetPasswordModal() {
                         id={`${id}-reset-password-email`}
                         placeholder="prism12@gmail.com"
                         className="w-full flex-grow sm:w-auto"
-                        disabled={isCodeSended || sendEmailCodeMutation.isPending}
+                        disabled={isCodeSent || sendEmailCodeMutation.isPending}
                       />
                     </FormControl>
                     <Button
                       type="button"
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={isCodeSended || !isEmailValid}
+                      disabled={isCodeSent || !isEmailValid}
                       pending={sendEmailCodeMutation.isPending}
                       onClick={handleSendEmailCode}>
                       인증번호 받기
@@ -194,7 +194,7 @@ export default function ResetPasswordModal() {
                           className="w-full pr-12"
                           disabled={isCertified}
                         />
-                        {isCodeSended && !isCertified && isRunning && (
+                        {isCodeSent && !isCertified && isRunning && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
@@ -204,7 +204,7 @@ export default function ResetPasswordModal() {
                     <Button
                       type="button"
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isCodeSended || !isAuthCodeValid || isCertified || !isEmailValid}
+                      disabled={!isCodeSent || !isAuthCodeValid || isCertified || !isEmailValid}
                       pending={verifyAuthCodeMutation.isPending}
                       onClick={handleVerifyAuthCode}>
                       인증하기

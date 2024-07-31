@@ -63,6 +63,11 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
   const loginUser = useUserStore((state) => state.user);
   const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호가 전송된 상태인지
 
+  // mutaion
+  const sendCodeMutation = useSendEmailCode();
+  const verifyCodeMutation = useVerifyAuthCode();
+  const linkProjectMutation = useLinkProject();
+
   const handleTimerEnd = () => {
     // 타이머 종료 시 인증번호를 다시 받을 수 있도록 버튼 활성화 처리
     setIsCodeSent(false);
@@ -73,47 +78,62 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
   };
   const { timeLeft, startTimer } = useTimer(300, handleTimerEnd);
 
-  const handleSendCodeSuccess = () => {
-    // 인증번호 발송에 성공하면, 타이머 시작하며 전송 상태 true로 변경
-    startTimer();
-    setIsCodeSent(true);
-  };
-
-  const handleVerifyCodeSuccess = () => {
-    // 인증번호 검증에 성공하면, 해당 정보로 프로젝트 링크 api 호출하기
-    linkProjectMutation.mutate({ projectId, anonymousEmail: selectedEmail });
-  };
-
-  const handleLinkProjectSuccess = () => {
-    // 연동에 성공하면, 모달을 닫으며 연동 완료 메시지창 띄우기
-    closeModal();
-    setTimeout(() => {
-      openModal(<LinkCompleteMessage />);
-    });
-  };
-
-  const sendCodeMutation = useSendEmailCode(handleSendCodeSuccess);
-  const verifyCodeMutation = useVerifyAuthCode(handleVerifyCodeSuccess);
-  const linkProjectMutation = useLinkProject(handleLinkProjectSuccess);
-
   // 인증번호 받기 버튼 비활성화 기준 : 선택된 이메일이 없거나, 인증번호를 받은 상태일 때
   const isDisabledSendButton = !selectedEmail || isCodeSent;
 
   // 인증하기 버튼 비활성화 기준 : 인증번호가 전송되지 않았거나, 입력창에 값이 없거나, 시간이 끝났을 때
   const isDisabledVerifyButton = !isCodeSent || !authCode || !timeLeft;
 
+  // 인증번호 전송
+  const sendCode = async (selectedEmail: string) => {
+    try {
+      // 인증번호가 전송이 된 상태가 아니라면, 인증번호 전송 api 호출
+      await sendCodeMutation.mutateAsync({ email: selectedEmail, authType: 'LOAD_PROJECT' });
+      // 인증번호 발송에 성공하면, 타이머 시작하며 전송 상태 true로 변경
+      startTimer();
+      setIsCodeSent(true);
+    } catch (error) {
+      console.error(`인증 코드 전송 실패: ${error}`);
+    }
+  };
+
+  // 인증번호 검증
+  const verifyCode = async (selectedEmail: string, authCode: string) => {
+    try {
+      await verifyCodeMutation.mutateAsync({
+        email: selectedEmail,
+        authCode: authCode,
+        authType: 'LOAD_PROJECT',
+      });
+
+      // 인증번호 검증에 성공하면, 해당 정보로 프로젝트 링크 api 호출하기
+      linkProject(selectedEmail);
+    } catch (error) {
+      console.error(`인증 코드 확인 실패: ${error}`);
+    }
+  };
+
+  // 프로젝트 연동
+  const linkProject = async (selectedEmail: string) => {
+    try {
+      await linkProjectMutation.mutateAsync({ projectId, anonymousEmail: selectedEmail });
+      // 연동에 성공하면, 모달을 닫으며 연동 완료 메시지창 띄우기
+      closeModal();
+      setTimeout(() => {
+        openModal(<LinkCompleteMessage />);
+      });
+    } catch (error) {
+      console.error(`프로젝트 연동 실패: ${error}`);
+    }
+  };
+
   // 인증번호 받기, 인증하기 form 제출
   const onSubmit = (data: ProjectLinkForm) => {
     if (!isCodeSent) {
-      // 인증번호가 전송이 된 상태가 아니라면, 인증번호 전송 api 호출
-      sendCodeMutation.mutate({ email: data.selectedEmail, authType: 'LOAD_PROJECT' });
+      sendCode(data.selectedEmail);
     } else {
       // 인증번호 전송이 진행된 상태라면, 인증하기 api 호출
-      verifyCodeMutation.mutate({
-        email: data.selectedEmail,
-        authCode: data.authCode,
-        authType: 'LOAD_PROJECT',
-      });
+      verifyCode(data.selectedEmail, data.authCode);
     }
   };
 

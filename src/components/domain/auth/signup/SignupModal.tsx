@@ -38,17 +38,17 @@ export default function SignupModal() {
   // mutation
   const checkEmailExistMutation = useCheckEmailExists();
   const signupMutation = useSignup();
-  const sendCodeMutation = useSendEmailCode(() => {});
-  const verifyCodeMutation = useVerifyAuthCode(() => {});
+  const sendCodeMutation = useSendEmailCode();
+  const verifyCodeMutation = useVerifyAuthCode();
 
   const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false); // 약관 동의 여부
   const [isEmailExistChecked, setIsEmailExistChecked] = useState<boolean>(false); // 이메일 중복 확인 완료 상태
   const [isCertified, setIsCertified] = useState<boolean>(false); // 인증코드 확인 완료 상태
-  const [isCodeSended, setIsCodeSended] = useState<boolean>(false); // 인증코드 전송 완료 상태
+  const [isCodeSent, setIsCodeSent] = useState<boolean>(false); // 인증코드 전송 완료 상태
 
   const handleTimerEnd = () => {
-    setIsCodeSended(false);
-    formMethods.setValue('certification', '');
+    setIsCodeSent(false);
+    setValue('certification', '');
     alert('인증시간이 만료되었습니다. 다시 시도해주세요.');
   };
 
@@ -70,6 +70,7 @@ export default function SignupModal() {
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    setValue,
     getValues,
     setError,
     clearErrors,
@@ -103,7 +104,7 @@ export default function SignupModal() {
     try {
       await sendCodeMutation.mutateAsync({ email, authType: 'SIGNUP' });
       // 인증번호 전송에 성공하면, 타이머 시작
-      setIsCodeSended(true);
+      setIsCodeSent(true);
       startTimer();
     } catch (error) {
       console.error(`인증번호 받기 실패: ${error}`);
@@ -220,7 +221,7 @@ export default function SignupModal() {
                         className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                         onClick={handleSendEmailCode}
                         pending={sendCodeMutation.isPending}
-                        disabled={isCodeSended}>
+                        disabled={isCodeSent}>
                         인증번호 받기
                       </Button>
                     ) : (
@@ -259,7 +260,7 @@ export default function SignupModal() {
                           disabled={isCertified}
                           autoComplete="off"
                         />
-                        {isCodeSended && !isCertified && isRunning && (
+                        {isCodeSent && !isCertified && isRunning && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
@@ -270,7 +271,7 @@ export default function SignupModal() {
                       type="button"
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                       disabled={
-                        !isCodeSended || !isAuthCodeValid || isCertified || !isEmailExistChecked
+                        !isCodeSent || !isAuthCodeValid || isCertified || !isEmailExistChecked
                       }
                       onClick={handleVerifyAuthCode}
                       pending={verifyCodeMutation.isPending}>

@@ -95,11 +95,10 @@ export const useLogout = () => {
   });
 };
 
-export const useSendEmailCode = (successCallback: () => void) => {
+export const useSendEmailCode = () => {
   return useMutation<SendEmailCodeResponse, AxiosError, SendEmailCodeRequest>({
     mutationFn: sendEmailCode,
     onSuccess: () => {
-      if (successCallback) successCallback();
       alert('인증번호가 전송되었습니다.');
     },
     onError: (error) => {
@@ -109,12 +108,9 @@ export const useSendEmailCode = (successCallback: () => void) => {
   });
 };
 
-export const useVerifyAuthCode = (successCallback: () => void) => {
+export const useVerifyAuthCode = () => {
   return useMutation<VerifyAuthCodeResponse, AxiosError, VerifyAuthCodeRequest>({
     mutationFn: verifyAuthCode,
-    onSuccess: () => {
-      if (successCallback) successCallback();
-    },
     onError: (error) => {
       console.error('인증번호 인증 실패:', error);
       alert('인증번호 인증에 실패했습니다. 다시 시도해 주세요.');
