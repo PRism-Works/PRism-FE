@@ -203,9 +203,7 @@ export default function ProjectRegisterModal({
 const SendSurveyMessage = ({ projectId }: { projectId: number }) => {
   const { openModal, closeModal } = useModalStore();
 
-  const sendSurveyLinkMutation = useSendSurveyLink(() => {
-    openModal(<SendSurveyCompleteMessage />);
-  });
+  const sendSurveyLinkMutation = useSendSurveyLink();
 
   // '나중에' 버튼 클릭
   const handleClickLater = () => {
@@ -213,8 +211,13 @@ const SendSurveyMessage = ({ projectId }: { projectId: number }) => {
   };
 
   // '보내기' 버튼 클릭
-  const handleClickSendSurvey = () => {
-    sendSurveyLinkMutation.mutate({ projectId });
+  const handleClickSendSurvey = async () => {
+    try {
+      await sendSurveyLinkMutation.mutateAsync({ projectId });
+      openModal(<SendSurveyCompleteMessage />);
+    } catch (error) {
+      console.error('평가지 보내기 실패:', error);
+    }
   };
 
   return (

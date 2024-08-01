@@ -21,13 +21,9 @@ export const useFetchSurveyLink = (params: SurveyLinkRequest) => {
 };
 
 // 설문 링크 보내기
-export const useSendSurveyLink = (successCallback: () => void) => {
+export const useSendSurveyLink = () => {
   return useMutation<SendSurveyLinkResponse, AxiosError, SendSurveyLinkRequest>({
     mutationFn: sendSurveyLink,
-    onSuccess: (response) => {
-      console.log('Send Survey Link Response:', response);
-      if (successCallback) successCallback();
-    },
     onError: (error) => {
       console.error('Send Survey Link Error:', error);
       alert('평가 링크 발송에 실패했습니다.');
