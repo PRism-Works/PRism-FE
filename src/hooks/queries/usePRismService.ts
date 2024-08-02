@@ -30,12 +30,18 @@ export const useUserOverallProjectAnalysis = (userId: string) => {
 };
 
 // 프리즘 평가 갱신하기
-export const useUpdatePRismEvaluation = (successCallback: () => void) => {
+export const useUpdatePRismEvaluation = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess: () => void;
+  onError: () => void;
+}) => {
   return useMutation<PRismEvaluationUpdateResponse, AxiosError, number>({
     mutationFn: updatePrismEvaluation,
     onSuccess: (response) => {
       console.log(response);
-      if (successCallback) successCallback();
+      if (onSuccess) onSuccess();
     },
     onError: (error) => {
       // 추후 케이스 나눠서 메시징 처리 예정
@@ -50,9 +56,8 @@ export const useUpdatePRismEvaluation = (successCallback: () => void) => {
       // // 3번. 평가를 한 사람이 더이상 없는데 갱신을 할 경우
       // code: PeerReviewCode_400_5,
       // reason: 이미 평가 갱신이 완료되었습니다
-
-      alert('PRism 분석 갱신에 실패했습니다.');
       console.log(error);
+      if (onError) onError();
     },
   });
 };
