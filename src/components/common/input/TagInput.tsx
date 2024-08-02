@@ -9,22 +9,31 @@ type TagInputButton = 'delete' | 'add' | 'none';
 
 const colorConfig: Record<
   TagInputColor,
-  { base: string; description: string; hoverAndActive: string; iconHover: string }
+  {
+    background: string;
+    text: string;
+    description: string;
+    hoverAndActive: string;
+    iconHover: string;
+  }
 > = {
   purple: {
-    base: 'bg-purple-100 text-purple-500',
+    background: 'bg-purple-100',
+    text: 'text-purple-500',
     description: 'text-purple-300',
     hoverAndActive: 'hover:bg-purple-200 active:bg-purple-300',
     iconHover: 'group-hover:text-purple-600',
   },
   indigo: {
-    base: 'bg-indigo-100 text-indigo-500',
+    background: 'bg-indigo-100',
+    text: 'text-indigo-500',
     description: 'text-indigo-300',
     hoverAndActive: 'hover:bg-indigo-200 active:bg-indigo-300',
     iconHover: 'group-hover:text-indigo-600',
   },
   gray: {
-    base: 'bg-gray-100 text-gray-600',
+    background: 'bg-gray-100',
+    text: 'text-gray-600',
     description: 'text-gray-400',
     hoverAndActive: 'hover:bg-gray-200 active:bg-gray-300',
     iconHover: 'group-hover:text-gray-600',
@@ -38,6 +47,7 @@ interface TagInputProps {
   className?: string;
   onClick?: () => void;
   isDisabled?: boolean;
+  forSaveImage?: boolean;
 }
 
 export default function TagInput({
@@ -47,8 +57,9 @@ export default function TagInput({
   className = '',
   onClick = () => {},
   isDisabled = false,
+  forSaveImage = false,
 }: TagInputProps) {
-  const { base, description, hoverAndActive, iconHover } = colorConfig[colorTheme];
+  const { background, text, description, hoverAndActive, iconHover } = colorConfig[colorTheme];
 
   const handleTagClick = () => {
     if (onClick) onClick();
@@ -58,7 +69,8 @@ export default function TagInput({
     <div
       className={cn(
         'group flex h-fit w-fit cursor-pointer items-center justify-between gap-1 rounded-[6px] px-1.5 py-1 transition-colors display5',
-        base,
+        !forSaveImage && background,
+        text,
         !isDisabled && hoverAndActive,
         isDisabled && 'cursor-default',
         className,

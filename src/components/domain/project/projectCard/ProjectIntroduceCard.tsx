@@ -10,11 +10,13 @@ import { useGetProfileProjectDetails } from '@/hooks/queries/useProjectService';
 import { useUserStore } from '@/stores/userStore';
 import { PageSpinner } from '@/components/common/spinner';
 import { convertStringToDate, formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
+import { cn } from '@/lib/utils';
 
 interface ProjectIntroduceCardProps {
   projectId: number;
   fromMyProfile: boolean; // true: 내 프로젝트 상세조회
   userId?: string;
+  forSaveImage?: boolean;
 }
 
 // 프로젝트 개요
@@ -22,6 +24,7 @@ export default function ProjectIntroduceCard({
   projectId,
   fromMyProfile = false,
   userId = '',
+  forSaveImage = false,
 }: ProjectIntroduceCardProps) {
   // 프로젝트 정보 조회 api 호출
   const { data, isLoading, isError } = useGetProfileProjectDetails(fromMyProfile, projectId);
@@ -56,20 +59,29 @@ export default function ProjectIntroduceCard({
           </BorderCard>
         </div>
       ) : (
-        <div className="flex flex-col gap-10">
+        <div className="flex w-full flex-col gap-10">
           <section className="flex-col-center">
             <h1 className="text-gray-900 body6">
               프로젝트
-              <EmphasizeWord text={projectData.projectName} />
+              <EmphasizeWord forSaveImage={forSaveImage} text={projectData.projectName} />
               에서
-              <EmphasizeWord text={targetUserData?.roles.join(', ') || ''} />로 활동한{' '}
-              {targetUserData?.name}입니다.
+              <EmphasizeWord
+                forSaveImage={forSaveImage}
+                text={targetUserData?.roles.join(', ') || ''}
+              />
+              로 활동한 {targetUserData?.name}입니다.
             </h1>
           </section>
           <section className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <h2 className="text-gray-900 body6">프로젝트 개요</h2>
-              {fromMyProfile && <ProjectImageSaveButton className="-mb-4 mr-2" />}
+              {fromMyProfile && (
+                <ProjectImageSaveButton
+                  saveType="PROJECT"
+                  projectId={projectId}
+                  className="-mb-4 mr-2"
+                />
+              )}
             </div>
             <BorderCard className="p-7">
               <div className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-7">
@@ -85,7 +97,12 @@ export default function ProjectIntroduceCard({
                 <ul className="flex items-center gap-1">
                   {targetUserData?.roles.map((role, index) => (
                     <li key={index}>
-                      <TagInput isDisabled colorTheme="indigo" value={role} />
+                      <TagInput
+                        forSaveImage={forSaveImage}
+                        isDisabled
+                        colorTheme="indigo"
+                        value={role}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -133,10 +150,19 @@ export default function ProjectIntroduceCard({
 
 interface EmphasizeWordProps {
   text: string;
+  forSaveImage: boolean;
 }
-const EmphasizeWord = ({ text }: EmphasizeWordProps) => {
+const EmphasizeWord = ({ text, forSaveImage = false }: EmphasizeWordProps) => {
+  // 이미지 저장 시, absolute 값 조정 필요
   return (
-    <span className="relative mx-2 inline-block text-purple-700 body6 before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:bg-black before:content-[''] after:absolute after:bottom-[-2.5px] after:right-[-5px] after:h-[5px] after:w-[5px] after:rounded-full after:bg-black">
+    <span
+      className={cn(
+        'relative mx-5 inline-block text-purple-700 body6',
+        'before:absolute before:left-0 before:h-[1px] before:w-full before:bg-black before:content-[""]',
+        'after:absolute after:right-[-5px] after:h-[5px] after:w-[5px] after:rounded-full after:bg-black',
+        forSaveImage ? 'before:bottom-[-12px]' : 'before:bottom-0',
+        forSaveImage ? 'after:bottom-[-13.5px]' : 'after:bottom-[-2.5px]',
+      )}>
       {text}
     </span>
   );

@@ -19,7 +19,7 @@ export default function MyPage() {
       <section className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-gray-900 body6">PRism 종합 리포트</h2>
-          <ProjectImageSaveButton className="-mb-4 mr-2" />
+          <ProjectImageSaveButton saveType="PROFILE" className="-mb-4 mr-2" />
         </div>
         <PRismAndRadialReport fromMyProfile />
       </section>
