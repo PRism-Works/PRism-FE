@@ -3,7 +3,7 @@ import PRismAndRadialReport from '@/components/domain/prism/PRismAndRadialReport
 import ParticipatingProjectList from '@/components/domain/project/projectList/ParticipatingProjectList';
 import GoProjectLinkButton from '@/components/domain/project/projectButton/GoProjectLinkButton';
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
-import ProjectImageSaveButton from '@/components/domain/project/projectButton/ProjectImageSaveButton';
+import ImageSaveButton from '@/components/common/input/ImageSaveButton';
 
 export default function MyPage() {
   return (
@@ -19,7 +19,7 @@ export default function MyPage() {
       <section className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-gray-900 body6">PRism 종합 리포트</h2>
-          <ProjectImageSaveButton saveType="PROFILE" className="-mb-4 mr-2" />
+          <ImageSaveButton saveType="PROFILE" className="-mb-4 mr-2" />
         </div>
         <PRismAndRadialReport fromMyProfile />
       </section>

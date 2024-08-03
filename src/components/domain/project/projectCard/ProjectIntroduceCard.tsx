@@ -2,7 +2,6 @@
 
 import BorderCard from '@/components/common/card/BorderCard';
 import { ArrowUpRight } from 'lucide-react';
-import ProjectImageSaveButton from '../projectButton/ProjectImageSaveButton';
 import TagInput from '@/components/common/input/TagInput';
 import ProjectVisibilityButton from '../projectButton/ProjectVisibilityButton';
 import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
@@ -11,6 +10,7 @@ import { useUserStore } from '@/stores/userStore';
 import { PageSpinner } from '@/components/common/spinner';
 import { convertStringToDate, formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
 import { cn } from '@/lib/utils';
+import ImageSaveButton from '@/components/common/input/ImageSaveButton';
 
 interface ProjectIntroduceCardProps {
   projectId: number;
@@ -76,11 +76,7 @@ export default function ProjectIntroduceCard({
             <div className="flex items-center justify-between">
               <h2 className="text-gray-900 body6">프로젝트 개요</h2>
               {fromMyProfile && (
-                <ProjectImageSaveButton
-                  saveType="PROJECT"
-                  projectId={projectId}
-                  className="-mb-4 mr-2"
-                />
+                <ImageSaveButton saveType="PROJECT" projectId={projectId} className="-mb-4 mr-2" />
               )}
             </div>
             <BorderCard className="p-7">
