@@ -65,7 +65,10 @@ export default function ProjectSummaryCard({
           <LeftSection projectData={projectData} forSaveImage={forSaveImage} />
           {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
             variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
-            <EvaluationSection evaluation={projectData?.evaluation || ''} />
+            <EvaluationSection
+              evaluation={projectData?.evaluation || ''}
+              forSaveImage={forSaveImage}
+            />
           )}
         </div>
         <RightSection variant={variant} projectData={projectData} forSaveImage={forSaveImage} />
@@ -82,7 +85,7 @@ const LeftSection = ({
   forSaveImage: boolean;
 }) => (
   <section className="flex w-[250px] flex-shrink-0 flex-col justify-between gap-2">
-    <header className="flex flex-col gap-4 overflow-hidden">
+    <header className={cn('flex flex-col gap-4', !forSaveImage && 'overflow-hidden')}>
       {/* 이미지 저장용인 경우: 배경 없이 텍스트 색만 변경(이미지 잘림 현상) 
           소속이 있는 경우 : bg-gray-600, 없는 경우: bg-gray-400 */}
       <p
@@ -98,7 +101,9 @@ const LeftSection = ({
         )}>
         {projectData.organizationName || '소속 없음'}
       </p>
-      <h2 className="overflow-y-auto text-gray-800 body7">{projectData.projectName}</h2>
+      <h2 className={cn('text-gray-800 body7', !forSaveImage && 'overflow-y-auto')}>
+        {projectData.projectName}
+      </h2>
     </header>
     <footer className="flex-shrink-0 text-gray-500 display5">
       <time>{formatDateToDotSeparatedYYYYMMDD(projectData.startDate)}</time> -{' '}
@@ -107,10 +112,21 @@ const LeftSection = ({
   </section>
 );
 
-const EvaluationSection = ({ evaluation }: { evaluation: string }) => (
+const EvaluationSection = ({
+  evaluation,
+  forSaveImage,
+}: {
+  evaluation: string;
+  forSaveImage: boolean;
+}) => (
   <section className="flex flex-col justify-center">
     <h3 className="text-gray-400 mobile1">팀원 평가 요약</h3>
-    <p className={cn('overflow-y-auto text-gray-800 display4', evaluation || 'text-gray-300')}>
+    <p
+      className={cn(
+        'text-gray-800 display4',
+        evaluation || 'text-gray-300',
+        !forSaveImage && 'overflow-y-auto',
+      )}>
       {evaluation || '등록된 한 줄 평가가 없습니다.'}
     </p>
   </section>
