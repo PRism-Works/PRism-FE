@@ -17,11 +17,13 @@ interface PRismChartExplanationReportProps {
   fromMyProfile: boolean;
   projectId: number;
   reportedUserId?: string;
+  forSaveImage?: boolean;
 }
 export default function PRismChartExplanationReport({
   fromMyProfile,
   projectId,
   reportedUserId = '',
+  forSaveImage = false,
 }: PRismChartExplanationReportProps) {
   const [prismChartData, setPRismChartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
 
@@ -71,7 +73,12 @@ export default function PRismChartExplanationReport({
   return (
     <BorderCard className="relative flex-wrap gap-28 flex-center">
       {(!data?.data || data.data.isEvaluationEmpty) && (
-        <ReportBlur fromMyProfile={fromMyProfile} isLoading={isLoading} isError={isError} />
+        <ReportBlur
+          fromMyProfile={fromMyProfile}
+          isLoading={isLoading}
+          isError={isError}
+          forSaveImage={forSaveImage}
+        />
       )}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
         <div className="h-full w-full">

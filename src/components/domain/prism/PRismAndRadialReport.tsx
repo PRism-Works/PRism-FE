@@ -16,11 +16,13 @@ import { useUserProfileByUserId } from '@/hooks/queries/useUserService';
 interface PRismAndRadialReportProps {
   reportedUserId?: string;
   fromMyProfile: boolean;
+  forSaveImage?: boolean;
 }
 
 export default function PRismAndRadialReport({
   reportedUserId = '',
   fromMyProfile,
+  forSaveImage = false,
 }: PRismAndRadialReportProps) {
   const [prismChartData, setPRismChartData] = useState<PRismEvaluation[]>(defaultPRismChartData);
   const [radialChartData, setRadialChartData] = useState<RadialChartData>(
@@ -81,7 +83,12 @@ export default function PRismAndRadialReport({
   return (
     <BorderCard className="relative flex-wrap gap-8 flex-center">
       {(!data?.data || data.data.isEvaluationEmpty) && (
-        <ReportBlur isLoading={isLoading} isError={isError} fromMyProfile={fromMyProfile} />
+        <ReportBlur
+          forSaveImage={forSaveImage}
+          isLoading={isLoading}
+          isError={isError}
+          fromMyProfile={fromMyProfile}
+        />
       )}
       <div className="flex h-[330px] max-w-[330px] flex-col items-center gap-5 px-9 py-3">
         <div className="text-indigo-800 body6">{fromMyProfile && '나의'} PRism</div>

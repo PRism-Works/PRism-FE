@@ -1,15 +1,18 @@
 import { ComponentSpinner } from '@/components/common/spinner';
+import { cn } from '@/lib/utils';
 
 interface ReportBlurProps {
   fromMyProfile: boolean;
   isLoading?: boolean;
   isError?: boolean;
+  forSaveImage?: boolean;
 }
 
 export default function ReportBlur({
   fromMyProfile,
   isLoading = false,
   isError = false,
+  forSaveImage = false,
 }: ReportBlurProps) {
   const message = isError
     ? 'PRism을 로드하는데 문제가 발생했습니다.'
@@ -24,7 +27,11 @@ export default function ReportBlur({
         ? '프로젝트를 등록하고 나만의 PRism을 시작해 보세요.'
         : '';
   return (
-    <div className="absolute inset-1 z-10 flex gap-3 rounded-[30px] bg-white bg-opacity-70 backdrop-blur-sm flex-col-center">
+    <div
+      className={cn(
+        'absolute inset-1 z-10 flex gap-3 rounded-[30px] bg-white backdrop-blur-sm flex-col-center',
+        forSaveImage ? 'bg-opacity-90' : 'bg-opacity-70',
+      )}>
       {isLoading && <ComponentSpinner />}
       <p className="text-gray-700 body6">{message}</p>
       <p className="text-purple-800 display4">{subMessage}</p>

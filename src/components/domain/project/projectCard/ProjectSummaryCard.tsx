@@ -23,18 +23,25 @@ interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
   userId?: string;
   variant?: ProjectSummaryCardVariant;
+  forSaveImage?: boolean;
 }
 
 export default function ProjectSummaryCard({
   projectData,
   userId = '',
   variant = PROJECT_CARD_VARIANT.SEARCH_RESULT,
+  forSaveImage = false,
 }: ProjectSummaryCardProps) {
   const router = useRouter();
   const projectId = projectData.projectId;
+
+  // 프로젝트 카드 disabled 조건 : 관리자용, 연동용, 이미지 저장용
   const isCardDisabled =
-    variant === PROJECT_CARD_VARIANT.ADMIN || variant === PROJECT_CARD_VARIANT.LINK_PREVIEW;
-  const handleClick = () => {
+    variant === PROJECT_CARD_VARIANT.ADMIN ||
+    variant === PROJECT_CARD_VARIANT.LINK_PREVIEW ||
+    forSaveImage;
+
+  const handleCardClick = () => {
     if (isCardDisabled) return;
     const routes = {
       [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
@@ -52,28 +59,42 @@ export default function ProjectSummaryCard({
   return (
     <ShadowCard
       className={cn(isCardDisabled && 'cursor-default active:bg-white')}
-      onClick={handleClick}>
+      onClick={handleCardClick}>
       <div className="flex min-h-[176px] flex-col justify-between lg:h-44 lg:flex-row">
         <div className="mb-4 flex w-full flex-wrap gap-3 sm:gap-6 lg:mb-0 lg:w-[80%] lg:gap-12">
-          <LeftSection projectData={projectData} />
+          <LeftSection projectData={projectData} forSaveImage={forSaveImage} />
           {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
             variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
             <EvaluationSection evaluation={projectData?.evaluation || ''} />
           )}
         </div>
-        <RightSection variant={variant} projectData={projectData} />
+        <RightSection variant={variant} projectData={projectData} forSaveImage={forSaveImage} />
       </div>
     </ShadowCard>
   );
 }
 
-const LeftSection = ({ projectData }: { projectData: ProjectSummaryData }) => (
+const LeftSection = ({
+  projectData,
+  forSaveImage,
+}: {
+  projectData: ProjectSummaryData;
+  forSaveImage: boolean;
+}) => (
   <section className="flex w-[250px] flex-shrink-0 flex-col justify-between gap-2">
     <header className="flex flex-col gap-4 overflow-hidden">
+      {/* 이미지 저장용인 경우: 배경 없이 텍스트 색만 변경(이미지 잘림 현상) 
+          소속이 있는 경우 : bg-gray-600, 없는 경우: bg-gray-400 */}
       <p
         className={cn(
-          'w-fit rounded-[20px] bg-gray-600 px-3 text-white mobile1',
-          projectData.organizationName || 'bg-gray-400',
+          'w-fit rounded-[20px] text-white mobile1',
+          projectData.organizationName
+            ? forSaveImage
+              ? 'text-gray-600'
+              : 'bg-gray-600 px-3'
+            : forSaveImage
+              ? 'text-gray-300'
+              : 'bg-gray-400 px-3',
         )}>
         {projectData.organizationName || '소속 없음'}
       </p>
@@ -98,9 +119,11 @@ const EvaluationSection = ({ evaluation }: { evaluation: string }) => (
 const RightSection = ({
   variant,
   projectData,
+  forSaveImage,
 }: {
   variant: ProjectSummaryCardVariant;
   projectData: ProjectSummaryData;
+  forSaveImage: boolean;
 }) => {
   const projectId = projectData.projectId;
   return (
@@ -110,7 +133,7 @@ const RightSection = ({
         <ul className="flex gap-1">
           {projectData.categories?.map((category, index) => (
             <li key={index}>
-              <TagInput value={category} isDisabled />
+              <TagInput value={category} isDisabled forSaveImage={forSaveImage} />
             </li>
           ))}
         </ul>

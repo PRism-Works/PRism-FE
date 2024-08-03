@@ -25,11 +25,17 @@ export default function ProjectPreviewContent({ projectId }: ProjectPreviewConte
           fromMyProfile={false}
           projectId={projectId}
           reportedUserId={userId}
+          forSaveImage={true}
         />
       </section>
       <section className="flex flex-col gap-4">
         <h2 className="text-gray-900 body6">PRism 분석 리포트</h2>
-        <RadialChartReport projectId={projectId} reportedUserId={userId} fromMyProfile={false} />
+        <RadialChartReport
+          projectId={projectId}
+          reportedUserId={userId}
+          fromMyProfile={false}
+          forSaveImage={true}
+        />
       </section>
     </>
   );

@@ -22,7 +22,7 @@ const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
         }
         showCloseButton={false}
         preventOutsideClose={false}
-        contentClassName="min-w-[1100px]">
+        contentClassName="min-w-[1200px]">
         <div className="mt-7 flex gap-4 flex-col-center">
           <div className="flex w-full items-center justify-end gap-5 body8">
             <span
@@ -38,7 +38,7 @@ const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
               <Share2 className="transition-colors duration-300 ease-in-out group-hover:stroke-purple-800" />
             </span>
           </div>
-          <div ref={ref} className="flex w-full flex-col gap-10 rounded-2xl bg-gray-50 p-9">
+          <div ref={ref} className="flex w-[1100px] flex-col gap-10 rounded-2xl bg-gray-50 p-9">
             <header className="w-full flex-center">
               <PrismLogo className="mb-4 w-[150px]" />
             </header>
