@@ -9,36 +9,6 @@ interface ProjectEvaluationButtonProps {
   projectId: number;
 }
 
-export default function ProjectEvaluationButton({ projectId }: ProjectEvaluationButtonProps) {
-  const { openModal, closeModal } = useModalStore();
-
-  const handlePRismUpdateSuccess = () => {
-    closeModal();
-    openModal(<SuccessMessage />);
-  };
-
-  const handlePRismUpdateError = () => {
-    closeModal();
-    openModal(<ErrorMessage />);
-  };
-
-  const updatePRismMutation = useUpdatePRismEvaluation({
-    onSuccess: handlePRismUpdateSuccess,
-    onError: handlePRismUpdateError,
-  });
-
-  const handleStartEvaluation = () => {
-    openModal(<PRismAnalyzeAnimation />);
-    updatePRismMutation.mutate(projectId);
-  };
-
-  return (
-    <Button className="h-8 mobile2" onClick={handleStartEvaluation}>
-      PRism 분석 시작
-    </Button>
-  );
-}
-
 // 갱신 실패 메시지창
 const ErrorMessage = () => {
   const { closeModal } = useModalStore();
@@ -65,3 +35,27 @@ const SuccessMessage = () => {
     />
   );
 };
+
+export default function ProjectEvaluationButton({ projectId }: ProjectEvaluationButtonProps) {
+  const { openModal, closeModal } = useModalStore();
+
+  const { mutateAsync } = useUpdatePRismEvaluation({
+    onError: () => {
+      closeModal();
+      openModal(<ErrorMessage />);
+    },
+  });
+
+  const handleStartEvaluation = async () => {
+    openModal(<PRismAnalyzeAnimation />);
+    await mutateAsync(projectId);
+    closeModal();
+    openModal(<SuccessMessage />);
+  };
+
+  return (
+    <Button className="h-8 mobile2" onClick={handleStartEvaluation}>
+      PRism 분석 시작
+    </Button>
+  );
+}
