@@ -9,15 +9,46 @@ interface ProjectEvaluationButtonProps {
   projectId: number;
 }
 
+export default function ProjectEvaluationButton({ projectId }: ProjectEvaluationButtonProps) {
+  const { openModal, closeModal } = useModalStore();
+
+  const updatePRismMutation = useUpdatePRismEvaluation();
+
+  const handleStartEvaluation = async () => {
+    try {
+      openModal(<PRismAnalyzeAnimation />);
+      await updatePRismMutation.mutateAsync(projectId);
+      // 성공 시, 모달을 닫고 성공 메시지창 띄우기
+      closeModal();
+      openModal(<SuccessMessage />);
+    } catch (error) {
+      // 실패 시, 문구 띄우기
+      closeModal();
+      let errorMessage: string;
+      if (typeof error === 'string') {
+        errorMessage = error;
+      } else {
+        errorMessage = 'PRism 분석 업데이트에 실패했습니다.';
+      }
+      openModal(<ErrorMessage message={errorMessage} />);
+    }
+  };
+
+  return (
+    <Button className="h-8 mobile2" onClick={handleStartEvaluation}>
+      PRism 분석 시작
+    </Button>
+  );
+}
+
 // 갱신 실패 메시지창
-const ErrorMessage = () => {
+const ErrorMessage = ({ message }: { message: string }) => {
   const { closeModal } = useModalStore();
 
   return (
     <MessageBox
-      title={<div className="my-1 body6">PRism 분석 갱신에 실패했습니다.</div>}
+      title={<div className="my-1 body6">{message}</div>}
       titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
-      description="다시 시도해 주세요."
       footer={<MessageBox.MessageConfirmButton text="확인" onClick={closeModal} isPrimary />}
     />
   );
@@ -35,27 +66,3 @@ const SuccessMessage = () => {
     />
   );
 };
-
-export default function ProjectEvaluationButton({ projectId }: ProjectEvaluationButtonProps) {
-  const { openModal, closeModal } = useModalStore();
-
-  const { mutateAsync } = useUpdatePRismEvaluation({
-    onError: () => {
-      closeModal();
-      openModal(<ErrorMessage />);
-    },
-  });
-
-  const handleStartEvaluation = async () => {
-    openModal(<PRismAnalyzeAnimation />);
-    await mutateAsync(projectId);
-    closeModal();
-    openModal(<SuccessMessage />);
-  };
-
-  return (
-    <Button className="h-8 mobile2" onClick={handleStartEvaluation}>
-      PRism 분석 시작
-    </Button>
-  );
-}

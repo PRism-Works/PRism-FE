@@ -30,11 +30,10 @@ export const useUserOverallProjectAnalysis = (userId: string) => {
 };
 
 // 프리즘 평가 갱신하기
-export const useUpdatePRismEvaluation = ({ onError }: { onError: (error: AxiosError) => void }) => {
+export const useUpdatePRismEvaluation = () => {
   return useMutation<PRismEvaluationUpdateResponse, AxiosError, number>({
     mutationFn: updatePrismEvaluation,
     onError: (error) => {
-      // 추후 케이스 나눠서 메시징 처리 예정
       // 1번. 평가 갱신할 권한이 없을 경우(project owner가 아닐경우)
       // code: PeerReviewCode_400_3,
       // reason: 평가 갱신을 할 권한이 없습니다.
@@ -47,7 +46,17 @@ export const useUpdatePRismEvaluation = ({ onError }: { onError: (error: AxiosEr
       // code: PeerReviewCode_400_5,
       // reason: 이미 평가 갱신이 완료되었습니다
       console.log(error);
-      if (onError) onError(error);
+      const errorMessage = error.code;
+      switch (errorMessage) {
+        case 'PeerReviewCode_400_3':
+          throw 'PRism 분석 권한이 없습니다.';
+        case 'PeerReviewCode_400_4':
+          throw 'PRism 분석에 실패했습니다';
+        case 'PeerReviewCode_400_5':
+          throw 'PRism 분석이 최신 상태입니다.';
+        default:
+          throw 'PRism 분석 업데이트에 실패했습니다.';
+      }
     },
   });
 };
