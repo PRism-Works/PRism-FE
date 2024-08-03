@@ -45,8 +45,9 @@ const ErrorMessage = () => {
 
   return (
     <MessageBox
-      title={<div className="my-2 body6">PRism 분석 갱신에 실패했습니다.</div>}
+      title={<div className="my-1 body6">PRism 분석 갱신에 실패했습니다.</div>}
       titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
+      description="다시 시도해 주세요."
       footer={<MessageBox.MessageConfirmButton text="확인" onClick={closeModal} isPrimary />}
     />
   );

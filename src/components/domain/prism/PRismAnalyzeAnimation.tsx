@@ -1,4 +1,4 @@
-import PRismSpinner from '@/components/common/spinner/prismSpinner/PRismSpinner';
+import { PRismSpinner } from '@/components/common/spinner';
 
 export default function PRismAnalyzeAnimation() {
   return (
