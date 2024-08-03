@@ -189,13 +189,9 @@ export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean)
 };
 
 // 프로젝트 연동하기
-export const useLinkProject = (successCallback: () => void) => {
+export const useLinkProject = () => {
   return useMutation<ProjectDetailResponse, AxiosError, LinkProjectRequest>({
     mutationFn: linkProject,
-    onSuccess: (response) => {
-      console.log(response);
-      if (successCallback) successCallback();
-    },
     onError: (error) => {
       alert('프로젝트 연동 요청에 실패했습니다.');
       console.log(error);

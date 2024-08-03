@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useModalStore } from '@/stores/modalStore';
 import { useForm } from 'react-hook-form';
@@ -26,19 +26,24 @@ import {
 } from '@/components/ui/form';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import LoginModal from '../login/LoginModal';
+import { cn } from '@/lib/utils';
 
 export default function ResetPasswordModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
-  const [isEmailChecked, setIsEmailChecked] = useState(false);
-  const [isCertified, setIsCertified] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
   const { openModal, closeModal } = useModalStore();
 
+  // mutation
+  const sendEmailCodeMutation = useSendEmailCode();
+  const verifyAuthCodeMutation = useVerifyAuthCode();
+  const resetPasswordMutation = useResetPassword();
+
+  const [isCertified, setIsCertified] = useState(false);
+  const [isCodeSent, setIsCodeSent] = useState<boolean>(false); // 인증코드 전송 완료 상태
+
   const handleTimerEnd = () => {
-    setIsButtonDisabled(false);
-    formMethods.setValue('certification', '');
+    setIsCodeSent(false);
+    setValue('certification', '');
   };
 
   const { timeLeft, startTimer, isRunning } = useTimer(300, handleTimerEnd);
@@ -58,6 +63,7 @@ export default function ResetPasswordModal() {
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    setValue,
     getValues,
     setError,
   } = formMethods;
@@ -65,46 +71,28 @@ export default function ResetPasswordModal() {
   const email = watch('email');
   const certification = watch('certification');
 
-  const isEmailValid = !errors.email && email && email.trim().length > 0;
-  const isCertificationValid = !errors.certification && certification.length > 0;
-
-  const sendEmailCodeMutation = useSendEmailCode(() => {
-    startTimer();
-    setIsEmailChecked(true);
-  });
-
-  const verifyAuthCodeMutation = useVerifyAuthCode(() => {
-    setIsCertified(true);
-  });
-
-  const resetPasswordMutation = useResetPassword(() => {
-    formMethods.reset();
-    closeModal();
-    openModal(<LoginModal />);
-  });
-
-  useEffect(() => {
-    const shouldDisable = !isEmailValid || isRunning || sendEmailCodeMutation.isPending;
-    setIsButtonDisabled(shouldDisable);
-  }, [isEmailValid, isRunning, sendEmailCodeMutation.isPending]);
+  const isEmailValid = !errors.email && email.length > 0;
+  const isAuthCodeValid = !errors.certification && certification.length > 0;
 
   // 인증번호 전송
   const handleSendEmailCode = async () => {
+    const email = getValues('email');
     try {
-      setIsButtonDisabled(true);
       await sendEmailCodeMutation.mutateAsync({
         email,
         authType: 'RESET_PASSWORD',
       });
+      // 인증번호 전송에 성공하면, 타이머 시작
+      setIsCodeSent(true);
       startTimer();
     } catch (error) {
       console.error('인증번호 발송 실패:', error);
-      setIsButtonDisabled(false);
     }
   };
 
   // 인증번호 확인
   const handleVerifyAuthCode = async () => {
+    const email = getValues('email');
     const authCode = getValues('certification');
     try {
       await verifyAuthCodeMutation.mutateAsync({
@@ -112,6 +100,7 @@ export default function ResetPasswordModal() {
         authCode,
         authType: 'RESET_PASSWORD',
       });
+      setIsCertified(true);
     } catch (error) {
       setError('certification', { type: 'manual', message: '인증코드가 일치하지 않습니다.' });
       console.error('인증코드 확인 실패:', error);
@@ -119,18 +108,25 @@ export default function ResetPasswordModal() {
   };
 
   // 비밀번호 재설정
-  const onSubmit = async (data: ResetPasswordForm) => {
+  const onResetPasswordSubmit = async (data: ResetPasswordForm) => {
     try {
       await resetPasswordMutation.mutateAsync({
         email: data.email,
         authCode: data.certification,
         password: data.newPassword,
       });
+      closeModal();
+      alert('비밀번호가 성공적으로 재설정되었습니다.');
+      setTimeout(() => {
+        openModal(<LoginModal />);
+      }, 200);
     } catch (error) {
       console.error('비밀번호 재설정 실패:', error);
-      alert('비밀번호 재설정 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
   };
+
+  // 라벨 텍스트 스타일 (반응형)
+  const labelStyle = isSmallScreen ? 'mobile2' : 'mobile1';
 
   return (
     <ModalLayout
@@ -140,36 +136,35 @@ export default function ResetPasswordModal() {
         <ModalLayout.ConfirmButton
           title="비밀번호 변경하기"
           isSmallScreen={isSmallScreen}
-          onClick={handleSubmit(onSubmit)}
+          onClick={handleSubmit(onResetPasswordSubmit)}
           disabled={!isValid || !isCertified}
           pending={resetPasswordMutation.isPending}
         />
       }>
       <Form {...formMethods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onResetPasswordSubmit)}>
           <div className="mt-12 grid w-full max-w-[420px] items-center gap-1">
             <FormField
               control={formMethods.control}
               name="email"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
-                    이메일 주소
-                  </FormLabel>
+                  <FormLabel className={cn('text-black', labelStyle)}>이메일 주소</FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
                       <Input
+                        {...field}
                         type="email"
                         id={`${id}-reset-password-email`}
                         placeholder="prism12@gmail.com"
-                        {...field}
-                        disabled={isEmailChecked}
                         className="w-full flex-grow sm:w-auto"
+                        disabled={isCodeSent || sendEmailCodeMutation.isPending}
                       />
                     </FormControl>
                     <Button
+                      type="button"
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={isButtonDisabled}
+                      disabled={isCodeSent || !isEmailValid}
                       pending={sendEmailCodeMutation.isPending}
                       onClick={handleSendEmailCode}>
                       인증번호 받기
@@ -187,21 +182,19 @@ export default function ResetPasswordModal() {
               name="certification"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormLabel className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
-                    인증번호
-                  </FormLabel>
+                  <FormLabel className={cn('text-black', labelStyle)}>인증번호</FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
                       <div className="relative w-full flex-grow sm:w-auto">
                         <Input
+                          {...field}
                           type="text"
                           id={`${id}-reset-password-certification`}
                           placeholder="이메일로 전송된 인증번호를 입력해 주세요."
-                          {...field}
                           className="w-full pr-12"
                           disabled={isCertified}
                         />
-                        {timeLeft > 0 && !isCertified && (
+                        {isCodeSent && !isCertified && isRunning && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
@@ -209,13 +202,9 @@ export default function ResetPasswordModal() {
                       </div>
                     </FormControl>
                     <Button
+                      type="button"
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={
-                        !isCertificationValid ||
-                        timeLeft === 0 ||
-                        isCertified ||
-                        verifyAuthCodeMutation.isPending
-                      }
+                      disabled={!isCodeSent || !isAuthCodeValid || isCertified || !isEmailValid}
                       pending={verifyAuthCodeMutation.isPending}
                       onClick={handleVerifyAuthCode}>
                       인증하기
@@ -237,15 +226,15 @@ export default function ResetPasswordModal() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormLabel
-                    className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+                    className={cn('text-black', labelStyle)}
                     htmlFor={`${id}-new-password`}>
                     새 비밀번호
                   </FormLabel>
                   <FormControl>
                     <PasswordInput
+                      {...field}
                       id={`${id}-new-password`}
                       placeholder="비밀번호"
-                      {...field}
                       className="w-full"
                       autoComplete="new-password"
                     />
@@ -263,15 +252,15 @@ export default function ResetPasswordModal() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormLabel
-                    className={`text-black ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+                    className={cn('text-black', labelStyle)}
                     htmlFor={`${id}-verify-new-password`}>
                     비밀번호 확인
                   </FormLabel>
                   <FormControl>
                     <PasswordInput
+                      {...field}
                       id={`${id}-verify-new-password`}
                       placeholder="비밀번호 확인"
-                      {...field}
                       className="w-full"
                       autoComplete="new-password"
                     />

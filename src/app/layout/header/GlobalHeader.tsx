@@ -22,23 +22,16 @@ import {
 import { PageSpinner } from '@/components/common/spinner';
 
 export default function GlobalHeader() {
-  const { openModal, closeModal } = useModalStore();
+  const { openModal } = useModalStore();
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
-
-  const handleSignupSuccess = () => {
-    closeModal();
-    setTimeout(() => {
-      openModal(<LoginModal />);
-    }, 200);
-  };
 
   const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
   };
 
   const handleOpenSignupModal = () => {
-    openModal(<SignupModal onSuccess={handleSignupSuccess} />);
+    openModal(<SignupModal />);
   };
 
   const handleLogout = () => {

@@ -6,7 +6,6 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useTimer } from '@/hooks/useTimer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema, SignupForm } from '@/models/auth/authModels';
-import { checkEmailExists, sendEmailCode, verifyAuthCode, signup } from '@/services/api/authApi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/common/input/PasswordInput';
@@ -23,31 +22,37 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import AgreementCheckbox from '../privacyPolicy/AgreementCheckbox';
 import SignupPrivacyPolicyModal from '../privacyPolicy/SignupPrivacyPolicyModal';
 import SignupEmailConsentModal from '../privacyPolicy/SignupEmailConsentModal';
+import {
+  useCheckEmailExists,
+  useSendEmailCode,
+  useSignup,
+  useVerifyAuthCode,
+} from '@/hooks/queries/useAuthService';
+import LoginModal from '../login/LoginModal';
 
-interface SignupModalProps {
-  onSuccess?: () => void;
-  afterClose?: () => void;
-}
-
-export default function SignupModal({ onSuccess, afterClose }: SignupModalProps) {
+export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
-  const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-  const [isEmailChecking, setIsEmailChecking] = useState<boolean>(false); // 이메일 중복 확인 요청 상태
-  const [isEmailChecked, setIsEmailChecked] = useState<boolean>(false); // 이메일 중복 확인 완료 상태
-  const [isSendingCode, setIsSendingCode] = useState<boolean>(false); // 인증번호 전송 상태
-  const [isVerifyingCode, setIsVerifyingCode] = useState<boolean>(false); // 인증코드 확인 요청 상태
+  const { openModal, closeModal } = useModalStore();
+
+  // mutation
+  const checkEmailExistMutation = useCheckEmailExists();
+  const signupMutation = useSignup();
+  const sendCodeMutation = useSendEmailCode();
+  const verifyCodeMutation = useVerifyAuthCode();
+
+  const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false); // 약관 동의 여부
+  const [isEmailExistChecked, setIsEmailExistChecked] = useState<boolean>(false); // 이메일 중복 확인 완료 상태
   const [isCertified, setIsCertified] = useState<boolean>(false); // 인증코드 확인 완료 상태
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // 회원가입 요청 상태
+  const [isCodeSent, setIsCodeSent] = useState<boolean>(false); // 인증코드 전송 완료 상태
 
   const handleTimerEnd = () => {
-    setIsButtonDisabled(false);
-    formMethods.setValue('certification', '');
+    setIsCodeSent(false);
+    setValue('certification', '');
+    alert('인증시간이 만료되었습니다. 다시 시도해주세요.');
   };
 
-  const { openModal } = useModalStore();
-  const { timeLeft, startTimer } = useTimer(300, handleTimerEnd);
+  const { timeLeft, startTimer, isRunning } = useTimer(300, handleTimerEnd);
 
   const formMethods = useForm<SignupForm>({
     mode: 'onChange',
@@ -65,45 +70,44 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    setValue,
     getValues,
     setError,
     clearErrors,
   } = formMethods;
 
   // 이메일 중복 확인
-  const handleCheckEmail = async () => {
+  const handleCheckEmailExist = async () => {
     const email = getValues('email');
-    setIsEmailChecking(true);
     try {
-      const response = await checkEmailExists(email);
-      if (response.data) {
+      const response = await checkEmailExistMutation.mutateAsync(email);
+      const isExistEmail = response.data;
+      if (isExistEmail) {
         setError('email', {
           type: 'manual',
           message: '이미 존재하는 이메일입니다. 다른 이메일로 시도해 주세요.',
         });
+        setIsEmailExistChecked(false);
       } else {
         clearErrors('email');
-        setIsEmailChecked(true);
+        setIsEmailExistChecked(true);
         alert('사용 가능한 이메일입니다.');
       }
     } catch (error) {
-      setError('email', { type: 'manual', message: '이메일 확인 중 오류가 발생했습니다.' });
-    } finally {
-      setIsEmailChecking(false);
+      setError('email', { type: 'manual', message: '이메일 중복 확인 중 오류가 발생했습니다.' });
     }
   };
 
   // 인증번호 전송
   const handleSendEmailCode = async () => {
     const email = getValues('email');
-    setIsSendingCode(true);
     try {
-      await sendEmailCode({ email, authType: 'SIGNUP' });
+      await sendCodeMutation.mutateAsync({ email, authType: 'SIGNUP' });
+      // 인증번호 전송에 성공하면, 타이머 시작
+      setIsCodeSent(true);
       startTimer();
     } catch (error) {
       console.error(`인증번호 받기 실패: ${error}`);
-    } finally {
-      setIsSendingCode(false);
     }
   };
 
@@ -111,38 +115,33 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
   const handleVerifyAuthCode = async () => {
     const email = getValues('email');
     const authCode = getValues('certification');
-    setIsVerifyingCode(true);
     try {
-      const response = await verifyAuthCode({ email, authCode, authType: 'SIGNUP' });
-      if (response.status === 200) {
-        setIsCertified(true);
-      }
+      await verifyCodeMutation.mutateAsync({ email, authCode, authType: 'SIGNUP' });
+      setIsCertified(true);
     } catch (error) {
       setError('certification', { type: 'manual', message: '인증코드가 일치하지 않습니다.' });
       console.error(`인증 코드 확인 실패: ${error}`);
-    } finally {
-      setIsVerifyingCode(false);
     }
   };
 
   // 회원가입 제출
-  const onSubmit = async (data: SignupForm) => {
-    setIsSubmitting(true);
+  const onSignupSubmit = async (data: SignupForm) => {
     try {
-      const response = await signup({
+      await signupMutation.mutateAsync({
         username: data.name,
         email: data.email,
         authCode: data.certification,
         password: data.password,
       });
-      console.log('회원가입 성공:', response);
       alert('회원가입이 성공적으로 완료되었습니다!');
-      if (onSuccess) onSuccess();
+
+      closeModal();
+      setTimeout(() => {
+        openModal(<LoginModal />);
+      }, 200);
     } catch (error) {
       console.error(`회원가입 실패: ${error}`);
       alert('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -150,130 +149,118 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
   const certification = watch('certification');
 
   const isEmailValid = !errors.email && email.length > 0;
-  const isCertificationValid = !errors.certification && certification.length > 0; // 인증번호 길이 제한 제거
+  const isAuthCodeValid = !errors.certification && certification.length > 0;
+
+  // 라벨 텍스트 스타일 (반응형)
+  const labelStyle = isSmallScreen ? 'mobile2' : 'mobile1';
 
   return (
     <ModalLayout
       contentClassName="max-w-[500px]"
       title="회원가입"
-      afterClose={afterClose}
       footer={
         <ModalLayout.ConfirmButton
           title="회원가입하기"
           isSmallScreen={isSmallScreen}
-          onClick={handleSubmit(onSubmit)}
-          disabled={!isValid || !isAgreed || !isCertified || !isEmailChecked || isSubmitting}
+          onClick={handleSubmit(onSignupSubmit)}
+          pending={signupMutation.isPending}
+          disabled={!isValid || !isAgreed || !isCertified || !isEmailExistChecked}
         />
       }>
       <Form {...formMethods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mt-8 grid w-full max-w-[420px] items-center gap-1">
+        <form className="mt-8 gap-8 flex-col-center" onSubmit={handleSubmit(onSignupSubmit)}>
+          {/* 이름 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={cn('text-black', {
-                      mobile2: isSmallScreen,
-                      mobile1: !isSmallScreen,
-                    })}>
-                    이름
-                  </FormLabel>
+                <FormItem className="relative">
+                  <FormLabel className={cn('text-black', labelStyle)}>이름</FormLabel>
                   <FormControl>
                     <Input
+                      {...field}
                       type="text"
                       id={`${id}-signup-name`}
                       placeholder="이름"
-                      {...field}
                       className="w-full"
                       autoComplete="name"
                     />
                   </FormControl>
-                  <FormMessage>{errors.name?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5 left-0">
+                    {errors.name?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 이메일 주소 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="email"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={cn('text-black', {
-                      mobile2: isSmallScreen,
-                      mobile1: !isSmallScreen,
-                    })}>
-                    이메일 주소
-                  </FormLabel>
+                <FormItem className="relative">
+                  <FormLabel className={cn('text-black', labelStyle)}>이메일 주소</FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
                       <Input
+                        {...field}
                         type="email"
                         id={`${id}-signup-email`}
                         placeholder="prism12@gmail.com"
-                        {...field}
-                        disabled={isEmailChecked}
+                        disabled={isEmailExistChecked || sendCodeMutation.isPending} // 이메일 중복 확인이 끝나면 수정 불가
                         className="w-full flex-grow sm:w-auto"
                         autoComplete="username"
                       />
                     </FormControl>
-                    {isEmailChecked ? (
+                    {isEmailExistChecked ? (
+                      // 이메일 중복 체크가 완료된 경우, '인증번호 받기' 버튼을 렌더링
                       <Button
+                        type="button"
                         className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                        disabled={!isEmailChecked || isButtonDisabled}
-                        onClick={() => {
-                          setIsButtonDisabled(true);
-                          handleSendEmailCode();
-                        }}
-                        pending={isSendingCode}>
+                        onClick={handleSendEmailCode}
+                        pending={sendCodeMutation.isPending}
+                        disabled={isCodeSent}>
                         인증번호 받기
                       </Button>
                     ) : (
                       <Button
+                        type="button"
                         className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                         disabled={!isEmailValid}
-                        onClick={handleCheckEmail}
-                        pending={isEmailChecking}>
+                        onClick={handleCheckEmailExist}
+                        pending={checkEmailExistMutation.isPending}>
                         중복확인
                       </Button>
                     )}
                   </div>
-                  <FormMessage>{errors.email?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">{errors.email?.message}</FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 인증번호 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="certification"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={cn('text-black', {
-                      mobile2: isSmallScreen,
-                      mobile1: !isSmallScreen,
-                    })}>
-                    인증번호
-                  </FormLabel>
+                <FormItem className="relative">
+                  <FormLabel className={cn('text-black', labelStyle)}>인증번호</FormLabel>
                   <div className="flex flex-col items-center justify-between sm:flex-row">
                     <FormControl>
                       <div className="relative w-full flex-grow sm:w-auto">
                         <Input
+                          {...field}
                           type="text"
                           id={`${id}-signup-certification`}
                           placeholder="이메일로 전송된 인증번호를 입력해 주세요."
-                          {...field}
                           className="w-full pr-12"
                           disabled={isCertified}
                           autoComplete="off"
                         />
-                        {timeLeft > 0 && !isCertified && (
+                        {isCodeSent && !isCertified && isRunning && (
                           <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
@@ -281,73 +268,72 @@ export default function SignupModal({ onSuccess, afterClose }: SignupModalProps)
                       </div>
                     </FormControl>
                     <Button
+                      type="button"
                       className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
-                      disabled={!isCertificationValid || timeLeft === 0 || isCertified}
+                      disabled={
+                        !isCodeSent || !isAuthCodeValid || isCertified || !isEmailExistChecked
+                      }
                       onClick={handleVerifyAuthCode}
-                      pending={isVerifyingCode}>
+                      pending={verifyCodeMutation.isPending}>
                       인증하기
                     </Button>
                   </div>
                   {isCertified && (
-                    <p className="text-success-500 caption">인증이 완료되었습니다!</p>
+                    <p className="absolute -bottom-5 text-success-500 caption">
+                      인증이 완료되었습니다!
+                    </p>
                   )}
-                  <FormMessage>{errors.certification?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">
+                    {errors.certification?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 비밀번호 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={cn('text-black', {
-                      mobile2: isSmallScreen,
-                      mobile1: !isSmallScreen,
-                    })}>
-                    비밀번호
-                  </FormLabel>
+                <FormItem className="relative">
+                  <FormLabel className={cn('text-black', labelStyle)}>비밀번호</FormLabel>
                   <FormControl>
                     <PasswordInput
+                      {...field}
                       id={`${id}-signup-password`}
                       placeholder="비밀번호"
-                      {...field}
                       className="w-full"
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage>{errors.password?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">
+                    {errors.password?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
           </div>
-
-          <div className="mb-6 mt-6 grid w-full max-w-[420px] items-center gap-1">
+          {/* 비밀번호 확인 */}
+          <div className="w-full">
             <FormField
               control={formMethods.control}
               name="verifyPassword"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel
-                    className={cn('text-black', {
-                      mobile2: isSmallScreen,
-                      mobile1: !isSmallScreen,
-                    })}>
-                    비밀번호 확인
-                  </FormLabel>
+                <FormItem className="relative">
+                  <FormLabel className={cn('text-black', labelStyle)}>비밀번호 확인</FormLabel>
                   <FormControl>
                     <PasswordInput
+                      {...field}
                       id={`${id}-signup-verify-password`}
                       placeholder="비밀번호 확인"
-                      {...field}
                       className="w-full"
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage>{errors.verifyPassword?.message}</FormMessage>
+                  <FormMessage className="absolute -bottom-5">
+                    {errors.verifyPassword?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
