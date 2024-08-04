@@ -10,6 +10,11 @@ interface PreviewModalLayoutProps {
   children: React.ReactNode;
 }
 
+const actionButtonStyles = {
+  span: 'group flex cursor-pointer items-center gap-1 transition-all duration-300 ease-in-out hover:scale-105 hover:font-semibold hover:text-purple-600',
+  icon: 'transition-colors duration-300 ease-in-out group-hover:stroke-purple-800',
+};
+
 const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
   ({ handleSave, handleShare, children }, ref) => {
     return (
@@ -25,17 +30,13 @@ const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
         contentClassName="min-w-[1200px]">
         <div className="mt-7 flex gap-4 flex-col-center">
           <div className="flex w-full items-center justify-end gap-5 body8">
-            <span
-              className="group flex cursor-pointer items-center gap-1 transition-all duration-300 ease-in-out hover:scale-105 hover:font-semibold hover:text-purple-600"
-              onClick={handleSave}>
+            <span className={actionButtonStyles.span} onClick={handleSave}>
               저장하기
-              <Download className="transition-colors duration-300 ease-in-out group-hover:stroke-purple-800" />
+              <Download className={actionButtonStyles.icon} />
             </span>
-            <span
-              className="group flex cursor-pointer items-center gap-1 transition-all duration-300 ease-in-out hover:scale-105 hover:font-semibold hover:text-purple-600"
-              onClick={handleShare}>
+            <span className={actionButtonStyles.span} onClick={handleShare}>
               공유하기
-              <Share2 className="transition-colors duration-300 ease-in-out group-hover:stroke-purple-800" />
+              <Share2 className={actionButtonStyles.icon} />
             </span>
           </div>
           <div ref={ref} className="flex w-[1100px] flex-col gap-10 rounded-2xl bg-gray-50 p-9">
