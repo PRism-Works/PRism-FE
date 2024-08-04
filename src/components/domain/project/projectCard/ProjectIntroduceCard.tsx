@@ -32,7 +32,7 @@ export default function ProjectIntroduceCard({
 
   // 프로젝트 상세 조회 대상자가 누구인지 찾아야함. 대상 id가 없다면 return 처리
   const targetUserId = fromMyProfile ? loginUser?.userId : userId;
-  if (!targetUserId) return '조회하려는 대상의 상세 프로젝트 정보가 없습니다.';
+  if (!targetUserId) return <span>조회하려는 대상의 상세 프로젝트 정보가 없습니다.</span>;
   const projectData = data?.data;
 
   const isValidData = !(isLoading || isError || !projectData);
