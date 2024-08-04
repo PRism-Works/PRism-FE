@@ -9,10 +9,11 @@ import { Search, XCircle } from 'lucide-react';
 export interface SearchInputProps extends Omit<InputProps, 'onChange'> {
   onSearch: (keyword: string) => void;
   defaultKeyword?: string;
+  mode?: 'LIGHT' | 'DARK';
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ className, onSearch, defaultKeyword = '', ...props }, ref) => {
+  ({ className, onSearch, defaultKeyword = '', mode = 'LIGHT', ...props }, ref) => {
     const [keyword, setKeyword] = useState<string>(defaultKeyword);
 
     const handleSearch = () => {
@@ -36,7 +37,12 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <div className="relative w-full">
         <Input
-          className={cn('pr-24', className)}
+          className={cn(
+            'h-[64px] w-full pr-24 body8',
+            mode === 'LIGHT' && 'border-gradient focus:border-gradient',
+            mode === 'DARK' ? 'bg-white bg-opacity-20 text-gray-50' : 'bg-white text-black',
+            className,
+          )}
           ref={ref}
           {...props}
           value={keyword}
@@ -51,7 +57,12 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         <div
           className="absolute inset-y-0 right-0 w-12 cursor-pointer flex-center"
           onClick={handleSearch}>
-          <Search className="stroke-gray-700 hover:stroke-[2.5px]" />
+          <Search
+            className={cn(
+              mode === 'DARK' ? 'stroke-gray-300' : 'stroke-gray-700',
+              'hover:stroke-[2.5px]',
+            )}
+          />
         </div>
       </div>
     );
