@@ -4,9 +4,10 @@ import { cn } from '@/lib/utils';
 import { Download } from 'lucide-react';
 import { useModalStore } from '@/stores/modalStore';
 import PreviewModal from '@/components/domain/preview/PreviewModal';
+import type { SaveType } from '@/models/preview/previewModels';
 
 interface ImageSaveButtonProps {
-  saveType: 'PROFILE' | 'PROJECT';
+  saveType: SaveType;
   projectId?: number;
   className?: string;
 }

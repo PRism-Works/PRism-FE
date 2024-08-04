@@ -11,6 +11,7 @@ import { PageSpinner } from '@/components/common/spinner';
 import { convertStringToDate, formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
 import { cn } from '@/lib/utils';
 import ImageSaveButton from '@/components/common/input/ImageSaveButton';
+import { SAVE_TYPE } from '@/models/preview/previewModels';
 
 interface ProjectIntroduceCardProps {
   projectId: number;
@@ -76,7 +77,11 @@ export default function ProjectIntroduceCard({
             <div className="flex items-center justify-between">
               <h2 className="text-gray-900 body6">프로젝트 개요</h2>
               {fromMyProfile && (
-                <ImageSaveButton saveType="PROJECT" projectId={projectId} className="-mb-4 mr-2" />
+                <ImageSaveButton
+                  saveType={SAVE_TYPE.PROJECT}
+                  projectId={projectId}
+                  className="-mb-4 mr-2"
+                />
               )}
             </div>
             <BorderCard className="p-7">

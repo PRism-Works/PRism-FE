@@ -1,17 +1,21 @@
 'use client';
 
 import { useRef } from 'react';
-import html2canvas from 'html2canvas';
-import PreviewModalLayout from '@/components/common/modal/PreviewModalLayout';
+
 import { useUserStore } from '@/stores/userStore';
 import { useModalStore } from '@/stores/modalStore';
+
+import html2canvas from 'html2canvas';
+import PreviewModalLayout from '@/components/common/modal/PreviewModalLayout';
 import ProjectPreviewContent from './ProjectPreviewContent';
 import ProfilePreviewContent from './ProfilePreviewContent';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
+import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
+
 import { Share2 } from 'lucide-react';
 
 interface PreviewModalProps {
-  saveType: 'PROFILE' | 'PROJECT';
+  saveType: SaveType;
   projectId?: number;
 }
 
@@ -28,7 +32,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
         const image = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = image;
-        link.download = `${saveType === 'PROJECT' ? 'prism-project' : 'prism-profile'}.png`;
+        link.download = `${saveType === SAVE_TYPE.PROJECT ? 'prism-project' : 'prism-profile'}.png`;
         link.click();
       } catch (error) {
         console.error('이미지 저장 중 오류 발생:', error);
@@ -43,7 +47,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
       // 프로젝트, 프로필에 따라 분기처리
       const locationOrigin = window.location.origin;
       const textToShare =
-        saveType === 'PROJECT'
+        saveType === SAVE_TYPE.PROJECT
           ? `${locationOrigin}/project/user/${userId}/${projectId}`
           : `${locationOrigin}/profile/${userId}`;
 
@@ -57,7 +61,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
 
   return (
     <PreviewModalLayout handleSave={handleSave} handleShare={handleShare} ref={captureRef}>
-      {saveType === 'PROJECT' && projectId ? (
+      {saveType === SAVE_TYPE.PROJECT && projectId ? (
         <ProjectPreviewContent projectId={projectId} />
       ) : (
         <ProfilePreviewContent />
