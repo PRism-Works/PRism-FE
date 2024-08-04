@@ -106,6 +106,8 @@ const config: Config = {
         errorclicked: '#7D032F',
         black: '#000000',
         white: '#FFFFFF',
+        customGradient:
+          'linear-gradient(173.26deg, #2F145A 1.76%, #60239C 25.67%, #37188E 49.11%, #60239C 73.51%, #21197C 97.43%)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -150,14 +152,14 @@ const config: Config = {
           lineHeight: '1.3',
         },
         '.headline3': {
-          fontSize: '48px',
+          fontSize: '42px',
           fontWeight: '700',
           lineHeight: '1.4',
         },
         '.headline4': {
           fontSize: '36px',
           fontWeight: '700',
-          lineHeight: '1.5',
+          lineHeight: '1.4',
         },
         '.body1': {
           fontSize: '28px',
