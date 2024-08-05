@@ -62,12 +62,12 @@ export default function GlobalHeader() {
   const renderMenuItem = (href: string, label: string, onClick?: () => void) => (
     <>
       {onClick ? (
-        <MenubarItem className="cursor-pointer" onClick={onClick}>
+        <MenubarItem className="cursor-pointer display4" onClick={onClick}>
           <span>{label}</span>
         </MenubarItem>
       ) : (
         <Link href={href} passHref legacyBehavior>
-          <MenubarItem className="cursor-pointer">
+          <MenubarItem className="cursor-pointer display4">
             <span>{label}</span>
           </MenubarItem>
         </Link>
@@ -91,7 +91,7 @@ export default function GlobalHeader() {
               {renderMenuItem('/mypage', '마이페이지')}
               {renderMenuItem('', '새 프로젝트 등록', handleOpenProject)}
               {renderMenuItem('/project/manage', '프로젝트 관리')}
-              <MenubarItem className="cursor-pointer" onClick={handleLogout}>
+              <MenubarItem className="cursor-pointer display4" onClick={handleLogout}>
                 <LogOut className="mr-2 h-[16px] w-[16px]" />
                 <span>로그아웃</span>
               </MenubarItem>
