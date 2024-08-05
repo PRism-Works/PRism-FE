@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { useUserStore } from '@/stores/userStore';
 import { useModalStore } from '@/stores/modalStore';
@@ -13,6 +13,7 @@ import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
 
 import { Share2 } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import { PageSpinner } from '@/components/common/spinner';
 
 interface PreviewModalProps {
   saveType: SaveType;
@@ -24,23 +25,32 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
   const captureRef = useRef<HTMLDivElement>(null);
   const openModal = useModalStore((state) => state.openModal);
 
+  const [isDownloading, setIsDownloading] = useState<boolean>(false);
+
   // 이미지 저장하기
-  const handleSave = async () => {
-    if (captureRef.current) {
-      try {
-        const canvas = await html2canvas(captureRef.current, {
-          backgroundColor: 'transparent', // 배경색 투명하게 설정
-          scale: 2, // 해상도 증가
-        });
-        const image = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = image;
-        link.download = `${saveType === SAVE_TYPE.PROJECT ? 'prism-project' : 'prism-profile'}.png`;
-        link.click();
-      } catch (error) {
-        console.error('이미지 저장 중 오류 발생:', error);
-        alert('이미지 저장 중 오류가 발생했습니다.');
-      }
+  const handleSave = () => {
+    try {
+      setIsDownloading(true);
+      // 필요한 스타일 및 이미지가 렌더링 되게 setTimeout 추가
+      setTimeout(async () => {
+        if (captureRef.current) {
+          const canvas = await html2canvas(captureRef.current, {
+            backgroundColor: 'transparent', // 배경색 투명하게 설정
+            scale: 2, // 해상도 증가
+          });
+
+          const image = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.href = image;
+          link.download = `${saveType === SAVE_TYPE.PROJECT ? 'prism-project' : 'prism-profile'}.png`;
+          link.click();
+
+          setIsDownloading(false);
+        }
+      }, 1000);
+    } catch (error) {
+      console.error('이미지 저장 중 오류 발생:', error);
+      alert('이미지 저장 중 오류가 발생했습니다.');
     }
   };
 
@@ -69,6 +79,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
       ) : (
         <ProfilePreviewContent />
       )}
+      {isDownloading && <PageSpinner />}
     </PreviewModalLayout>
   );
 }
