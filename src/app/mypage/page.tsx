@@ -24,7 +24,7 @@ export default function MyPage() {
         </div>
         <PRismAndRadialReport fromMyProfile />
       </section>
-      <section className="flex flex-col gap-3">
+      <section className="mb-4 flex flex-col gap-3">
         <ParticipatingProjectList fromMyProfile />
       </section>
     </div>
