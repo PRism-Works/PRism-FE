@@ -42,8 +42,8 @@ export default function LandingTabs() {
   return (
     <div
       className={cn(
-        'w-full bg-[#1E1B4BE5]',
-        isSticky ? 'fixed left-0 right-0 top-0 z-50' : 'relative',
+        'fixed left-0 right-0 z-50 w-full bg-[#1e1b4bd4]',
+        isSticky ? 'top-0' : 'top-[70px]',
       )}>
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 py-2">
         {tabs.map((tab) => (
