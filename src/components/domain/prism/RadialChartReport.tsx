@@ -15,12 +15,14 @@ interface RadialChartReportProps {
   fromMyProfile: boolean;
   projectId: number;
   reportedUserId?: string;
+  forSaveImage?: boolean;
 }
 
 export default function RadialChartReport({
   fromMyProfile,
   projectId,
   reportedUserId,
+  forSaveImage = false,
 }: RadialChartReportProps) {
   const [radialChartData, setRadialChartData] = useState<RadialChartData>(
     defaultTripleRadialChartData,
@@ -55,7 +57,12 @@ export default function RadialChartReport({
   return (
     <BorderCard className="relative flex-wrap flex-center">
       {(!data?.data || data.data.isEvaluationEmpty) && (
-        <ReportBlur fromMyProfile={fromMyProfile} isLoading={isLoading} isError={isError} />
+        <ReportBlur
+          fromMyProfile={fromMyProfile}
+          isLoading={isLoading}
+          isError={isError}
+          forSaveImage={forSaveImage}
+        />
       )}
       <TripleRadialChart data={radialChartData} radialParentClassName="gap-10" />
     </BorderCard>

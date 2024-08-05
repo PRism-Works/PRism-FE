@@ -1,8 +1,8 @@
 import { useModalStore } from '@/stores/modalStore';
-import { sendSurveyLink } from '@/services/api/surveyApi';
 import { Button } from '@/components/ui/button';
 import { Send } from 'lucide-react';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
+import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 
 interface ProjectSendEvaluationLinkProps {
   projectId: number;
@@ -11,13 +11,14 @@ interface ProjectSendEvaluationLinkProps {
 export default function ProjectSendEvaluationLink({ projectId }: ProjectSendEvaluationLinkProps) {
   const { openModal } = useModalStore();
 
+  const sendSurveyLinkMutation = useSendSurveyLink();
+
   const handleSendEvaluationLink = async () => {
     try {
-      await sendSurveyLink({ projectId });
+      await sendSurveyLinkMutation.mutateAsync({ projectId });
       openModal(<SendSurveyCompleteMessage />);
     } catch (error) {
-      alert('평가 링크 전송에 실패했습니다.');
-      console.error(error);
+      console.error('평가지 보내기 실패:', error);
     }
   };
 

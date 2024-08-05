@@ -11,11 +11,13 @@ import { ComponentSpinner } from '@/components/common/spinner';
 interface ParticipatingProjectListProps {
   userId?: string;
   fromMyProfile: boolean;
+  forSaveImage?: boolean;
 }
 
 export default function ParticipatingProjectList({
   userId = '',
   fromMyProfile,
+  forSaveImage = false,
 }: ParticipatingProjectListProps) {
   // 타인 참여 프로젝트 리스트 조회인데 userId가 넘어오지 않은 경우 빈값으로 보내줘서 쿼리 조건이 유효하지 않게 처리
   const { data, isLoading, isError } = useGetParticipatingProjects(fromMyProfile, userId);
@@ -44,7 +46,9 @@ export default function ParticipatingProjectList({
     <>
       <div className="flex items-center gap-1">
         <h2 className="text-gray-900 body6">프로젝트 목록</h2>
-        <InformationTooltip message="프로젝트 참여 비공개로 전환 시, 해당 프로젝트에 '익명'으로 표시돼요." />
+        {!forSaveImage && (
+          <InformationTooltip message="프로젝트 참여 비공개로 전환 시, 해당 프로젝트에 '익명'으로 표시돼요." />
+        )}
       </div>
       {!isValidData ? (
         <BorderCard className="h-[165px] w-full flex-col-center">
@@ -70,6 +74,7 @@ export default function ParticipatingProjectList({
                 }
                 projectData={projectData}
                 userId={userId}
+                forSaveImage={forSaveImage}
               />
             </li>
           ))}

@@ -9,7 +9,7 @@ export default function ProjectManagePage() {
       <div className="flex w-full max-w-[1040px] flex-col items-end gap-3">
         <div className="mt-4 flex flex-col items-end gap-4 sm:flex-row sm:justify-end">
           <GoProjectLinkButton />
-          <ProjectRegisterButton text="새 프로젝트 등록하기" className="h-[45px] w-[210px]" />
+          <ProjectRegisterButton text="새 프로젝트 등록하기" />
         </div>
         <section className="flex w-full flex-col gap-4">
           <h2 className="text-gray-900 body6">내가 등록한 프로젝트</h2>

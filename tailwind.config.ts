@@ -287,9 +287,17 @@ const config: Config = {
           '&:hover::-webkit-scrollbar-thumb:hover': {
             '@apply bg-gray-500': {},
           },
-          '.scroll-smooth': {
-            'scroll-behavior': 'smooth',
+
+          // 윈도우 (및 기타 브라우저)를 위한 스타일
+          'scrollbar-width': 'thin',
+          'scrollbar-color': 'transparent transparent',
+
+          '&:hover': {
+            'scrollbar-color': 'rgba(156, 163, 175, 0.5) transparent', // bg-gray-400 with opacity
           },
+        },
+        '.scroll-smooth': {
+          'scroll-behavior': 'smooth',
         },
       };
 

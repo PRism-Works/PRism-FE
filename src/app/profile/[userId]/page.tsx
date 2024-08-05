@@ -19,9 +19,9 @@ export default function UserProfilePage({ params }: UserProfilePageProps) {
         <div className="flex items-center justify-between">
           <h2 className="text-gray-900 body6">PRism 종합 리포트</h2>
         </div>
-        <PRismAndRadialReport fromMyProfile={false} />
+        <PRismAndRadialReport fromMyProfile={false} reportedUserId={userId} />
       </section>
-      <section className="flex flex-col gap-3">
+      <section className="mb-4 flex flex-col gap-3">
         <ParticipatingProjectList userId={params.userId} fromMyProfile={false} />
       </section>
     </div>
