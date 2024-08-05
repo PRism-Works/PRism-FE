@@ -21,11 +21,11 @@ export default function LandingPage() {
       <LandingTabs />
 
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <Oval className="absolute left-1/2 top-[-20px] h-auto w-full -translate-x-1/2 transform md:top-[-3%]" />
+        <Oval className="absolute left-1/2 top-[-20px] h-auto w-full -translate-x-1/2 transform md:top-[-2.5%]" />
       </div>
       <div className="relative z-10 flex-col-center md:mt-20 md:space-y-16">
         <Title
-          className="mt-[2%] w-full max-w-[945px] sm:max-w-[520px] md:max-w-[620px] lg:max-w-[800px] xl:max-w-[945px]"
+          className="mt-[3%] w-full max-w-[945px] sm:max-w-[520px] md:max-w-[620px] lg:max-w-[800px] xl:max-w-[945px]"
           style={{ width: 'clamp(200px, 50vw, 945px)' }}
         />
         <Chart className="my-3 mt-8" style={{ width: 'clamp(50px, 15vw, 110px)' }} />
