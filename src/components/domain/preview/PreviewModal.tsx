@@ -5,7 +5,6 @@ import { useRef } from 'react';
 import { useUserStore } from '@/stores/userStore';
 import { useModalStore } from '@/stores/modalStore';
 
-import html2canvas from 'html2canvas';
 import PreviewModalLayout from '@/components/common/modal/PreviewModalLayout';
 import ProjectPreviewContent from './ProjectPreviewContent';
 import ProfilePreviewContent from './ProfilePreviewContent';
@@ -13,6 +12,7 @@ import MessageBox from '@/components/common/messgeBox/MessageBox';
 import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
 
 import { Share2 } from 'lucide-react';
+import html2canvas from 'html2canvas';
 
 interface PreviewModalProps {
   saveType: SaveType;
@@ -28,7 +28,10 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
   const handleSave = async () => {
     if (captureRef.current) {
       try {
-        const canvas = await html2canvas(captureRef.current);
+        const canvas = await html2canvas(captureRef.current, {
+          backgroundColor: 'transparent', // 배경색 투명하게 설정
+          scale: 2, // 해상도 증가
+        });
         const image = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = image;
