@@ -1,25 +1,16 @@
-import { Flag, Puzzle, Users, Wand2, Wrench } from 'lucide-react';
+'use client';
 
-const ICONS: Record<string, React.ElementType> = {
-  COMMUNICATION: Users,
-  PROACTIVITY: Wand2,
-  PROBLEM_SOLVING: Wrench,
-  RESPONSIBILITY: Flag,
-  COOPERATION: Puzzle,
-};
-
-const PRISM_EVALUATION_LABELS: Record<string, string> = {
-  COMMUNICATION: '의사소통능력',
-  PROACTIVITY: '적극성',
-  PROBLEM_SOLVING: '문제해결능력',
-  RESPONSIBILITY: '책임감',
-  COOPERATION: '협동심',
-};
+import { ICONS } from '@/components/common/chart/PRismChart';
+import {
+  PRISM_EVALUATION_LABELS,
+  PRISM_EVALUATIONS,
+  PRismEvaluationType,
+} from '@/models/prism/prismModels';
 
 export default function ChartIndicators() {
   return (
     <div className="flex justify-center space-x-4 py-10 sm:space-x-12 md:space-x-16 lg:space-x-24">
-      {Object.keys(ICONS).map((type) => {
+      {PRISM_EVALUATIONS.map((type: PRismEvaluationType) => {
         const Icon = ICONS[type];
         const label = PRISM_EVALUATION_LABELS[type];
 
