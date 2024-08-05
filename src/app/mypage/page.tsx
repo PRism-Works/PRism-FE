@@ -12,7 +12,7 @@ export default function MyPage() {
       <section className="flex flex-col gap-3">
         <div className="mt-4 flex flex-col items-end gap-4 sm:flex-row sm:justify-end">
           <GoProjectLinkButton />
-          <ProjectRegisterButton text="새 프로젝트 등록하기" className="h-[45px] w-[210px]" />
+          <ProjectRegisterButton text="새 프로젝트 등록하기" />
         </div>
         <h2 className="text-gray-900 body6">프로필</h2>
         <UserProfile fromMyProfile />

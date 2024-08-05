@@ -169,7 +169,7 @@ const ValidInformation = ({ isLoading, isError }: { isLoading: boolean; isError:
       {isEmpty && (
         <div className="gap-4 flex-col-center">
           <span className="text-gray-600 mobile1">해당 프로젝트가 등록이 안 되어있나요?</span>
-          <ProjectRegisterButton className="h-[45px] w-[210px]" />
+          <ProjectRegisterButton />
         </div>
       )}
     </section>
