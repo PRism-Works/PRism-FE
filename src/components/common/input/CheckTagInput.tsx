@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { Check, Plus } from 'lucide-react';
 
 interface CheckTagInputProps {
@@ -7,6 +8,7 @@ interface CheckTagInputProps {
   isChecked: boolean;
   isDisabled: boolean;
   onClick: () => void; // 클릭 이벤트 실행 (부모 컴포넌트는 setState 함수를 실행시키는 함수를 보내야함)
+  mode?: 'LIGHT' | 'DARK'; // TODO: 다크모드 전역 추가 시 변경 예정
 }
 
 export default function CheckTagInput({
@@ -14,13 +16,20 @@ export default function CheckTagInput({
   isChecked = false,
   isDisabled = false,
   onClick,
+  mode = 'LIGHT',
 }: CheckTagInputProps) {
   const getClassNameByStatus = (): string => {
     if (isChecked)
-      return 'border border-solid border-purple-500 bg-purple-50 p-2 cursor-pointer text-gray-600';
+      return mode === 'DARK'
+        ? 'border border-solid border-white bg-purple-500 p-2 cursor-pointer text-white'
+        : 'border border-solid border-purple-500 bg-purple-50 p-2 cursor-pointer text-purple-700';
     if (isDisabled)
-      return 'border border-transparent cursor-not-allowed bg-gray-100 p-2 text-gray-300';
-    return 'border border-transparent bg-gray-100 p-2 cursor-pointer text-gray-600';
+      return mode === 'DARK'
+        ? 'border border-transparent cursor-not-allowed bg-gray-700 p-2 text-gray-500'
+        : 'border border-transparent cursor-not-allowed bg-gray-100 p-2 text-gray-300';
+    return mode === 'DARK'
+      ? 'border border-transparent bg-purple-900 p-2 cursor-pointer text-white'
+      : 'border border-transparent bg-gray-100 p-2 cursor-pointer text-gray-600';
   };
 
   return (
@@ -30,9 +39,22 @@ export default function CheckTagInput({
       <span>{value}</span>
       <span>
         {isChecked ? (
-          <Check className="h-4 w-4 stroke-purple-500" />
+          <Check
+            className={cn('h-4 w-4', mode === 'DARK' ? 'stroke-white' : 'stroke-purple-500')}
+          />
         ) : (
-          <Plus className={`h-4 w-4 ${isDisabled ? 'stroke-gray-300' : 'stroke-gray-600'}`} />
+          <Plus
+            className={cn(
+              'h-4 w-4',
+              mode === 'DARK'
+                ? isDisabled
+                  ? 'stroke-gray-500'
+                  : 'stroke-white'
+                : isDisabled
+                  ? 'stroke-gray-300'
+                  : 'stroke-gray-500',
+            )}
+          />
         )}
       </span>
     </div>
