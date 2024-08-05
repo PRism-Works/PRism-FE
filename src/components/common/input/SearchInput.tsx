@@ -51,7 +51,13 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         />
         {keyword && (
           <div className="absolute inset-y-0 right-12 w-12 cursor-pointer flex-center">
-            <XCircle className="stroke-gray-500 stroke-[1.5px]" onClick={handleClear} />
+            <XCircle
+              className={cn(
+                'stroke-[1.5px]',
+                mode === 'DARK' ? 'stroke-gray-300' : 'stroke-gray-500',
+              )}
+              onClick={handleClear}
+            />
           </div>
         )}
         <div
@@ -59,7 +65,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           onClick={handleSearch}>
           <Search
             className={cn(
-              mode === 'DARK' ? 'stroke-gray-300' : 'stroke-gray-700',
+              mode === 'DARK' ? 'stroke-gray-200' : 'stroke-gray-700',
               'hover:stroke-[2.5px]',
             )}
           />

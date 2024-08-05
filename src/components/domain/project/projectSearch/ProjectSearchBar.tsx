@@ -16,6 +16,7 @@ interface ProjectSearchBarProps {
   defaultCategories?: number[];
   defaultDetailVisible?: boolean;
   mode?: 'LIGHT' | 'DARK'; // TODO: 다크모드 전역 추가 시 변경 예정
+  width?: string; // 검색창 너비 지정
 }
 
 export default function ProjectSearchBar({
@@ -23,6 +24,7 @@ export default function ProjectSearchBar({
   defaultCategories = [],
   defaultDetailVisible = false,
   mode = 'LIGHT',
+  width = 'w-[60%]',
 }: ProjectSearchBarProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -67,7 +69,7 @@ export default function ProjectSearchBar({
   };
 
   return (
-    <div className={cn('my-4 w-[60%] gap-2 flex-col-center', mode === 'DARK' ? 'dark' : '')}>
+    <div className={cn('my-4 gap-2 flex-col-center', mode === 'DARK' ? 'dark' : '', width)}>
       <Tabs defaultValue={selectTabType} onValueChange={handleValueChange}>
         <TabsList className={cn(mode === 'DARK' ? 'bg-purple-900 text-white' : 'bg-gray-100')}>
           <TabsTrigger
