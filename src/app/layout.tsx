@@ -6,6 +6,7 @@ import GlobalFooter from './layout/footer/GlobalFooter';
 import ModalPortal from './layout/modal/ModalPotal';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import { cn } from '@/lib/utils';
+import Script from 'next/script';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -71,6 +72,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={pretendard.variable}>
+      <head>
+        <Script
+          src="https://cdn.swygbro.com/public/widget/swyg-widget.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={cn(pretendard.variable, 'flex min-h-screen flex-col bg-gray-50')}>
         <ReactQueryProviders>
           <GlobalHeaderWrapper />
