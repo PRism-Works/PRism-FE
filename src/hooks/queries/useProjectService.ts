@@ -54,7 +54,7 @@ export const useCreateProject = (successCallback: (projectId: number) => void) =
           startDate: formatYYYYMMDDHHmmssToYYYYMMDD(requestProjectData.startDate),
           endDate: formatYYYYMMDDHHmmssToYYYYMMDD(requestProjectData.endDate),
           categories: requestProjectData.categories,
-          surveyParcitipants: 0, // 새로 생성된 프로젝트이므로 참여자는 0으로 초기화
+          surveyParticipants: 0, // 새로 생성된 프로젝트이므로 참여자는 0으로 초기화
           urlVisibility: true, // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
           userEvaluation: '', // 필요 없지만 서버 데이터 형태를 맞추기 위해 추가한 필드
         };
