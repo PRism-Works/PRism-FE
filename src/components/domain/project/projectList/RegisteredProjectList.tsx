@@ -21,7 +21,7 @@ export default function RegisteredProjectList() {
           endDate: convertStringToDate(project.endDate),
           organizationName: project.organizationName,
           categories: project.categories,
-          evaluatedMembersCount: project.surveyParcitipants,
+          evaluatedMembersCount: project.surveyParticipants,
         };
       });
 

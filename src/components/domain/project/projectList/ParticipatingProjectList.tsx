@@ -33,7 +33,7 @@ export default function ParticipatingProjectList({
           endDate: convertStringToDate(project.endDate),
           organizationName: project.organizationName,
           categories: project.categories,
-          evaluatedMembersCount: project.surveyParcitipants,
+          evaluatedMembersCount: project.surveyParticipants,
           projectVisibility: project.anonyVisibility,
           evaluation: project.userEvaluation,
         };
