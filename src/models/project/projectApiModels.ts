@@ -118,6 +118,7 @@ export interface ProjectListResponse {
     urlVisibility: boolean;
     userEvaluation: string;
     surveyParticipants: number;
+
     anonyVisibility?: boolean;
   }[];
 }
