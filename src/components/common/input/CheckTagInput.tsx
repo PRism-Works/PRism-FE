@@ -8,7 +8,7 @@ interface CheckTagInputProps {
   isChecked: boolean;
   isDisabled: boolean;
   onClick: () => void; // 클릭 이벤트 실행 (부모 컴포넌트는 setState 함수를 실행시키는 함수를 보내야함)
-  mode?: 'LIGHT' | 'DARK'; // TODO: 다크모드 전역 추가 시 변경 예정
+  mode?: 'LIGHT' | 'DARK';
 }
 
 export default function CheckTagInput({
