@@ -61,7 +61,7 @@ export default function ProjectSummaryCard({
       className={cn(isCardDisabled && 'cursor-default active:bg-white')}
       onClick={handleCardClick}>
       <div className="flex min-h-[176px] flex-col justify-between lg:h-44 lg:flex-row">
-        <div className="mb-4 flex w-full flex-wrap gap-3 sm:gap-6 lg:mb-0 lg:w-[80%] lg:gap-12">
+        <div className="mb-4 flex w-full gap-3 sm:gap-6 lg:mb-0 lg:w-[80%] lg:gap-12">
           <LeftSection projectData={projectData} forSaveImage={forSaveImage} />
           {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
             variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
