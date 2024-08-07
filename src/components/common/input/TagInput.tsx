@@ -35,7 +35,7 @@ const colorConfig: Record<
       iconHover: 'group-hover:text-purple-600',
     },
     dark: {
-      background: 'bg-purple-800',
+      background: 'bg-purple-900',
       text: 'text-purple-300',
       description: 'text-purple-400',
       hoverAndActive: 'hover:bg-purple-700 active:bg-purple-600',
