@@ -103,6 +103,10 @@ const config: Config = {
           50: '#E6F0FF',
           500: '#0064FF',
         },
+        dark: {
+          bg: 'var(--color-dark-bg)',
+          text: 'var(--color-dark-text)',
+        },
         errorclicked: '#7D032F',
         black: '#000000',
         white: '#FFFFFF',
@@ -139,6 +143,40 @@ const config: Config = {
   },
   plugins: [
     require('tailwindcss-animate'),
+    plugin(function ({ addBase, theme }) {
+      addBase({
+        '.dark .bg-white': { backgroundColor: theme('colors.gray.800') },
+        '.dark .bg-gray-50': { backgroundColor: theme('colors.gray.900') },
+        '.dark .bg-gray-100': { backgroundColor: theme('colors.gray.800') },
+        '.dark .bg-purple-800': { backgroundColor: theme('colors.purple.300') },
+        '.dark .bg-purple-700': { backgroundColor: theme('colors.purple.400') },
+        '.dark .bg-purple-600': { backgroundColor: theme('colors.purple.400') },
+        '.dark .bg-purple-100': { backgroundColor: theme('colors.purple.800') },
+        '.dark .bg-indigo-100': { backgroundColor: theme('colors.indigo.900') },
+        '.dark .text-black': { color: theme('colors.white') },
+        '.dark .text-gray-900': { color: theme('colors.gray.50') },
+        '.dark .text-gray-800': { color: theme('colors.gray.100') },
+        '.dark .text-gray-700': { color: theme('colors.gray.200') },
+        '.dark .text-gray-600': { color: theme('colors.gray.300') },
+        '.dark .text-gray-500': { color: theme('colors.gray.300') },
+        '.dark .text-gray-400': { color: theme('colors.gray.300') },
+        '.dark .text-purple-800': { color: theme('colors.purple.400') },
+        '.dark .text-purple-700': { color: theme('colors.purple.300') },
+        '.dark .text-purple-600': { color: theme('colors.purple.300') },
+        '.dark .text-purple-500': { color: theme('colors.purple.300') },
+        '.dark .text-indigo-800': { color: theme('colors.indigo.300') },
+        '.dark .text-indigo-500': { color: theme('colors.indigo.300') },
+        '.dark .text-info-500': { color: theme('colors.blue.300') },
+        '.dark .text-danger-500': { color: theme('colors.red.300') },
+        '.dark .stroke-black': { stroke: theme('colors.gray.200') },
+        '.dark .stroke-gray-900': { stroke: theme('colors.gray.200') },
+        '.dark .stroke-gray-800': { stroke: theme('colors.gray.200') },
+        '.dark .stroke-gray-700': { stroke: theme('colors.gray.200') },
+        '.dark .stroke-gray-600': { stroke: theme('colors.gray.200') },
+        '.dark .border-gray-200': { borderColor: theme('colors.gray.700') },
+        '.dark .border-gray-50': { borderColor: theme('colors.gray.800') },
+      });
+    }),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.headline1': {
