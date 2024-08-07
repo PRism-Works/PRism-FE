@@ -1,4 +1,7 @@
+'use client';
+
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 import { CheckCircle2 } from 'lucide-react';
 
 interface AgreementCheckboxProps {
@@ -24,6 +27,9 @@ export default function AgreementCheckbox({
   onTermsOfServiceClick,
   className,
 }: AgreementCheckboxProps) {
+  const { theme } = useTheme();
+  const isDarkMode = theme === 'dark';
+
   return (
     <div
       className={cn(
@@ -35,23 +41,24 @@ export default function AgreementCheckbox({
         <div className="mr-3" onClick={onToggle}>
           <CheckCircle2
             className={cn('h-7 w-7 cursor-pointer stroke-[1.5px]', {
-              'fill-purple-50 text-purple-500': isAgreed,
-              'fill-transparent text-gray-400': !isAgreed,
+              'text-purple-500 fill-purple-50': isAgreed && !isDarkMode,
+              'text-gray-400 fill-transparent': !isAgreed && !isDarkMode,
+              'fill-purple-800 text-purple-200': isAgreed && isDarkMode,
+              'text-gray-800 fill-transparent': !isAgreed && isDarkMode,
             })}
           />
         </div>
-
         <p className="text-sm text-muted-foreground md:text-left">
           {text}{' '}
           <span
             onClick={onPrivacyPolicyClick}
-            className="cursor-pointer font-medium text-info underline underline-offset-4">
+            className="text-info cursor-pointer font-medium underline underline-offset-4">
             {privacyPolicyText}
           </span>{' '}
           및{' '}
           <span
             onClick={onTermsOfServiceClick}
-            className="cursor-pointer font-medium text-info underline underline-offset-4">
+            className="text-info cursor-pointer font-medium underline underline-offset-4">
             {termsOfServiceText}
           </span>
           에 모두 동의합니다.
