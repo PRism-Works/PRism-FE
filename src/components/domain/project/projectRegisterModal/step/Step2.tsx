@@ -44,7 +44,7 @@ export default function Step2() {
       <li key={field.id}>
         {isDefaultMember && <MemberFieldLabels />}
         <div className="flex w-full items-center gap-[6px]">
-          <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">
+          <span className="bg-gray-100 h-[40px] w-[40px] rounded-full flex-center">
             <CirclePlanetIcon iconIndex={index} />
           </span>
           <MemberInputField
@@ -85,7 +85,7 @@ export default function Step2() {
       {fields.length < 10 ? (
         <AddMemberButton onAdd={() => append(DEFAULT_MEMBER)} />
       ) : (
-        <p className="mt-3 text-gray-500 caption">최대 팀원 수(10명)에 도달했습니다.</p>
+        <p className="text-gray-500 mt-3 caption">최대 팀원 수(10명)에 도달했습니다.</p>
       )}
     </section>
   );
@@ -131,7 +131,7 @@ const AddMemberButton = ({ onAdd }: { onAdd: () => void }) => (
   <button
     type="button"
     onClick={onAdd}
-    className="mt-3 w-full rounded-[4px] border border-dashed border-gray-300 px-4 py-2 text-gray-400 mobile2 hover:bg-gray-200">
+    className="text-gray-400 mt-3 w-full cursor-pointer rounded-[4px] border border-dashed border-gray-300 px-4 py-2 mobile2">
     <div className="flex-center">
       <Plus className="mr-1 h-4 w-4" />
       팀원 추가
