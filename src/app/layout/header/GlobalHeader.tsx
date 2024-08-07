@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import LoginModal from '@/components/domain/auth/login/LoginModal';
 import SignupModal from '@/components/domain/auth/signup/SignupModal';
@@ -24,10 +25,16 @@ import { ModeToggle } from '@/components/common/theme/ModeToggle';
 import { PageSpinner } from '@/components/common/spinner';
 
 export default function GlobalHeader() {
-  const isDarkMode = useIsDarkMode();
+  const [mounted, setMounted] = useState(false);
   const { openModal } = useModalStore();
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
+
+  const isDarkMode = useIsDarkMode();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
@@ -78,6 +85,10 @@ export default function GlobalHeader() {
       <MenubarSeparator />
     </>
   );
+
+  if (!mounted) {
+    return null;
+  }
 
   const Logo = isDarkMode ? PrismLogoDark : PrismLogo;
 
