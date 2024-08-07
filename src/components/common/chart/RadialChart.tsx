@@ -47,6 +47,7 @@ export default function RadialChart({ type, value }: RadialChartProps) {
   const { label, icon: Icon, color, darkColor } = EVALUATION_INFO[type];
 
   const fillColor = isDarkMode && darkColor ? darkColor : color;
+  const backgroundColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 
   // 차트 로드 시, hydration 오류로 마운트 되었을 때만 렌더링 되도록 처리
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -68,7 +69,12 @@ export default function RadialChart({ type, value }: RadialChartProps) {
         startAngle={90}
         endAngle={-270}>
         <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-        <RadialBar background dataKey="value" cornerRadius={50} fill={fillColor} />
+        <RadialBar
+          background={{ fill: backgroundColor }}
+          dataKey="value"
+          cornerRadius={50}
+          fill={fillColor}
+        />
       </RadialBarChart>
       <div className="absolute inset-0 flex-col-center">
         <Icon className="h-5 w-5" />
