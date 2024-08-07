@@ -167,12 +167,12 @@ const config: Config = {
         '.dark .text-indigo-800': { color: theme('colors.indigo.300') },
         '.dark .text-indigo-500': { color: theme('colors.indigo.300') },
         '.dark .text-info-500': { color: theme('colors.blue.300') },
-        '.dark .text-danger-500': { color: theme('colors.red.300') },
         '.dark .stroke-black': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-900': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-800': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-700': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-600': { stroke: theme('colors.gray.200') },
+        '.dark .border-gray-300': { borderColor: theme('colors.gray.600') },
         '.dark .border-gray-200': { borderColor: theme('colors.gray.700') },
         '.dark .border-gray-50': { borderColor: theme('colors.gray.800') },
       });

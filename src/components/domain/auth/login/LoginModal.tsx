@@ -143,7 +143,7 @@ export default function LoginModal() {
           <span className="text-gray-800 ml-2">아이디가 없으신가요?</span>
           <Button
             variant="link"
-            className={`text-info w-full max-w-[100px] text-right underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+            className={`text-info-500 w-full max-w-[100px] text-right underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
             onClick={handleOpenSignupModal}>
             회원가입하기
           </Button>

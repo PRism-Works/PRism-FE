@@ -52,13 +52,13 @@ export default function AgreementCheckbox({
           {text}{' '}
           <span
             onClick={onPrivacyPolicyClick}
-            className="text-info cursor-pointer font-medium underline underline-offset-4">
+            className="text-info-500 cursor-pointer font-medium underline underline-offset-4">
             {privacyPolicyText}
           </span>{' '}
           및{' '}
           <span
             onClick={onTermsOfServiceClick}
-            className="text-info cursor-pointer font-medium underline underline-offset-4">
+            className="text-info-500 cursor-pointer font-medium underline underline-offset-4">
             {termsOfServiceText}
           </span>
           에 모두 동의합니다.
