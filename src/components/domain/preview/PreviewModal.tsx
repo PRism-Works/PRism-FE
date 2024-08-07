@@ -33,6 +33,10 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
       setIsDownloading(true);
       // 필요한 스타일 및 이미지가 렌더링 되게 setTimeout 추가
       setTimeout(async () => {
+        setIsDownloading(false);
+        // 페이지 로딩창 끄고 state 변경 적용을 위해 큐에 promise 추가
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
         if (captureRef.current) {
           const canvas = await html2canvas(captureRef.current, {
             backgroundColor: 'transparent', // 배경색 투명하게 설정
@@ -44,8 +48,6 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
           link.href = image;
           link.download = `${saveType === SAVE_TYPE.PROJECT ? 'prism-project' : 'prism-profile'}.png`;
           link.click();
-
-          setIsDownloading(false);
         }
       }, 1000);
     } catch (error) {
