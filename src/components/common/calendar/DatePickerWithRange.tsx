@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 interface DatePickerWithRangeProps<T extends FieldValues> {
   className?: string;
   control: Control<T>;
@@ -24,6 +25,8 @@ export default function DatePickerWithRange<T extends FieldValues>({
   startDateFieldName,
   endDateFieldName,
 }: DatePickerWithRangeProps<T>) {
+  const isDarkMode = useIsDarkMode();
+
   return (
     <FormField
       control={control}
@@ -43,6 +46,8 @@ export default function DatePickerWithRange<T extends FieldValues>({
                       'border-gray-400 focus:border-purple-500',
                       'h-[45px] w-full justify-start text-left font-normal',
                       !startDateField.value && !endDateField.value && 'text-muted-foreground',
+                      isDarkMode &&
+                        'dark:text-gray-500 dark:border-gray-500 dark:bg-black/20 dark:focus:border-purple-500',
                       className,
                     )}>
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -56,7 +61,7 @@ export default function DatePickerWithRange<T extends FieldValues>({
                         formatDateToKoreanStyle(startDateField.value)
                       )
                     ) : (
-                      <span className="text-gray-400">기간을 선택해주세요.</span>
+                      <span className="text-gray-400 dark:text-gray-600">기간을 선택해주세요.</span>
                     )}
                   </Button>
                 </PopoverTrigger>
