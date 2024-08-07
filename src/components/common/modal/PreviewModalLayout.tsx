@@ -1,8 +1,12 @@
+'use client';
+
 import { forwardRef } from 'react';
+import { useTheme } from 'next-themes';
 import ModalLayout from './ModalLayout';
 import { Download, Share2 } from 'lucide-react';
 import InformationTooltip from '../tooltip/InformationTooltip';
-import PrismLogo from '@/assets/logo/logo-combine.svg';
+import PrismLogo from '@/assets/logo/logo.svg';
+import PrismLogoDark from '@/assets/logo/logo-darkmode.svg';
 
 interface PreviewModalLayoutProps {
   handleSave: () => void;
@@ -17,6 +21,9 @@ const actionButtonStyles = {
 
 const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
   ({ handleSave, handleShare, children }, ref) => {
+    const { theme } = useTheme();
+    const Logo = theme === 'dark' ? PrismLogoDark : PrismLogo;
+
     return (
       <ModalLayout
         title={
@@ -39,9 +46,9 @@ const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
               <Share2 className={actionButtonStyles.icon} />
             </span>
           </div>
-          <div ref={ref} className="flex w-[1100px] flex-col gap-10 rounded-2xl bg-gray-50 p-9">
+          <div ref={ref} className="bg-gray-50 flex w-[1100px] flex-col gap-10 rounded-2xl p-9">
             <header className="w-full flex-center">
-              <PrismLogo className="mb-4 w-[150px]" />
+              <Logo className="mb-4 w-[150px]" />
             </header>
             {children}
             <footer className="gap-3 flex-center">

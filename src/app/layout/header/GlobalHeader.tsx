@@ -4,7 +4,9 @@ import Link from 'next/link';
 import LoginModal from '@/components/domain/auth/login/LoginModal';
 import SignupModal from '@/components/domain/auth/signup/SignupModal';
 import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
-import PrismLogo from '@/assets/logo/logo-combine.svg';
+import PrismLogo from '@/assets/logo/logo.svg';
+import PrismLogoDark from '@/assets/logo/logo-darkmode.svg';
+import { useTheme } from 'next-themes';
 import { useModalStore } from '@/stores/modalStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useLogout } from '@/hooks/queries/useAuthService';
@@ -22,6 +24,7 @@ import { ModeToggle } from '@/components/common/theme/ModeToggle';
 import { PageSpinner } from '@/components/common/spinner';
 
 export default function GlobalHeader() {
+  const { theme } = useTheme();
   const { openModal } = useModalStore();
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
@@ -76,10 +79,12 @@ export default function GlobalHeader() {
     </>
   );
 
+  const Logo = theme === 'dark' ? PrismLogoDark : PrismLogo;
+
   return (
     <Menubar className="bg-white flex h-[70px] w-full items-center justify-between px-4 py-4 shadow-custom-2px md:px-8 lg:px-24 lg:py-8">
       <Link href="/" className="flex items-center">
-        <PrismLogo className="w-[150px]" />
+        <Logo className="w-[150px]" />
       </Link>
       <div className="flex items-center">
         <ModeToggle />
