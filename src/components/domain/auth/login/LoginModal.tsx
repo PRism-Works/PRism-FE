@@ -103,7 +103,9 @@ export default function LoginModal() {
                       autoComplete="username"
                     />
                   </FormControl>
-                  <FormMessage className="absolute">{errors.email?.message}</FormMessage>
+                  <FormMessage className="absolute text-danger-500">
+                    {errors.email?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -127,7 +129,9 @@ export default function LoginModal() {
                       autoComplete="current-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute">{errors.password?.message}</FormMessage>
+                  <FormMessage className="absolute text-danger-500">
+                    {errors.password?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -136,19 +140,19 @@ export default function LoginModal() {
       </Form>
       <div className={`w-full max-w-[420px] ${isSmallScreen ? 'mobile2' : 'mobile1'}`}>
         <div className="flex items-center justify-between">
-          <span className="ml-2 text-gray-800">아이디가 없으신가요?</span>
+          <span className="text-gray-800 ml-2">아이디가 없으신가요?</span>
           <Button
             variant="link"
-            className={`w-full max-w-[100px] text-right text-info underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+            className={`text-info w-full max-w-[100px] text-right underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
             onClick={handleOpenSignupModal}>
             회원가입하기
           </Button>
         </div>
         <div className="flex items-center justify-between">
-          <span className="-mt-2 ml-2 text-gray-400">비밀번호를 잊으셨나요?</span>
+          <span className="text-gray-400 -mt-2 ml-2">비밀번호를 잊으셨나요?</span>
           <Button
             variant="link"
-            className={`-mt-2 w-full max-w-[100px] text-right text-gray-400 underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
+            className={`text-gray-400 -mt-2 w-full max-w-[100px] text-right underline ${isSmallScreen ? 'mobile2' : 'mobile1'}`}
             onClick={handleOpenResetPasswordModal}>
             비밀번호찾기
           </Button>

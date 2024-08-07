@@ -170,7 +170,9 @@ export default function ResetPasswordModal() {
                       인증번호 받기
                     </Button>
                   </div>
-                  <FormMessage className="absolute">{errors.email?.message}</FormMessage>
+                  <FormMessage className="absolute text-danger-500">
+                    {errors.email?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -213,7 +215,9 @@ export default function ResetPasswordModal() {
                   {isCertified && (
                     <p className="text-success-500 caption">인증이 완료되었습니다!</p>
                   )}
-                  <FormMessage className="absolute">{errors.certification?.message}</FormMessage>
+                  <FormMessage className="absolute text-danger-500">
+                    {errors.certification?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -239,7 +243,9 @@ export default function ResetPasswordModal() {
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute">{errors.newPassword?.message}</FormMessage>
+                  <FormMessage className="absolute text-danger-500">
+                    {errors.newPassword?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -265,7 +271,7 @@ export default function ResetPasswordModal() {
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute">
+                  <FormMessage className="absolute text-danger-500">
                     {errors.verifyNewPassword?.message}
                   </FormMessage>
                 </FormItem>
