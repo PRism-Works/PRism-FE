@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { Check, Plus } from 'lucide-react';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 
 interface CheckTagInputProps {
   value: string;
@@ -16,18 +17,19 @@ export default function CheckTagInput({
   isChecked = false,
   isDisabled = false,
   onClick,
-  mode = 'LIGHT',
 }: CheckTagInputProps) {
+  const isDarkMode = useIsDarkMode();
+
   const getClassNameByStatus = (): string => {
     if (isChecked)
-      return mode === 'DARK'
+      return isDarkMode
         ? 'border border-solid border-white bg-purple-500 p-2 cursor-pointer text-white'
         : 'border border-solid border-purple-500 bg-purple-50 p-2 cursor-pointer text-purple-700';
     if (isDisabled)
-      return mode === 'DARK'
+      return isDarkMode
         ? 'border border-transparent cursor-not-allowed bg-gray-700 p-2 text-gray-500'
         : 'border border-transparent cursor-not-allowed bg-gray-100 p-2 text-gray-300';
-    return mode === 'DARK'
+    return isDarkMode
       ? 'border border-transparent bg-purple-900 p-2 cursor-pointer text-white'
       : 'border border-transparent bg-gray-100 p-2 cursor-pointer text-gray-600';
   };
@@ -39,16 +41,14 @@ export default function CheckTagInput({
       <span>{value}</span>
       <span>
         {isChecked ? (
-          <Check
-            className={cn('h-4 w-4', mode === 'DARK' ? 'stroke-white' : 'stroke-purple-500')}
-          />
+          <Check className={cn('h-4 w-4', isDarkMode ? 'stroke-white' : 'stroke-purple-500')} />
         ) : (
           <Plus
             className={cn(
               'h-4 w-4',
-              mode === 'DARK'
+              isDarkMode
                 ? isDisabled
-                  ? 'stroke-gray-500'
+                  ? 'stroke-gray-400'
                   : 'stroke-white'
                 : isDisabled
                   ? 'stroke-gray-300'
