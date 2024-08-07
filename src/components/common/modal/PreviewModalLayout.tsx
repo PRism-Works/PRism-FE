@@ -1,7 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
-import { useTheme } from 'next-themes';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 import ModalLayout from './ModalLayout';
 import { Download, Share2 } from 'lucide-react';
 import InformationTooltip from '../tooltip/InformationTooltip';
@@ -21,8 +21,8 @@ const actionButtonStyles = {
 
 const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
   ({ handleSave, handleShare, children }, ref) => {
-    const { theme } = useTheme();
-    const Logo = theme === 'dark' ? PrismLogoDark : PrismLogo;
+    const isDarkMode = useIsDarkMode();
+    const Logo = isDarkMode ? PrismLogoDark : PrismLogo;
 
     return (
       <ModalLayout

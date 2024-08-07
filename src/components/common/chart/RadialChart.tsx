@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useTheme } from 'next-themes';
 import { Crown, HeartHandshake, Cog } from 'lucide-react';
 import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
 import tailwindColors from 'tailwindcss/colors';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 import { RADIAL_EVALUATION_LABELS, type RadialEvaluationType } from '@/models/prism/prismModels';
 
 export const EVALUATION_INFO: Record<
@@ -43,10 +43,10 @@ interface RadialChartProps {
 
 // RadialChart 컴포넌트
 export default function RadialChart({ type, value }: RadialChartProps) {
-  const { theme } = useTheme();
+  const isDarkMode = useIsDarkMode();
   const { label, icon: Icon, color, darkColor } = EVALUATION_INFO[type];
 
-  const fillColor = theme === 'dark' && darkColor ? darkColor : color; // 다크 모드일 때 색상 변경
+  const fillColor = isDarkMode && darkColor ? darkColor : color;
 
   // 차트 로드 시, hydration 오류로 마운트 되었을 때만 렌더링 되도록 처리
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -74,14 +74,12 @@ export default function RadialChart({ type, value }: RadialChartProps) {
         <Icon className="h-5 w-5" />
         {/* figma 기준 mobile2, body2인데, line-height 속성으로 인해 디자인처럼 나올 수 없고 디자인과 너무 상이하여 직접 정의했습니다. */}
         <span
-          className={`text-[12px] font-medium ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-400'
-          }`}>
+          className={`text-[12px] font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-400'}`}>
           {label}
         </span>
         <span
           className={`text-[23px] font-semibold leading-[1] ${
-            theme === 'dark' ? 'text-indigo-400' : 'text-indigo-600'
+            isDarkMode ? 'text-indigo-400' : 'text-indigo-600'
           }`}>
           {value}%
         </span>

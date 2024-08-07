@@ -1,7 +1,7 @@
 'use client';
 
 import { useReducer } from 'react';
-import { useTheme } from 'next-themes';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 import { useModalStore } from '@/stores/modalStore';
 import { AlarmClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,8 +18,8 @@ interface SurveyIntroductionProps {
 export default function SurveyIntroduction({ setShowIntroduction }: SurveyIntroductionProps) {
   const [isAgreed, setIsAgreed] = useReducer((state: boolean) => !state, false);
   const { openModal } = useModalStore();
-  const { theme } = useTheme();
-  const Logo = theme === 'dark' ? PrismLogoDark : PrismLogo;
+  const isDarkMode = useIsDarkMode();
+  const Logo = isDarkMode ? PrismLogoDark : PrismLogo;
 
   return (
     <div className="text-gray-700 container min-h-screen w-full max-w-[1040px] px-4 py-8 flex-col-center md:px-8">

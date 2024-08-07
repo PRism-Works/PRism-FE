@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import PrismLogo from '@/assets/logo/logo.svg';
 import PrismLogoDark from '@/assets/logo/logo-darkmode.svg';
-import { useTheme } from 'next-themes';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
-  const { theme } = useTheme();
-  const Logo = theme === 'dark' ? PrismLogoDark : PrismLogo;
+  const isDarkMode = useIsDarkMode();
+  const Logo = isDarkMode ? PrismLogoDark : PrismLogo;
 
   return (
     <div className="flex min-h-[80vh] flex-col-center">
