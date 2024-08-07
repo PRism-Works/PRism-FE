@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 
 import TagInput from '@/components/common/input/TagInput';
 import ShadowCard from '@/components/common/card/ShadowCard';
@@ -83,34 +84,42 @@ const LeftSection = ({
 }: {
   projectData: ProjectSummaryData;
   forSaveImage: boolean;
-}) => (
-  <section className="flex w-[250px] flex-shrink-0 flex-col justify-between gap-2">
-    <header className={cn('flex flex-col gap-4', !forSaveImage && 'overflow-hidden')}>
-      {/* 이미지 저장용인 경우: 배경 없이 텍스트 색만 변경(이미지 잘림 현상) 
-          소속이 있는 경우 : bg-gray-600, 없는 경우: bg-gray-400 */}
-      <p
-        className={cn(
-          'w-fit rounded-[20px] text-white mobile1',
-          projectData.organizationName
-            ? forSaveImage
-              ? 'text-gray-600'
-              : 'bg-gray-600 px-3'
-            : forSaveImage
-              ? 'text-gray-300'
-              : 'bg-gray-400 px-3',
-        )}>
-        {projectData.organizationName || '소속 없음'}
-      </p>
-      <h2 className={cn('text-gray-800 body7', !forSaveImage && 'overflow-y-auto')}>
-        {projectData.projectName}
-      </h2>
-    </header>
-    <footer className="flex-shrink-0 text-gray-500 display5">
-      <time>{formatDateToDotSeparatedYYYYMMDD(projectData.startDate)}</time> -{' '}
-      <time>{formatDateToDotSeparatedYYYYMMDD(projectData.endDate)}</time>
-    </footer>
-  </section>
-);
+}) => {
+  const isDarkMode = useIsDarkMode();
+
+  return (
+    <section className="flex w-[250px] flex-shrink-0 flex-col justify-between gap-2">
+      <header className={cn('flex flex-col gap-4', !forSaveImage && 'overflow-hidden')}>
+        {/* 이미지 저장용인 경우: 배경 없이 텍스트 색만 변경(이미지 잘림 현상) 
+            소속이 있는 경우 : bg-gray-600, 없는 경우: bg-gray-400 */}
+        <p
+          className={cn(
+            'w-fit rounded-[20px] text-white mobile1',
+            projectData.organizationName
+              ? forSaveImage
+                ? 'text-gray-600'
+                : isDarkMode
+                  ? 'bg-gray-500 px-3'
+                  : 'bg-gray-600 px-3'
+              : forSaveImage
+                ? 'text-gray-300'
+                : isDarkMode
+                  ? 'bg-gray-700 px-3'
+                  : 'bg-gray-400 px-3',
+          )}>
+          {projectData.organizationName || '소속 없음'}
+        </p>
+        <h2 className={cn('text-gray-800 body7', !forSaveImage && 'overflow-y-auto')}>
+          {projectData.projectName}
+        </h2>
+      </header>
+      <footer className="text-gray-500 flex-shrink-0 display5">
+        <time>{formatDateToDotSeparatedYYYYMMDD(projectData.startDate)}</time> -{' '}
+        <time>{formatDateToDotSeparatedYYYYMMDD(projectData.endDate)}</time>
+      </footer>
+    </section>
+  );
+};
 
 const EvaluationSection = ({
   evaluation,
