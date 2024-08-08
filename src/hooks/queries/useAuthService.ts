@@ -54,11 +54,9 @@ export const useLogin = () => {
           roles: data.interestJobs,
           skills: data.skills, // 백엔드에서 아직 안넘겨줌. 빈값으로 설정
         });
-
-        alert('로그인에 성공했습니다.');
       } catch (error) {
         console.error('유저 데이터 가져오기 실패:', error);
-        alert('로그인은 성공했지만 유저 데이터를 가져오는데 실패했습니다.');
+        console.error('로그인은 성공했지만 유저 데이터를 가져오는데 실패했습니다.');
       } finally {
         closeModal();
       }
