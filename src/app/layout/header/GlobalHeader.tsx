@@ -25,15 +25,17 @@ import { ModeToggle } from '@/components/common/theme/ModeToggle';
 import { PageSpinner } from '@/components/common/spinner';
 
 export default function GlobalHeader() {
-  const [mounted, setMounted] = useState(false);
   const { openModal } = useModalStore();
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
 
+  const [mounted, setMounted] = useState(false);
+  const [isInitialDarkMode, setIsInitialDarkMode] = useState(false);
   const isDarkMode = useIsDarkMode();
 
   useEffect(() => {
     setMounted(true);
+    setIsInitialDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
   }, []);
 
   const handleOpenLoginModal = () => {
@@ -86,11 +88,13 @@ export default function GlobalHeader() {
     </>
   );
 
-  if (!mounted) {
-    return null;
-  }
-
-  const Logo = isDarkMode ? PrismLogoDark : PrismLogo;
+  const Logo = mounted
+    ? isDarkMode
+      ? PrismLogoDark
+      : PrismLogo
+    : isInitialDarkMode
+      ? PrismLogoDark
+      : PrismLogo;
 
   return (
     <Menubar className="bg-white flex h-[70px] w-full items-center justify-between px-4 py-4 shadow-custom-2px md:px-8 lg:px-24 lg:py-8">
