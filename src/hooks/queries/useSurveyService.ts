@@ -4,6 +4,7 @@ import { fetchSurveyLink, sendSurveyLink, submitSurvey } from '@/services/api/su
 import type {
   SurveyLinkRequest,
   SurveyLinkResponse,
+  SurveyLinkErrorResponse,
   SendSurveyLinkRequest,
   SendSurveyLinkResponse,
   SubmitSurveyRequest,
@@ -13,7 +14,7 @@ import type {
 // 설문 링크 가져오기
 export const useFetchSurveyLink = (params: SurveyLinkRequest) => {
   console.log('Fetching survey link with params:', params);
-  return useQuery<SurveyLinkResponse, AxiosError>({
+  return useQuery<SurveyLinkResponse, AxiosError<SurveyLinkErrorResponse>>({
     queryKey: ['fetchSurveyLink', params],
     queryFn: () => (params.code ? fetchSurveyLink(params) : Promise.reject('No code provided')),
     enabled: !!params.code,
