@@ -103,7 +103,7 @@ export default function LoginModal() {
                       autoComplete="username"
                     />
                   </FormControl>
-                  <FormMessage className="absolute text-danger-500">
+                  <FormMessage className="text-danger-500 absolute">
                     {errors.email?.message}
                   </FormMessage>
                 </FormItem>
@@ -129,7 +129,7 @@ export default function LoginModal() {
                       autoComplete="current-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute text-danger-500">
+                  <FormMessage className="text-danger-500 absolute">
                     {errors.password?.message}
                   </FormMessage>
                 </FormItem>

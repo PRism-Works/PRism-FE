@@ -187,7 +187,7 @@ export default function SignupModal() {
                       autoComplete="name"
                     />
                   </FormControl>
-                  <FormMessage className="absolute -bottom-5 left-0 text-danger-500">
+                  <FormMessage className="text-danger-500 absolute -bottom-5 left-0">
                     {errors.name?.message}
                   </FormMessage>
                 </FormItem>
@@ -235,7 +235,7 @@ export default function SignupModal() {
                       </Button>
                     )}
                   </div>
-                  <FormMessage className="absolute -bottom-5 text-danger-500">
+                  <FormMessage className="text-danger-500 absolute -bottom-5">
                     {errors.email?.message}
                   </FormMessage>
                 </FormItem>
@@ -263,7 +263,7 @@ export default function SignupModal() {
                           autoComplete="off"
                         />
                         {isCodeSent && !isCertified && isRunning && (
-                          <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
+                          <span className="text-danger-500 absolute right-3 top-1/2 -translate-y-1/2 transform">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
                         )}
@@ -285,7 +285,7 @@ export default function SignupModal() {
                       인증이 완료되었습니다!
                     </p>
                   )}
-                  <FormMessage className="absolute -bottom-5 text-danger-500">
+                  <FormMessage className="text-danger-500 absolute -bottom-5">
                     {errors.certification?.message}
                   </FormMessage>
                 </FormItem>
@@ -309,7 +309,7 @@ export default function SignupModal() {
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute -bottom-5 text-danger-500">
+                  <FormMessage className="text-danger-500 absolute -bottom-5">
                     {errors.password?.message}
                   </FormMessage>
                 </FormItem>
@@ -333,7 +333,7 @@ export default function SignupModal() {
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute -bottom-5 text-danger-500">
+                  <FormMessage className="text-danger-500 absolute -bottom-5">
                     {errors.verifyPassword?.message}
                   </FormMessage>
                 </FormItem>

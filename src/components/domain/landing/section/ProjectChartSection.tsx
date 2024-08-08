@@ -4,7 +4,7 @@ import LandingSectionLayout from './LandingSectionLayout';
 const tags = ['배려', '도전정신', '책임감'];
 
 const Tag = ({ label }: { label: string }) => (
-  <span className="h-8 rounded-[15px] bg-white bg-opacity-80 px-3 text-gray-600 mobile1 flex-center">
+  <span className="bg-white text-gray-600 h-8 rounded-[15px] bg-opacity-80 px-3 mobile1 flex-center">
     {label}
   </span>
 );

@@ -222,7 +222,7 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
                 disabled={!isCodeSent}
               />
               {isCodeSent && (
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
+                <span className="text-danger-500 absolute right-3 top-1/2 -translate-y-1/2 transform">
                   {formatSecondToMMSS(timeLeft)}
                 </span>
               )}
@@ -257,7 +257,7 @@ const MemberItem = ({ member, index, isSelected, onSelect }: MemberItemProps) =>
   return (
     <>
       <div className="flex w-full items-center gap-[6px]">
-        <span className="h-[40px] w-[40px] rounded-full bg-gray-100 flex-center">
+        <span className="bg-gray-100 h-[40px] w-[40px] rounded-full flex-center">
           <CirclePlanetIcon iconIndex={index} />
         </span>
         <Input
@@ -305,7 +305,7 @@ const DoubleCircle = ({ isSelect = false }: DoubleCircleProps) => {
   return (
     <div
       className={cn(
-        'h-5 w-5 cursor-pointer rounded-full border-[2.5px] bg-white flex-center',
+        'bg-white h-5 w-5 cursor-pointer rounded-full border-[2.5px] flex-center',
         isSelect ? 'border-purple-500' : 'border-gray-300',
       )}>
       <div className={cn('h-3 w-3 rounded-full', isSelect ? 'bg-purple-500' : 'bg-gray-300')} />

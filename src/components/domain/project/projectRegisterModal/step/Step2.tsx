@@ -131,7 +131,7 @@ const AddMemberButton = ({ onAdd }: { onAdd: () => void }) => (
   <button
     type="button"
     onClick={onAdd}
-    className="text-gray-400 mt-3 w-full cursor-pointer rounded-[4px] border border-dashed border-gray-300 px-4 py-2 mobile2">
+    className="text-gray-400 border-gray-300 mt-3 w-full cursor-pointer rounded-[4px] border border-dashed px-4 py-2 mobile2">
     <div className="flex-center">
       <Plus className="mr-1 h-4 w-4" />
       팀원 추가

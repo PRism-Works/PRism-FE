@@ -150,7 +150,7 @@ export default function EditMyPage() {
   return (
     <div className="container mx-auto flex min-h-screen flex-col items-center p-12">
       <article className="flex w-full max-w-[1040px] flex-col items-center gap-4">
-        <h1 className="self-start text-gray-900 body6">프로필 수정</h1>
+        <h1 className="text-gray-900 self-start body6">프로필 수정</h1>
         <BorderCard className="flex w-full max-w-[1040px] flex-col gap-8 rounded-[30px] p-6">
           <div className="mx-auto flex w-full max-w-[500px] flex-col gap-8">
             <div className="flex flex-col gap-2">
