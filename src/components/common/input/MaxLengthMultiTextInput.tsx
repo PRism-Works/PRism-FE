@@ -24,7 +24,7 @@ const MaxLengthMultiTextArea = forwardRef<HTMLTextAreaElement, MaxLengthMultiTex
           }}
           {...props}
         />
-        <div className="absolute bottom-1 right-2 text-gray-500 caption">{`${maxLength}자 이내`}</div>
+        <div className="text-gray-500 absolute bottom-1 right-2 caption">{`${maxLength}자 이내`}</div>
       </div>
     );
   },

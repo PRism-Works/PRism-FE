@@ -12,7 +12,7 @@ export default function ShadowCard({ children, className, onClick = () => {} }: 
     <div
       onClick={onClick}
       className={cn(
-        'cursor-pointer rounded-[20px] bg-white p-4 shadow-custom-4px transition-shadow duration-300 hover:shadow-custom-16px active:bg-gray-50',
+        'bg-white cursor-pointer rounded-[20px] p-4 shadow-custom-4px transition-shadow duration-300 active:bg-gray-50 hover:shadow-custom-16px',
         className,
       )}>
       {children}

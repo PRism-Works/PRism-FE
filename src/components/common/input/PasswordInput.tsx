@@ -23,9 +23,9 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-3"
           onClick={togglePasswordVisibility}>
           {showPassword ? (
-            <Eye className="h-5 w-5 text-gray-500" />
+            <Eye className="text-gray-500 h-5 w-5" />
           ) : (
-            <EyeOff className="h-5 w-5 text-gray-500" />
+            <EyeOff className="text-gray-500 h-5 w-5" />
           )}
         </div>
       </div>
