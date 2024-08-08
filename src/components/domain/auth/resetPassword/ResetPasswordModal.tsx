@@ -163,7 +163,7 @@ export default function ResetPasswordModal() {
                     </FormControl>
                     <Button
                       type="button"
-                      className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                      className="mt-2 h-[45px] w-full bg-purple-500 text-white display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                       disabled={isCodeSent || !isEmailValid}
                       pending={sendEmailCodeMutation.isPending}
                       onClick={handleSendEmailCode}>
@@ -205,7 +205,7 @@ export default function ResetPasswordModal() {
                     </FormControl>
                     <Button
                       type="button"
-                      className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                      className="mt-2 h-[45px] w-full bg-purple-500 text-white display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                       disabled={!isCodeSent || !isAuthCodeValid || isCertified || !isEmailValid}
                       pending={verifyAuthCodeMutation.isPending}
                       onClick={handleVerifyAuthCode}>

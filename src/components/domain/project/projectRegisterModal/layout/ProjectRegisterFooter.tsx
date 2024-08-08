@@ -41,7 +41,10 @@ export default function ProjectRegisterFooter({
         </div>
         <div className="flex flex-1 justify-end">
           {isLastStep && (
-            <Button onClick={handleExternalSubmit} pending={isPending} className="mobile1">
+            <Button
+              onClick={handleExternalSubmit}
+              pending={isPending}
+              className="text-white mobile1">
               {isEdit ? '수정하기' : '등록하기'}
             </Button>
           )}
