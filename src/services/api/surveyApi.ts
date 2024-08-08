@@ -28,21 +28,10 @@ export const fetchSurveyLink = async (params: SurveyLinkRequest): Promise<Survey
       console.error(`평가 링크 정보 가져오기 실패: ${errorResponse?.message || error.message}`);
       console.error('Full error response:', errorResponse);
 
-      switch (errorResponse?.code) {
-        case 'PeerReviewCode_404_1':
-          throw new Error('평가 링크 코드를 찾을 수 없습니다.');
-        case 'PeerReviewCode_400_1':
-          throw new Error('이미 평가를 완료했습니다.');
-        case 'PeerReviewCode_400_2':
-          throw new Error('평가할 프로젝트 멤버가 없습니다.');
-        default:
-          throw new Error(
-            `평가 링크 정보 가져오기 실패: ${errorResponse?.message || error.message}`,
-          );
-      }
+      throw axiosError;
     } else {
       console.error(`평가 링크 정보 가져오기 실패: ${error}`);
-      throw new Error(`평가 링크 정보 가져오기 실패: ${error}`);
+      throw error;
     }
   }
 };
