@@ -73,7 +73,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                   <div className="flex items-center gap-3">
                     <span className="text-gray-700 body7">{projectData.projectName}</span>
                     {projectData.projectUrlLink && (
-                      <span className="gap-1 text-gray-500 caption flex-center">
+                      <span className="text-gray-500 gap-1 caption flex-center">
                         <CheckCircle2 className="h-4 w-4 fill-success-50 stroke-success-500" />
                         인증완료!
                       </span>

@@ -3,7 +3,7 @@ import TermsModalLayout from '@/components/common/modal/TermsModalLayout';
 export default function PRismPrivacyPolicyModal() {
   return (
     <TermsModalLayout title="PRism 개인정보 처리 방침">
-      <p className="mt-2 text-gray-800 mobile2">
+      <p className="text-gray-800 mt-2 mobile2">
         PRism(이하 &quot;회사&quot; 또는 &quot;서비스&quot;)는 사용자 여러분의 개인정보 보호를 매우
         중요하게 생각합니다. 본 개인정보 처리방침은 PRism이 수집하는 개인정보의 종류, 수집 방법,
         사용 목적, 보관 및 보호 방법 등에 대해 설명합니다. 사용자 여러분은 본 방침을 숙지하시고

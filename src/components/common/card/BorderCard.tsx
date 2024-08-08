@@ -8,7 +8,7 @@ interface BorderCardProps {
 
 export default function BorderCard({ children, className }: BorderCardProps) {
   return (
-    <div className={cn('relative rounded-[30px] border border-gray-300 bg-white p-4', className)}>
+    <div className={cn('bg-white border-gray-300 relative rounded-[30px] border p-4', className)}>
       {children}
     </div>
   );
