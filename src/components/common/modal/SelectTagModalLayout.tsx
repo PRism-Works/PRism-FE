@@ -127,7 +127,7 @@ export default function SelectTagModalLayout({
               onKeyDown={handleKeyDown}
               value={searchWord}
               className="h-[45px] w-full flex-1 pl-12 mobile1"
-              svgIcon={<Search className="mx-2 h-5 w-5 text-gray-500" />}
+              svgIcon={<Search className="text-gray-500 mx-2 h-5 w-5" />}
               placeholder={placeholder}
             />
           </div>
@@ -140,7 +140,7 @@ export default function SelectTagModalLayout({
               ) : (
                 <div
                   className={cn(
-                    'flex h-full flex-col gap-2 text-gray-500 display5',
+                    'text-gray-500 flex h-full flex-col gap-2 display5',
                     messageClassName,
                   )}>
                   <span>{message}</span>

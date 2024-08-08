@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import { ThemeProvider } from '@/components/common/theme/ThemeProvider';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import GlobalHeaderWrapper from './layout/header/GlobalHeaderWrapper';
@@ -78,14 +79,20 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className={cn(pretendard.variable, 'flex min-h-screen flex-col bg-gray-50')}>
+      <body className={cn(pretendard.variable, 'bg-gray-50 flex min-h-screen flex-col')}>
         <ReactQueryProviders>
-          <GlobalHeaderWrapper />
-          <main className="container mx-auto flex min-h-screen flex-col items-center">
-            {children}
-          </main>
-          <GlobalFooter />
-          <ModalPortal />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            <GlobalHeaderWrapper />
+            <main className="container mx-auto flex min-h-screen flex-col items-center">
+              {children}
+            </main>
+            <GlobalFooter />
+            <ModalPortal />
+          </ThemeProvider>
         </ReactQueryProviders>
       </body>
     </html>

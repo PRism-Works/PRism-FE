@@ -170,7 +170,9 @@ export default function ResetPasswordModal() {
                       인증번호 받기
                     </Button>
                   </div>
-                  <FormMessage className="absolute">{errors.email?.message}</FormMessage>
+                  <FormMessage className="text-danger-500 absolute">
+                    {errors.email?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -195,7 +197,7 @@ export default function ResetPasswordModal() {
                           disabled={isCertified}
                         />
                         {isCodeSent && !isCertified && isRunning && (
-                          <span className="absolute right-3 top-1/2 -translate-y-1/2 transform text-danger-500">
+                          <span className="text-danger-500 absolute right-3 top-1/2 -translate-y-1/2 transform">
                             {formatSecondToMMSS(timeLeft)}
                           </span>
                         )}
@@ -213,7 +215,9 @@ export default function ResetPasswordModal() {
                   {isCertified && (
                     <p className="text-success-500 caption">인증이 완료되었습니다!</p>
                   )}
-                  <FormMessage className="absolute">{errors.certification?.message}</FormMessage>
+                  <FormMessage className="text-danger-500 absolute">
+                    {errors.certification?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -239,7 +243,9 @@ export default function ResetPasswordModal() {
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute">{errors.newPassword?.message}</FormMessage>
+                  <FormMessage className="text-danger-500 absolute">
+                    {errors.newPassword?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -265,7 +271,7 @@ export default function ResetPasswordModal() {
                       autoComplete="new-password"
                     />
                   </FormControl>
-                  <FormMessage className="absolute">
+                  <FormMessage className="text-danger-500 absolute">
                     {errors.verifyNewPassword?.message}
                   </FormMessage>
                 </FormItem>

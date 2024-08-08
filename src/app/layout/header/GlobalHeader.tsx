@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import LoginModal from '@/components/domain/auth/login/LoginModal';
 import SignupModal from '@/components/domain/auth/signup/SignupModal';
 import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
-import PrismLogo from '@/assets/logo/logo-combine.svg';
+import PrismLogo from '@/assets/logo/logo.svg';
+import PrismLogoDark from '@/assets/logo/logo-darkmode.svg';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 import { useModalStore } from '@/stores/modalStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useLogout } from '@/hooks/queries/useAuthService';
@@ -19,12 +21,22 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { ModeToggle } from '@/components/common/theme/ModeToggle';
 import { PageSpinner } from '@/components/common/spinner';
 
 export default function GlobalHeader() {
   const { openModal } = useModalStore();
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
+
+  const [mounted, setMounted] = useState(false);
+  const [isInitialDarkMode, setIsInitialDarkMode] = useState(false);
+  const isDarkMode = useIsDarkMode();
+
+  useEffect(() => {
+    setMounted(true);
+    setIsInitialDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }, []);
 
   const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
@@ -47,7 +59,7 @@ export default function GlobalHeader() {
       <Button
         onClick={handleOpenLoginModal}
         variant="outline"
-        className="border-1 mr-2 border border-gray-700 text-gray-700">
+        className="border-1 text-gray-700 mx-2 border border-gray-700">
         로그인
       </Button>
       <Button
@@ -76,15 +88,24 @@ export default function GlobalHeader() {
     </>
   );
 
+  const Logo = mounted
+    ? isDarkMode
+      ? PrismLogoDark
+      : PrismLogo
+    : isInitialDarkMode
+      ? PrismLogoDark
+      : PrismLogo;
+
   return (
-    <Menubar className="flex h-[70px] w-full items-center justify-between bg-white px-4 py-4 shadow-custom-2px md:px-8 lg:px-24 lg:py-8">
+    <Menubar className="bg-white flex h-[70px] w-full items-center justify-between px-4 py-4 shadow-custom-2px md:px-8 lg:px-24 lg:py-8">
       <Link href="/" className="flex items-center">
-        <PrismLogo className="w-[150px]" />
+        <Logo className="w-[150px]" />
       </Link>
       <div className="flex items-center">
+        <ModeToggle />
         {isLoggedIn ? (
           <MenubarMenu>
-            <MenubarTrigger className="ml-auto">
+            <MenubarTrigger className="ml-2">
               <AlignJustify className="h-7 w-7" />
             </MenubarTrigger>
             <MenubarContent className="m-5">

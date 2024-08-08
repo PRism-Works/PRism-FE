@@ -183,7 +183,7 @@ export default function ProjectRegisterModal({
         />
       }>
       <ProgressBar percent={((currStep + 1) / (MAX_STEP + 1)) * 100} />
-      <div className="mb-[6px] h-[430px] w-full overflow-auto scroll-smooth rounded-[10px] bg-gray-50 p-[18px] scrollbar-thin">
+      <div className="bg-gray-50 mb-[6px] h-[430px] w-full overflow-auto scroll-smooth rounded-[10px] p-[18px] scrollbar-thin">
         <Form {...formMethods}>
           <FormProvider {...formMethods}>
             <form>

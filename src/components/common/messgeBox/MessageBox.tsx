@@ -32,13 +32,13 @@ export default function MessageBox({
           <div className="flex-col-center">
             {titleIcon && <div className="mb-3 flex justify-center">{titleIcon}</div>}
             <div className="body2">{title}</div>
-            {subTitle && <div className="mt-1 text-purple-800 display4">{subTitle}</div>}
+            {subTitle && <div className="text-purple-800 mt-1 display4">{subTitle}</div>}
           </div>
         }
         description={description}
         contentClassName={cn('max-w-[500px] px-[50px]', contentClassName)}
         transparentOverlay={true}
-        footer={<div className="mt-5 w-full gap-1 flex-center">{footer}</div>}
+        footer={<div className="mt-5 w-full gap-3 flex-center">{footer}</div>}
         showCloseButton={showCloseButton}
       />
     </div>

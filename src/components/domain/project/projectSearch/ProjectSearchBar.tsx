@@ -15,7 +15,7 @@ interface ProjectSearchBarProps {
   defaultKeyword?: string;
   defaultCategories?: number[];
   defaultDetailVisible?: boolean;
-  mode?: 'LIGHT' | 'DARK'; // TODO: 다크모드 전역 추가 시 변경 예정
+  mode?: 'LIGHT' | 'DARK';
   width?: string; // 검색창 너비 지정
 }
 
@@ -130,7 +130,7 @@ export default function ProjectSearchBar({
             <span
               className={cn(
                 'h-9 w-20 rounded-[6px] px-3 py-2 text-center display6',
-                mode === 'DARK' ? 'bg-gray-800 text-white' : 'bg-indigo-50 text-indigo-500',
+                mode === 'DARK' ? 'bg-gray-800 text-white' : 'text-indigo-500 bg-indigo-50',
               )}>
               카테고리
             </span>

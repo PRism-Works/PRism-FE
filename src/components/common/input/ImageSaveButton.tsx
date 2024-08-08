@@ -23,7 +23,7 @@ export default function ImageSaveButton({ saveType, projectId, className }: Imag
     <div
       onClick={handleClick}
       className={cn(
-        'flex cursor-pointer items-center space-x-1 text-gray-800 underline decoration-current underline-offset-4 display5',
+        'text-gray-800 flex cursor-pointer items-center space-x-1 underline decoration-current underline-offset-4 display5',
         className,
       )}>
       <span>이미지로 저장</span>

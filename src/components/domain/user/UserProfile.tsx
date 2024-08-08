@@ -72,7 +72,7 @@ export default function UserProfile({ fromMyProfile, userId }: UserProfileProps)
             {profileData.map((item, index) => (
               <div key={index} className="contents">
                 <div className="text-purple-700 display6">{item.label}</div>
-                <div className="flex min-h-[30px] text-gray-700 display4">{item.value || '-'}</div>
+                <div className="text-gray-700 flex min-h-[30px] display4">{item.value || '-'}</div>
               </div>
             ))}
           </div>
@@ -81,7 +81,7 @@ export default function UserProfile({ fromMyProfile, userId }: UserProfileProps)
       {fromMyProfile && (
         <div className="absolute -right-2 -top-7 mr-4">
           <Link href="/mypage/edit">
-            <div className="flex cursor-pointer items-center space-x-1 text-gray-800 underline decoration-current underline-offset-4 display5">
+            <div className="text-gray-800 flex cursor-pointer items-center space-x-1 underline decoration-current underline-offset-4 display5">
               <span>프로필 수정</span>
               <PencilLine className="h-4 w-4" />
             </div>

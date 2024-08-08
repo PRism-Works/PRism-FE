@@ -1,8 +1,8 @@
 'use client';
 
-import { forwardRef, useState, ChangeEvent } from 'react';
-
 import { cn } from '@/lib/utils';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
+import { forwardRef, useState, ChangeEvent } from 'react';
 import { Input, InputProps } from '@/components/ui/input';
 import { Search, XCircle } from 'lucide-react';
 
@@ -13,7 +13,8 @@ export interface SearchInputProps extends Omit<InputProps, 'onChange'> {
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ className, onSearch, defaultKeyword = '', mode = 'LIGHT', ...props }, ref) => {
+  ({ className, onSearch, defaultKeyword = '', mode, ...props }, ref) => {
+    const isDarkMode = useIsDarkMode();
     const [keyword, setKeyword] = useState<string>(defaultKeyword);
 
     const handleSearch = () => {
@@ -34,13 +35,16 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       setKeyword('');
     };
 
+    const finalIsDarkMode = mode ? mode === 'DARK' : isDarkMode;
+
     return (
       <div className="relative w-full">
         <Input
           className={cn(
             'h-[64px] w-full pr-24 body8',
-            mode === 'LIGHT' && 'border-gradient focus:border-gradient',
-            mode === 'DARK' ? 'bg-white bg-opacity-20 text-gray-50' : 'bg-white text-black',
+            finalIsDarkMode
+              ? 'bg-black bg-opacity-30 text-gray-50'
+              : 'bg-white text-black border-gradient focus:border-gradient',
             className,
           )}
           ref={ref}
@@ -54,7 +58,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             <XCircle
               className={cn(
                 'stroke-[1.5px]',
-                mode === 'DARK' ? 'stroke-gray-300' : 'stroke-gray-500',
+                finalIsDarkMode ? 'stroke-gray-300' : 'stroke-gray-500',
               )}
               onClick={handleClear}
             />
@@ -65,7 +69,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           onClick={handleSearch}>
           <Search
             className={cn(
-              mode === 'DARK' ? 'stroke-gray-200' : 'stroke-gray-700',
+              finalIsDarkMode ? 'stroke-gray-200' : 'stroke-gray-700',
               'hover:stroke-[2.5px]',
             )}
           />

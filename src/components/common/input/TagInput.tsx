@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 
 type TagInputColor = 'purple' | 'indigo' | 'gray';
 type TagInputButton = 'delete' | 'add' | 'none';
@@ -10,33 +10,69 @@ type TagInputButton = 'delete' | 'add' | 'none';
 const colorConfig: Record<
   TagInputColor,
   {
-    background: string;
-    text: string;
-    description: string;
-    hoverAndActive: string;
-    iconHover: string;
+    light: {
+      background: string;
+      text: string;
+      description: string;
+      hoverAndActive: string;
+      iconHover: string;
+    };
+    dark: {
+      background: string;
+      text: string;
+      description: string;
+      hoverAndActive: string;
+      iconHover: string;
+    };
   }
 > = {
   purple: {
-    background: 'bg-purple-100',
-    text: 'text-purple-500',
-    description: 'text-purple-300',
-    hoverAndActive: 'hover:bg-purple-200 active:bg-purple-300',
-    iconHover: 'group-hover:text-purple-600',
+    light: {
+      background: 'bg-purple-100',
+      text: 'text-purple-500',
+      description: 'text-purple-300',
+      hoverAndActive: 'hover:bg-purple-200 active:bg-purple-300',
+      iconHover: 'group-hover:text-purple-600',
+    },
+    dark: {
+      background: 'bg-purple-900',
+      text: 'text-purple-300',
+      description: 'text-purple-400',
+      hoverAndActive: 'hover:bg-purple-700 active:bg-purple-600',
+      iconHover: 'group-hover:text-purple-400',
+    },
   },
   indigo: {
-    background: 'bg-indigo-100',
-    text: 'text-indigo-500',
-    description: 'text-indigo-300',
-    hoverAndActive: 'hover:bg-indigo-200 active:bg-indigo-300',
-    iconHover: 'group-hover:text-indigo-600',
+    light: {
+      background: 'bg-indigo-100',
+      text: 'text-indigo-500',
+      description: 'text-indigo-300',
+      hoverAndActive: 'hover:bg-indigo-200 active:bg-indigo-300',
+      iconHover: 'group-hover:text-indigo-600',
+    },
+    dark: {
+      background: 'bg-indigo-800',
+      text: 'text-indigo-300',
+      description: 'text-indigo-400',
+      hoverAndActive: 'hover:bg-indigo-700 active:bg-indigo-600',
+      iconHover: 'group-hover:text-indigo-400',
+    },
   },
   gray: {
-    background: 'bg-gray-100',
-    text: 'text-gray-600',
-    description: 'text-gray-400',
-    hoverAndActive: 'hover:bg-gray-200 active:bg-gray-300',
-    iconHover: 'group-hover:text-gray-600',
+    light: {
+      background: 'bg-gray-100',
+      text: 'text-gray-600',
+      description: 'text-gray-400',
+      hoverAndActive: 'hover:bg-gray-200 active:bg-gray-300',
+      iconHover: 'group-hover:text-gray-600',
+    },
+    dark: {
+      background: 'bg-gray-700',
+      text: 'text-gray-300',
+      description: 'text-gray-400',
+      hoverAndActive: 'hover:bg-gray-600 active:bg-gray-500',
+      iconHover: 'group-hover:text-gray-400',
+    },
   },
 };
 
@@ -59,7 +95,9 @@ export default function TagInput({
   isDisabled = false,
   forSaveImage = false,
 }: TagInputProps) {
-  const { background, text, description, hoverAndActive, iconHover } = colorConfig[colorTheme];
+  const isDarkMode = useIsDarkMode();
+  const { background, text, description, hoverAndActive, iconHover } =
+    colorConfig[colorTheme][isDarkMode ? 'dark' : 'light'];
 
   const handleTagClick = () => {
     if (onClick) onClick();

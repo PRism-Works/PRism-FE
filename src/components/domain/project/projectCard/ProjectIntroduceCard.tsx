@@ -12,6 +12,7 @@ import { convertStringToDate, formatDateToDotSeparatedYYYYMMDD } from '@/lib/dat
 import { cn } from '@/lib/utils';
 import ImageSaveButton from '@/components/common/input/ImageSaveButton';
 import { SAVE_TYPE } from '@/models/preview/previewModels';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 
 interface ProjectIntroduceCardProps {
   projectId: number;
@@ -153,14 +154,18 @@ interface EmphasizeWordProps {
   text: string;
   forSaveImage: boolean;
 }
+
 const EmphasizeWord = ({ text, forSaveImage = false }: EmphasizeWordProps) => {
   // 이미지 저장 시, absolute 값 조정 필요
+  const isDarkMode = useIsDarkMode();
+
   return (
     <span
       className={cn(
-        'relative mx-5 inline-block text-purple-700 body6',
-        'before:absolute before:left-0 before:h-[1px] before:w-full before:bg-black before:content-[""]',
-        'after:absolute after:right-[-5px] after:h-[5px] after:w-[5px] after:rounded-full after:bg-black',
+        'text-purple-700 relative mx-5 inline-block body6',
+        'before:absolute before:left-0 before:h-[1px] before:w-full before:content-[""]',
+        'after:absolute after:right-[-5px] after:h-[5px] after:w-[5px] after:rounded-full after:content-[""]',
+        isDarkMode ? 'before:bg-gray-200 after:bg-gray-200' : 'before:bg-black after:bg-black',
         forSaveImage ? 'before:bottom-[-12px]' : 'before:bottom-0',
         forSaveImage ? 'after:bottom-[-13.5px]' : 'after:bottom-[-2.5px]',
       )}>
