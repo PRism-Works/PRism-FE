@@ -3,7 +3,7 @@ import TermsModalLayout from '@/components/common/modal/TermsModalLayout';
 export default function PRismTermsOfServiceModal() {
   return (
     <TermsModalLayout title="PRism 이용약관">
-      <p className="mt-2 text-gray-800 mobile2">
+      <p className="text-gray-800 mt-2 mobile2">
         본 이용약관은 PRism(이하 &quot;회사&quot;)이 제공하는 서비스(이하 &quot;서비스&quot;)를
         이용함에 있어 회사와 사용자(이하 &quot;사용자&quot;) 간의 권리, 의무 및 책임사항을 규정함을
         목적으로 합니다. 사용자는 서비스를 이용하기 전에 본 약관을 주의 깊게 읽고 동의해야 합니다.
@@ -176,7 +176,7 @@ export default function PRismTermsOfServiceModal() {
           <li>변경된 방침은 시행 7일 전부터 웹사이트를 통해 공지됩니다.</li>
         </ol>
         <br />
-        <p className="mt-2 text-gray-800 mobile2">
+        <p className="text-gray-800 mt-2 mobile2">
           PRism을 이용해 주셔서 감사합니다. 본 약관에 대한 문의사항이 있으시면 언제든지 고객센터로
           연락 주시기 바랍니다.
         </p>

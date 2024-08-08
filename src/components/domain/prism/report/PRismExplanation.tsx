@@ -27,7 +27,7 @@ export default function PRismExplanation({ data, userName = '' }: PRismExplanati
           const Icon = ICONS[item.evaluation];
           return (
             <span key={item.evaluation} className="gap-2 flex-col-center">
-              <div className="gap-1 text-gray-400 mobile2 flex-col-center">
+              <div className="text-gray-400 gap-1 mobile2 flex-col-center">
                 <Icon className="stroke-black" />
                 {PRISM_EVALUATION_LABELS[item.evaluation]}
               </div>
@@ -38,11 +38,11 @@ export default function PRismExplanation({ data, userName = '' }: PRismExplanati
           );
         })}
       </div>
-      <div className="flex flex-col justify-center gap-4 text-gray-800 display5">
+      <div className="text-gray-800 flex flex-col justify-center gap-4 display5">
         <p>
           {userName && `${userName}님의 `}
           <span className="text-info-500 mobile2">가장 높은 지표</span>는
-          <span className="mx-2 text-info-500 display6">
+          <span className="text-info-500 mx-2 display6">
             {highestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
           </span>
           입니다.
@@ -50,7 +50,7 @@ export default function PRismExplanation({ data, userName = '' }: PRismExplanati
         <p>
           {userName && `${userName}님의 `}
           <span className="text-purple-500 mobile2">가장 낮은 지표</span>는
-          <span className="mx-2 text-purple-500 display6">
+          <span className="text-purple-500 mx-2 display6">
             {lowestEvaluations.map((evaluation) => PRISM_EVALUATION_LABELS[evaluation]).join(', ')}
           </span>
           입니다.

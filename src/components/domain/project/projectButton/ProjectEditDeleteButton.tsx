@@ -31,10 +31,10 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
   return (
     <nav className="flex gap-3">
       <button aria-label="삭제" onClick={handleDeleteProject}>
-        <Trash2 className="h-6 w-6 stroke-gray-600 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
+        <Trash2 className="stroke-gray-600 h-6 w-6 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
       <button aria-label="편집" disabled={getDetailMutation.isPending} onClick={handleEditProject}>
-        <Edit3 className="h-6 w-6 stroke-gray-600 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
+        <Edit3 className="stroke-gray-600 h-6 w-6 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
     </nav>
   );

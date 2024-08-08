@@ -25,7 +25,7 @@ export default function TermsModalLayout({ title, children }: TermsModalLayoutPr
           'max-h-[80vh] w-[70vw]',
         )}>
         <DialogClose asChild>
-          <X className="absolute right-4 top-6 h-6 w-6 cursor-pointer stroke-black hover:stroke-[2.5px]" />
+          <X className="stroke-black absolute right-4 top-6 h-6 w-6 cursor-pointer hover:stroke-[2.5px]" />
         </DialogClose>
         <DialogHeader className="flex w-full items-start">
           <DialogTitle className="mt-2 text-left display6">{title}</DialogTitle>

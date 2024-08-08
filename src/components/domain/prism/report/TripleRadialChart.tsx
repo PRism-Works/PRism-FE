@@ -31,8 +31,8 @@ export default function TripleRadialChart({ data, radialParentClassName }: Tripl
       <div className="grid grid-cols-[100px_1fr] gap-x-2 gap-y-2">
         {gridTextData.map((item) => (
           <div key={item.id} className="contents">
-            <div className="flex text-gray-400 mobile1">{item.label}</div>
-            <div className="flex items-center gap-1 text-gray-800 display5">
+            <div className="text-gray-400 flex mobile1">{item.label}</div>
+            <div className="text-gray-800 flex items-center gap-1 display5">
               {!item.value || (Array.isArray(item.value) && item.value.length === 0)
                 ? '-'
                 : item.id === 'keyword' && Array.isArray(item.value)

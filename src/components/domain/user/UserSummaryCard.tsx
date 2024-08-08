@@ -70,7 +70,7 @@ export default function UserSummaryCard({
           ))}
         </ul>
         {isPublicUser && (
-          <div className="cursor-pointer text-gray-600 underline decoration-current underline-offset-4 display5 flex-center">
+          <div className="text-gray-600 cursor-pointer underline decoration-current underline-offset-4 display5 flex-center">
             프로필 보러가기
             <ChevronRight className="h-4 w-4" />
           </div>

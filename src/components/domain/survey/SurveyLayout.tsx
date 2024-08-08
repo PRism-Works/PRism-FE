@@ -26,7 +26,7 @@ export default function SurveyLayout({
         <p className="text-purple-800 body2">{question}</p>
       </div>
       <div className="mb-4">
-        <div className="text-right text-purple-700 body8">{`${currentStep}/${totalSteps}`}</div>
+        <div className="text-purple-700 text-right body8">{`${currentStep}/${totalSteps}`}</div>
         <ProgressBar percent={progressPercent} />
       </div>
       <div className="flex-grow">{children}</div>
