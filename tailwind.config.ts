@@ -166,6 +166,7 @@ const config: Config = {
         '.dark .text-purple-500': { color: theme('colors.purple.300') },
         '.dark .text-indigo-800': { color: theme('colors.indigo.300') },
         '.dark .text-indigo-500': { color: theme('colors.indigo.300') },
+        '.dark .text-danger-500': { color: theme('colors.red.400') },
         '.dark .text-info-500': { color: theme('colors.blue.300') },
         '.dark .stroke-black': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-900': { stroke: theme('colors.gray.200') },
