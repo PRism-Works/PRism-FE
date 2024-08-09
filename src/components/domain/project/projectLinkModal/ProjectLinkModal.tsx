@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils';
 
 import { useModalStore } from '@/stores/modalStore';
 import { useUserStore } from '@/stores/userStore';
+import useMessageBox from '@/hooks/useMessageBox';
 
 import { CheckCircle } from 'lucide-react';
 
@@ -60,6 +61,8 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
   const authCode = watch('authCode');
 
   const { openModal, closeModal } = useModalStore();
+  const { showConfirmMessageBox } = useMessageBox();
+
   const loginUser = useUserStore((state) => state.user);
   const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호가 전송된 상태인지
 
@@ -74,7 +77,7 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
     // 인증번호 입력 칸 초기화
     setValue('authCode', '');
     // 알림 띄우기
-    alert('인증시간이 만료되었습니다. 인증번호를 다시 요청해주세요.');
+    showConfirmMessageBox('인증시간이 만료되었습니다. 인증번호를 다시 요청해주세요.');
   };
   const { timeLeft, startTimer } = useTimer(300, handleTimerEnd);
 
@@ -163,7 +166,7 @@ export default function ProjectLinkModal({ projectId }: ProjectLinkModalProps) {
     alertShownRef.current = true;
     closeModal();
     setTimeout(() => {
-      alert('이미 연동된 프로젝트입니다.');
+      showConfirmMessageBox('이미 연동된 프로젝트입니다.');
     });
     return null;
   }

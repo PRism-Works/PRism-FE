@@ -70,14 +70,14 @@ export const useLogin = () => {
 };
 
 export const useLogout = () => {
-  const { showErrorMessageBox } = useMessageBox();
+  const { showErrorMessageBox, showConfirmMessageBox } = useMessageBox();
   const logoutAuthStore = useAuthStore((state) => state.logout);
 
   return useMutation<LogoutResponse, AxiosError>({
     mutationFn: logout,
     onSuccess: () => {
       logoutAuthStore();
-      alert('로그아웃 되었습니다.');
+      showConfirmMessageBox('로그아웃 되었습니다.');
 
       // 로그아웃 시 홈 페이지로 리다이렉트
       window.location.href = '/';
@@ -96,12 +96,12 @@ export const useLogout = () => {
 };
 
 export const useSendEmailCode = () => {
-  const { showErrorMessageBox } = useMessageBox();
+  const { showErrorMessageBox, showConfirmMessageBox } = useMessageBox();
 
   return useMutation<SendEmailCodeResponse, AxiosError, SendEmailCodeRequest>({
     mutationFn: sendEmailCode,
     onSuccess: () => {
-      alert('인증번호가 전송되었습니다.');
+      showConfirmMessageBox('인증번호가 전송되었습니다.');
     },
     onError: (error) => {
       console.error('인증번호 발송 실패:', error);
@@ -147,7 +147,7 @@ export const useCheckEmailExists = () => {
     onError: (error) => {
       console.error('이메일 중복검사 실패:', error);
       if (error instanceof AxiosError) {
-        alert(error.message);
+        showErrorMessageBox(error.message);
       } else {
         showErrorMessageBox('이메일 중복검사에 실패했습니다.');
       }
