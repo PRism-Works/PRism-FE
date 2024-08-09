@@ -22,7 +22,7 @@ export default function TextRow({
   return (
     <div className="bg-gray-100 mb-2 flex w-full rounded-[20px] py-2 md:px-8">
       <div className="flex w-[320px] items-center gap-4">
-        <CirclePlanetIcon className="bg-gray-200" iconIndex={iconIndex} />
+        <CirclePlanetIcon className="bg-gray-100" iconIndex={iconIndex} />
         <span className="mr-4 mobile1">{revieweeName}</span>
       </div>
       <div className="flex w-full flex-col space-y-3">

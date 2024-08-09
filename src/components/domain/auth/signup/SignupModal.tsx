@@ -218,7 +218,7 @@ export default function SignupModal() {
                       // 이메일 중복 체크가 완료된 경우, '인증번호 받기' 버튼을 렌더링
                       <Button
                         type="button"
-                        className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                        className="mt-2 h-[45px] w-full bg-purple-500 text-white display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                         onClick={handleSendEmailCode}
                         pending={sendCodeMutation.isPending}
                         disabled={isCodeSent}>
@@ -227,7 +227,7 @@ export default function SignupModal() {
                     ) : (
                       <Button
                         type="button"
-                        className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                        className="mt-2 h-[45px] w-full bg-purple-500 text-white display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                         disabled={!isEmailValid}
                         onClick={handleCheckEmailExist}
                         pending={checkEmailExistMutation.isPending}>
@@ -271,7 +271,7 @@ export default function SignupModal() {
                     </FormControl>
                     <Button
                       type="button"
-                      className="mt-2 h-[45px] w-full bg-purple-500 display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
+                      className="mt-2 h-[45px] w-full bg-purple-500 text-white display6 hover:bg-purple-600 sm:ml-2 sm:mt-0 sm:w-auto"
                       disabled={
                         !isCodeSent || !isAuthCodeValid || isCertified || !isEmailExistChecked
                       }
