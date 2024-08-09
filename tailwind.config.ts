@@ -173,6 +173,7 @@ const config: Config = {
         '.dark .stroke-gray-800': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-700': { stroke: theme('colors.gray.200') },
         '.dark .stroke-gray-600': { stroke: theme('colors.gray.200') },
+        '.dark .stroke-danger-500': { stroke: theme('colors.red.400') },
         '.dark .border-gray-300': { borderColor: theme('colors.gray.600') },
         '.dark .border-gray-200': { borderColor: theme('colors.gray.700') },
         '.dark .border-gray-50': { borderColor: theme('colors.gray.800') },

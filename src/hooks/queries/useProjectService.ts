@@ -31,10 +31,13 @@ import {
 } from '@/services/api/projectApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import useErrorMessageBox from '../useErrorMessageBox';
 
 // 프로젝트 생성하기
 export const useCreateProject = (successCallback: (projectId: number) => void) => {
+  const { showErrorMessageBox } = useErrorMessageBox();
   const queryClient = useQueryClient();
+
   return useMutation<ProjectCreateResponse, AxiosError, ProjectCreateRequest>({
     mutationFn: createProject,
     onSuccess: (response, requestProjectData) => {
@@ -70,14 +73,15 @@ export const useCreateProject = (successCallback: (projectId: number) => void) =
       if (successCallback) successCallback(createdProjectId);
     },
     onError: (error) => {
-      alert('프로젝트 등록에 실패했습니다.');
-      console.log(error);
+      console.error(error);
+      showErrorMessageBox('프로젝트 등록에 실패했습니다.');
     },
   });
 };
 
 // 프로젝트 삭제하기
 export const useDeleteProject = (successCallback: () => void) => {
+  const { showErrorMessageBox } = useErrorMessageBox();
   const queryClient = useQueryClient();
 
   return useMutation<ProjectDeleteResponse, AxiosError, number>({
@@ -97,14 +101,15 @@ export const useDeleteProject = (successCallback: () => void) => {
       if (successCallback) successCallback();
     },
     onError: (error) => {
-      alert('프로젝트 삭제에 실패했습니다.');
-      console.log(error);
+      console.error(error);
+      showErrorMessageBox('프로젝트 삭제에 실패했습니다.');
     },
   });
 };
 
 // 프로젝트 수정하기
 export const useUpdateProject = (successCallback: () => void) => {
+  const { showErrorMessageBox } = useErrorMessageBox();
   const queryClient = useQueryClient();
 
   return useMutation<
@@ -137,14 +142,16 @@ export const useUpdateProject = (successCallback: () => void) => {
       if (successCallback) successCallback();
     },
     onError: (error) => {
-      alert('프로젝트 수정에 실패했습니다.');
-      console.log(error);
+      console.error(error);
+      showErrorMessageBox('프로젝트 수정에 실패했습니다.');
     },
   });
 };
 
 // 프로젝트 수정을 위해 상세 데이터 조회하기 (클릭 시 조회를 목적으로 하기에 mutaion 사용)
 export const useGetProjectDetails = (successCallback: (projectDetailData: ProjectForm) => void) => {
+  const { showErrorMessageBox } = useErrorMessageBox();
+
   return useMutation<ProjectDetailResponse, AxiosError, number>({
     mutationFn: getEditProjectDetails,
     onSuccess: (response) => {
@@ -167,14 +174,16 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
       if (successCallback) successCallback(projectDetilData);
     },
     onError: (error) => {
-      alert('프로젝트 상세 정보 조회에 실패했습니다.');
       console.error('프로젝트 상세 정보 조회 실패:', error);
+      showErrorMessageBox('프로젝트 상세 정보 조회에 실패했습니다.');
     },
   });
 };
 
 // 특정 프로젝트에서 본인의 익명 처리 여부 설정 (공개/비공개)
 export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean) => void) => {
+  const { showErrorMessageBox } = useErrorMessageBox();
+
   return useMutation<MyProjectVisibilityResponse, AxiosError, MyProjectVisibilityRequest>({
     mutationFn: updateMyProjectVisibility,
     onSuccess: (response, requsetCondition) => {
@@ -182,24 +191,26 @@ export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean)
       if (successCallback) successCallback(requsetCondition.visibility);
     },
     onError: (error) => {
-      alert('프로젝트 공개 설정에 실패했습니다.');
       console.log(error);
+      showErrorMessageBox('프로젝트 공개 설정에 실패했습니다.');
     },
   });
 };
 
 // 프로젝트 연동하기
 export const useLinkProject = () => {
+  const { showErrorMessageBox } = useErrorMessageBox();
+
   return useMutation<ProjectDetailResponse, AxiosError, LinkProjectRequest>({
     mutationFn: linkProject,
     onError: (error) => {
-      alert('프로젝트 연동 요청에 실패했습니다.');
       console.log(error);
+      showErrorMessageBox('프로젝트 연동 요청에 실패했습니다.');
     },
   });
 };
 
-// 홈, 검색 페이지에서 프로젝트 검색하기 (Mutaion)
+// 홈, 검색 페이지에서 프로젝트 검색하기
 export const useSearchProjects = (condition: ProjectSearchRequest) => {
   return useQuery<ProjectSearchResponse, AxiosError>({
     queryKey: [

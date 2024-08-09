@@ -29,11 +29,13 @@ import {
   useVerifyAuthCode,
 } from '@/hooks/queries/useAuthService';
 import LoginModal from '../login/LoginModal';
+import useErrorMessageBox from '@/hooks/useErrorMessageBox';
 
 export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const { openModal, closeModal } = useModalStore();
+  const { showErrorMessageBox } = useErrorMessageBox();
 
   // mutation
   const checkEmailExistMutation = useCheckEmailExists();
@@ -49,7 +51,7 @@ export default function SignupModal() {
   const handleTimerEnd = () => {
     setIsCodeSent(false);
     setValue('certification', '');
-    alert('인증시간이 만료되었습니다. 다시 시도해주세요.');
+    showErrorMessageBox('인증시간이 만료되었습니다.');
   };
 
   const { timeLeft, startTimer, isRunning } = useTimer(300, handleTimerEnd);
@@ -141,7 +143,7 @@ export default function SignupModal() {
       }, 200);
     } catch (error) {
       console.error(`회원가입 실패: ${error}`);
-      alert('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      showErrorMessageBox('회원가입 중 오류가 발생했습니다.');
     }
   };
 
