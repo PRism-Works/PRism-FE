@@ -23,7 +23,12 @@ export default function ProjectSendEvaluationLink({ projectId }: ProjectSendEval
   };
 
   return (
-    <Button className="h-8 display5" variant="outline" onClick={handleSendEvaluationLink}>
+    <Button
+      className="h-8 display5"
+      variant="outline"
+      onClick={handleSendEvaluationLink}
+      disabled={sendSurveyLinkMutation.isPending}
+      pending={sendSurveyLinkMutation.isPending}>
       평가 링크 다시보내기
     </Button>
   );

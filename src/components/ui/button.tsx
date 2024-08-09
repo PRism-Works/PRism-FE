@@ -54,8 +54,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <div className="absolute inset-0 flex items-center justify-center p-3">
             <svg
               className={cn(
-                'h-full w-fit animate-spin',
-                variant === 'outline' ? 'text-purple-900' : 'text-white',
+                'animate-spin',
+                variant === 'outline' ? 'text-gray-500 h-5 w-5' : 'h-full w-fit text-white',
               )}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
