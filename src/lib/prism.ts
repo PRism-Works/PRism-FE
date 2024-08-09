@@ -1,5 +1,19 @@
 import type { PRismEvaluation, RadialEvaluationType } from '@/models/prism/prismModels';
 
+interface PRismData {
+  communication: number;
+  proactivity: number;
+  problemSolving: number;
+  responsibility: number;
+  cooperation: number;
+}
+
+interface RadialData {
+  leadership: number;
+  reliability: number;
+  teamwork: number;
+}
+
 /**
  * 원시 점수(0-5)를 백분율(0-100)로 변환하고 반올림
  * @param score - 원시 점수 (0-5)
@@ -13,13 +27,7 @@ export function formatPRismScore(score: number): number {
  * @param prismData - 원시 PRism 데이터
  * @returns 차트용으로 형식화된 PRism 데이터
  */
-export function formatPRismChartData(prismData: {
-  communication: number;
-  proactivity: number;
-  problemSolving: number;
-  responsibility: number;
-  cooperation: number;
-}): PRismEvaluation[] {
+export function formatPRismChartData(prismData: PRismData): PRismEvaluation[] {
   return [
     { evaluation: 'COMMUNICATION', percent: formatPRismScore(prismData.communication) },
     { evaluation: 'PROACTIVITY', percent: formatPRismScore(prismData.proactivity) },
@@ -34,11 +42,9 @@ export function formatPRismChartData(prismData: {
  * @param radialData - 원시 방사형 데이터
  * @returns 차트용으로 형식화된 방사형 데이터
  */
-export function formatRadialChartData(radialData: {
-  leadership: number;
-  reliability: number;
-  teamwork: number;
-}): Record<RadialEvaluationType, number> {
+export function formatRadialChartData(
+  radialData: RadialData,
+): Record<RadialEvaluationType, number> {
   return {
     LEADERSHIP: formatPRismScore(radialData.leadership),
     RELIABILITY: formatPRismScore(radialData.reliability),
