@@ -10,6 +10,7 @@ import type { PRismEvaluation } from '@/models/prism/prismModels';
 import { useUserStore } from '@/stores/userStore';
 import { useSingleProjectUserAnalysis } from '@/hooks/queries/usePRismService';
 import { useUserProfileByUserId } from '@/hooks/queries/useUserService';
+import { formatPRismChartData } from '@/lib/prism';
 
 // 유저 -> 프로젝트 상세 조회 시 나타나는 것.
 
@@ -44,28 +45,7 @@ export default function PRismChartExplanationReport({
     const isEmpty = data?.data.isEvaluationEmpty; // 비어있으면 defaultPRismChartData 값을 사용하도록 덮어쓰지 않는다.
 
     if (reportData && !isEmpty) {
-      const userPRismChartData: PRismEvaluation[] = [
-        {
-          evaluation: 'COMMUNICATION',
-          percent: (reportData.prismData.communication / 5) * 100,
-        },
-        {
-          evaluation: 'PROACTIVITY',
-          percent: (reportData.prismData.proactivity / 5) * 100,
-        },
-        {
-          evaluation: 'PROBLEM_SOLVING',
-          percent: (reportData.prismData.problemSolving / 5) * 100,
-        },
-        {
-          evaluation: 'RESPONSIBILITY',
-          percent: (reportData.prismData.responsibility / 5) * 100,
-        },
-        {
-          evaluation: 'COOPERATION',
-          percent: (reportData.prismData.cooperation / 5) * 100,
-        },
-      ];
+      const userPRismChartData = formatPRismChartData(reportData.prismData);
       setPRismChartData(userPRismChartData);
     }
   }, [data]);

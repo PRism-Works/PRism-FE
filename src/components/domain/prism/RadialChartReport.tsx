@@ -10,6 +10,7 @@ import TripleRadialChart, {
 import ReportBlur from './report/ReportBlur';
 import { useUserStore } from '@/stores/userStore';
 import { useSingleProjectUserAnalysis } from '@/hooks/queries/usePRismService';
+import { formatRadialChartData } from '@/lib/prism';
 
 interface RadialChartReportProps {
   fromMyProfile: boolean;
@@ -42,11 +43,7 @@ export default function RadialChartReport({
 
     if (reportData && !isEmpty) {
       const userRadialChartData: RadialChartData = {
-        radialChartData: {
-          LEADERSHIP: (reportData.radialData.leadership / 5) * 100,
-          RELIABILITY: (reportData.radialData.reliability / 5) * 100,
-          TEAMWORK: (reportData.radialData.teamwork / 5) * 100,
-        },
+        radialChartData: formatRadialChartData(reportData.radialData),
         keyword: reportData.radialData.keywords,
         evaluation: reportData.radialData.evaluation,
       };
