@@ -31,7 +31,7 @@ export default function ReportBlur({
   return (
     <div
       className={cn(
-        'absolute inset-1 z-10 flex gap-3 rounded-[30px] backdrop-blur-sm flex-col-center',
+        'absolute inset-1 z-10 flex gap-3 rounded-[30px] backdrop-blur-[8px] flex-col-center',
         isDarkMode ? 'bg-gray-800' : 'bg-white',
         forSaveImage ? 'bg-opacity-90' : 'bg-opacity-70',
       )}>
