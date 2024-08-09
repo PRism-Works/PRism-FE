@@ -27,11 +27,11 @@ import {
 } from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
 import { userDataByLoginUser } from '@/services/api/userApi';
-import useErrorMessageBox from '../useErrorMessageBox';
+import useMessageBox from '../useMessageBox';
 
 export const useLogin = () => {
   const { closeModal } = useModalStore();
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
   const setUser = useUserStore((state) => state.setUser);
   const loginAuthStore = useAuthStore((state) => state.login);
 
@@ -70,7 +70,7 @@ export const useLogin = () => {
 };
 
 export const useLogout = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
   const logoutAuthStore = useAuthStore((state) => state.logout);
 
   return useMutation<LogoutResponse, AxiosError>({
@@ -96,7 +96,7 @@ export const useLogout = () => {
 };
 
 export const useSendEmailCode = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<SendEmailCodeResponse, AxiosError, SendEmailCodeRequest>({
     mutationFn: sendEmailCode,
@@ -111,7 +111,7 @@ export const useSendEmailCode = () => {
 };
 
 export const useVerifyAuthCode = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<VerifyAuthCodeResponse, AxiosError, VerifyAuthCodeRequest>({
     mutationFn: verifyAuthCode,
@@ -123,14 +123,14 @@ export const useVerifyAuthCode = () => {
 };
 
 export const useResetPassword = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<ResetPasswordResponse, AxiosError, ResetPasswordRequest>({
     mutationFn: resetPassword,
     onError: (error) => {
       console.error('비밀번호 재설정 실패:', error);
       if (error instanceof AxiosError) {
-        alert(error.message);
+        showErrorMessageBox(error.message);
       } else {
         showErrorMessageBox('비밀번호 재설정에 실패했습니다.');
       }
@@ -139,7 +139,7 @@ export const useResetPassword = () => {
 };
 
 export const useCheckEmailExists = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<EmailExistsResponse, AxiosError, string>({
     mutationFn: checkEmailExists,
@@ -156,7 +156,7 @@ export const useCheckEmailExists = () => {
 };
 
 export const useSignup = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<SignupResponse, AxiosError, SignupRequest>({
     mutationFn: signup,

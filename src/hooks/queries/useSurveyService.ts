@@ -10,7 +10,7 @@ import type {
   SubmitSurveyRequest,
   SubmitSurveyResponse,
 } from '@/models/survey/surveyApiModels';
-import useErrorMessageBox from '../useErrorMessageBox';
+import useMessageBox from '../useMessageBox';
 
 // 설문 링크 가져오기
 export const useFetchSurveyLink = (params: SurveyLinkRequest) => {
@@ -24,7 +24,7 @@ export const useFetchSurveyLink = (params: SurveyLinkRequest) => {
 
 // 설문 링크 보내기
 export const useSendSurveyLink = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<SendSurveyLinkResponse, AxiosError, SendSurveyLinkRequest>({
     mutationFn: sendSurveyLink,
@@ -37,7 +37,7 @@ export const useSendSurveyLink = () => {
 
 // 설문 응답 제출하기
 export const useSubmitSurvey = (successCallback: () => void) => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<
     SubmitSurveyResponse,

@@ -8,7 +8,7 @@ import {
 import { AxiosError } from 'axios';
 import { User } from '@/models/user/userModels';
 import { useUserStore } from '@/stores/userStore';
-import useErrorMessageBox from '../useErrorMessageBox';
+import useMessageBox from '../useMessageBox';
 
 // userId로 특정 사용자의 Profile Data 가져오기
 export const useUserProfileByUserId = (userId: string) => {
@@ -24,7 +24,7 @@ export const useUserProfileByUserId = (userId: string) => {
 export const useUpdateProfile = (successCallback: () => void) => {
   const queryClient = useQueryClient();
   const { user, setUser } = useUserStore();
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<UpdateProfileResponse, AxiosError, UpdateProfileRequest>({
     mutationFn: updateProfile,

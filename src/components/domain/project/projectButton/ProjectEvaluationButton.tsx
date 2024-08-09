@@ -4,7 +4,7 @@ import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
 import PRismAnalyzeAnimation from '../../prism/PRismAnalyzeAnimation';
-import useErrorMessageBox from '@/hooks/useErrorMessageBox';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface ProjectEvaluationButtonProps {
   projectId: number;
@@ -12,7 +12,7 @@ interface ProjectEvaluationButtonProps {
 
 export default function ProjectEvaluationButton({ projectId }: ProjectEvaluationButtonProps) {
   const { openModal, closeModal } = useModalStore();
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   const updatePRismMutation = useUpdatePRismEvaluation();
 

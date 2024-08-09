@@ -3,15 +3,18 @@
 import SearchInput from '@/components/common/input/SearchInput';
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
 import LinkProjectList from '@/components/domain/project/projectList/LinkProjectList';
+import useMessageBox from '@/hooks/useMessageBox';
 import { useState } from 'react';
 
 // 검색어 입력창이 포함되고, 검색어에 대한 의존성이 높은 페이지라 'use client' 선언했습니다.
 export default function ProjectLinkPage() {
+  const { showConfirmMessageBox } = useMessageBox();
+
   const [keyword, setKeyword] = useState<string>('');
   const handleSearch = (value: string) => {
     if (value === '') {
       // 검색어가 비어있으면 알림창을 띄운다
-      alert('검색어를 입력해주세요.');
+      showConfirmMessageBox('검색어를 입력해주세요.');
       return;
     }
     setKeyword(value);

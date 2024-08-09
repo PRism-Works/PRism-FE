@@ -10,6 +10,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, Clipboard, ChevronDown, ChevronUp } from 'lucide-react';
 import CheckTagInput from '@/components/common/input/CheckTagInput';
 import SearchInput from '@/components/common/input/SearchInput';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface ProjectSearchBarProps {
   defaultKeyword?: string;
@@ -28,6 +29,7 @@ export default function ProjectSearchBar({
 }: ProjectSearchBarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { showConfirmMessageBox } = useMessageBox();
   const setSearchCondition = useSearchStore((state) => state.setSearchCondition);
   const [selectTabType, setSelectTabType] = useState<SearchType>(SearchTypeConst.MEMBER_NAME);
   const [isDetailVisible, toggleDetailVisibility] = useReducer(
@@ -52,7 +54,7 @@ export default function ProjectSearchBar({
 
   const handleSearch = (keyword: string) => {
     if (keyword === '' && selectList.size === 0) {
-      alert('검색어 입력 또는 카테고리를 선택해 주세요.');
+      showConfirmMessageBox('검색어 입력 또는 카테고리를 선택해 주세요.');
       return;
     }
     // 검색 시 현재 검색어 searchStore에 저장

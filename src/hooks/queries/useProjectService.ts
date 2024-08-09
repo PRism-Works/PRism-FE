@@ -31,11 +31,11 @@ import {
 } from '@/services/api/projectApi';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import useErrorMessageBox from '../useErrorMessageBox';
+import useMessageBox from '../useMessageBox';
 
 // 프로젝트 생성하기
 export const useCreateProject = (successCallback: (projectId: number) => void) => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
   const queryClient = useQueryClient();
 
   return useMutation<ProjectCreateResponse, AxiosError, ProjectCreateRequest>({
@@ -81,7 +81,7 @@ export const useCreateProject = (successCallback: (projectId: number) => void) =
 
 // 프로젝트 삭제하기
 export const useDeleteProject = (successCallback: () => void) => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
   const queryClient = useQueryClient();
 
   return useMutation<ProjectDeleteResponse, AxiosError, number>({
@@ -109,7 +109,7 @@ export const useDeleteProject = (successCallback: () => void) => {
 
 // 프로젝트 수정하기
 export const useUpdateProject = (successCallback: () => void) => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
   const queryClient = useQueryClient();
 
   return useMutation<
@@ -150,7 +150,7 @@ export const useUpdateProject = (successCallback: () => void) => {
 
 // 프로젝트 수정을 위해 상세 데이터 조회하기 (클릭 시 조회를 목적으로 하기에 mutaion 사용)
 export const useGetProjectDetails = (successCallback: (projectDetailData: ProjectForm) => void) => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<ProjectDetailResponse, AxiosError, number>({
     mutationFn: getEditProjectDetails,
@@ -182,7 +182,7 @@ export const useGetProjectDetails = (successCallback: (projectDetailData: Projec
 
 // 특정 프로젝트에서 본인의 익명 처리 여부 설정 (공개/비공개)
 export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean) => void) => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<MyProjectVisibilityResponse, AxiosError, MyProjectVisibilityRequest>({
     mutationFn: updateMyProjectVisibility,
@@ -199,7 +199,7 @@ export const useUpdateMyProjectVisibility = (successCallback: (checked: boolean)
 
 // 프로젝트 연동하기
 export const useLinkProject = () => {
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   return useMutation<ProjectDetailResponse, AxiosError, LinkProjectRequest>({
     mutationFn: linkProject,

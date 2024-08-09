@@ -29,7 +29,7 @@ import {
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { MailOpen, Sparkles } from 'lucide-react';
-import useErrorMessageBox from '@/hooks/useErrorMessageBox';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface SurveyPageProps {
   surveyData: SurveyLinkResponse;
@@ -42,7 +42,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
 
   const { openModal, closeModal } = useModalStore();
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   const methods = useForm<SurveyFormValues>({
     defaultValues: {

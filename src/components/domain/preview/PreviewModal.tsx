@@ -14,7 +14,7 @@ import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
 import { Share2 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { PageSpinner } from '@/components/common/spinner';
-import useErrorMessageBox from '@/hooks/useErrorMessageBox';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface PreviewModalProps {
   saveType: SaveType;
@@ -25,7 +25,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
   const userId = useUserStore((state) => state.user?.userId);
   const captureRef = useRef<HTMLDivElement>(null);
   const openModal = useModalStore((state) => state.openModal);
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
 

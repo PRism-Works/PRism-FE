@@ -10,6 +10,7 @@ import { Search } from 'lucide-react';
 import TagInput from '../input/TagInput';
 import { useModalStore } from '@/stores/modalStore';
 import { cn } from '@/lib/utils';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface SelectTagModalLayoutProps {
   title: string;
@@ -31,6 +32,8 @@ export default function SelectTagModalLayout({
   defaultSelectTagList,
   onSelectComplete,
 }: SelectTagModalLayoutProps) {
+  const { showConfirmMessageBox } = useMessageBox();
+
   const [message, setMessage] = useState<string>('');
   const [messageClassName, setMessageClassname] = useState<string>('');
 
@@ -60,7 +63,7 @@ export default function SelectTagModalLayout({
   const handleSelectComplete = () => {
     // 선택한 태그가 없는데 '적용하기' 버튼을 누를 경우 return 처리
     if (selectList.size === 0) {
-      alert('선택한 태그가 없습니다.');
+      showConfirmMessageBox('선택한 태그가 없습니다.');
       return;
     }
     onSelectComplete(Array.from(selectList));

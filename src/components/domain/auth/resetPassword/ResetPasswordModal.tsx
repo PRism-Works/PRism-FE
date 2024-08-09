@@ -27,11 +27,13 @@ import {
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import LoginModal from '../login/LoginModal';
 import { cn } from '@/lib/utils';
+import useMessageBox from '@/hooks/useMessageBox';
 
 export default function ResetPasswordModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const { openModal, closeModal } = useModalStore();
+  const { showConfirmMessageBox } = useMessageBox();
 
   // mutation
   const sendEmailCodeMutation = useSendEmailCode();
@@ -116,7 +118,7 @@ export default function ResetPasswordModal() {
         password: data.newPassword,
       });
       closeModal();
-      alert('비밀번호가 성공적으로 재설정되었습니다.');
+      showConfirmMessageBox('비밀번호가 성공적으로 재설정되었습니다.');
       setTimeout(() => {
         openModal(<LoginModal />);
       }, 200);

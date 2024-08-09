@@ -29,13 +29,13 @@ import {
   useVerifyAuthCode,
 } from '@/hooks/queries/useAuthService';
 import LoginModal from '../login/LoginModal';
-import useErrorMessageBox from '@/hooks/useErrorMessageBox';
+import useMessageBox from '@/hooks/useMessageBox';
 
 export default function SignupModal() {
   const id = useId();
   const isSmallScreen = useMediaQuery('(max-width: 430px)');
   const { openModal, closeModal } = useModalStore();
-  const { showErrorMessageBox } = useErrorMessageBox();
+  const { showErrorMessageBox } = useMessageBox();
 
   // mutation
   const checkEmailExistMutation = useCheckEmailExists();
