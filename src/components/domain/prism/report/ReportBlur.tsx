@@ -1,4 +1,5 @@
 import { ComponentSpinner } from '@/components/common/spinner';
+import useIsDarkMode from '@/hooks/useIsDarkMode';
 import { cn } from '@/lib/utils';
 
 interface ReportBlurProps {
@@ -14,6 +15,7 @@ export default function ReportBlur({
   isError = false,
   forSaveImage = false,
 }: ReportBlurProps) {
+  const isDarkMode = useIsDarkMode();
   const message = isError
     ? 'PRism을 로드하는데 문제가 발생했습니다.'
     : isLoading
@@ -29,7 +31,8 @@ export default function ReportBlur({
   return (
     <div
       className={cn(
-        'bg-white absolute inset-1 z-10 flex gap-3 rounded-[30px] backdrop-blur-sm flex-col-center',
+        'absolute inset-1 z-10 flex gap-3 rounded-[30px] backdrop-blur-sm flex-col-center',
+        isDarkMode ? 'bg-gray-800' : 'bg-white',
         forSaveImage ? 'bg-opacity-90' : 'bg-opacity-70',
       )}>
       {isLoading && <ComponentSpinner />}
