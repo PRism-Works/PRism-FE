@@ -14,16 +14,22 @@ export default function ProjectSendEvaluationLink({ projectId }: ProjectSendEval
   const sendSurveyLinkMutation = useSendSurveyLink();
 
   const handleSendEvaluationLink = async () => {
+    openModal(<SendSurveyCompleteMessage />);
+
     try {
       await sendSurveyLinkMutation.mutateAsync({ projectId });
-      openModal(<SendSurveyCompleteMessage />);
     } catch (error) {
       console.error('평가지 보내기 실패:', error);
     }
   };
 
   return (
-    <Button className="h-8 display5" variant="outline" onClick={handleSendEvaluationLink}>
+    <Button
+      className="h-8 display5"
+      variant="outline"
+      onClick={handleSendEvaluationLink}
+      disabled={sendSurveyLinkMutation.isPending}
+      pending={sendSurveyLinkMutation.isPending}>
       평가 링크 다시보내기
     </Button>
   );
@@ -47,6 +53,7 @@ const SendSurveyCompleteMessage = () => {
   return (
     <MessageBox
       title={renderTitle()}
+      description="이메일 전송에는 최대 1분이 소요될 수 있습니다."
       titleIcon={<Send className="stroke-purple-500" />}
       footer={<MessageBox.MessageConfirmButton text="완료" onClick={handleClickComplete} />}
     />

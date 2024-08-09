@@ -11,7 +11,7 @@ const Instruction = ({ indicator }: InstructionProps) => (
   <div className="my-9 flex-center">
     <p className="text-gray-600 body7">
       <span className="text-black body6">{indicator}</span>을
-      <span className="text-purple-600 body6"> 한가지로 요약</span>하고,
+      <span className="text-purple-600 body6"> 한 가지로 요약</span>하고,
       <span className="text-black body6">그렇게 생각한 이유</span>를{' '}
       <span className="text-purple-600 body6">자세한 예</span>를 들어 설명해 주세요.
     </p>

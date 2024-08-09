@@ -1,8 +1,5 @@
-'use client';
-
 import { cn } from '@/lib/utils';
 import { Check, Plus } from 'lucide-react';
-import useIsDarkMode from '@/hooks/useIsDarkMode';
 
 interface CheckTagInputProps {
   value: string;
@@ -17,8 +14,9 @@ export default function CheckTagInput({
   isChecked = false,
   isDisabled = false,
   onClick,
+  mode = 'LIGHT',
 }: CheckTagInputProps) {
-  const isDarkMode = useIsDarkMode();
+  const isDarkMode = mode === 'DARK';
 
   const getClassNameByStatus = (): string => {
     if (isChecked)
