@@ -1,9 +1,10 @@
 import { useModalStore } from '@/stores/modalStore';
 import { useUpdatePRismEvaluation } from '@/hooks/queries/usePRismService';
-import { AlertTriangle, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
 import PRismAnalyzeAnimation from '../../prism/PRismAnalyzeAnimation';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface ProjectEvaluationButtonProps {
   projectId: number;
@@ -11,6 +12,7 @@ interface ProjectEvaluationButtonProps {
 
 export default function ProjectEvaluationButton({ projectId }: ProjectEvaluationButtonProps) {
   const { openModal, closeModal } = useModalStore();
+  const { showErrorMessageBox } = useMessageBox();
 
   const updatePRismMutation = useUpdatePRismEvaluation();
 
@@ -30,7 +32,7 @@ export default function ProjectEvaluationButton({ projectId }: ProjectEvaluation
       } else {
         errorMessage = 'PRism 분석 업데이트에 실패했습니다.';
       }
-      openModal(<ErrorMessage message={errorMessage} />);
+      showErrorMessageBox(errorMessage);
     }
   };
 
@@ -40,19 +42,6 @@ export default function ProjectEvaluationButton({ projectId }: ProjectEvaluation
     </Button>
   );
 }
-
-// 갱신 실패 메시지창
-const ErrorMessage = ({ message }: { message: string }) => {
-  const { closeModal } = useModalStore();
-
-  return (
-    <MessageBox
-      title={<div className="my-1 body6">{message}</div>}
-      titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
-      footer={<MessageBox.MessageConfirmButton text="확인" onClick={closeModal} isPrimary />}
-    />
-  );
-};
 
 // 갱신 성공 메시지창
 const SuccessMessage = () => {

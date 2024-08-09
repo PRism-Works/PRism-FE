@@ -5,6 +5,7 @@ import { useModalStore } from '@/stores/modalStore';
 import { useDeleteProject, useGetProjectDetails } from '@/hooks/queries/useProjectService';
 import ProjectRegisterModal from '../projectRegisterModal/ProjectRegisterModal';
 import { ProjectForm } from '@/models/project/projectModels';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface ProjectEditDeleteButtonProps {
   projectId: number;
@@ -45,14 +46,14 @@ interface DeleteConfirmMessageProps {
   closeModal: () => void;
 }
 const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessageProps) => {
+  const { showConfirmMessageBox } = useMessageBox();
+
   const handleDeleteProjectSuccess = () => {
     closeModal();
-    alert('프로젝트가 정상적으로 삭제되었습니다.');
+    showConfirmMessageBox('프로젝트가 정상적으로 삭제되었습니다.');
   };
   const deleteMutaion = useDeleteProject(handleDeleteProjectSuccess);
-  const handleCancel = () => {
-    closeModal();
-  };
+
   const handleDelete = () => {
     deleteMutaion.mutate(projectId);
   };
@@ -62,7 +63,7 @@ const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessagePro
       titleIcon={<Trash2 className="stroke-purple-500" />}
       footer={
         <>
-          <MessageBox.MessageConfirmButton isPrimary={false} text="취소" onClick={handleCancel} />
+          <MessageBox.MessageConfirmButton isPrimary={false} text="취소" />
           <MessageBox.MessageConfirmButton
             text="삭제"
             onClick={handleDelete}

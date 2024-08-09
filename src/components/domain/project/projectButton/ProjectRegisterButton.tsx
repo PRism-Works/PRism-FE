@@ -1,12 +1,14 @@
 'use client';
 
-import LoginModal from '../../auth/login/LoginModal';
-import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
-import { useModalStore } from '@/stores/modalStore';
-import { useAuthStore } from '@/stores/authStore';
+import { cn } from '@/lib/utils';
 import { ClipboardEdit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+
+import { useModalStore } from '@/stores/modalStore';
+import { useAuthStore } from '@/stores/authStore';
+
+import LoginModal from '../../auth/login/LoginModal';
+import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
 
 interface ProjectRegisterButtonProps {
   text?: string;
@@ -18,11 +20,11 @@ export default function ProjectRegisterButton({
   className,
 }: ProjectRegisterButtonProps) {
   const openModal = useModalStore((state) => state.openModal);
+
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const handleOpenProjectRegisterModal = () => {
     if (!isLoggedIn) {
-      alert('로그인하고 프로젝트를 시작해보세요!'); // 임시 alert
       openModal(<LoginModal />);
       return;
     }

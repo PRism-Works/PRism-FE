@@ -1,8 +1,8 @@
 'use client';
 
-import ModalLayout from '@/components/common/modal/ModalLayout';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import ModalLayout from '@/components/common/modal/ModalLayout';
+
 import { useModalStore } from '@/stores/modalStore';
 
 // 제목, 버튼 필수
@@ -26,22 +26,20 @@ export default function MessageBox({
   contentClassName = '',
 }: MessageBoxProps) {
   return (
-    <div className="shadow-custom-6px">
-      <ModalLayout
-        title={
-          <div className="flex-col-center">
-            {titleIcon && <div className="mb-3 flex justify-center">{titleIcon}</div>}
-            <div className="body2">{title}</div>
-            {subTitle && <div className="text-purple-800 mt-1 display4">{subTitle}</div>}
-          </div>
-        }
-        description={description}
-        contentClassName={cn('max-w-[500px] px-[50px]', contentClassName)}
-        transparentOverlay={true}
-        footer={<div className="mt-5 w-full gap-3 flex-center">{footer}</div>}
-        showCloseButton={showCloseButton}
-      />
-    </div>
+    <ModalLayout
+      title={
+        <div className="flex-col-center">
+          {titleIcon && <div className="mb-3 flex justify-center">{titleIcon}</div>}
+          <div className="body2">{title}</div>
+          {subTitle && <div className="text-purple-800 mt-1 display4">{subTitle}</div>}
+        </div>
+      }
+      description={description}
+      contentClassName={`max-w-[510px] px-[50px] ${contentClassName}`}
+      transparentOverlay={true}
+      footer={<div className="mt-5 w-full gap-3 flex-center">{footer}</div>}
+      showCloseButton={showCloseButton}
+    />
   );
 }
 

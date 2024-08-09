@@ -28,7 +28,8 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
-import { MailOpen, Sparkles, AlertTriangle } from 'lucide-react';
+import { MailOpen, Sparkles } from 'lucide-react';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface SurveyPageProps {
   surveyData: SurveyLinkResponse;
@@ -41,6 +42,7 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
   const [teamMembers, setTeamMembers] = useState<string[]>([]);
 
   const { openModal, closeModal } = useModalStore();
+  const { showErrorMessageBox } = useMessageBox();
 
   const methods = useForm<SurveyFormValues>({
     defaultValues: {
@@ -123,7 +125,10 @@ export default function SurveyPage({ surveyData }: SurveyPageProps) {
       if (error instanceof z.ZodError) {
         console.error('Validation failed:', error.errors);
       }
-      openModal(<ErrorMessage />);
+      showErrorMessageBox(
+        '모든 항목을 작성해주세요.',
+        '누락된 응답이 있습니다. 모든 질문에 답변해주세요.',
+      );
     }
   };
 
@@ -187,7 +192,7 @@ const SubmitSurveyMessage = ({ handleClickSubmit }: { handleClickSubmit: () => v
       footer={
         <>
           <MessageBox.MessageConfirmButton text="이전으로" onClick={closeModal} isPrimary={false} />
-          <MessageBox.MessageConfirmButton text="제출하기" onClick={handleClickSubmit} isPrimary />
+          <MessageBox.MessageConfirmButton text="제출하기" onClick={handleClickSubmit} />
         </>
       }
     />
@@ -211,23 +216,9 @@ const CompletionMessage = () => {
       titleIcon={<Sparkles className="h-6 w-6 stroke-purple-600" />}
       footer={
         <Link href="/mypage">
-          <MessageBox.MessageConfirmButton text="내 평가 결과 보러가기" isPrimary={true} />
+          <MessageBox.MessageConfirmButton text="내 평가 결과 보러가기" />
         </Link>
       }
-    />
-  );
-};
-
-// 오류 메시지창(유효성 검사)
-const ErrorMessage = () => {
-  const { closeModal } = useModalStore();
-
-  return (
-    <MessageBox
-      title={<div>모든 항목을 작성해주세요.</div>}
-      description="누락된 응답이 있습니다. 모든 질문에 답변해주세요."
-      titleIcon={<AlertTriangle className="h-6 w-6 stroke-danger-500" />}
-      footer={<MessageBox.MessageConfirmButton text="확인" onClick={closeModal} isPrimary />}
     />
   );
 };

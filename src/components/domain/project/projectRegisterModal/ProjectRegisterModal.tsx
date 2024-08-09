@@ -33,6 +33,7 @@ import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
 import ProjectEmailConsentModal from '../../auth/privacyPolicy/ProjectEmailConsentModal';
+import useMessageBox from '@/hooks/useMessageBox';
 
 const STEPS: ProjectRegisterHeaderStep[] = [
   {
@@ -67,6 +68,8 @@ export default function ProjectRegisterModal({
 }: ProjectRegisterModalProps) {
   const [currStep, setCurrStep] = useState<number>(0);
   const { openModal, closeModal } = useModalStore();
+  const { showConfirmMessageBox } = useMessageBox();
+
   const userData = useUserStore((state) => state.user);
 
   // 프로젝트 저장 성공 콜백함수
@@ -80,7 +83,7 @@ export default function ProjectRegisterModal({
   // 프로젝트 수정 성공 콜백함수
   const handleProjectUpdateSuccess = () => {
     closeModal();
-    alert('프로젝트가 수정되었습니다.');
+    showConfirmMessageBox('프로젝트가 수정되었습니다.');
   };
 
   const createMutation = useCreateProject(handleProjectCreateSuccess);

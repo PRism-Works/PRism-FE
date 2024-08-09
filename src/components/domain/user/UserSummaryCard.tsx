@@ -15,6 +15,7 @@ import { maskEmail, maskName } from '@/lib/masking';
 
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/stores/userStore';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface UserSummaryCardProps {
   userData: UserSummaryData;
@@ -29,12 +30,14 @@ export default function UserSummaryCard({
 }: UserSummaryCardProps) {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
+  const { showConfirmMessageBox } = useMessageBox();
+
   const isPublicUser = variant === USER_CARD_VARIANT.MEMBER_PUBLIC;
   const isPrivateUser = variant === USER_CARD_VARIANT.MEMBER_PRIVATE;
 
   const handleOpenUserProfile = () => {
     if (!isPublicUser) {
-      alert('비공개 팀원입니다.');
+      showConfirmMessageBox('비공개 팀원입니다.');
       return;
     }
     if (user?.userId === userData.userId) {

@@ -27,9 +27,11 @@ import {
 } from '../../services/api/authApi';
 import { useUserStore } from '@/stores/userStore';
 import { userDataByLoginUser } from '@/services/api/userApi';
+import useMessageBox from '../useMessageBox';
 
 export const useLogin = () => {
   const { closeModal } = useModalStore();
+  const { showErrorMessageBox } = useMessageBox();
   const setUser = useUserStore((state) => state.setUser);
   const loginAuthStore = useAuthStore((state) => state.login);
 
@@ -54,30 +56,28 @@ export const useLogin = () => {
           roles: data.interestJobs,
           skills: data.skills, // 백엔드에서 아직 안넘겨줌. 빈값으로 설정
         });
-
-        alert('로그인에 성공했습니다.');
       } catch (error) {
-        console.error('유저 데이터 가져오기 실패:', error);
-        alert('로그인은 성공했지만 유저 데이터를 가져오는데 실패했습니다.');
+        console.error('로그인은 성공했지만, 유저 데이터 가져오기 실패:', error);
       } finally {
         closeModal();
       }
     },
     onError: (error) => {
-      alert('로그인에 실패했습니다. 다시 시도해 주세요.');
       console.error('로그인 실패: ', error);
+      showErrorMessageBox('로그인에 실패했습니다.');
     },
   });
 };
 
 export const useLogout = () => {
+  const { showErrorMessageBox, showConfirmMessageBox } = useMessageBox();
   const logoutAuthStore = useAuthStore((state) => state.logout);
 
   return useMutation<LogoutResponse, AxiosError>({
     mutationFn: logout,
     onSuccess: () => {
       logoutAuthStore();
-      alert('로그아웃 되었습니다.');
+      showConfirmMessageBox('로그아웃 되었습니다.');
 
       // 로그아웃 시 홈 페이지로 리다이렉트
       window.location.href = '/';
@@ -90,72 +90,82 @@ export const useLogout = () => {
     },
     onError: (error) => {
       console.error('로그아웃 실패:', error);
-      alert('로그아웃에 실패했습니다. 다시 시도해 주세요.');
+      showErrorMessageBox('로그아웃에 실패했습니다.');
     },
   });
 };
 
 export const useSendEmailCode = () => {
+  const { showErrorMessageBox, showConfirmMessageBox } = useMessageBox();
+
   return useMutation<SendEmailCodeResponse, AxiosError, SendEmailCodeRequest>({
     mutationFn: sendEmailCode,
     onSuccess: () => {
-      alert('인증번호가 전송되었습니다.');
+      showConfirmMessageBox('인증번호가 전송되었습니다.');
     },
     onError: (error) => {
       console.error('인증번호 발송 실패:', error);
-      alert('인증번호 발송에 실패했습니다. 다시 시도해 주세요.');
+      showErrorMessageBox('인증번호 발송에 실패했습니다.');
     },
   });
 };
 
 export const useVerifyAuthCode = () => {
+  const { showErrorMessageBox } = useMessageBox();
+
   return useMutation<VerifyAuthCodeResponse, AxiosError, VerifyAuthCodeRequest>({
     mutationFn: verifyAuthCode,
     onError: (error) => {
       console.error('인증번호 인증 실패:', error);
-      alert('인증번호 인증에 실패했습니다. 다시 시도해 주세요.');
+      showErrorMessageBox('인증번호 인증에 실패했습니다.');
     },
   });
 };
 
 export const useResetPassword = () => {
+  const { showErrorMessageBox } = useMessageBox();
+
   return useMutation<ResetPasswordResponse, AxiosError, ResetPasswordRequest>({
     mutationFn: resetPassword,
     onError: (error) => {
       console.error('비밀번호 재설정 실패:', error);
       if (error instanceof AxiosError) {
-        alert(error.message);
+        showErrorMessageBox(error.message);
       } else {
-        alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+        showErrorMessageBox('비밀번호 재설정에 실패했습니다.');
       }
     },
   });
 };
 
 export const useCheckEmailExists = () => {
+  const { showErrorMessageBox } = useMessageBox();
+
   return useMutation<EmailExistsResponse, AxiosError, string>({
     mutationFn: checkEmailExists,
 
     onError: (error) => {
       console.error('이메일 중복검사 실패:', error);
       if (error instanceof AxiosError) {
-        alert(error.message);
+        showErrorMessageBox(error.message);
       } else {
-        alert('이메일 중복검사에 실패했습니다. 다시 시도해 주세요.');
+        showErrorMessageBox('이메일 중복검사에 실패했습니다.');
       }
     },
   });
 };
 
 export const useSignup = () => {
+  const { showErrorMessageBox } = useMessageBox();
+
   return useMutation<SignupResponse, AxiosError, SignupRequest>({
     mutationFn: signup,
     onError: (error) => {
       console.error('회원가입 실패:', error);
       if (error instanceof AxiosError) {
-        alert(error.message);
+        showErrorMessageBox(error.message);
       } else {
-        alert('회원가입에 실패했습니다. 다시 시도해 주세요.');
+        showErrorMessageBox('회원가입에 실패했습니다.');
       }
     },
   });

@@ -19,6 +19,7 @@ import {
 } from '@/models/project/projectModels';
 import { formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
 import { useRouter } from 'next/navigation';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
@@ -35,6 +36,7 @@ export default function ProjectSummaryCard({
 }: ProjectSummaryCardProps) {
   const router = useRouter();
   const projectId = projectData.projectId;
+  const { showConfirmMessageBox } = useMessageBox();
 
   // 프로젝트 카드 disabled 조건 : 관리자용, 연동용, 이미지 저장용
   const isCardDisabled =
@@ -54,7 +56,7 @@ export default function ProjectSummaryCard({
     if (route) {
       router.push(route);
     } else {
-      alert('이동할 페이지가 없습니다.');
+      showConfirmMessageBox('이동할 페이지가 없습니다.');
     }
   };
   return (

@@ -14,6 +14,7 @@ import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
 import { Share2 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { PageSpinner } from '@/components/common/spinner';
+import useMessageBox from '@/hooks/useMessageBox';
 
 interface PreviewModalProps {
   saveType: SaveType;
@@ -24,6 +25,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
   const userId = useUserStore((state) => state.user?.userId);
   const captureRef = useRef<HTMLDivElement>(null);
   const openModal = useModalStore((state) => state.openModal);
+  const { showErrorMessageBox } = useMessageBox();
 
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
@@ -52,7 +54,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
       }, 1000);
     } catch (error) {
       console.error('이미지 저장 중 오류 발생:', error);
-      alert('이미지 저장 중 오류가 발생했습니다.');
+      showErrorMessageBox('이미지 저장 중 오류가 발생했습니다.');
     }
   };
 
@@ -70,7 +72,7 @@ export default function PreviewModal({ saveType, projectId }: PreviewModalProps)
       openModal(<ShareMessageBox />);
     } catch (error) {
       console.error('클립보드 복사 실패:', error);
-      alert('클립보드 복사에 실패했습니다.');
+      showErrorMessageBox('클립보드 복사에 실패했습니다.');
     }
   };
 

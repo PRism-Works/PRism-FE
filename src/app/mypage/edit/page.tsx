@@ -12,7 +12,7 @@ import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout
 import BorderCard from '@/components/common/card/BorderCard';
 import TagInput from '@/components/common/input/TagInput';
 import MessageBox from '@/components/common/messgeBox/MessageBox';
-import { AlertCircle, CheckCircle2, Pencil } from 'lucide-react';
+import { AlertCircle, CheckCircle, Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // 로그인 한 사용자의 프로필 수정 페이지
@@ -235,7 +235,7 @@ const ProfileSaveSuccessMessage = () => {
   return (
     <MessageBox
       title="프로필이 성공적으로 수정되었습니다."
-      titleIcon={<CheckCircle2 className="stroke-purple-500" />}
+      titleIcon={<CheckCircle className="stroke-purple-500" />}
       footer={<MessageBox.MessageConfirmButton text="확인" />}
       contentClassName="max-w-[550px]"
     />
