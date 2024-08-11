@@ -91,7 +91,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                   </div>
                 </h3>
                 <div className="grid grid-cols-[90px_1fr] gap-x-8 gap-y-7">
-                  <div className="text-purple-800 display6">링크 바로가기</div>
+                  <label className="text-purple-800 display6">링크 바로가기</label>
                   <div className="flex items-center">
                     {projectData.urlVisibility && projectData.projectUrlLink ? (
                       <div className="flex-center">
@@ -108,9 +108,9 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                       '-'
                     )}
                   </div>
-                  <div className="text-gray-600 display6">기관명</div>
+                  <label className="text-gray-600 display6">기관명</label>
                   <div className="text-black display4">{projectData.organizationName}</div>
-                  <div className="text-gray-600 display6">기간</div>
+                  <label className="text-gray-600 display6">기간</label>
                   <div className="text-black display4">
                     <time>{formatDateToDotSeparatedYYYYMMDD(startDate)}</time> -{' '}
                     <time>{formatDateToDotSeparatedYYYYMMDD(endDate)}</time>
@@ -127,9 +127,9 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
               renderInvalidText()
             ) : (
               <div className="grid grid-cols-[90px_1fr] gap-x-8 gap-y-7">
-                <div className="text-gray-600 display6">상세 설명</div>
+                <label className="text-gray-600 display6">상세 설명</label>
                 <p className="text-black display4">{projectData.projectDescription || '-'}</p>
-                <div className="text-gray-600 display6">카테고리</div>
+                <label className="text-gray-600 display6">카테고리</label>
                 <ul className="flex gap-2">
                   {projectData.categories.length === 0
                     ? '-'
@@ -139,7 +139,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                         </li>
                       ))}
                 </ul>
-                <div className="text-gray-600 display6">기술스택</div>
+                <label className="text-gray-600 display6">기술스택</label>
                 <ul className="flex flex-wrap gap-2">
                   {projectData.skills.length === 0
                     ? '-'

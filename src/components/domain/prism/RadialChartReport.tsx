@@ -61,7 +61,11 @@ export default function RadialChartReport({
           forSaveImage={forSaveImage}
         />
       )}
-      <TripleRadialChart data={radialChartData} radialParentClassName="gap-10" />
+      <TripleRadialChart
+        data={radialChartData}
+        radialParentClassName="gap-10"
+        forSaveImage={forSaveImage}
+      />
     </BorderCard>
   );
 }
