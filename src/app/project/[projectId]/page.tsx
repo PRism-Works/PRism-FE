@@ -35,6 +35,16 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
             : USER_CARD_VARIANT.MEMBER_PUBLIC,
     })) || [];
 
+  // URL을 절대 경로로 변환하는 함수
+  const ensureAbsoluteUrl = (url: string): string => {
+    // URL이 http나 https (프로토콜)을 포함하고 있는지 확인
+    if (url.match(/^https?:\/\//i)) {
+      return url; // 이미 절대 경로라면 그대로 반환
+    }
+    // 프로토콜이 없는 경우 '//'를 추가 (프로토콜 상대 URL)
+    return `//${url}`;
+  };
+
   const renderInvalidText = () => (
     <span className="text-gray-600 display6 flex-center">
       {isLoading ? (
@@ -84,14 +94,16 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                   <div className="text-purple-800 display6">링크 바로가기</div>
                   <div className="flex items-center">
                     {projectData.urlVisibility && projectData.projectUrlLink ? (
-                      <>
+                      <div className="flex-center">
                         <a
-                          href={projectData.projectUrlLink}
-                          className="text-gray-500 underline underline-offset-4">
+                          href={ensureAbsoluteUrl(projectData.projectUrlLink)}
+                          className="text-gray-500 underline underline-offset-4"
+                          target="_blank"
+                          rel="noopener noreferrer">
                           {projectData.projectUrlLink}
                         </a>
                         <ArrowUpRight className="h-6 w-6 stroke-gray-500" />
-                      </>
+                      </div>
                     ) : (
                       '-'
                     )}
