@@ -14,9 +14,14 @@ export interface RadialChartData {
 interface TripleRadialChartProps {
   data: RadialChartData;
   radialParentClassName?: string;
+  forSaveImage?: boolean;
 }
 
-export default function TripleRadialChart({ data, radialParentClassName }: TripleRadialChartProps) {
+export default function TripleRadialChart({
+  data,
+  radialParentClassName,
+  forSaveImage = false,
+}: TripleRadialChartProps) {
   const gridTextData = [
     { id: 'keyword', label: '키워드', value: data.keyword },
     { id: 'evaluation', label: '팀원 평가 요약', value: data.evaluation },
@@ -37,7 +42,7 @@ export default function TripleRadialChart({ data, radialParentClassName }: Tripl
                 ? '-'
                 : item.id === 'keyword' && Array.isArray(item.value)
                   ? item.value.map((value, index) => (
-                      <TagInput key={index} value={value} isDisabled />
+                      <TagInput key={index} value={value} isDisabled forSaveImage={forSaveImage} />
                     ))
                   : item.value}
             </div>

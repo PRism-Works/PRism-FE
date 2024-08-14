@@ -35,6 +35,16 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
             : USER_CARD_VARIANT.MEMBER_PUBLIC,
     })) || [];
 
+  // URL을 절대 경로로 변환하는 함수
+  const ensureAbsoluteUrl = (url: string): string => {
+    // URL이 http나 https (프로토콜)을 포함하고 있는지 확인
+    if (url.match(/^https?:\/\//i)) {
+      return url; // 이미 절대 경로라면 그대로 반환
+    }
+    // 프로토콜이 없는 경우 '//'를 추가 (프로토콜 상대 URL)
+    return `//${url}`;
+  };
+
   const renderInvalidText = () => (
     <span className="text-gray-600 display6 flex-center">
       {isLoading ? (
@@ -81,24 +91,26 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                   </div>
                 </h3>
                 <div className="grid grid-cols-[90px_1fr] gap-x-8 gap-y-7">
-                  <div className="text-purple-800 display6">링크 바로가기</div>
+                  <label className="text-purple-800 display6">링크 바로가기</label>
                   <div className="flex items-center">
                     {projectData.urlVisibility && projectData.projectUrlLink ? (
-                      <>
+                      <div className="flex-center">
                         <a
-                          href={projectData.projectUrlLink}
-                          className="text-gray-500 underline underline-offset-4">
+                          href={ensureAbsoluteUrl(projectData.projectUrlLink)}
+                          className="text-gray-500 underline underline-offset-4"
+                          target="_blank"
+                          rel="noopener noreferrer">
                           {projectData.projectUrlLink}
                         </a>
                         <ArrowUpRight className="h-6 w-6 stroke-gray-500" />
-                      </>
+                      </div>
                     ) : (
                       '-'
                     )}
                   </div>
-                  <div className="text-gray-600 display6">기관명</div>
+                  <label className="text-gray-600 display6">기관명</label>
                   <div className="text-black display4">{projectData.organizationName}</div>
-                  <div className="text-gray-600 display6">기간</div>
+                  <label className="text-gray-600 display6">기간</label>
                   <div className="text-black display4">
                     <time>{formatDateToDotSeparatedYYYYMMDD(startDate)}</time> -{' '}
                     <time>{formatDateToDotSeparatedYYYYMMDD(endDate)}</time>
@@ -115,9 +127,9 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
               renderInvalidText()
             ) : (
               <div className="grid grid-cols-[90px_1fr] gap-x-8 gap-y-7">
-                <div className="text-gray-600 display6">상세 설명</div>
+                <label className="text-gray-600 display6">상세 설명</label>
                 <p className="text-black display4">{projectData.projectDescription || '-'}</p>
-                <div className="text-gray-600 display6">카테고리</div>
+                <label className="text-gray-600 display6">카테고리</label>
                 <ul className="flex gap-2">
                   {projectData.categories.length === 0
                     ? '-'
@@ -127,7 +139,7 @@ export default function SearchProjectDetailPage({ params }: SearchProjectDetailP
                         </li>
                       ))}
                 </ul>
-                <div className="text-gray-600 display6">기술스택</div>
+                <label className="text-gray-600 display6">기술스택</label>
                 <ul className="flex flex-wrap gap-2">
                   {projectData.skills.length === 0
                     ? '-'

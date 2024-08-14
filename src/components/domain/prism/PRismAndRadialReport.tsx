@@ -74,7 +74,7 @@ export default function PRismAndRadialReport({
       </div>
       <div className="bg-gray-50 flex min-h-[330px] max-w-[560px] flex-col items-center gap-3 rounded-[30px] px-9 py-3">
         <div className="text-indigo-800 body6">{fromMyProfile && '나의'} PRism 분석 리포트</div>
-        <TripleRadialChart data={radialChartData} />
+        <TripleRadialChart data={radialChartData} forSaveImage={forSaveImage} />
       </div>
     </BorderCard>
   );
