@@ -1,11 +1,11 @@
 'use client';
 
 import { Share2 } from 'lucide-react';
+
 import MessageBox from '@/components/common/messgeBox/MessageBox';
+import useMessageBox from '@/hooks/useMessageBox';
 
 import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
-
-import useMessageBox from './useMessageBox';
 
 import { useUserStore } from '@/stores/userStore';
 import { useModalStore } from '@/stores/modalStore';

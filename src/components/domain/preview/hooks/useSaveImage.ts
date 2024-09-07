@@ -1,9 +1,11 @@
 'use client';
 
-import { SAVE_TYPE, SaveType } from '@/models/preview/previewModels';
-import html2canvas from 'html2canvas';
 import { RefObject, useState } from 'react';
-import useMessageBox from './useMessageBox';
+import html2canvas from 'html2canvas';
+
+import useMessageBox from '@/hooks/useMessageBox';
+
+import { SAVE_TYPE, SaveType } from '@/models/preview/previewModels';
 
 const useSaveImage = <T extends HTMLElement>(saveType: SaveType, captureRef: RefObject<T>) => {
   const [isImageDownloading, setIsImageDownloading] = useState<boolean>(false);

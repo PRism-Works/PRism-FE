@@ -2,15 +2,16 @@
 
 import { useRef } from 'react';
 
+import { PageSpinner } from '@/components/common/spinner';
 import PreviewModalLayout from '@/components/common/modal/PreviewModalLayout';
+
+import useShareLink from './hooks/useShareLink';
+import useSaveImage from './hooks/useSaveImage';
+
+import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
 import ProjectPreviewContent from './ProjectPreviewContent';
 import ProfilePreviewContent from './ProfilePreviewContent';
-import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';
 
-import { PageSpinner } from '@/components/common/spinner';
-
-import useSaveImage from '@/hooks/useSaveImage';
-import useShareLink from '@/hooks/useShareLink';
 interface PreviewModalProps {
   saveType: SaveType;
   projectId?: number;
@@ -19,7 +20,10 @@ interface PreviewModalProps {
 export default function PreviewModal({ saveType, projectId }: PreviewModalProps) {
   const captureRef = useRef<HTMLDivElement>(null);
 
-  const { handleSaveImage, isImageDownloading } = useSaveImage(saveType, captureRef);
+  const { handleSaveImage, isImageDownloading } = useSaveImage<HTMLDivElement>(
+    saveType,
+    captureRef,
+  );
   const { handleShareLink } = useShareLink(saveType, projectId);
 
   return (
