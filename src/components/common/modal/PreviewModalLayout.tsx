@@ -46,6 +46,8 @@ const PreviewModalLayout = forwardRef<HTMLDivElement, PreviewModalLayoutProps>(
               <Share2 className={actionButtonStyles.icon} />
             </span>
           </div>
+
+          {/* html2Canvas가 캡처할 영역 */}
           <div ref={ref} className="bg-gray-50 flex w-[1100px] flex-col gap-10 rounded-2xl p-9">
             <header className="w-full flex-center">
               <Logo className="mb-4 w-[150px]" />
