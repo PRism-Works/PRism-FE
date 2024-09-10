@@ -1,9 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import useIsDarkMode from '@/hooks/useIsDarkMode';
 
-import TagInput from '@/components/common/input/TagInput';
 import ShadowCard from '@/components/common/card/ShadowCard';
 import ProjectVisibilityButton from '../projectButton/ProjectVisibilityButton';
 
@@ -17,9 +15,17 @@ import {
   type ProjectSummaryCardVariant,
   type ProjectSummaryData,
 } from '@/models/project/projectModels';
-import { formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
-import { useRouter } from 'next/navigation';
-import useMessageBox from '@/hooks/useMessageBox';
+
+import useProjectCardClick from './hooks/useProjectCardClick';
+
+import {
+  ProjectCategory,
+  ProjectEvaluation,
+  ProjectEvaluatedCount,
+  ProjectOrganization,
+  ProjectPeriod,
+  ProjectTitle,
+} from './elements';
 
 interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
@@ -34,9 +40,7 @@ export default function ProjectSummaryCard({
   variant = PROJECT_CARD_VARIANT.SEARCH_RESULT,
   forSaveImage = false,
 }: ProjectSummaryCardProps) {
-  const router = useRouter();
   const projectId = projectData.projectId;
-  const { showConfirmMessageBox } = useMessageBox();
 
   // 프로젝트 카드 disabled 조건 : 관리자용, 연동용, 이미지 저장용
   const isCardDisabled =
@@ -44,21 +48,8 @@ export default function ProjectSummaryCard({
     variant === PROJECT_CARD_VARIANT.LINK_PREVIEW ||
     forSaveImage;
 
-  const handleCardClick = () => {
-    if (isCardDisabled) return;
-    const routes = {
-      [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
-      [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
-      [PROJECT_CARD_VARIANT.OTHER_PROFILE]: `/project/user/${userId}/${projectId}`,
-    };
-    const route = routes[variant];
+  const { handleCardClick } = useProjectCardClick(variant, projectId, userId);
 
-    if (route) {
-      router.push(route);
-    } else {
-      showConfirmMessageBox('이동할 페이지가 없습니다.');
-    }
-  };
   return (
     <ShadowCard
       className={cn(isCardDisabled && 'cursor-default active:bg-white')}
@@ -68,7 +59,7 @@ export default function ProjectSummaryCard({
           <LeftSection projectData={projectData} forSaveImage={forSaveImage} />
           {(variant === PROJECT_CARD_VARIANT.MY_PROFILE ||
             variant === PROJECT_CARD_VARIANT.OTHER_PROFILE) && (
-            <EvaluationSection
+            <ProjectEvaluation
               evaluation={projectData?.evaluation || ''}
               forSaveImage={forSaveImage}
             />
@@ -87,61 +78,19 @@ const LeftSection = ({
   projectData: ProjectSummaryData;
   forSaveImage: boolean;
 }) => {
-  const isDarkMode = useIsDarkMode();
-
   return (
     <section className="flex w-[250px] flex-shrink-0 flex-col justify-between gap-2">
       <header className={cn('flex flex-col gap-4', !forSaveImage && 'overflow-hidden')}>
-        {/* 이미지 저장용인 경우: 배경 없이 텍스트 색만 변경(이미지 잘림 현상) 
-            소속이 있는 경우 : bg-gray-600, 없는 경우: bg-gray-400 */}
-        <p
-          className={cn(
-            'w-fit rounded-[20px] text-white mobile1',
-            projectData.organizationName
-              ? forSaveImage
-                ? 'text-gray-600'
-                : isDarkMode
-                  ? 'bg-gray-500 px-3'
-                  : 'bg-gray-600 px-3'
-              : forSaveImage
-                ? 'text-gray-300'
-                : isDarkMode
-                  ? 'bg-gray-700 px-3'
-                  : 'bg-gray-400 px-3',
-          )}>
-          {projectData.organizationName || '소속 없음'}
-        </p>
-        <h2 className={cn('text-gray-800 body7', !forSaveImage && 'overflow-y-auto')}>
-          {projectData.projectName}
-        </h2>
+        <ProjectOrganization
+          organizationName={projectData.organizationName || ''}
+          forSaveImage={forSaveImage}
+        />
+        <ProjectTitle projectName={projectData.projectName} forSaveImage={forSaveImage} />
       </header>
-      <footer className="text-gray-500 flex-shrink-0 display5">
-        <time>{formatDateToDotSeparatedYYYYMMDD(projectData.startDate)}</time> -{' '}
-        <time>{formatDateToDotSeparatedYYYYMMDD(projectData.endDate)}</time>
-      </footer>
+      <ProjectPeriod startDate={projectData.startDate} endDate={projectData.endDate} />
     </section>
   );
 };
-
-const EvaluationSection = ({
-  evaluation,
-  forSaveImage,
-}: {
-  evaluation: string;
-  forSaveImage: boolean;
-}) => (
-  <section className="flex flex-col justify-center">
-    <h3 className="text-gray-400 mobile1">팀원 평가 요약</h3>
-    <p
-      className={cn(
-        'text-gray-800 display4',
-        evaluation || 'text-gray-300',
-        !forSaveImage && 'overflow-y-auto',
-      )}>
-      {evaluation || '등록된 한 줄 평가가 없습니다.'}
-    </p>
-  </section>
-);
 
 const RightSection = ({
   variant,
@@ -157,13 +106,7 @@ const RightSection = ({
     <aside className="flex w-full flex-col justify-between gap-2 lg:w-[20%] lg:items-end">
       {variant !== PROJECT_CARD_VARIANT.ADMIN && (
         // 프로젝트 카테고리 (관리자 모드에서는 삭제, 수정 버튼 표시)
-        <ul className="flex gap-1">
-          {projectData.categories?.map((category, index) => (
-            <li key={index}>
-              <TagInput value={category} isDisabled forSaveImage={forSaveImage} />
-            </li>
-          ))}
-        </ul>
+        <ProjectCategory categories={projectData.categories || []} forSaveImage={forSaveImage} />
       )}
       {variant === PROJECT_CARD_VARIANT.MY_PROFILE && (
         // 로그인 사용쟈의 프로젝트 공개, 비공개 처리 버튼
@@ -181,12 +124,7 @@ const RightSection = ({
           {/* 프로젝트 삭제/수정 버튼 */}
           <ProjectEditDeleteButton projectId={projectId} />
           <footer className="flex flex-col items-end gap-1">
-            <p className="flex items-end gap-2">
-              <span className="text-gray-500 display5">지금까지 평가한 팀원 수:</span>
-              <strong className="text-purple-500 display6">
-                {projectData.evaluatedMembersCount || 0}
-              </strong>
-            </p>
+            <ProjectEvaluatedCount evaluatedMembersCount={projectData.evaluatedMembersCount || 0} />
             <div className="flex flex-col gap-2 sm:flex-row">
               {/* 평가지 보내기 버튼 */}
               <ProjectSendEvaluationLink projectId={projectId} />
