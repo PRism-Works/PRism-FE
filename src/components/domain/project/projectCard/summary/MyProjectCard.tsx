@@ -10,7 +10,7 @@ import ProjectVisibilityButton from '../../projectButton/ProjectVisibilityButton
 
 import { PROJECT_CARD_VARIANT, ProjectSummaryData } from '@/models/project/projectModels';
 
-import useProjectCardClick from '../hooks/useProjectCardClick';
+import useProjectCardClick from '../../hooks/useProjectCardClick';
 
 interface MyProjectCardProps {
   projectData: ProjectSummaryData;

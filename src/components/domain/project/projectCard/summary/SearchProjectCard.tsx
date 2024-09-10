@@ -2,7 +2,7 @@ import ShadowCard from '@/components/common/card/ShadowCard';
 import { ProjectCategory, ProjectOrganization, ProjectPeriod, ProjectTitle } from './elements';
 import { PROJECT_CARD_VARIANT, ProjectSummaryData } from '@/models/project/projectModels';
 
-import useProjectCardClick from '../hooks/useProjectCardClick';
+import useProjectCardClick from '../../hooks/useProjectCardClick';
 
 interface SearchProjectCardProps {
   projectData: ProjectSummaryData;

@@ -7,7 +7,7 @@ import {
 } from './elements';
 import { PROJECT_CARD_VARIANT, ProjectSummaryData } from '@/models/project/projectModels';
 
-import useProjectCardClick from '../hooks/useProjectCardClick';
+import useProjectCardClick from '../../hooks/useProjectCardClick';
 import ProjectEditDeleteButton from '../../projectButton/ProjectEditDeleteButton';
 import ProjectSendEvaluationLink from '../../projectButton/ProjectSendEvaluationLink';
 import ProjectEvaluationButton from '../../projectButton/ProjectEvaluationButton';

@@ -8,7 +8,7 @@ import {
 } from './elements';
 import { PROJECT_CARD_VARIANT, ProjectSummaryData } from '@/models/project/projectModels';
 
-import useProjectCardClick from '../hooks/useProjectCardClick';
+import useProjectCardClick from '../../hooks/useProjectCardClick';
 
 interface OtherProjectCardProps {
   projectData: ProjectSummaryData;
