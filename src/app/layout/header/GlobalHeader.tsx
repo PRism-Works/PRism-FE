@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import LoginModal from '@/components/domain/auth/login/LoginModal';
 import SignupModal from '@/components/domain/auth/signup/SignupModal';
-import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
 import PrismLogo from '@/assets/logo/logo.svg';
 import PrismLogoDark from '@/assets/logo/logo-darkmode.svg';
 import useIsDarkMode from '@/hooks/useIsDarkMode';
@@ -23,6 +22,7 @@ import {
 } from '@/components/ui/menubar';
 import { ModeToggle } from '@/components/common/theme/ModeToggle';
 import { PageSpinner } from '@/components/common/spinner';
+import useProjectRegisterModal from '@/components/domain/project/hooks/useProjectRegisterModal';
 
 export default function GlobalHeader() {
   const { openModal } = useModalStore();
@@ -38,6 +38,8 @@ export default function GlobalHeader() {
     setIsInitialDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
   }, []);
 
+  const { handleOpenProjectRegisterModal } = useProjectRegisterModal();
+
   const handleOpenLoginModal = () => {
     openModal(<LoginModal />);
   };
@@ -48,10 +50,6 @@ export default function GlobalHeader() {
 
   const handleLogout = () => {
     logoutMutation.mutate();
-  };
-
-  const handleOpenProject = () => {
-    openModal(<ProjectRegisterModal />);
   };
 
   const renderAuthButtons = () => (
@@ -110,7 +108,7 @@ export default function GlobalHeader() {
             </MenubarTrigger>
             <MenubarContent className="m-5">
               {renderMenuItem('/mypage', '마이페이지')}
-              {renderMenuItem('', '새 프로젝트 등록', handleOpenProject)}
+              {renderMenuItem('', '새 프로젝트 등록', handleOpenProjectRegisterModal)}
               {renderMenuItem('/project/manage', '프로젝트 관리')}
               <MenubarItem className="cursor-pointer display4" onClick={handleLogout}>
                 <LogOut className="mr-2 h-[16px] w-[16px]" />
