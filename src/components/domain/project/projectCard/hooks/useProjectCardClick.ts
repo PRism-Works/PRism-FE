@@ -13,8 +13,9 @@ const useProjectCardClick = (
   const router = useRouter();
   const { showConfirmMessageBox } = useMessageBox();
 
-  const routeMap: Partial<Record<ProjectSummaryCardVariant, string>> = {
+  const routeMap: Record<ProjectSummaryCardVariant, string> = {
     [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
+    [PROJECT_CARD_VARIANT.ADMIN]: `/project/${projectId}`,
     [PROJECT_CARD_VARIANT.LINK_PREVIEW]: `/project/${projectId}`,
     [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
     [PROJECT_CARD_VARIANT.OTHER_PROFILE]: userId ? `/project/user/${userId}/${projectId}` : '',

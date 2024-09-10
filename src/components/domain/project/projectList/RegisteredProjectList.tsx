@@ -2,10 +2,10 @@
 
 import BorderCard from '@/components/common/card/BorderCard';
 import { ComponentSpinner } from '@/components/common/spinner';
-import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
 import { useGetRegisteredProjects } from '@/hooks/queries/useProjectService';
 import { convertStringToDate } from '@/lib/dateTime';
-import { PROJECT_CARD_VARIANT, type ProjectSummaryData } from '@/models/project/projectModels';
+import type { ProjectSummaryData } from '@/models/project/projectModels';
+import { ProjectAdminCard } from '../projectCard/summary';
 
 export default function RegisteredProjectList() {
   const { data, isLoading, isError } = useGetRegisteredProjects();
@@ -44,7 +44,7 @@ export default function RegisteredProjectList() {
     <ul className="flex flex-col gap-4">
       {projectDatas.map((projectData) => (
         <li key={projectData.projectId}>
-          <ProjectSummaryCard variant={PROJECT_CARD_VARIANT.ADMIN} projectData={projectData} />
+          <ProjectAdminCard projectData={projectData} />
         </li>
       ))}
     </ul>

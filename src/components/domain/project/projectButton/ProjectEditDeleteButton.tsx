@@ -21,11 +21,13 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
   };
   const getDetailMutation = useGetProjectDetails(handleGetDetailSuccess);
 
-  const handleDeleteProject = () => {
+  const handleDeleteProject = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     openModal(<DeleteConfirmMessage projectId={projectId} closeModal={closeModal} />);
   };
 
-  const handleEditProject = () => {
+  const handleEditProject = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     getDetailMutation.mutate(projectId);
   };
 
