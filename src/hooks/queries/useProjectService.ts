@@ -32,6 +32,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import useMessageBox from '../useMessageBox';
+import { useModalStore } from '@/stores/modalStore';
 
 // 프로젝트 생성하기
 export const useCreateProject = (successCallback: (projectId: number) => void) => {
@@ -80,8 +81,9 @@ export const useCreateProject = (successCallback: (projectId: number) => void) =
 };
 
 // 프로젝트 삭제하기
-export const useDeleteProject = (successCallback: () => void) => {
-  const { showErrorMessageBox } = useMessageBox();
+export const useDeleteProject = (showConfirmMessage: boolean) => {
+  const { closeModal } = useModalStore();
+  const { showConfirmMessageBox, showErrorMessageBox } = useMessageBox();
   const queryClient = useQueryClient();
 
   return useMutation<ProjectDeleteResponse, AxiosError, number>({
@@ -97,8 +99,8 @@ export const useDeleteProject = (successCallback: () => void) => {
           data: oldData.data.filter((project) => project.projectId !== requestProjectId),
         };
       });
-
-      if (successCallback) successCallback();
+      if (showConfirmMessage) closeModal();
+      showConfirmMessageBox('프로젝트가 정상적으로 삭제되었습니다.');
     },
     onError: (error) => {
       console.error(error);

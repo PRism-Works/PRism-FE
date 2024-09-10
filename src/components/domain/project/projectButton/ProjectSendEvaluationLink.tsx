@@ -13,7 +13,8 @@ export default function ProjectSendEvaluationLink({ projectId }: ProjectSendEval
 
   const sendSurveyLinkMutation = useSendSurveyLink();
 
-  const handleSendEvaluationLink = async () => {
+  const handleSendEvaluationLink = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     openModal(<SendSurveyCompleteMessage />);
 
     try {

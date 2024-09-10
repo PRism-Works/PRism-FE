@@ -16,7 +16,8 @@ export default function ProjectEvaluationButton({ projectId }: ProjectEvaluation
 
   const updatePRismMutation = useUpdatePRismEvaluation();
 
-  const handleStartEvaluation = async () => {
+  const handleStartEvaluation = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     try {
       openModal(<PRismAnalyzeAnimation />);
       await updatePRismMutation.mutateAsync(projectId);

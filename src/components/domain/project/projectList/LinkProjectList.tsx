@@ -2,10 +2,11 @@
 
 import BorderCard from '@/components/common/card/BorderCard';
 import { ComponentSpinner } from '@/components/common/spinner';
-import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
 import { useGetLinkProjectsByProjectName } from '@/hooks/queries/useProjectService';
 import { convertStringToDate } from '@/lib/dateTime';
-import { PROJECT_CARD_VARIANT, type ProjectSummaryData } from '@/models/project/projectModels';
+import { ProjectLinkCard } from '../projectCard/summary';
+
+import type { ProjectSummaryData } from '@/models/project/projectModels';
 
 interface LinkProjectListProps {
   searchProjectName: string;
@@ -44,10 +45,7 @@ export default function LinkProjectList({ searchProjectName }: LinkProjectListPr
     <ul className="flex flex-col gap-4">
       {projectList.map((projectData) => (
         <li key={projectData.projectId}>
-          <ProjectSummaryCard
-            variant={PROJECT_CARD_VARIANT.LINK_PREVIEW}
-            projectData={projectData}
-          />
+          <ProjectLinkCard projectData={projectData} />
         </li>
       ))}
     </ul>
