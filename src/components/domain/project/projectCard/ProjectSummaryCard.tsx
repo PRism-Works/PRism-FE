@@ -25,7 +25,7 @@ import {
   ProjectOrganization,
   ProjectPeriod,
   ProjectTitle,
-} from './elements';
+} from './summary/elements';
 
 interface ProjectSummaryCardProps {
   projectData: ProjectSummaryData;
