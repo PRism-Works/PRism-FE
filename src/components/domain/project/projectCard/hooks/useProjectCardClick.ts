@@ -15,6 +15,7 @@ const useProjectCardClick = (
 
   const routeMap: Partial<Record<ProjectSummaryCardVariant, string>> = {
     [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
+    [PROJECT_CARD_VARIANT.LINK_PREVIEW]: `/project/${projectId}`,
     [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
     [PROJECT_CARD_VARIANT.OTHER_PROFILE]: userId ? `/project/user/${userId}/${projectId}` : '',
   };

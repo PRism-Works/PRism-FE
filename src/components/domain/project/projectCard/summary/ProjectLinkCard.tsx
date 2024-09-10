@@ -11,7 +11,7 @@ interface ProjectLinkCardProps {
 
 const ProjectLinkCard = ({ projectData }: ProjectLinkCardProps) => {
   const projectId = projectData.projectId;
-  const { handleCardClick } = useProjectCardClick(PROJECT_CARD_VARIANT.SEARCH_RESULT, projectId);
+  const { handleCardClick } = useProjectCardClick(PROJECT_CARD_VARIANT.LINK_PREVIEW, projectId);
 
   return (
     <ShadowCard onClick={handleCardClick}>
