@@ -1,18 +1,17 @@
 import { Edit3, Trash2 } from 'lucide-react';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
 
 import { useModalStore } from '@/stores/modalStore';
-import { useDeleteProject, useGetProjectDetails } from '@/hooks/queries/useProjectService';
+import { useGetProjectDetails } from '@/hooks/queries/useProjectService';
 import ProjectRegisterModal from '../projectRegisterModal/ProjectRegisterModal';
 import { ProjectForm } from '@/models/project/projectModels';
-import useMessageBox from '@/hooks/useMessageBox';
+import useConfirmDeleteProject from '../hooks/useConfirmDeleteProject';
 
 interface ProjectEditDeleteButtonProps {
   projectId: number;
 }
 
 export default function ProjectEditDeleteButton({ projectId }: ProjectEditDeleteButtonProps) {
-  const { openModal, closeModal } = useModalStore();
+  const { openModal } = useModalStore();
 
   const handleGetDetailSuccess = (projectDetailData: ProjectForm) => {
     openModal(
@@ -21,10 +20,7 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
   };
   const getDetailMutation = useGetProjectDetails(handleGetDetailSuccess);
 
-  const handleDeleteProject = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    openModal(<DeleteConfirmMessage projectId={projectId} closeModal={closeModal} />);
-  };
+  const { handleConfirmDeleteProject } = useConfirmDeleteProject<HTMLButtonElement>(projectId);
 
   const handleEditProject = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -33,7 +29,7 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
 
   return (
     <nav className="flex gap-3">
-      <button aria-label="삭제" onClick={handleDeleteProject}>
+      <button aria-label="삭제" onClick={handleConfirmDeleteProject}>
         <Trash2 className="stroke-gray-600 h-6 w-6 stroke-[1.5px] hover:stroke-gray-700 hover:stroke-[2px]" />
       </button>
       <button aria-label="편집" disabled={getDetailMutation.isPending} onClick={handleEditProject}>
@@ -42,37 +38,3 @@ export default function ProjectEditDeleteButton({ projectId }: ProjectEditDelete
     </nav>
   );
 }
-
-interface DeleteConfirmMessageProps {
-  projectId: number;
-  closeModal: () => void;
-}
-const DeleteConfirmMessage = ({ projectId, closeModal }: DeleteConfirmMessageProps) => {
-  const { showConfirmMessageBox } = useMessageBox();
-
-  const handleDeleteProjectSuccess = () => {
-    closeModal();
-    showConfirmMessageBox('프로젝트가 정상적으로 삭제되었습니다.');
-  };
-  const deleteMutaion = useDeleteProject(handleDeleteProjectSuccess);
-
-  const handleDelete = () => {
-    deleteMutaion.mutate(projectId);
-  };
-  return (
-    <MessageBox
-      title="프로젝트를 삭제하시겠어요?"
-      titleIcon={<Trash2 className="stroke-purple-500" />}
-      footer={
-        <>
-          <MessageBox.MessageConfirmButton isPrimary={false} text="취소" />
-          <MessageBox.MessageConfirmButton
-            text="삭제"
-            onClick={handleDelete}
-            isPending={deleteMutaion.isPending}
-          />
-        </>
-      }
-    />
-  );
-};
