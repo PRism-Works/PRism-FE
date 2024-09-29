@@ -6,6 +6,7 @@ import GlobalHeaderWrapper from './layout/header/GlobalHeaderWrapper';
 import GlobalFooter from './layout/footer/GlobalFooter';
 import ModalPortal from './layout/modal/ModalPotal';
 import ReactQueryProviders from '@/hooks/useReactQuery';
+import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 
 const pretendard = localFont({
@@ -86,6 +87,7 @@ export default function RootLayout({
             <main className="container mx-auto flex min-h-screen flex-col items-center">
               {children}
             </main>
+            <Toaster />
             <GlobalFooter />
             <ModalPortal />
           </ThemeProvider>
