@@ -52,8 +52,11 @@ export default function LandingPage() {
       <iframe
         title="disquiet-badge"
         src="https://badge.disquiet.io/vote-badge?productUrlSlug=p-rism&mode=light"
-        className="fixed bottom-2 right-2"
-        style={{ zIndex: 9999 }}
+        className="fixed bottom-20 right-16 h-[75px] w-[205px]"
+        style={{
+          zIndex: 9999,
+          borderRadius: '8px',
+        }}
       />
     </div>
   );
