@@ -47,6 +47,17 @@ export default function LandingPage() {
         </div>
         <LandingFooter />
       </div>
+
+      {/* disquiet vote-badge */}
+      <iframe
+        title="disquiet-badge"
+        src="https://badge.disquiet.io/vote-badge?productUrlSlug=p-rism&mode=light"
+        className="fixed bottom-20 right-16 h-[75px] w-[205px]"
+        style={{
+          zIndex: 9999,
+          borderRadius: '8px',
+        }}
+      />
     </div>
   );
 }
