@@ -5,7 +5,7 @@ import { useModalStore } from '@/stores/modalStore';
 
 import type { ProjectForm } from '@/models/project/projectModels';
 
-const useProjectUpdateModal = <T extends HTMLElement = HTMLElement>(projectId: number) => {
+const useProjectUpdateModal = (projectId: number) => {
   const { openModal } = useModalStore();
 
   const handleGetDetailSuccess = (projectDetailData: ProjectForm) => {
@@ -16,7 +16,7 @@ const useProjectUpdateModal = <T extends HTMLElement = HTMLElement>(projectId: n
 
   const getDetailMutation = useGetProjectDetails(handleGetDetailSuccess);
 
-  const handleOpenProjectUpdateModal = (event: React.MouseEvent<T>) => {
+  const handleOpenProjectUpdateModal = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     getDetailMutation.mutate(projectId);
   };
