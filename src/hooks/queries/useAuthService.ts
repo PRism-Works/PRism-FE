@@ -79,9 +79,6 @@ export const useLogout = () => {
       logoutAuthStore();
       showConfirmMessageBox('로그아웃 되었습니다.');
 
-      // 로그아웃 시 홈 페이지로 리다이렉트
-      window.location.href = '/';
-
       // 뒤로가기 방지
       window.history.pushState(null, '', window.location.href);
       window.onpopstate = function () {
