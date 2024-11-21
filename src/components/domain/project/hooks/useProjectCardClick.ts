@@ -13,15 +13,23 @@ const useProjectCardClick = (
   const router = useRouter();
   const { showConfirmMessageBox } = useMessageBox();
 
-  const routeMap: Record<ProjectSummaryCardVariant, string> = {
-    [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
-    [PROJECT_CARD_VARIANT.ADMIN]: `/project/${projectId}`,
-    [PROJECT_CARD_VARIANT.LINK_PREVIEW]: `/project/${projectId}`,
-    [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
-    [PROJECT_CARD_VARIANT.OTHER_PROFILE]: userId ? `/project/user/${userId}/${projectId}` : '',
+  const getRoute = (): string | null => {
+    if (variant === PROJECT_CARD_VARIANT.OTHER_PROFILE && !userId) {
+      return null;
+    }
+
+    const routeMap: Record<ProjectSummaryCardVariant, string> = {
+      [PROJECT_CARD_VARIANT.SEARCH_RESULT]: `/project/${projectId}`,
+      [PROJECT_CARD_VARIANT.ADMIN]: `/project/${projectId}`,
+      [PROJECT_CARD_VARIANT.LINK_PREVIEW]: `/project/${projectId}`,
+      [PROJECT_CARD_VARIANT.MY_PROFILE]: `/project/my/${projectId}`,
+      [PROJECT_CARD_VARIANT.OTHER_PROFILE]: `/project/user/${userId}/${projectId}`,
+    };
+
+    return routeMap[variant] || null;
   };
 
-  const route = routeMap[variant] || '';
+  const route = getRoute();
 
   const handleCardClick = () => {
     if (route) {
