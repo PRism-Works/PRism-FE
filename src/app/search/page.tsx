@@ -7,7 +7,7 @@ import { ComponentSpinner } from '@/components/common/spinner';
 import BorderCard from '@/components/common/card/BorderCard';
 import ProjectRegisterButton from '@/components/domain/project/projectButton/ProjectRegisterButton';
 import ProjectSearchBar from '@/components/domain/project/projectSearch/ProjectSearchBar';
-import ProjectSummaryCard from '@/components/domain/project/projectCard/ProjectSummaryCard';
+
 import {
   Pagination,
   PaginationContent,
@@ -22,6 +22,7 @@ import { useSearchStore } from '@/stores/searchStore';
 
 import { convertTimestampToDate } from '@/lib/dateTime';
 import { cn } from '@/lib/utils';
+import { SearchProjectCard } from '@/components/domain/project/projectCard/summary';
 
 const ITEMS_PER_PAGE = 8; // 한 페이지에 나올 아이템의 최대 개수
 const DEFAULT_ITEMS_TOTAL_COUNT = 1; // 데이터를 받아오기 전, 아이템 총 개수 기본값 / 한 페이지만 떠도 되니까 1로 둠
@@ -108,7 +109,7 @@ export default function SearchPage() {
             <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
               {searchProjects.map((projectData) => (
                 <li key={projectData.projectId} className="w-full">
-                  <ProjectSummaryCard projectData={projectData} variant="SearchResult" />
+                  <SearchProjectCard projectData={projectData} />
                 </li>
               ))}
             </ul>

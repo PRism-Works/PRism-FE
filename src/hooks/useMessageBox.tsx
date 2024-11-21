@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useModal } from './useModal';
 import { AlertCircle, AlertTriangle } from 'lucide-react';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 
 /**
  * 지정 콜백함수가 없는 정보성 메시지 박스

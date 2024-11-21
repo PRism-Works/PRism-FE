@@ -10,7 +10,8 @@ interface ProjectLinkButtonProps {
 }
 export default function ProjectLinkButton({ projectId }: ProjectLinkButtonProps) {
   const openModal = useModalStore((state) => state.openModal);
-  const handleLinkProject = () => {
+  const handleLinkProject = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     openModal(<ProjectLinkModal projectId={projectId} />);
   };
 

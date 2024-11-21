@@ -31,7 +31,7 @@ import { useUserStore } from '@/stores/userStore';
 import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectService';
 import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import ProjectEmailConsentModal from '../../auth/privacyPolicy/ProjectEmailConsentModal';
 import useMessageBox from '@/hooks/useMessageBox';
 

@@ -2,11 +2,11 @@
 
 import BorderCard from '@/components/common/card/BorderCard';
 import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
-import ProjectSummaryCard from '../projectCard/ProjectSummaryCard';
-import { PROJECT_CARD_VARIANT, type ProjectSummaryData } from '@/models/project/projectModels';
+import type { ProjectSummaryData } from '@/models/project/projectModels';
 import { useGetParticipatingProjects } from '@/hooks/queries/useProjectService';
 import { convertStringToDate } from '@/lib/dateTime';
 import { ComponentSpinner } from '@/components/common/spinner';
+import { MyProjectCard, OtherProjectCard } from '../projectCard/summary';
 
 interface ParticipatingProjectListProps {
   userId?: string;
@@ -66,16 +66,15 @@ export default function ParticipatingProjectList({
         <ul className="flex flex-col gap-4">
           {projectDatas.map((projectData, index) => (
             <li key={index}>
-              <ProjectSummaryCard
-                variant={
-                  fromMyProfile
-                    ? PROJECT_CARD_VARIANT.MY_PROFILE
-                    : PROJECT_CARD_VARIANT.OTHER_PROFILE
-                }
-                projectData={projectData}
-                userId={userId}
-                forSaveImage={forSaveImage}
-              />
+              {fromMyProfile ? (
+                <MyProjectCard projectData={projectData} forSaveImage={forSaveImage} />
+              ) : (
+                <OtherProjectCard
+                  projectData={projectData}
+                  userId={userId}
+                  forSaveImage={forSaveImage}
+                />
+              )}
             </li>
           ))}
         </ul>
