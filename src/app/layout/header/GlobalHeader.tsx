@@ -55,10 +55,6 @@ export default function GlobalHeader() {
     logoutMutation.mutate();
   };
 
-  const handleOpenProject = () => {
-    openModal(<ProjectRegisterModal />);
-  };
-
   const handleOpenToast = () => {
     toast({
       title: '아직 개발 중인 기능입니다.',

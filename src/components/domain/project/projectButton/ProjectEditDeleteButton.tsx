@@ -8,9 +8,8 @@ interface ProjectEditDeleteButtonProps {
 }
 
 export default function ProjectEditDeleteButton({ projectId }: ProjectEditDeleteButtonProps) {
-  const { handleOpenProjectUpdateModal, isDetailLoading } =
-    useProjectUpdateModal<HTMLButtonElement>(projectId);
-  const { handleConfirmDeleteProject } = useConfirmDeleteProject<HTMLButtonElement>(projectId);
+  const { handleOpenProjectUpdateModal, isDetailLoading } = useProjectUpdateModal(projectId);
+  const { handleConfirmDeleteProject } = useConfirmDeleteProject(projectId);
 
   return (
     <nav className="flex gap-3">
