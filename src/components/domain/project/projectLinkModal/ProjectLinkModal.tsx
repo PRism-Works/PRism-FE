@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import BorderCard from '@/components/common/card/BorderCard';
 import TagInput from '@/components/common/input/TagInput';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import { ComponentSpinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';

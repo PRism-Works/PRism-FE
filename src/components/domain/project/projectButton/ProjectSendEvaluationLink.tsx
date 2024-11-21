@@ -1,7 +1,7 @@
 import { useModalStore } from '@/stores/modalStore';
 import { Button } from '@/components/ui/button';
 import { Send } from 'lucide-react';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 
 interface ProjectSendEvaluationLinkProps {
@@ -13,7 +13,8 @@ export default function ProjectSendEvaluationLink({ projectId }: ProjectSendEval
 
   const sendSurveyLinkMutation = useSendSurveyLink();
 
-  const handleSendEvaluationLink = async () => {
+  const handleSendEvaluationLink = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     openModal(<SendSurveyCompleteMessage />);
 
     try {
