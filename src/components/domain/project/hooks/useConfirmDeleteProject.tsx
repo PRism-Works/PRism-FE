@@ -1,13 +1,14 @@
 import { Trash2 } from 'lucide-react';
 
-import { useModalStore } from '@/stores/modalStore';
 import MessageBox from '@/components/common/messageBox/MessageBox';
+
+import { useModalStore } from '@/stores/modalStore';
 import { useDeleteProject } from '@/hooks/queries/useProjectService';
 
-const useConfirmDeleteProject = <T extends HTMLElement = HTMLElement>(projectId: number) => {
+const useConfirmDeleteProject = (projectId: number) => {
   const { openModal } = useModalStore();
 
-  const handleConfirmDeleteProject = (event: React.MouseEvent<T>) => {
+  const handleConfirmDeleteProject = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     openModal(<ConfirmDeleteMessage projectId={projectId} />);
   };
@@ -20,10 +21,10 @@ interface ConfirmDeleteMessageProps {
   projectId: number;
 }
 const ConfirmDeleteMessage = ({ projectId }: ConfirmDeleteMessageProps) => {
-  const deleteMutaion = useDeleteProject(true);
+  const deleteMutation = useDeleteProject(true);
 
   const handleDelete = () => {
-    deleteMutaion.mutate(projectId);
+    deleteMutation.mutate(projectId);
   };
   return (
     <MessageBox
@@ -35,7 +36,7 @@ const ConfirmDeleteMessage = ({ projectId }: ConfirmDeleteMessageProps) => {
           <MessageBox.MessageConfirmButton
             text="삭제"
             onClick={handleDelete}
-            isPending={deleteMutaion.isPending}
+            isPending={deleteMutation.isPending}
           />
         </>
       }
