@@ -10,6 +10,7 @@ import useIsDarkMode from '@/hooks/useIsDarkMode';
 import { useModalStore } from '@/stores/modalStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useLogout } from '@/hooks/queries/useAuthService';
+import { useToast } from '@/hooks/useToast';
 import { AlignJustify, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,6 +27,8 @@ import useProjectRegisterModal from '@/components/domain/project/hooks/useProjec
 
 export default function GlobalHeader() {
   const { openModal } = useModalStore();
+  const { toast } = useToast();
+
   const { isLoggedIn } = useAuthStore();
   const logoutMutation = useLogout();
 
@@ -50,6 +53,17 @@ export default function GlobalHeader() {
 
   const handleLogout = () => {
     logoutMutation.mutate();
+  };
+
+  const handleOpenProject = () => {
+    openModal(<ProjectRegisterModal />);
+  };
+
+  const handleOpenToast = () => {
+    toast({
+      title: '아직 개발 중인 기능입니다.',
+      description: '조금만 기다려주세요!',
+    });
   };
 
   const renderAuthButtons = () => (
@@ -110,6 +124,7 @@ export default function GlobalHeader() {
               {renderMenuItem('/mypage', '마이페이지')}
               {renderMenuItem('', '새 프로젝트 등록', handleOpenProjectRegisterModal)}
               {renderMenuItem('/project/manage', '프로젝트 관리')}
+              {renderMenuItem('', '팀 빌딩하기', handleOpenToast)}
               <MenubarItem className="cursor-pointer display4" onClick={handleLogout}>
                 <LogOut className="mr-2 h-[16px] w-[16px]" />
                 <span>로그아웃</span>

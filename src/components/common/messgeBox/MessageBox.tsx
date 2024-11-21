@@ -36,7 +36,7 @@ export default function MessageBox({
       }
       description={description}
       contentClassName={`max-w-[510px] px-[50px] ${contentClassName}`}
-      transparentOverlay={true}
+      transparentOverlay={false}
       footer={<div className="mt-5 w-full gap-3 flex-center">{footer}</div>}
       showCloseButton={showCloseButton}
     />
