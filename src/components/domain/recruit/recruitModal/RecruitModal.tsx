@@ -3,10 +3,24 @@ import ModalLayout from '@/components/common/modal/ModalLayout';
 import RecruitButton from './ui/RecruitButton';
 import RecruitCaption from './ui/RecruitCaption';
 
+import { useModalStore } from '@/stores/modalStore';
+import ProjectRegisterModal from '../../project/projectRegisterModal/ProjectRegisterModal';
+
 export default function RecruitModal() {
-  const handleNewProject = () => {};
-  const handleEditExistingProject = () => {};
-  const handleExistingProject = () => {};
+  const { openModal, closeModal } = useModalStore();
+
+  const handleNewProject = () => {
+    closeModal();
+    openModal(<ProjectRegisterModal isRecruit />);
+  };
+  const handleEditExistingProject = () => {
+    closeModal();
+    alert('프로젝트 선택 페이지로 이동?');
+  };
+  const handleExistingProject = () => {
+    closeModal();
+    alert('프로젝트 선택 페이지로 이동?');
+  };
   return (
     <ModalLayout
       contentClassName="w-[420px]"
