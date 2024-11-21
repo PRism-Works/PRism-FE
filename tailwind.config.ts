@@ -38,12 +38,14 @@ const config: Config = {
         mobile1: ['16px', '1.4'],
         mobile2: ['14px', '1.4'],
         caption: ['12px', '1.4'],
+        caption2: ['12px', '1.2'],
         display1: ['20px', '1.4'],
         display2: ['20px', '1.4'],
         display3: ['18px', '1.4'],
         display4: ['16px', '1.4'],
         display5: ['14px', '1.2'],
         display6: ['16px', '1.2'],
+        display7: ['14px', '1.2'],
       },
       fontWeight: {
         bold: '700',
@@ -256,6 +258,11 @@ const config: Config = {
           fontWeight: '400',
           lineHeight: '1.4',
         },
+        '.caption2': {
+          fontSize: '12px',
+          fontWeight: '500',
+          lineHeight: '1.2',
+        },
         '.display1': {
           fontSize: '20px',
           fontWeight: '400',
@@ -285,6 +292,11 @@ const config: Config = {
           fontSize: '16px',
           fontWeight: '600',
           lineHeight: '1.4',
+        },
+        '.display7': {
+          fontSize: '14px',
+          fontWeight: '700',
+          lineHeight: '1.2',
         },
         '.flex-center': {
           display: 'flex',
