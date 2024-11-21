@@ -5,12 +5,9 @@ import { useCallback, useMemo } from 'react';
 import { AlignJustify, LogOut } from 'lucide-react';
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@/components/ui/menubar';
 
-import AfterLoginMenuItem from './AfterLoginMenuItem';
-
 import RecruitModal from '@/components/domain/recruit/recruitModal/RecruitModal';
 import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
 
-// import { useToast } from '@/hooks/useToast';
 import { useModalStore } from '@/stores/modalStore';
 import LogoutButton from '@/components/domain/auth/logout/LogoutButton';
 
@@ -19,7 +16,6 @@ type MenuItem =
   | { label: string; href: null; onClick: () => void };
 
 export default function AfterLoginMenu() {
-  // const { toast } = useToast();
   const { openModal } = useModalStore();
 
   const handleOpenProject = useCallback(() => {
@@ -28,10 +24,6 @@ export default function AfterLoginMenu() {
 
   const handleOpenRecruit = useCallback(() => {
     openModal(<RecruitModal />);
-    // toast({
-    //   title: '아직 개발 중인 기능입니다.',
-    //   description: '조금만 기다려주세요!',
-    // });
   }, [openModal]);
 
   const menuItems: MenuItem[] = useMemo(() => {
@@ -72,3 +64,15 @@ export default function AfterLoginMenu() {
     </MenubarMenu>
   );
 }
+
+interface AfterLoginMenuItemProps {
+  label: string;
+  onClick?: () => void;
+}
+const AfterLoginMenuItem = ({ label, onClick }: AfterLoginMenuItemProps) => {
+  return (
+    <MenubarItem className="cursor-pointer display4" onClick={onClick}>
+      <span>{label}</span>
+    </MenubarItem>
+  );
+};

@@ -3,12 +3,14 @@
 import Link from 'next/link';
 
 import { Menubar } from '@/components/ui/menubar';
-import PRismLogo from './_components/PRismLogo';
-import AfterLoginMenu from './_components/AfterLoginMenu';
-import BeforeLoginMenu from './_components/BeforeLoginMenu';
+
 import ThemeModeToggle from '@/components/common/theme/ThemeModeToggle';
 
 import { useAuthStore } from '@/stores/authStore';
+
+import PRismLogo from './PRismLogo';
+import AfterLoginMenu from './AfterLoginMenu';
+import BeforeLoginMenu from './BeforeLoginMenu';
 
 export default function GlobalHeader() {
   const { isLoggedIn } = useAuthStore();
