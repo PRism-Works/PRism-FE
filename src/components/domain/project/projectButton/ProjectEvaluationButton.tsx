@@ -2,7 +2,7 @@ import { useModalStore } from '@/stores/modalStore';
 import { useUpdatePRismEvaluation } from '@/hooks/queries/usePRismService';
 import { CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import PRismAnalyzeAnimation from '../../prism/PRismAnalyzeAnimation';
 import useMessageBox from '@/hooks/useMessageBox';
 

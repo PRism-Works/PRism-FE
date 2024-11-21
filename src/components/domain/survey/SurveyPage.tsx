@@ -18,7 +18,7 @@ import SurveyIntroduction from '@/components/domain/survey/SurveyIntroduction';
 import RatingAnswer from '@/components/domain/survey/answerType/RatingAnswer';
 import CheckBoxAnswer from '@/components/domain/survey/answerType/CheckBoxAnswer';
 import TextAnswer from '@/components/domain/survey/answerType/TextAnswer';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import {
   Carousel,
   CarouselContent,

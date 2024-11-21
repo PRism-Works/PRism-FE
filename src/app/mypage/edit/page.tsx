@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import SelectTagModalLayout from '@/components/common/modal/SelectTagModalLayout';
 import BorderCard from '@/components/common/card/BorderCard';
 import TagInput from '@/components/common/input/TagInput';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import { AlertCircle, CheckCircle, Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 

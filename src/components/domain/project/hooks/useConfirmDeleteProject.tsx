@@ -1,7 +1,7 @@
 import { Trash2 } from 'lucide-react';
 
 import { useModalStore } from '@/stores/modalStore';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import { useDeleteProject } from '@/hooks/queries/useProjectService';
 
 const useConfirmDeleteProject = <T extends HTMLElement = HTMLElement>(projectId: number) => {

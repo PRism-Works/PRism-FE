@@ -2,7 +2,7 @@
 
 import { Share2 } from 'lucide-react';
 
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import useMessageBox from '@/hooks/useMessageBox';
 
 import { SAVE_TYPE, type SaveType } from '@/models/preview/previewModels';

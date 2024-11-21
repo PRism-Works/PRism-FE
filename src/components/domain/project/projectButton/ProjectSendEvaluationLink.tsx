@@ -1,7 +1,7 @@
 import { useModalStore } from '@/stores/modalStore';
 import { Button } from '@/components/ui/button';
 import { Send } from 'lucide-react';
-import MessageBox from '@/components/common/messgeBox/MessageBox';
+import MessageBox from '@/components/common/messageBox/MessageBox';
 import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 
 interface ProjectSendEvaluationLinkProps {
