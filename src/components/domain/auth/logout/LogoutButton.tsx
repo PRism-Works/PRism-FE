@@ -23,9 +23,9 @@ export default function LogoutButton({ children }: LogoutButtonProps) {
     }
   };
   return (
-    <button onClick={handleLogout}>
+    <div onClick={handleLogout}>
       {children}
       {logoutMutation.isPending && <PageSpinner />}
-    </button>
+    </div>
   );
 }
