@@ -1,53 +1,53 @@
 'use client';
 
 import BorderCard from '@/components/common/card/BorderCard';
-import { ComponentSpinner } from '@/components/common/spinner';
-import { useGetLinkProjectsByProjectName } from '@/hooks/queries/useProjectService';
-import { convertStringToDate } from '@/lib/dateTime';
 import { ProjectLinkCard } from '../projectCard/summary';
+import { ComponentSpinner } from '@/components/common/spinner';
 
-import type { ProjectSummaryData } from '@/models/project/projectModels';
+import { useProjectListData } from './hooks/useLinkProjectListData';
 
 interface LinkProjectListProps {
   searchProjectName: string;
 }
 export default function LinkProjectList({ searchProjectName }: LinkProjectListProps) {
-  const { data, isLoading, isError } = useGetLinkProjectsByProjectName(searchProjectName);
+  const { projectList, isValidData, isEmpty, isLoading, isError } =
+    useProjectListData(searchProjectName);
 
-  const projectList: ProjectSummaryData[] =
-    data?.data?.map(
-      (project): ProjectSummaryData => ({
-        projectId: project.projectId,
-        projectName: project.projectName,
-        organizationName: project.organizationName,
-        startDate: convertStringToDate(project.startDate),
-        endDate: convertStringToDate(project.endDate),
-        categories: project.categories,
-      }),
-    ) || [];
+  if (isValidData) {
+    return (
+      <ul className="flex flex-col gap-4">
+        {projectList.map((projectData) => (
+          <li key={projectData.projectId}>
+            <ProjectLinkCard projectData={projectData} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
-  // 데이터가 정상적으로 가지고와진 상태인지 판단하여 다른 컴포넌트를 보여준다.
-  const isValidData = !(isLoading || projectList.length === 0 || isError);
+  if (isEmpty) {
+    return (
+      <BorderCard className="h-[165px] w-full flex-col-center">
+        <span className="text-gray-600 display6">일치하는 검색 결과가 없습니다.</span>
+      </BorderCard>
+    );
+  }
 
-  return !isValidData ? (
-    <BorderCard className="h-[165px] w-full flex-col-center">
-      {isLoading ? (
+  if (isLoading) {
+    return (
+      <BorderCard className="h-[165px] w-full flex-col-center">
         <ComponentSpinner />
-      ) : isError ? (
+      </BorderCard>
+    );
+  }
+
+  if (isError) {
+    return (
+      <BorderCard className="h-[165px] w-full flex-col-center">
         <span className="text-gray-600 display6">
           연동할 프로젝트를 로드하는 중 오류가 발생했습니다.
         </span>
-      ) : projectList.length === 0 ? (
-        <span className="text-gray-600 display6">일치하는 검색 결과가 없습니다.</span>
-      ) : null}
-    </BorderCard>
-  ) : (
-    <ul className="flex flex-col gap-4">
-      {projectList.map((projectData) => (
-        <li key={projectData.projectId}>
-          <ProjectLinkCard projectData={projectData} />
-        </li>
-      ))}
-    </ul>
-  );
+      </BorderCard>
+    );
+  }
 }
