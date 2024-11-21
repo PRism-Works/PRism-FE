@@ -1,5 +1,5 @@
 import ShadowCard from '@/components/common/card/ShadowCard';
-import { ProjectCategory, ProjectOrganization, ProjectPeriod, ProjectTitle } from './elements';
+import { ProjectCategory, ProjectOrganization, ProjectPeriod, ProjectTitle } from './ui';
 import { PROJECT_CARD_VARIANT, ProjectSummaryData } from '@/models/project/projectModels';
 
 import useProjectCardClick from '../../hooks/useProjectCardClick';
