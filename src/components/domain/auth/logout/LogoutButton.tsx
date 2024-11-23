@@ -14,9 +14,7 @@ export default function LogoutButton({ children }: LogoutButtonProps) {
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
-
-      // #20241122.syjang, window.location.href = '/'; 사용 시 redirect 시켜서 메시지박스 제대로 안뜨고 새로고침되어서 ux적으로 안좋았음
-      // rotuer.push로 변경
+      // 로그아웃 시, 홈 화면으로 이동
       router.push('/');
     } catch (error) {
       console.error(error);
