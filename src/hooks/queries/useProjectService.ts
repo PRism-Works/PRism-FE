@@ -110,7 +110,7 @@ export const useDeleteProject = (showConfirmMessage: boolean) => {
 };
 
 // 프로젝트 수정하기
-export const useUpdateProject = (successCallback: () => void) => {
+export const useUpdateProject = (successCallback: (updateProjectId?: number) => void) => {
   const { showErrorMessageBox } = useMessageBox();
   const queryClient = useQueryClient();
 
@@ -141,7 +141,7 @@ export const useUpdateProject = (successCallback: () => void) => {
         };
       });
 
-      if (successCallback) successCallback();
+      if (successCallback) successCallback(projectId);
     },
     onError: (error) => {
       console.error(error);

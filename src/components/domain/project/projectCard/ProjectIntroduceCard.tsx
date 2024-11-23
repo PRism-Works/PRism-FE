@@ -1,18 +1,21 @@
 'use client';
 
-import BorderCard from '@/components/common/card/BorderCard';
-import { ArrowUpRight } from 'lucide-react';
-import TagInput from '@/components/common/input/TagInput';
-import ProjectVisibilityButton from '../projectButton/ProjectVisibilityButton';
-import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
+import { cn } from '@/lib/utils';
+import { convertStringToDate, formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
+import { SAVE_TYPE } from '@/models/preview/previewModels';
+
 import { useGetProfileProjectDetails } from '@/hooks/queries/useProjectService';
 import { useUserStore } from '@/stores/userStore';
-import { PageSpinner } from '@/components/common/spinner';
-import { convertStringToDate, formatDateToDotSeparatedYYYYMMDD } from '@/lib/dateTime';
-import { cn } from '@/lib/utils';
-import ImageSaveButton from '@/components/common/input/ImageSaveButton';
-import { SAVE_TYPE } from '@/models/preview/previewModels';
 import useIsDarkMode from '@/hooks/useIsDarkMode';
+
+import { ArrowUpRight } from 'lucide-react';
+
+import BorderCard from '@/components/common/card/BorderCard';
+import TagInput from '@/components/common/input/TagInput';
+import ImageSaveButton from '@/components/common/input/ImageSaveButton';
+import ProjectVisibilityButton from '../projectButton/ProjectVisibilityButton';
+import InformationTooltip from '@/components/common/tooltip/InformationTooltip';
+import { PageSpinner } from '@/components/common/spinner';
 
 interface ProjectIntroduceCardProps {
   projectId: number;

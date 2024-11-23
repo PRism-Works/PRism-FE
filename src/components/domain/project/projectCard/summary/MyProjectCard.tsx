@@ -5,7 +5,7 @@ import {
   ProjectOrganization,
   ProjectPeriod,
   ProjectTitle,
-} from './elements';
+} from './ui';
 import ProjectVisibilityButton from '../../projectButton/ProjectVisibilityButton';
 
 import { PROJECT_CARD_VARIANT, ProjectSummaryData } from '@/models/project/projectModels';

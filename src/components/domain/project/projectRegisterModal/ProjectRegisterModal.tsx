@@ -1,21 +1,14 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  type ProjectForm,
-  type ProjectRegisterHeaderStep,
-  ProjectFormSchema,
-} from '@/models/project/projectModels';
+import { useState } from 'react';
+import { useModalStore } from '@/stores/modalStore';
+import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectService';
+
 import { Form } from '@/components/ui/form';
-import {
-  AlertCircle,
-  ClipboardCheck,
-  HeartHandshake,
-  LucideFileEdit,
-  MailCheck,
-  Send,
-  UserCheck,
-} from 'lucide-react';
+import { HeartHandshake, LucideFileEdit, UserCheck } from 'lucide-react';
+
+import type { ProjectForm, ProjectRegisterHeaderStep } from '@/models/project/projectModels';
+
 import ModalLayout from '@/components/common/modal/ModalLayout';
 import ProgressBar from '@/components/common/progressBar/ProgressBar';
 import Step1 from './step/Step1';
@@ -23,17 +16,15 @@ import Step2 from './step/Step2';
 import Step3 from './step/Step3';
 import ProjectRegisterHeader from './layout/ProjectRegisterHeader';
 import ProjectRegisterFooter from './layout/ProjectRegisterFooter';
+
 import { PageSpinner } from '@/components/common/spinner';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { useModalStore } from '@/stores/modalStore';
-import { useUserStore } from '@/stores/userStore';
-import { useCreateProject, useUpdateProject } from '@/hooks/queries/useProjectService';
-import { useSendSurveyLink } from '@/hooks/queries/useSurveyService';
 import { formatDateToYYYYMMDDHHmmss } from '@/lib/dateTime';
-import MessageBox from '@/components/common/messageBox/MessageBox';
-import ProjectEmailConsentModal from '../../auth/privacyPolicy/ProjectEmailConsentModal';
-import useMessageBox from '@/hooks/useMessageBox';
+
+import CheckCloseConfirmation from './confirmation/CheckCloseConfirmation';
+import EmailConsentConfirmation from './confirmation/EmailConsentConfirmation';
+
+import useProjectForm from './hooks/useProjectForm';
+import useProjectMutationSuccess from './hooks/useProjectMutationSuccess';
 
 const STEPS: ProjectRegisterHeaderStep[] = [
   {
@@ -57,66 +48,25 @@ const MAX_STEP = STEPS.length - 1;
 
 interface ProjectRegisterModalProps {
   isEdit?: boolean;
+  isRecruit?: boolean;
   projectId?: number;
   defaultData?: ProjectForm;
 }
 
 export default function ProjectRegisterModal({
   isEdit = false, // 수정 모드인지 여부
+  isRecruit = false, // 팀 빌딩 모드인지 여부
   projectId,
   defaultData,
 }: ProjectRegisterModalProps) {
+  const { openModal } = useModalStore();
   const [currStep, setCurrStep] = useState<number>(0);
-  const { openModal, closeModal } = useModalStore();
-  const { showConfirmMessageBox } = useMessageBox();
 
-  const userData = useUserStore((state) => state.user);
-
-  // 프로젝트 저장 성공 콜백함수
-  const handleProjectCreateSuccess = (createdProjectId: number) => {
-    closeModal();
-    setTimeout(() => {
-      openModal(<SendSurveyMessage projectId={createdProjectId} />);
-    }, 150);
-  };
-
-  // 프로젝트 수정 성공 콜백함수
-  const handleProjectUpdateSuccess = () => {
-    closeModal();
-    showConfirmMessageBox('프로젝트가 수정되었습니다.');
-  };
-
+  const { formMethods } = useProjectForm(defaultData);
+  const { handleProjectCreateSuccess, handleProjectUpdateSuccess } =
+    useProjectMutationSuccess(isRecruit);
   const createMutation = useCreateProject(handleProjectCreateSuccess);
   const updateMutation = useUpdateProject(handleProjectUpdateSuccess);
-
-  const formMethods = useForm<ProjectForm>({
-    mode: 'onChange',
-    resolver: zodResolver(ProjectFormSchema),
-    defaultValues: {
-      projectName: defaultData?.projectName || '',
-      organizationName: defaultData?.organizationName || '',
-      startDate: defaultData?.startDate || null,
-      endDate: defaultData?.endDate || null,
-      members: defaultData?.members || [
-        {
-          // 로그인 한 사용자 기본 세팅
-          name: userData?.name || '',
-          email: userData?.email || '',
-          roles: userData?.roles || [],
-        },
-        {
-          name: '',
-          email: '',
-          roles: [],
-        },
-      ],
-      projectUrlLink: defaultData?.projectUrlLink || '',
-      urlVisibility: defaultData?.urlVisibility || false,
-      projectDescription: defaultData?.projectDescription || '',
-      skills: defaultData?.skills || [],
-      categories: defaultData?.categories || [],
-    },
-  });
 
   const handleNextStep = async () => {
     if (currStep === MAX_STEP) return;
@@ -188,140 +138,14 @@ export default function ProjectRegisterModal({
       <ProgressBar percent={((currStep + 1) / (MAX_STEP + 1)) * 100} />
       <div className="bg-gray-50 mb-[6px] h-[430px] w-full overflow-auto scroll-smooth rounded-[10px] p-[18px] scrollbar-thin">
         <Form {...formMethods}>
-          <FormProvider {...formMethods}>
-            <form>
-              {currStep === 0 && <Step1 />}
-              {currStep === 1 && <Step2 />}
-              {currStep === 2 && <Step3 isEdit={isEdit} />}
-            </form>
-          </FormProvider>
+          <form>
+            {currStep === 0 && <Step1 />}
+            {currStep === 1 && <Step2 />}
+            {currStep === 2 && <Step3 isEdit={isEdit} />}
+          </form>
         </Form>
       </div>
       {createMutation.isPending && <PageSpinner />}
     </ModalLayout>
   );
 }
-
-// 평가지 보내기 메시지창
-const SendSurveyMessage = ({ projectId }: { projectId: number }) => {
-  const { openModal, closeModal } = useModalStore();
-
-  const sendSurveyLinkMutation = useSendSurveyLink();
-
-  // '나중에' 버튼 클릭
-  const handleClickLater = () => {
-    closeModal();
-  };
-
-  // '보내기' 버튼 클릭
-  const handleClickSendSurvey = async () => {
-    try {
-      await sendSurveyLinkMutation.mutateAsync({ projectId });
-      openModal(<SendSurveyCompleteMessage />);
-    } catch (error) {
-      console.error('평가지 보내기 실패:', error);
-    }
-  };
-
-  return (
-    <MessageBox
-      title="프로젝트가 등록되었어요!"
-      titleIcon={<ClipboardCheck className="stroke-purple-500" />}
-      subTitle="팀원들에게 평가지를 보낼까요?"
-      footer={
-        <>
-          <MessageBox.MessageConfirmButton
-            text="나중에"
-            onClick={handleClickLater}
-            isPrimary={false}
-          />
-          <MessageBox.MessageConfirmButton
-            text="평가보내기"
-            onClick={handleClickSendSurvey}
-            isPrimary
-          />
-        </>
-      }
-    />
-  );
-};
-
-const SendSurveyCompleteMessage = () => {
-  const closeModal = useModalStore((state) => state.closeModal);
-
-  // '완료' 버튼 클릭
-  const handleClickComplete = () => {
-    closeModal();
-  };
-
-  const renderTitle = () => {
-    return (
-      <div className="flex-col-center">
-        <span>팀원들의 이메일로</span>
-        <span>평가지가 전송되었어요!</span>
-      </div>
-    );
-  };
-  return (
-    <MessageBox
-      title={renderTitle()}
-      titleIcon={<Send className="stroke-purple-500" />}
-      footer={<MessageBox.MessageConfirmButton text="완료" onClick={handleClickComplete} />}
-    />
-  );
-};
-
-const EmailConsentConfirmation = ({
-  setCurrStep,
-}: {
-  setCurrStep: Dispatch<SetStateAction<number>>;
-}) => {
-  const { openModal } = useModalStore();
-  const handleEmailConsentConfirm = () => {
-    setCurrStep((prev) => prev + 1);
-  };
-  const handleClickShowTerms = () => {
-    openModal(<ProjectEmailConsentModal />);
-  };
-  return (
-    <MessageBox
-      title={
-        <div>
-          팀원들로부터 이메일 수신에 대한
-          <br /> 동의를 받았음을 확인합니다.
-        </div>
-      }
-      subTitle={
-        <p
-          className="my-3 cursor-pointer font-medium text-info underline underline-offset-4"
-          onClick={handleClickShowTerms}>
-          이메일 수신 이용 약관
-        </p>
-      }
-      titleIcon={<MailCheck className="stroke-purple-500" />}
-      footer={<MessageBox.MessageConfirmButton text="확인" onClick={handleEmailConsentConfirm} />}
-      showCloseButton={false}
-      contentClassName="max-w-[600px]"
-    />
-  );
-};
-
-const CheckCloseConfirmation = ({ closeRegisterModal }: { closeRegisterModal: () => void }) => {
-  const handleConfirm = () => {
-    closeRegisterModal(); // 확인 버튼 클릭 시 프로젝트 등록 모달창을 닫는 콜백함수 실행
-  };
-  return (
-    <MessageBox
-      title="내용이 저장되지 않았어요!"
-      subTitle="그래도 취소할까요?"
-      titleIcon={<AlertCircle className="stroke-purple-500" />}
-      footer={
-        <>
-          <MessageBox.MessageConfirmButton text="취소" isPrimary={false} />
-          <MessageBox.MessageConfirmButton text="확인" onClick={handleConfirm} />
-        </>
-      }
-      contentClassName="max-w-[550px]"
-    />
-  );
-};
