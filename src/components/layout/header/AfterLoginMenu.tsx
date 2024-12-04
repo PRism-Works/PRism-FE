@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { AlignJustify, LogOut } from 'lucide-react';
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@/components/ui/menubar';
 
-import RecruitModal from '@/components/domain/recruit/recruitModal/RecruitModal';
+import RecruitModal from '@/components/domain/team/recruit/recruitModal/RecruitModal';
 import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
 
 import { useModalStore } from '@/stores/modalStore';
