@@ -1,0 +1,73 @@
+'use client';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { Form } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  TeamRecruitFormSchema,
+  type TeamRecruitFormValues,
+  DEFAULT_TEAM_RECRUIT_VALUES,
+} from '@/models/team/teamModels';
+import {
+  RecruitmentPeriodSection,
+  ContactMethodSection,
+  ApplicationMethodSection,
+  ProgressMethodSection,
+  PositionSection,
+  TitleSection,
+  DetailsSection,
+} from '@/components/domain/team/recruit/section';
+import BorderCard from '@/components/common/card/BorderCard';
+import { SectionHeader } from '@/components/domain/team/recruit/section/ui/SectionHeader';
+
+export default function TeamRecruitPage() {
+  const form = useForm<TeamRecruitFormValues>({
+    resolver: zodResolver(TeamRecruitFormSchema),
+    defaultValues: DEFAULT_TEAM_RECRUIT_VALUES,
+  });
+
+  function onSubmit(values: TeamRecruitFormValues) {
+    console.log(values);
+  }
+
+  return (
+    <div className="container mx-auto max-w-5xl px-4 py-14">
+      <FormProvider {...form}>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+            <div className="space-y-6">
+              <SectionHeader number={1} text="팀빌딩을 위한 기본 정보를 입력해 주세요." />
+              <BorderCard className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 md:px-8 lg:px-12">
+                <div className="mx-auto w-full space-y-10 sm:w-[85%] md:w-[70%] lg:w-[60%]">
+                  <RecruitmentPeriodSection />
+                  <ContactMethodSection />
+                  <ApplicationMethodSection />
+                  <ProgressMethodSection />
+                  <PositionSection />
+                </div>
+              </BorderCard>
+            </div>
+
+            <div className="space-y-6">
+              <SectionHeader number={2} text="팀빌딩을 위한 상세 정보를 입력해 주세요." />
+              <div className="space-y-10">
+                <TitleSection />
+                <DetailsSection />
+              </div>
+            </div>
+
+            <div className="gap-3 py-8 flex-center">
+              <Button variant="outline" type="button" className="w-16 display4">
+                취소
+              </Button>
+              <Button variant="default" type="submit" className="w-16 display4">
+                저장
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </FormProvider>
+    </div>
+  );
+}
