@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { SectionLayout } from './ui/SectionLayout';
-import usePositionManagement from '../hooks/usePositionManagement';
+import usePositionManagement from './hooks/usePositionManagement';
 import AddPositionButton from './ui/AddPositionButton';
 import DeleteButton from './ui/DeleteButton';
 

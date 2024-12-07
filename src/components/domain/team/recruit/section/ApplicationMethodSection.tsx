@@ -8,7 +8,7 @@ import {
   SelectItem,
   SelectContent,
 } from '@/components/ui/select';
-import usePlaceholders from '../hooks/usePlaceholders';
+import usePlaceholders from './hooks/usePlaceholders';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import { SectionLayout } from './ui/SectionLayout';

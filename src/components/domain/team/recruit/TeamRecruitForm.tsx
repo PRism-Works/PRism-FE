@@ -11,7 +11,7 @@ import {
   TitleSection,
   DetailsSection,
 } from '@/components/domain/team/recruit/section';
-import useTeamRecruitForm from './hooks/useTeamRecruitForm';
+import useTeamRecruitForm from './section/hooks/useTeamRecruitForm';
 import BorderCard from '@/components/common/card/BorderCard';
 import { SectionHeader } from '@/components/domain/team/recruit/section/ui/SectionHeader';
 
