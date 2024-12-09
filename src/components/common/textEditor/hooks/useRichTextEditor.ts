@@ -1,6 +1,6 @@
 import { ForwardedRef } from 'react';
 import { useEditor } from '@tiptap/react';
-import { EDITOR_EXTENSIONS } from '../extensions';
+import { EDITOR_EXTENSIONS } from '../toolbar/extensions';
 
 interface UseRichTextEditorProps {
   value: string;
