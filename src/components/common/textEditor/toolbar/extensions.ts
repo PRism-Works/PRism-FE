@@ -72,12 +72,12 @@ export const EDITOR_EXTENSIONS = (placeholder?: string) => [
     },
     code: {
       HTMLAttributes: {
-        class: 'bg-gray-100 rounded px-1 text-purple-600 text-sm',
+        class: 'bg-gray-100 rounded p-1 text-purple-700 text-sm font-bold',
       },
     },
     codeBlock: {
       HTMLAttributes: {
-        class: 'bg-gray-100 rounded-lg p-3 my-2',
+        class: 'bg-gray-100 rounded-lg p-3 my-2 text-sm',
       },
     },
   }),
