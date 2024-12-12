@@ -111,6 +111,6 @@ export const EDITOR_EXTENSIONS = (placeholder?: string) => [
   }),
   Placeholder.configure({
     placeholder,
-    emptyEditorClass: 'is-editor-empty',
+    emptyEditorClass: 'is-editor-empty py-1 display5 text-gray-400',
   }),
 ];

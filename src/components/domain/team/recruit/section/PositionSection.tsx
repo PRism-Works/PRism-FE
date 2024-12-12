@@ -91,7 +91,7 @@ export default function PositionSection() {
 
   return (
     <SectionLayout label="모집 팀원*" description="새로 모집할 팀원에 대해 입력해 주세요.">
-      <div className="space-y-4">
+      <div className="space-y-3">
         <div className="grid grid-cols-2 gap-4">
           <FormLabel className="mobile text-gray-500">포지션</FormLabel>
           <FormLabel className="text-gray-500 mobile2">모집 인원</FormLabel>

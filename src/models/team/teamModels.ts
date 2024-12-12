@@ -6,8 +6,7 @@ import { z } from 'zod';
 export const CONTACT_METHODS = {
   EMAIL: 'email',
   KAKAO: 'kakao',
-  LINE: 'line',
-  TELEGRAM: 'telegram',
+  FORM: 'form',
   OTHER: 'other',
 } as const;
 
@@ -24,6 +23,7 @@ export const PROGRESS_METHODS = {
   ONLINE: 'online',
   OFFLINE: 'offline',
   BOTH: 'both',
+  OTHER: 'other',
 } as const;
 
 // 직무 관련 상수
@@ -50,15 +50,14 @@ export type PositionType = (typeof POSITION_TYPES)[keyof typeof POSITION_TYPES];
 export const CONTACT_METHOD_LABELS: Record<ContactMethodType, string> = {
   [CONTACT_METHODS.EMAIL]: '이메일',
   [CONTACT_METHODS.KAKAO]: '오픈 카톡',
-  [CONTACT_METHODS.LINE]: '라인',
-  [CONTACT_METHODS.TELEGRAM]: '텔레그램',
+  [CONTACT_METHODS.FORM]: '신청 폼',
   [CONTACT_METHODS.OTHER]: '기타',
 };
 
 export const APPLICATION_METHOD_LABELS: Record<ApplicationMethodType, string> = {
   [APPLICATION_METHODS.EMAIL]: '이메일',
   [APPLICATION_METHODS.KAKAO]: '오픈 카톡',
-  [APPLICATION_METHODS.FORM]: '구글 폼',
+  [APPLICATION_METHODS.FORM]: '신청 폼',
   [APPLICATION_METHODS.OTHER]: '기타',
 };
 
@@ -66,6 +65,7 @@ export const PROGRESS_METHOD_LABELS: Record<ProgressMethodType, string> = {
   [PROGRESS_METHODS.ONLINE]: '온라인',
   [PROGRESS_METHODS.OFFLINE]: '오프라인',
   [PROGRESS_METHODS.BOTH]: '온라인 & 오프라인',
+  [PROGRESS_METHODS.OTHER]: '추후 협의',
 };
 
 export const POSITION_LABELS: Record<PositionType, string> = {
@@ -85,8 +85,7 @@ export const POSITION_LABELS: Record<PositionType, string> = {
 const contactMethodSchema = z.enum([
   CONTACT_METHODS.EMAIL,
   CONTACT_METHODS.KAKAO,
-  CONTACT_METHODS.LINE,
-  CONTACT_METHODS.TELEGRAM,
+  CONTACT_METHODS.FORM,
   CONTACT_METHODS.OTHER,
 ]);
 
@@ -101,6 +100,7 @@ const progressMethodSchema = z.enum([
   PROGRESS_METHODS.ONLINE,
   PROGRESS_METHODS.OFFLINE,
   PROGRESS_METHODS.BOTH,
+  PROGRESS_METHODS.OTHER,
 ]);
 
 const positionTypeSchema = z.enum([

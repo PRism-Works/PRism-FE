@@ -15,10 +15,8 @@ export default function usePlaceholders(form: UseFormReturn<TeamRecruitFormValue
         return '이메일을 입력해 주세요.';
       case CONTACT_METHODS.KAKAO:
         return '오픈 카톡 링크를 입력해 주세요.';
-      case CONTACT_METHODS.LINE:
-        return '라인 링크를 입력해 주세요.';
-      case CONTACT_METHODS.TELEGRAM:
-        return '텔레그램 링크를 입력해 주세요.';
+      case CONTACT_METHODS.FORM:
+        return '폼 링크를 입력해 주세요.';
       case CONTACT_METHODS.OTHER:
         return '기타 링크를 입력해 주세요.';
       default:
@@ -34,7 +32,7 @@ export default function usePlaceholders(form: UseFormReturn<TeamRecruitFormValue
       case APPLICATION_METHODS.KAKAO:
         return '오픈 카톡 링크를 입력해 주세요.';
       case APPLICATION_METHODS.FORM:
-        return '구글 폼 링크를 입력해 주세요.';
+        return '폼 링크를 입력해 주세요.';
       case APPLICATION_METHODS.OTHER:
         return '기타 링크를 입력해 주세요.';
       default:
