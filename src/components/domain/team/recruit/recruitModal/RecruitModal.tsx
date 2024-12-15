@@ -4,7 +4,8 @@ import RecruitButton from './ui/RecruitButton';
 import RecruitCaption from './ui/RecruitCaption';
 
 import { useModalStore } from '@/stores/modalStore';
-import ProjectRegisterModal from '../../../project/projectRegisterModal/ProjectRegisterModal';
+import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
+import SelectRecruitProjectModal from '@/components/domain/recruit/selectRecruitProjectModal/SelectRecruitProjectModal';
 
 export default function RecruitModal() {
   const { openModal, closeModal } = useModalStore();
@@ -13,13 +14,13 @@ export default function RecruitModal() {
     closeModal();
     openModal(<ProjectRegisterModal isRecruit />);
   };
-  const handleEditExistingProject = () => {
+  const handleExistingProjectWithEdit = () => {
     closeModal();
-    alert('프로젝트 선택 페이지로 이동?');
+    openModal(<SelectRecruitProjectModal isEdit />);
   };
   const handleExistingProject = () => {
     closeModal();
-    alert('프로젝트 선택 페이지로 이동?');
+    openModal(<SelectRecruitProjectModal isEdit={false} />);
   };
   return (
     <ModalLayout
@@ -41,7 +42,7 @@ export default function RecruitModal() {
             <RecruitButton
               strongMessage="수정하고"
               message="팀 빌딩 글 작성하기"
-              onClick={handleEditExistingProject}
+              onClick={handleExistingProjectWithEdit}
             />
             <RecruitButton
               strongMessage="수정 없이"
