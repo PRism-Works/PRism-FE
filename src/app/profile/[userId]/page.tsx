@@ -22,7 +22,7 @@ export default function UserProfilePage({ params }: UserProfilePageProps) {
         <PRismAndRadialReport fromMyProfile={false} reportedUserId={userId} />
       </section>
       <section className="mb-4 flex flex-col gap-3">
-        <ParticipatingProjectList userId={params.userId} fromMyProfile={false} />
+        <ParticipatingProjectList userId={params.userId} isMyProject={false} />
       </section>
     </div>
   );

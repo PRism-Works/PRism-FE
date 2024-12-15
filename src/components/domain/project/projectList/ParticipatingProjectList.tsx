@@ -10,17 +10,17 @@ import { MyProjectCard, OtherProjectCard } from '../projectCard/summary';
 
 interface ParticipatingProjectListProps {
   userId?: string;
-  fromMyProfile: boolean;
+  isMyProject: boolean;
   forSaveImage?: boolean;
 }
 
 export default function ParticipatingProjectList({
   userId = '',
-  fromMyProfile,
+  isMyProject,
   forSaveImage = false,
 }: ParticipatingProjectListProps) {
   // 타인 참여 프로젝트 리스트 조회인데 userId가 넘어오지 않은 경우 빈값으로 보내줘서 쿼리 조건이 유효하지 않게 처리
-  const { data, isLoading, isError } = useGetParticipatingProjects(fromMyProfile, userId);
+  const { data, isLoading, isError } = useGetParticipatingProjects(isMyProject, userId);
 
   const projectList = data?.data;
   const projectDatas: ProjectSummaryData[] = !projectList
@@ -66,7 +66,7 @@ export default function ParticipatingProjectList({
         <ul className="flex flex-col gap-4">
           {projectDatas.map((projectData, index) => (
             <li key={index}>
-              {fromMyProfile ? (
+              {isMyProject ? (
                 <MyProjectCard projectData={projectData} forSaveImage={forSaveImage} />
               ) : (
                 <OtherProjectCard

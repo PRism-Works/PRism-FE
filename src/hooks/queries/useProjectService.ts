@@ -246,11 +246,11 @@ export const useGetLinkProjectsByProjectName = (projectName: string) => {
 };
 
 // 프로필 별 로그인 유저 혹은 타인의 참여한 프로젝트 리스트 가져오기
-export const useGetParticipatingProjects = (fromMyProfile: boolean, userId: string) => {
+export const useGetParticipatingProjects = (isMyProject: boolean, userId: string) => {
   return useQuery<ProjectListResponse, AxiosError>({
-    queryKey: ['getParticipatingProjects', userId, fromMyProfile],
-    queryFn: () => (fromMyProfile ? getMeInvolvedProjects() : getWhoInvolvedProjects(userId)),
-    enabled: fromMyProfile || !!userId, // fromMyProfile이 true이거나 userId가 존재할 때만 쿼리 실행
+    queryKey: ['getParticipatingProjects', userId, isMyProject],
+    queryFn: () => (isMyProject ? getMeInvolvedProjects() : getWhoInvolvedProjects(userId)),
+    enabled: isMyProject || (!!userId && !isMyProject), // fromMyProfile이 true이거나 userId가 존재할 때만 쿼리 실행
   });
 };
 

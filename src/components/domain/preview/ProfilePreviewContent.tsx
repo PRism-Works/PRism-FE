@@ -19,7 +19,7 @@ export default function ProfilePreviewContent() {
         <PRismAndRadialReport fromMyProfile={false} forSaveImage={true} reportedUserId={userId} />
       </section>
       <section className="flex flex-col gap-3">
-        <ParticipatingProjectList fromMyProfile={false} forSaveImage={true} userId={userId} />
+        <ParticipatingProjectList isMyProject={false} forSaveImage={true} userId={userId} />
       </section>
     </>
   );

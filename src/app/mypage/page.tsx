@@ -25,7 +25,7 @@ export default function MyPage() {
         <PRismAndRadialReport fromMyProfile />
       </section>
       <section className="mb-4 flex flex-col gap-3">
-        <ParticipatingProjectList fromMyProfile />
+        <ParticipatingProjectList isMyProject />
       </section>
     </div>
   );
