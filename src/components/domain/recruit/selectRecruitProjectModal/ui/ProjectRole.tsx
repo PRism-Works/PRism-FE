@@ -13,11 +13,9 @@ const roleIcon = {
 
 export default function ProjectRole({ myProjectRole }: ProjectRoleProps) {
   return (
-    <>
-      <div className="bg-gray-100 w-fit gap-x-1 rounded-[6px] px-2.5 py-1.5 mobile2 flex-center">
-        {roleIcon[myProjectRole]}
-        <span>{PROJECT_USER_ROLE_VARIANT[myProjectRole]}</span>
-      </div>
-    </>
+    <div className="bg-gray-100 w-fit gap-x-1 rounded-[6px] px-2.5 py-1.5 mobile2 flex-center">
+      {roleIcon[myProjectRole]}
+      <span>{PROJECT_USER_ROLE_VARIANT[myProjectRole]}</span>
+    </div>
   );
 }
