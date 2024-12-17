@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 interface ShadowCardProps {
   children: ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler | (() => void);
 }
 
 export default function ShadowCard({ children, className, onClick = () => {} }: ShadowCardProps) {

@@ -68,3 +68,11 @@ export const PROJECT_CARD_VARIANT = {
 
 export type ProjectSummaryCardVariant =
   (typeof PROJECT_CARD_VARIANT)[keyof typeof PROJECT_CARD_VARIANT];
+
+// 프로젝트에 대한 유저 권한
+export const PROJECT_USER_ROLE_VARIANT = {
+  CREATOR: '등록자',
+  ADMIN: '관리자',
+  MEMBER: '팀원',
+};
+export type ProjectUserRole = keyof typeof PROJECT_USER_ROLE_VARIANT;

@@ -1,4 +1,4 @@
-import { TeamRecruitForm } from '@/components/domain/team/recruit/TeamRecruitForm';
+import { TeamRecruitForm } from '@/components/domain/team/recruit/teamRecruitForm/TeamRecruitForm';
 
 interface TeamRecruitPageProps {
   params: {

@@ -10,10 +10,10 @@ import {
   PositionSection,
   TitleSection,
   DetailsSection,
-} from '@/components/domain/team/recruit/section';
+} from '@/components/domain/team/recruit/teamRecruitForm/section';
 import useTeamRecruitForm from './section/hooks/useTeamRecruitForm';
 import BorderCard from '@/components/common/card/BorderCard';
-import { SectionHeader } from '@/components/domain/team/recruit/section/ui/SectionHeader';
+import { SectionHeader } from '@/components/domain/team/recruit/teamRecruitForm/section/ui/SectionHeader';
 
 interface TeamRecruitFormProps {
   projectId: number;

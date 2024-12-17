@@ -1,5 +1,5 @@
-import { useModalStore } from '@/stores/modalStore';
 import { useAuthStore } from '@/stores/authStore';
+import { useModalStore } from '@/stores/modalStore';
 
 import LoginModal from '../../auth/login/LoginModal';
 import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
