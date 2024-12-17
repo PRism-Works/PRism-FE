@@ -41,11 +41,11 @@ export default function RecruitProjectCard({
   const closeModal = useModalStore((state) => state.closeModal);
   const { handleOpenProjectUpdateModal } = useProjectUpdateModal(projectId, true);
   const handleClickRecuritProject = (event: React.MouseEvent<HTMLElement>) => {
+    closeModal();
     if (isEdit) {
-      closeModal();
       handleOpenProjectUpdateModal(event);
     } else {
-      router.push(`/project/team/recruit/${projectId}`);
+      router.push(`/team/recruit/${projectId}`);
     }
   };
   return (

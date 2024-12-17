@@ -15,7 +15,7 @@ export default function useProjectMutationSuccess(isRecruit?: boolean) {
       openModal(<SendSurveyConfirmation projectId={createdProjectId} />);
     }, 150);
     if (isRecruit) {
-      router.push(`/project/team/recruit/${createdProjectId}`);
+      router.push(`/team/recruit/${createdProjectId}`);
     }
   };
 
@@ -24,7 +24,7 @@ export default function useProjectMutationSuccess(isRecruit?: boolean) {
     closeModal();
     showConfirmMessageBox('프로젝트가 수정되었습니다.');
     if (isRecruit && updateProjectId) {
-      router.push(`/project/team/recruit/${updateProjectId}`);
+      router.push(`/team/recruit/${updateProjectId}`);
     }
   };
 
