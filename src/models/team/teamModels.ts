@@ -34,7 +34,7 @@ export const POSITION_TYPES = {
   BACKEND: 'backend',
   FULLSTACK: 'fullstack',
   DESIGNER: 'designer',
-  IOS: 'iOS',
+  IOS: 'ios',
   ANDROID: 'android',
   DEVOPS: 'devops',
   QA: 'qa',
@@ -77,7 +77,7 @@ export const POSITION_LABELS: Record<PositionType, string> = {
   [POSITION_TYPES.DESIGNER]: '디자이너',
   [POSITION_TYPES.IOS]: 'iOS',
   [POSITION_TYPES.ANDROID]: 'Android',
-  [POSITION_TYPES.DEVOPS]: 'devops',
+  [POSITION_TYPES.DEVOPS]: 'DevOps',
   [POSITION_TYPES.QA]: 'QA',
 };
 
