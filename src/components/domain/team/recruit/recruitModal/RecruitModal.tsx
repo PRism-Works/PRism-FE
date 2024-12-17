@@ -5,7 +5,7 @@ import RecruitCaption from './ui/RecruitCaption';
 
 import { useModalStore } from '@/stores/modalStore';
 import ProjectRegisterModal from '@/components/domain/project/projectRegisterModal/ProjectRegisterModal';
-import SelectRecruitProjectModal from '@/components/domain/recruit/selectRecruitProjectModal/SelectRecruitProjectModal';
+import SelectRecruitProjectModal from '../selectRecruitProjectModal/SelectRecruitProjectModal';
 
 export default function RecruitModal() {
   const { openModal, closeModal } = useModalStore();
