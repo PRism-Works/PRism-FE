@@ -1,8 +1,7 @@
 'use client';
 
+import CustomCheckbox from '@/components/common/checkbox/CustomCheckBox';
 import { cn } from '@/lib/utils';
-import { useTheme } from 'next-themes';
-import { CheckCircle2 } from 'lucide-react';
 
 interface AgreementCheckboxProps {
   text: string;
@@ -27,9 +26,6 @@ export default function AgreementCheckbox({
   onTermsOfServiceClick,
   className,
 }: AgreementCheckboxProps) {
-  const { theme } = useTheme();
-  const isDarkMode = theme === 'dark';
-
   return (
     <div
       className={cn(
@@ -37,17 +33,8 @@ export default function AgreementCheckbox({
         { caption: isSmallScreen, display5: !isSmallScreen },
         className,
       )}>
-      <div className="flex items-center justify-between">
-        <div className="mr-3" onClick={onToggle}>
-          <CheckCircle2
-            className={cn('h-7 w-7 cursor-pointer stroke-[1.5px]', {
-              'text-purple-500 fill-purple-50': isAgreed && !isDarkMode,
-              'text-gray-400 fill-transparent': !isAgreed && !isDarkMode,
-              'fill-purple-800 text-purple-200': isAgreed && isDarkMode,
-              'text-gray-800 fill-transparent': !isAgreed && isDarkMode,
-            })}
-          />
-        </div>
+      <div className="flex items-center gap-3">
+        <CustomCheckbox checked={isAgreed} onCheckedChange={onToggle} />
         <p className="text-sm text-muted-foreground md:text-left">
           {text}{' '}
           <span

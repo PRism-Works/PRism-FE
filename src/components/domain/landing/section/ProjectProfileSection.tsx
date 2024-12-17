@@ -1,7 +1,7 @@
 import { LandingIcons } from '@/assets/landing';
 import LandingSectionLayout from './LandingSectionLayout';
 
-export default function ProjecProfileSection() {
+export default function ProjectProfileSection() {
   const { Profile } = LandingIcons;
 
   return (

@@ -4,7 +4,7 @@ import RecruitButton from './ui/RecruitButton';
 import RecruitCaption from './ui/RecruitCaption';
 
 import { useModalStore } from '@/stores/modalStore';
-import ProjectRegisterModal from '../../project/projectRegisterModal/ProjectRegisterModal';
+import ProjectRegisterModal from '../../../project/projectRegisterModal/ProjectRegisterModal';
 
 export default function RecruitModal() {
   const { openModal, closeModal } = useModalStore();

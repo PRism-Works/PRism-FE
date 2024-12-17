@@ -2,7 +2,7 @@ import { LandingIcons } from '@/assets/landing';
 import ChartIndicators from '@/components/domain/landing/ChartIndicators';
 import ProjectSurveySection from '@/components/domain/landing/section/ProjectSurveySection';
 import ProjectChartSection from '@/components/domain/landing/section/ProjectChartSection';
-import ProjecProfileSection from '@/components/domain/landing/section/ProjecProfileSection';
+import ProjectProfileSection from '@/components/domain/landing/section/ProjectProfileSection';
 import ProjectRegisterSection from '@/components/domain/landing/section/ProjectRegisterSection';
 import ProjectSearchSection from '@/components/domain/landing/section/ProjectSearchSection';
 import LandingFooter from '@/components/domain/landing/section/LandingFooter';
@@ -37,7 +37,7 @@ export default function LandingPage() {
           <ProjectChartSection />
         </div>
         <div id="profile">
-          <ProjecProfileSection />
+          <ProjectProfileSection />
         </div>
         <div id="register">
           <ProjectRegisterSection />
