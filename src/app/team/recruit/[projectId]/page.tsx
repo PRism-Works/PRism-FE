@@ -8,5 +8,5 @@ interface TeamRecruitPageProps {
 
 // NOTE: 추후 API 연동 시 권한 체크 로직 추가
 export default function TeamRecruitPage({ params: { projectId } }: TeamRecruitPageProps) {
-  return <TeamRecruitForm projectId={projectId} />;
+  return <TeamRecruitForm projectId={Number(projectId)} />;
 }

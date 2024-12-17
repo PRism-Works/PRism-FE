@@ -6,7 +6,7 @@ import {
   DEFAULT_TEAM_RECRUIT_VALUES,
 } from '@/models/team/teamModels';
 
-export default function useTeamRecruitForm(projectId: string) {
+export default function useTeamRecruitForm(projectId: number) {
   const form = useForm<TeamRecruitFormValues>({
     resolver: zodResolver(TeamRecruitFormSchema),
     defaultValues: {

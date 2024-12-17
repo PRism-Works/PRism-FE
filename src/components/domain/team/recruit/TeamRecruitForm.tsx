@@ -16,7 +16,7 @@ import BorderCard from '@/components/common/card/BorderCard';
 import { SectionHeader } from '@/components/domain/team/recruit/section/ui/SectionHeader';
 
 interface TeamRecruitFormProps {
-  projectId: string;
+  projectId: number;
 }
 
 export function TeamRecruitForm({ projectId }: TeamRecruitFormProps) {
