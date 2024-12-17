@@ -5,10 +5,8 @@ import Link from '@tiptap/extension-link';
 import TextStyle from '@tiptap/extension-text-style';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
-import FontFamily from '@tiptap/extension-font-family';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-placeholder';
-import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import { Extension } from '@tiptap/core';
 import { FONT_STYLES } from './editorStyles';
 
@@ -94,9 +92,7 @@ export const EDITOR_EXTENSIONS = (placeholder?: string) => [
       class: 'bg-yellow-200 rounded px-1',
     },
   }),
-  FontFamily,
   Underline,
-  HorizontalRule,
   Image.configure({
     allowBase64: true,
     HTMLAttributes: {
