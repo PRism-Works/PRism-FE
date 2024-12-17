@@ -118,6 +118,7 @@ const positionTypeSchema = z.enum([
 
 // 5. Interface
 export interface TeamRecruitFormValues {
+  projectId: string;
   startDate: Date | null;
   endDate: Date | null;
   isOpenEnded: boolean;
@@ -225,6 +226,7 @@ export const TeamRecruitFormSchema = z
 
 // 7. Default Values (기본값 정의)
 export const DEFAULT_TEAM_RECRUIT_VALUES: TeamRecruitFormValues = {
+  projectId: '',
   startDate: null,
   endDate: null,
   isOpenEnded: false,

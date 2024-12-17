@@ -15,8 +15,12 @@ import useTeamRecruitForm from './section/hooks/useTeamRecruitForm';
 import BorderCard from '@/components/common/card/BorderCard';
 import { SectionHeader } from '@/components/domain/team/recruit/section/ui/SectionHeader';
 
-export function TeamRecruitForm() {
-  const { form, onSubmit } = useTeamRecruitForm();
+interface TeamRecruitFormProps {
+  projectId: string;
+}
+
+export function TeamRecruitForm({ projectId }: TeamRecruitFormProps) {
+  const { form, onSubmit } = useTeamRecruitForm(projectId);
 
   return (
     <div className="container mx-auto max-w-5xl px-4 py-14">
