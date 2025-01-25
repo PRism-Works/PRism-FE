@@ -7,7 +7,7 @@ import {
   CodeButtons,
   HighlightButton,
   TextColorButton,
-  MediaButtons,
+  // MediaButtons,
   LinkButton,
   ListButtons,
   AlignButtons,
@@ -29,7 +29,8 @@ export function Toolbar({ editor }: ToolbarProps) {
       <CodeButtons editor={editor} />
       <HighlightButton editor={editor} />
       <TextColorButton editor={editor} />
-      <MediaButtons editor={editor} />
+      {/* NOTE: 백엔드 요청으로 이미지 첨부 기능 임시 주석 처리 */}
+      {/* <MediaButtons editor={editor} /> */}
       <LinkButton editor={editor} />
       <ListButtons editor={editor} />
       <AlignButtons editor={editor} />
