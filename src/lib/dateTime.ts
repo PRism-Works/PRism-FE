@@ -45,6 +45,9 @@ export const formatYYYYMMDDHHmmssToYYYYMMDD = (dateString: string): string => {
  * @returns yyyy.MM.dd
  */
 export const formatDateToDotSeparatedYYYYMMDD = (date: Date): string => {
+  if (!date || !(date instanceof Date) || isNaN(date.getTime())) {
+    return '-';
+  }
   return format(date, 'yyyy.MM.dd');
 };
 
@@ -69,11 +72,18 @@ export const convertStringToDate = (dateString: string): Date => {
  * @param timestamp Unix 타임스탬프 (밀리초)
  * @returns Date 객체
  */
-export const convertTimestampToDate = (timestamp: number): Date => {
+export const convertTimestampToDate = (dateInput: number | string): Date => {
   try {
-    return fromUnixTime(Math.floor(timestamp / 1000));
+    if (typeof dateInput === 'string') {
+      const date = new Date(dateInput);
+      if (isNaN(date.getTime())) {
+        throw new Error('Invalid date string');
+      }
+      return date;
+    }
+    return fromUnixTime(Math.floor(dateInput / 1000));
   } catch (error) {
-    console.error('Invalid timestamp provided', error);
-    return new Date(); // 오류 발생 시, 현재 날짜의 Date 객체 반환
+    console.error('Date conversion error:', error);
+    return new Date();
   }
 };
